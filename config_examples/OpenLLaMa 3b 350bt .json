@@ -1,0 +1,10 @@
+{
+  "model" : "openllama-3b-350bt-q4_0.bin",
+  "title" : "OpenLLaMa 3b 350bt ",
+  "top_k" : 40,
+  "model_inference" : "llama",
+  "temp" : 0.89999997615814209,
+  "context" : 1024,
+  "n_batch" : 512,
+  "top_p" : 0.94999998807907104
+}

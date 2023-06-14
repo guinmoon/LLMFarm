@@ -1,0 +1,10 @@
+{
+    "model":"dolly-v2-3b-q5_1.bin",
+    "title":"Dolly v2 3B",
+    "icon":"ava2",
+    "context":1024,
+    "n_batch": 512,
+    "temp": 0.9,
+    "top_k": 40,
+    "top_p": 0.95,
+}

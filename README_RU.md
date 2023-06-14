@@ -1,4 +1,5 @@
 # LLMFarm
+## Ru | [En](./README.md)
 
 <p align="center">
   <img width="256px" alt="Icon" src="dist/LLMFarm0.1.2_256.png">
@@ -6,14 +7,14 @@
 
 <p align="center">
   <img alt="Icon" height="400px"  src="dist/screen1.png">
-  <img alt="Icon" width="570px"  src="dist/screen2.png">
+  <img alt="Icon" height="400px"  src="dist/screen2.png">
 </p>
 
-Application for iOS and MacOS designed to work with large language models (LLM). It allows you to load different LLMs with certain parameters.
-Based on [ggml](https://github.com/ggerganov/ggml) and [llama.cpp](https://github.com/ggerganov/llama.cpp) by [Georgi Gerganov](https://github.com/ggerganov).
-Also, when creating the application, the source codes from the repository [byroneverson](https://github.com/byroneverson/Mia) were used.
+Приложение для iOS и MacOS предназначеное для работы с большими языковыми моделями (LLM). Оно позволяет загружать различные LLM с определенными параметрами.
+Основано на [ggml](https://github.com/ggerganov/ggml) и [llama.cpp](https://github.com/ggerganov/llama.cpp) от [Georgi Gerganov](https://github.com/ggerganov). 
+Так же при создании приложения были использованы исходные коды из репозитория [byroneverson](https://github.com/byroneverson/Mia).
 
-List of supported models:
+Список поддерживаемых моделей:
 
 | model                                                                              | inference | size | quantized link                                                                                              | iOS (iphone 12 pro max) | MacOS  |
 |------------------------------------------------------------------------------------|-----------|------|-------------------------------------------------------------------------------------------------------------|-------------------------|--------|
@@ -30,15 +31,15 @@ List of supported models:
 | [WizardLM](https://arxiv.org/abs/2304.12244)                                       | LLaMA     | 7B   |                                                                                                             | bad alloc               | ok     |
 | [Cerebras](https://huggingface.co/cerebras/Cerebras-GPT-2.7B)                      | GPT-2     | 2.7B |                                                                                                             | in dev                  | in dev |
 
-Models must be maintained by [ggml](https://github.com/ggerganov/ggml) after [#154](https://github.com/ggerganov/ggml/pull/154).
+Модели должны поддерживаться [ggml](https://github.com/ggerganov/ggml) после [#154](https://github.com/ggerganov/ggml/pull/154).
 
-Currently, loading 7B models on a real iOS device causes a `bad alloc error`, while in the simulator everything works without problems. It may be necessary to add extended-memory to solve the problem.
+В текущий момент загрузка 7B моделей на реальном устройстве iOS вызывает ошибку bad alloc, в то время как в симуляторе все работает без проблем. Возможно, для решения проблемы необходимо добавить extended-memory.
 
-The application operates in sandbox mode and places the added models in the "models" directory. 
+Приложение работает в режиме песочницы и помещает добавленные модели в директорию "models". Версия для MacOS, вместо перемещения модели в песочницу, создаст символическую ссылку на файл модели в директории "models".
 
-When creating a chat, a JSON file is generated in which you can specify additional model parameters. The chat files are located in the "chats" directory.
+При создании чата формируется JSON-файл, в котором можно указать дополнительные параметры модели. Файлы чатов расположены в директории "chats".
 
-Parameter list:
+Список параметров:
 
 | parametr          | default           | description                                                                 |
 |-------------------|-------------------|-----------------------------------------------------------------------------|
@@ -65,5 +66,5 @@ Parameter list:
 | mirostat_eta      | 0.1               | Mirostat learning rate, parameter eta                                       |
 
 
-The number of open models is constantly growing. One of the advantages of using such models is the possibility of preserving their original content without censorship. However, the disadvantage may be the irrelevance of the information contained in them. You can also get answers to questions from various industries, for example, there are models that specialize in medical terms or programming.
-In addition, with the help of these models, you can create stories, songs, music and play quests (more on that later).
+Количество открытых моделей постоянно растет. Из преимуществ использования таких моделей можно выделить возможность сохранения их оригинального содержания без цензуры. Однако недостатком может являеться неактуальность информации, содержащейся в них. Также можно получать ответы на вопросы из различных отраслей, например, существуют модели, специализирующиеся на медицинских терминах или программировании.
+Кроме того, с помощью этих моделей можно создавать истории, песни, музыку и играть в квесты (об этом позже).

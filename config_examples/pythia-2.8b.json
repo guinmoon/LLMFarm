@@ -1,0 +1,10 @@
+{
+    "model":"pythia-2.8b-q5_1.bin",
+    "title":"Pythina 2.8B",
+    "icon":"ava5",
+    "context":1024,
+    "n_batch": 512,
+    "temp": 0.9,
+    "top_k": 40,
+    "top_p": 0.95,
+}

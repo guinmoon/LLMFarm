@@ -1,0 +1,19 @@
+{
+    "model":"stablelm-tuned-alpha-3b-ggml-model-q5_1.bin",
+    "title":"StableLM Tuned 3B",
+    "icon":"ava7",
+    "context":1024,
+    "n_batch": 512,
+    "temp": 0.9,
+    "top_k": 40,
+    "top_p": 0.95,
+    "tfs_z": 1.0,
+    "typical_p": 1.0,
+    "repeat_penalty": 1.1,
+    "repeat_last_n": 64,
+    "frequence_penalty": 0.0,
+    "presence_penalty": 0.0,
+    "mirostat": 0,
+    "mirostat_tau": 5.0,
+    "mirostat_eta": 0.1
+}

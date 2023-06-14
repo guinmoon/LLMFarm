@@ -73,6 +73,17 @@ struct ChatView: View {
                     
                     Button {
                         Task {
+                            self.aiChatModel.chat = nil
+                        }
+                    } label: {
+                        Image(systemName: "arrow.counterclockwise.circle")
+                    }
+                    .disabled(aiChatModel.predicting)
+                    .padding(.horizontal, 16.0)
+                    .font(.title2)
+                    
+                    Button {
+                        Task {
                             add_chat_dialog = true
                             edit_chat_dialog = true
                         }

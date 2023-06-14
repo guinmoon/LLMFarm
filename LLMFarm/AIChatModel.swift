@@ -23,7 +23,7 @@ final class AIChatModel: ObservableObject {
         case completed
     }
     @Published var AI_typing = 0
-    private var chat: AI?
+    public var chat: AI?
     public var modelURL: String
     public var maxToken = 512
     public var numberOfTokens = 0
@@ -152,7 +152,7 @@ final class AIChatModel: ObservableObject {
     }
     
     public func stop_predict(is_error:Bool=false){
-        self.chat?.flagExit = true
+        self.chat?.flagExit = true        
         if messages.count>0{
             self.messages[messages.endIndex-1].state = .predicted(totalSecond: 0)
             if is_error{
@@ -226,6 +226,8 @@ final class AIChatModel: ObservableObject {
                     if (self.numberOfTokens>self.maxToken){
                         self.stop_predict()
                     }
+                }else{
+                    print("chat ended.")
                 }
 
             }, {
@@ -235,6 +237,8 @@ final class AIChatModel: ObservableObject {
                 if (self.chat_name == self.chat?.chatName && self.chat?.flagExit != true){
                     message.state = .predicted(totalSecond: self.total_sec)
                     self.messages[messageIndex] = message
+                }else{
+                    print("chat ended.")
                 }
                 self.predicting = false
                 self.numberOfTokens = 0

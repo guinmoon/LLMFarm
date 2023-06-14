@@ -1,0 +1,13 @@
+{
+  "temp" : 0.20000000298023224,
+  "model" : "open-llama-3b-1T_q5_1.bin",
+  "context" : 1024,
+  "top_p" : 0.89999997615814209,
+  "top_k" : 800,
+  "numberOfThreads" : 12,
+  "model_inference" : "llama",
+  "prompt_format" : "auto",
+  "n_batch" : 512,
+  "title" : "openllama 3b 1T",
+  "icon" : "ava5"
+}

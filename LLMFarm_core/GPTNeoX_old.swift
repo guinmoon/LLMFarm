@@ -8,7 +8,7 @@
 import Foundation
 import llmfarm_core
 
-public class GPTNeoX: Model {
+public class GPTNeoX_old: Model {
 
     public override init(path: String, contextParams: ModelContextParams = .default) throws {
         try super.init()

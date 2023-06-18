@@ -30,13 +30,14 @@ class AI {
         self.chatName = _chatName
     }
     
-    func loadModel(_ aiModel: ModelInference) {
+    func loadModel(_ aiModel: ModelInference, contextParams: ModelContextParams = .default) {
         print("AI init")
         switch aiModel {
         case .LLamaInference:
-            model = try? LLaMa(path: self.modelPath)
+            model = try? LLaMa(path: self.modelPath, contextParams: contextParams)
         case .GPTNeoxInference:
-            model = try? GPTNeoX(path: self.modelPath)
+//            model = try? GPTNeoX(path: self.modelPath)
+            model = try? GPTNeoX(path: self.modelPath, contextParams: contextParams)
         }
     }
     

@@ -124,6 +124,10 @@ inline static void* ggml_aligned_malloc(size_t size) {
     int result = posix_memalign(&aligned_memory, GGML_MEM_ALIGN, size);
     if (result != 0) {
         // Handle allocation failure
+//        result = posix_memalign(&aligned_memory, GGML_MEM_ALIGN, size-1073741824*5);
+//        if (result != 0){
+//            return NULL;
+//        }
         return NULL;
     }
     return aligned_memory;
@@ -3974,7 +3978,11 @@ struct ggml_context * ggml_init(struct ggml_init_params params) {
         /*.scratch_save       =*/ { 0, 0, NULL, },
     };
 
-    GGML_ASSERT(ctx->mem_buffer != NULL);
+//    if (ctx->mem_buffer == NULL){
+//        ctx->mem_buffer = GGML_ALIGNED_MALLOC(mem_size - );
+//
+            GGML_ASSERT(ctx->mem_buffer != NULL);
+//    }
 
     ggml_assert_aligned(ctx->mem_buffer);
 

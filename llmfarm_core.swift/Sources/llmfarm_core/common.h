@@ -59,6 +59,19 @@ struct gpt_vocab {
     void add_special_token(const std::string & token);
 };
 
+//struct gptneox_vocab {
+//    using id    = int32_t;
+//    using token = std::string;
+//
+//    struct token_score {
+//        token tok;
+//        float score;
+//    };
+//
+//    std::unordered_map<token, id> token_to_id;
+//    std::vector<token_score> id_to_token;
+//};
+
 // poor-man's JSON parsing
 std::map<std::string, int32_t> json_parse(const std::string & fname);
 

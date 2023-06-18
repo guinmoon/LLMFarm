@@ -220,31 +220,35 @@ public class Model {
         case .ChatBase:
             return tokenize("<human>: " + input + "\n<bot>:")
         case .OpenAssistant:
-            var inputTokens = tokenize(input)
-            inputTokens.insert(gptneox_str_to_token(context, "<|prompter|>"), at: 0)
-            inputTokens.append(gptneox_str_to_token(context, "<|endoftext|>"))
-            inputTokens.append(gptneox_str_to_token(context, "<|assistant|>"))
+            let inputTokens = tokenize("<|prompter|>" + input + "<|endoftext|>" + "<|assistant|>")
+//            var inputTokens = tokenize(input)
+//            inputTokens.insert(gptneox_str_to_token(context, "<|prompter|>"), at: 0)
+//            inputTokens.append(gptneox_str_to_token(context, "<|endoftext|>"))
+//            inputTokens.append(gptneox_str_to_token(context, "<|assistant|>"))
             return inputTokens
         case .RedPajama_chat:            
-            return tokenize("<human>: " + input + "\n<bot>:")
+            return tokenize("<human>:\n" + input + "\n<bot>:")
         case .Dolly_b3:
             let  INSTRUCTION_KEY = "### Instruction:";
             let  RESPONSE_KEY    = "### Response:";
 //            let  END_KEY         = "### End";
             let  INTRO_BLURB     = "Below is an instruction that describes a task. Write a response that appropriately completes the request.";
-            var inputTokens = tokenize(input)
-            inputTokens.insert(gptneox_str_to_token(context, INSTRUCTION_KEY), at: 0)
-            inputTokens.insert(gptneox_str_to_token(context, INTRO_BLURB), at: 0)
-            inputTokens.append(gptneox_str_to_token(context, RESPONSE_KEY))
+            let inputTokens = tokenize(INTRO_BLURB + INSTRUCTION_KEY + input + RESPONSE_KEY)
+//            var inputTokens = tokenize(input)
+//            inputTokens.insert(gptneox_str_to_token(context, INSTRUCTION_KEY), at: 0)
+//            inputTokens.insert(gptneox_str_to_token(context, INTRO_BLURB), at: 0)
+//            inputTokens.append(gptneox_str_to_token(context, RESPONSE_KEY))
 //            inputTokens.append(gptneox_str_to_token(context, END_KEY))
             return inputTokens
         case .StableLM_Tuned:            
-            var inputTokens = tokenize(input)
+            
             //let systemTokens = tokenize("# StableLM Tuned (Alpha version)\n- StableLM is a helpful and harmless open-source AI language model developed by StabilityAI.\n- StableLM is excited to be able to help the user, but will refuse to do anything that could be considered harmful to the user.\n- StableLM is more than just an information source, StableLM is also able to write poetry, short stories, and make jokes.\n- StableLM will refuse to participate in anything that could harm a human.")
-            inputTokens.insert(gptneox_str_to_token(context, "<|USER|>"), at: 0)
-            //inputTokens.insert(contentsOf: systemTokens, at: 0)
-            //inputTokens.insert(gptneox_str_to_token(context, "<|SYSTEM|>"), at: 0)
-            inputTokens.append(gptneox_str_to_token(context, "<|ASSISTANT|>"))
+//            var inputTokens = tokenize(input)
+//            inputTokens.insert(gptneox_str_to_token(context, "<|USER|>"), at: 0)
+//            //inputTokens.insert(contentsOf: systemTokens, at: 0)
+//            //inputTokens.insert(gptneox_str_to_token(context, "<|SYSTEM|>"), at: 0)
+//            inputTokens.append(gptneox_str_to_token(context, "<|ASSISTANT|>"))
+            let inputTokens = tokenize("<|USER|>" + input + "<|ASSISTANT|>")
             return inputTokens
         case .LLaMa:
 //            let bos = llama_token_bos()

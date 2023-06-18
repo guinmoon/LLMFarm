@@ -23,8 +23,8 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "llmfarm_core",
-//            sources: ["ggml.c", "gptneox/gptneox.cpp", "llama.cpp", "dolly_v2/dolly_v2.cpp"],
-            sources: ["ggml.c", "gptneox/gptneox.cpp", "llama.cpp"],
+            sources: ["ggml.c", "gptneox/gptneox.cpp","common.cpp","gpt_helpers.cpp", "llama/llama.cpp"],
+//            sources: ["ggml.c", "gptneox/gptneox.cpp","gptneox/gptneox_new.cpp","gptneox/common.cpp", "llama.cpp"],
             publicHeadersPath: "spm-headers",
             cSettings: [
                 .unsafeFlags(["-O3"]),
@@ -63,8 +63,8 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "llmfarm_core",
-//            sources: ["ggml.c", "gptneox/gptneox.cpp", "llama.cpp", "dolly_v2/dolly_v2.cpp"],
-            sources: ["ggml.c", "gptneox/gptneox.cpp", "llama.cpp"],
+//            sources: ["ggml.c", "gptneox/gptneox.cpp","gptneox/gptneox_new.cpp","gptneox/common.cpp", "llama.cpp"],
+            sources: ["ggml.c", "gptneox/gptneox.cpp","common.cpp","gpt_helpers.cpp", "llama/llama.cpp"],
             publicHeadersPath: "spm-headers",
             cSettings: [
                 .unsafeFlags(["-O3"]),

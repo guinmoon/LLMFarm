@@ -39,7 +39,7 @@ func main(){
     print("Hello.")
     let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/Models/ok/dolly-v2-3b-ggml_v3-q5_1.bin",_chatName: "chat")
     try? ai.loadModel(ModelInference.GPTNeoxInference)
-//    let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/stablelm-base-alpha-3b-ggml-q5_0.bin") !!!Bad!!!
+    ai.model.contextParams.seed = 0;
 //    ai.model.promptStyle = .StableLM_Tuned
     ai.model.promptFormat = .Dolly_b3
     let input_text = "State the meaning of life."

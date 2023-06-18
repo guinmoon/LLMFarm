@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		150CAD012A3CE7B30015CD66 /* GPTNeox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150CAD002A3CE7B30015CD66 /* GPTNeox.swift */; };
+		150CAD022A3CE7B30015CD66 /* GPTNeox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150CAD002A3CE7B30015CD66 /* GPTNeox.swift */; };
 		1560D6172A2D1A3D00918330 /* AddChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1560D6162A2D1A3D00918330 /* AddChatView.swift */; };
 		1560D61C2A2E142900918330 /* ExceptionCatcher.h in Sources */ = {isa = PBXBuildFile; fileRef = 1560D61B2A2E11E200918330 /* ExceptionCatcher.h */; };
 		15A3EDC82A2121D90030AF5A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A3EDBE2A2121D90030AF5A /* SettingsView.swift */; };
@@ -29,7 +31,6 @@
 		15F2105C2A19193A0021F414 /* ArrayExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F210512A1919390021F414 /* ArrayExt.swift */; };
 		15F2105E2A19193A0021F414 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F210522A1919390021F414 /* Model.swift */; };
 		15F210602A19193A0021F414 /* StringExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F210532A1919390021F414 /* StringExt.swift */; };
-		15F210622A19193A0021F414 /* GPTNeoX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F210542A1919390021F414 /* GPTNeoX.swift */; };
 		15F210642A19193A0021F414 /* AI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F210552A1919390021F414 /* AI.swift */; };
 		15F210662A19193A0021F414 /* Tasker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F210562A1919390021F414 /* Tasker.swift */; };
 		15F210812A191B190021F414 /* LLMFarmApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F210802A191B190021F414 /* LLMFarmApp.swift */; };
@@ -41,7 +42,6 @@
 		15F210962A1920AA0021F414 /* AIChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F210922A1920AA0021F414 /* AIChatModel.swift */; };
 		15F2109B2A1921E40021F414 /* AI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F210552A1919390021F414 /* AI.swift */; };
 		15F2109C2A1921E40021F414 /* ArrayExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F210512A1919390021F414 /* ArrayExt.swift */; };
-		15F2109D2A1921E40021F414 /* GPTNeoX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F210542A1919390021F414 /* GPTNeoX.swift */; };
 		15F2109E2A1921E40021F414 /* LLaMa.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F210502A1919390021F414 /* LLaMa.swift */; };
 		15F210A02A1921E40021F414 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F210522A1919390021F414 /* Model.swift */; };
 		15F210A12A1921E40021F414 /* StringExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F210532A1919390021F414 /* StringExt.swift */; };
@@ -66,6 +66,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		150CAD002A3CE7B30015CD66 /* GPTNeox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPTNeox.swift; sourceTree = "<group>"; };
 		1560D6162A2D1A3D00918330 /* AddChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChatView.swift; sourceTree = "<group>"; };
 		1560D61B2A2E11E200918330 /* ExceptionCatcher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExceptionCatcher.h; sourceTree = "<group>"; };
 		15A3EDBB2A2121C70030AF5A /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -89,7 +90,7 @@
 		15F210512A1919390021F414 /* ArrayExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayExt.swift; sourceTree = "<group>"; };
 		15F210522A1919390021F414 /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		15F210532A1919390021F414 /* StringExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExt.swift; sourceTree = "<group>"; };
-		15F210542A1919390021F414 /* GPTNeoX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPTNeoX.swift; sourceTree = "<group>"; };
+		15F210542A1919390021F414 /* GPTNeoX_old.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPTNeoX_old.swift; sourceTree = "<group>"; };
 		15F210552A1919390021F414 /* AI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AI.swift; sourceTree = "<group>"; };
 		15F210562A1919390021F414 /* Tasker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tasker.swift; sourceTree = "<group>"; };
 		15F2107E2A191B190021F414 /* LLMFarm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LLMFarm.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -174,7 +175,8 @@
 				1560D61B2A2E11E200918330 /* ExceptionCatcher.h */,
 				15F210552A1919390021F414 /* AI.swift */,
 				15F210512A1919390021F414 /* ArrayExt.swift */,
-				15F210542A1919390021F414 /* GPTNeoX.swift */,
+				15F210542A1919390021F414 /* GPTNeoX_old.swift */,
+				150CAD002A3CE7B30015CD66 /* GPTNeox.swift */,
 				15F210502A1919390021F414 /* LLaMa.swift */,
 				15F210522A1919390021F414 /* Model.swift */,
 				15F210532A1919390021F414 /* StringExt.swift */,
@@ -367,6 +369,7 @@
 			files = (
 				15F2102C2A190D5B0021F414 /* Math.swift in Sources */,
 				15F210642A19193A0021F414 /* AI.swift in Sources */,
+				150CAD012A3CE7B30015CD66 /* GPTNeox.swift in Sources */,
 				15F2102D2A190D5B0021F414 /* Utils.swift in Sources */,
 				15F2105A2A19193A0021F414 /* LLaMa.swift in Sources */,
 				15F210602A19193A0021F414 /* StringExt.swift in Sources */,
@@ -375,7 +378,6 @@
 				15E415D42A18A2980057A15E /* main.swift in Sources */,
 				15F210662A19193A0021F414 /* Tasker.swift in Sources */,
 				15F2105E2A19193A0021F414 /* Model.swift in Sources */,
-				15F210622A19193A0021F414 /* GPTNeoX.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -390,7 +392,6 @@
 				15A3EDCC2A2121D90030AF5A /* ContactItem.swift in Sources */,
 				15F2109C2A1921E40021F414 /* ArrayExt.swift in Sources */,
 				15A3EDCD2A2121D90030AF5A /* ChatListView.swift in Sources */,
-				15F2109D2A1921E40021F414 /* GPTNeoX.swift in Sources */,
 				15F2109E2A1921E40021F414 /* LLaMa.swift in Sources */,
 				15F210A02A1921E40021F414 /* Model.swift in Sources */,
 				15F210A12A1921E40021F414 /* StringExt.swift in Sources */,
@@ -407,6 +408,7 @@
 				15A3EDD12A21266E0030AF5A /* SearchView.swift in Sources */,
 				15F210942A1920AA0021F414 /* Message.swift in Sources */,
 				15F2108E2A191EE60021F414 /* ChatView.swift in Sources */,
+				150CAD022A3CE7B30015CD66 /* GPTNeox.swift in Sources */,
 				15F210812A191B190021F414 /* LLMFarmApp.swift in Sources */,
 				15A3EDC82A2121D90030AF5A /* SettingsView.swift in Sources */,
 				15A3EDCE2A2121D90030AF5A /* OnlineUserView.swift in Sources */,
@@ -459,7 +461,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_ENTITLEMENTS = LLMFarm/LLMFarm.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_ASSET_PATHS = "\"LLMFarm/Preview Content\"";
 				DEVELOPMENT_TEAM = C66ZA422A7;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -483,7 +485,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 0.1.3;
+				MARKETING_VERSION = 0.1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.guinmoon.LLMFarm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -504,7 +506,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_ENTITLEMENTS = LLMFarm/LLMFarm.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_ASSET_PATHS = "\"LLMFarm/Preview Content\"";
 				DEVELOPMENT_TEAM = C66ZA422A7;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -528,7 +530,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 0.1.3;
+				MARKETING_VERSION = 0.1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.guinmoon.LLMFarm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;

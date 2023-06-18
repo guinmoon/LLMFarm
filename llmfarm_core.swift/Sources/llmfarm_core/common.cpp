@@ -232,6 +232,8 @@ std::wstring convert_to_wstring(const std::string & input) {
     return converter.from_bytes(input);
 }
 
+
+
 std::vector<gpt_vocab::id> gpt_tokenize(const gpt_vocab & vocab, const std::string & text) {
     std::vector<std::string> words;
 

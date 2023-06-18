@@ -17,7 +17,7 @@ public class GPTNeoX: Model {
         
         self.contextParams = contextParams
 //        var params = gptneox_context_default_params()
-        var params = gpt_neox_context_default_params()        
+        var params = gpt_context_default_params()        
         params.n_ctx = contextParams.context
         params.n_parts = contextParams.parts
         params.seed = contextParams.seed
@@ -37,11 +37,11 @@ public class GPTNeoX: Model {
 
         print("%s: seed = %d\n", params.seed);
 
-        print(String(cString: gptneox_print_system_info()))
+        print(String(cString: print_system_info()))
     }
     
     deinit {
-        gptneox_free(context)
+        gpt_neox_free(context)
     }
     
     // Simple topK, topP, temp sampling, with repeat penalty
@@ -61,7 +61,7 @@ public class GPTNeoX: Model {
                 mirostat_eta: Float32,
                 penalize_nl: Bool) -> ModelToken {
         // Model input context size
-        let n_ctx = gptneox_n_ctx(ctx)
+        let n_ctx = gpt_neox_n_ctx(ctx)
         
         // Auto params
         
@@ -85,7 +85,7 @@ public class GPTNeoX: Model {
         // Apply penalties
 //        let nl_token = Int(gpt_neox_str_to_token(ctx, "\n"))
 //        let nl_logit = logits[nl_token]
-        let last_n_repeat = min(min(Int32(last_n_tokens.count), repeat_last_n), n_ctx)
+//        let last_n_repeat = min(min(Int32(last_n_tokens.count), repeat_last_n), n_ctx)
         
         
         
@@ -100,14 +100,14 @@ public class GPTNeoX: Model {
 //        }
 
         if (last_n_tokens.count>0){
-            let sampl = gpt_neox_sample_repeat(ctx,
+            let sampl = gpt_sample_repeat(ctx,
                                                last_n_tokens,
                                                last_n_tokens.count,
                                                top_k, top_p, temp,
                                                repeat_last_n,repeat_penalty);
             return sampl
         }else{
-            let sampl = gpt_neox_sample(ctx, top_k, top_p, temp)
+            let sampl = gpt_sample(ctx, top_k, top_p, temp)
             return sampl
         }
         
@@ -299,12 +299,12 @@ public class GPTNeoX: Model {
             return []
         }
 
-        if gptneox_eval(context, inputs, Int32(inputs.count), Int32(0), contextParams.numberOfThreads) != 0 {
+        if gpt_neox_eval(context, inputs, Int32(inputs.count), Int32(0), contextParams.numberOfThreads) != 0 {
             throw ModelError.failedToEval
         }
 
-        let embeddingsCount = Int(gptneox_n_embd(context))
-        guard let embeddings = gptneox_get_embeddings(context) else {
+        let embeddingsCount = Int(gpt_neox_n_embd(context))
+        guard let embeddings = gpt_neox_get_embeddings(context) else {
             return []
         }
         return Array(UnsafeBufferPointer(start: embeddings, count: embeddingsCount))
@@ -315,13 +315,13 @@ public class GPTNeoX: Model {
             return []
         }
 
-        var embeddings = Array<ModelToken>(repeating: gptneox_token(), count: input.utf8.count)
+        var embeddings = Array<ModelToken>(repeating: gpt_neox_token(), count: input.utf8.count)
         let n = gpt_neox_tokenize(context, input, &embeddings, Int32(input.utf8.count), bos)
         assert(n >= 0)
         embeddings.removeSubrange(Int(n)..<embeddings.count)
         
         if eos {
-            embeddings.append(gptneox_token_eos())
+            embeddings.append(gpt_neox_token_eos())
         }
         
         return embeddings

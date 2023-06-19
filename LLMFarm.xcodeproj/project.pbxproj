@@ -23,6 +23,8 @@
 		15A3EDD62A223C9E0030AF5A /* llmfarm_core in Frameworks */ = {isa = PBXBuildFile; productRef = 15A3EDD52A223C9E0030AF5A /* llmfarm_core */; };
 		15A3EDD82A223CB00030AF5A /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15A3EDD72A223CB00030AF5A /* Accelerate.framework */; };
 		15A3EDDA2A223CDB0030AF5A /* llmfarm_core in Frameworks */ = {isa = PBXBuildFile; productRef = 15A3EDD92A223CDB0030AF5A /* llmfarm_core */; };
+		15A47FFF2A40D2A300B72DC3 /* GPT2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A47FFE2A40D2A300B72DC3 /* GPT2.swift */; };
+		15A480002A40D2A300B72DC3 /* GPT2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A47FFE2A40D2A300B72DC3 /* GPT2.swift */; };
 		15E415D42A18A2980057A15E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E415D32A18A2980057A15E /* main.swift */; };
 		15F2102C2A190D5B0021F414 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F210142A190CF80021F414 /* Math.swift */; };
 		15F2102D2A190D5B0021F414 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F210152A190CF80021F414 /* Utils.swift */; };
@@ -81,6 +83,7 @@
 		15A3EDD02A21266D0030AF5A /* SearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		15A3EDD22A223BDF0030AF5A /* llmfarm_core.swift */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = llmfarm_core.swift; sourceTree = "<group>"; };
 		15A3EDD72A223CB00030AF5A /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.4.sdk/System/Library/Frameworks/Accelerate.framework; sourceTree = DEVELOPER_DIR; };
+		15A47FFE2A40D2A300B72DC3 /* GPT2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPT2.swift; sourceTree = "<group>"; };
 		15E415D12A18A2970057A15E /* ModelTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ModelTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		15E415D32A18A2980057A15E /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		15F210142A190CF80021F414 /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
@@ -182,6 +185,7 @@
 				15F210532A1919390021F414 /* StringExt.swift */,
 				15F210562A1919390021F414 /* Tasker.swift */,
 				15F210132A190CF80021F414 /* Math */,
+				15A47FFE2A40D2A300B72DC3 /* GPT2.swift */,
 			);
 			path = LLMFarm_core;
 			sourceTree = "<group>";
@@ -369,6 +373,7 @@
 			files = (
 				15F2102C2A190D5B0021F414 /* Math.swift in Sources */,
 				15F210642A19193A0021F414 /* AI.swift in Sources */,
+				15A47FFF2A40D2A300B72DC3 /* GPT2.swift in Sources */,
 				150CAD012A3CE7B30015CD66 /* GPTNeox.swift in Sources */,
 				15F2102D2A190D5B0021F414 /* Utils.swift in Sources */,
 				15F2105A2A19193A0021F414 /* LLaMa.swift in Sources */,
@@ -400,6 +405,7 @@
 				15A3EDCB2A2121D90030AF5A /* ModelsView.swift in Sources */,
 				15A3EDC92A2121D90030AF5A /* SettingsItem.swift in Sources */,
 				15F210A42A1921E40021F414 /* Utils.swift in Sources */,
+				15A480002A40D2A300B72DC3 /* GPT2.swift in Sources */,
 				15F210A52A1921E40021F414 /* ComputeGraph.swift in Sources */,
 				1560D6172A2D1A3D00918330 /* AddChatView.swift in Sources */,
 				15F210962A1920AA0021F414 /* AIChatModel.swift in Sources */,

@@ -86,9 +86,10 @@ final class AIChatModel: ObservableObject {
             if (chat_config!["model_inference"] != nil && chat_config!["model_inference"]! as! String != "auto"){
                 if chat_config!["model_inference"] as! String == "llama"{
                     try? self.chat?.loadModel(ModelInference.LLamaInference,contextParams: model_context_param)
-   
-                }else{
+                }else if chat_config!["model_inference"] as! String == "gptneox" {
                     try? self.chat?.loadModel(ModelInference.GPTNeoxInference,contextParams: model_context_param)
+                }else if chat_config!["model_inference"] as! String == "gpt2" {
+                    try? self.chat?.loadModel(ModelInference.GPT2,contextParams: model_context_param)
                 }
             }
             else{                

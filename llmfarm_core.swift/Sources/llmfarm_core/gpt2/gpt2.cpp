@@ -1,7 +1,13 @@
+
+#include "gpt2.h"
+#include "../gpt_helpers.h"
+#include "../gpt_spm.h"
+
 #include "../ggml.h"
 
-#include "common.h"
-#include "common-ggml.h"
+#include "../common.h"
+#include "../common-ggml.h"
+
 
 #include <cassert>
 #include <cmath>
@@ -20,6 +26,24 @@ struct gpt2_hparams {
     int32_t n_head  = 12;
     int32_t n_layer = 12;
     int32_t ftype   = 1;
+};
+
+struct gpt2_context_params gpt2_context_default_params() {
+    struct gpt2_context_params result = {
+        /*.n_ctx                       =*/ 512,
+        /*.n_parts                     =*/ -1,
+        /*.seed                        =*/ 0,
+        /*.f16_kv                      =*/ false,
+        /*.logits_all                  =*/ false,
+        /*.vocab_only                  =*/ false,
+        /*.use_mmap                    =*/ true,
+        /*.use_mlock                   =*/ false,
+        /*.embedding                   =*/ false,
+        /*.progress_callback           =*/ nullptr,
+        /*.progress_callback_user_data =*/ nullptr,
+    };
+
+    return result;
 };
 
 struct gpt2_layer {
@@ -47,6 +71,7 @@ struct gpt2_layer {
 
 struct gpt2_model {
     gpt2_hparams hparams;
+    struct gpt_kv_cache kv_self;
 
     // normalization
     struct ggml_tensor * ln_f_g;
@@ -65,7 +90,83 @@ struct gpt2_model {
     //
     struct ggml_context * ctx;
     std::map<std::string, struct ggml_tensor *> tensors;
+    ~gpt2_model() {
+        if (ctx) {
+            ggml_free(ctx);
+        }
+    }
 };
+
+struct gpt2_context {
+    std::mt19937 rng;
+
+    int64_t t_load_us = 0;
+    int64_t t_start_us = 0;
+    bool has_evaluated_once = false;
+    
+    int64_t t_sample_us = 0;
+    int64_t t_eval_us   = 0;
+    int64_t t_p_eval_us = 0;
+
+    int32_t n_sample = 0; // number of tokens sampled
+    int32_t n_eval   = 0; // number of eval calls
+    int32_t n_p_eval = 0; // number of tokens in eval calls for the prompt (with batch size > 1)
+    
+    gpt2_model model;
+    gpt_vocab vocab;
+
+    size_t mem_per_token = 0;
+
+    // decode output (2-dimensional array: [n_tokens][n_vocab])
+    std::vector<float> logits;
+    bool logits_all = false;
+
+    // input embedding (1-dimensional array: [n_embd])
+    std::vector<float> embedding;
+
+    
+};
+
+
+
+
+
+void gpt2_free(struct gpt2_context * ctx) {
+    delete ctx;
+}
+
+
+
+static bool kv_cache_init(
+        const struct gpt2_hparams & hparams,
+             struct gpt_kv_cache & cache,
+                           ggml_type   wtype,
+                                 int   n_ctx) {
+    const int n_embd  = hparams.n_embd;
+    const int n_layer = hparams.n_layer;
+
+    const int64_t n_mem      = (int64_t)n_layer*n_ctx;
+    const int64_t n_elements = n_embd*n_mem;
+
+    cache.buf.resize(2u*n_elements*ggml_type_size(wtype) + 2u*MB);
+
+    struct ggml_init_params params;
+    params.mem_size   = cache.buf.size;
+    params.mem_buffer = cache.buf.addr;
+    params.no_alloc   = false;
+
+    cache.ctx = ggml_init(params);
+
+    if (!cache.ctx) {
+        fprintf(stderr, "%s: failed to allocate memory for kv cache\n", __func__);
+        return false;
+    }
+
+    cache.k = ggml_new_tensor_1d(cache.ctx, wtype, n_elements);
+    cache.v = ggml_new_tensor_1d(cache.ctx, wtype, n_elements);
+
+    return true;
+}
 
 // load the model's weights from a file
 bool gpt2_model_load(const std::string & fname, gpt2_model & model, gpt_vocab & vocab) {
@@ -694,7 +795,246 @@ bool gpt2_eval(
     return true;
 }
 
-int test_run() {
+
+
+
+struct gpt2_context * gpt2_init_from_file(const char * path_model, struct gpt2_context_params   params) {
+    ggml_time_init();
+
+    gpt2_context * ctx = new gpt2_context;
+
+    if (params.seed <= 0) {
+        params.seed = time(NULL);
+    }
+
+    unsigned cur_percentage = 0;
+    if (params.progress_callback == NULL) {
+        params.progress_callback_user_data = &cur_percentage;
+        params.progress_callback = [](float progress, void * ctx) {
+            unsigned * cur_percentage_p = (unsigned *) ctx;
+            unsigned percentage = (unsigned) (100 * progress);
+            while (percentage > *cur_percentage_p) {
+                ++*cur_percentage_p;
+                fprintf(stderr, ".");
+                fflush(stderr);
+                if (percentage >= 100) {
+                    fprintf(stderr, "\n");
+                }
+            }
+        };
+    }
+
+    ctx->rng = std::mt19937(params.seed);
+    ctx->logits_all = params.logits_all;
+
+    ggml_type memory_type = params.f16_kv ? GGML_TYPE_F16 : GGML_TYPE_F32;
+    
+//    res =
+//    bool gpt2_model_load(const std::string & fname, gpt2_model & model, gpt_vocab & vocab)
+    if (!gpt2_model_load(path_model, ctx->model, ctx->vocab)) {
+        fprintf(stderr, "%s: failed to load model\n", __func__);
+        gpt2_free(ctx);
+        return nullptr;
+    }
+//    test_gpt_tokenizer(ctx->vocab, "");
+//    if (!gpt2_model_load(path_model, *ctx, params.n_ctx, memory_type,
+//                          params.use_mmap, params.use_mlock, params.vocab_only,
+//                          params.progress_callback, params.progress_callback_user_data)) {
+//        fprintf(stderr, "%s: failed to load model\n", __func__);
+//        gptneox_free(ctx);
+//        return nullptr;
+//    }
+
+    // reserve memory for context buffers
+    if (!params.vocab_only) {
+        if (!kv_cache_init(ctx->model.hparams, ctx->model.kv_self, memory_type, ctx->model.hparams.n_ctx)) {
+            fprintf(stderr, "%s: kv_cache_init() failed for self-attention cache\n", __func__);
+            gpt2_free(ctx);
+            return nullptr;
+        }
+
+        {
+            const size_t memory_size = ggml_nbytes(ctx->model.kv_self.k) + ggml_nbytes(ctx->model.kv_self.v);
+            fprintf(stderr, "%s: kv self size  = %7.2f MiB\n", __func__, memory_size / 1024.0 / 1024.0);
+        }
+
+        const auto & hparams = ctx->model.hparams;
+
+        // resized during inference
+        if (params.logits_all) {
+            ctx->logits.reserve(hparams.n_ctx*hparams.n_vocab);
+        } else {
+            ctx->logits.reserve(hparams.n_vocab);
+        }
+
+        if (params.embedding){
+            ctx->embedding.resize(hparams.n_embd);
+        }
+
+//        ctx->buf_compute.resize(MEM_REQ_EVAL().at(ctx->model.type));
+//
+//        ctx->buf_scratch[0].resize(MEM_REQ_SCRATCH0().at(ctx->model.type));
+//        ctx->buf_scratch[1].resize(MEM_REQ_SCRATCH1().at(ctx->model.type));
+    }
+
+    return ctx;
+}
+
+void gpt2_shift_kv_cache(struct gpt2_context * ctx, int n) {
+    auto & model = ctx->model;
+    auto & kv_self = model.kv_self;
+    auto & hparams = model.hparams;
+    auto n_layer = hparams.n_layer;
+    auto n_embd = hparams.n_embd;
+    auto n_ctx = hparams.n_ctx;
+    for(int il = 0; il < n_layer; il++) {
+        // K: Embeddings are in regular order so moving them is easy as copying the memory
+        {
+            int elem_byte_size = ggml_element_size(kv_self.k);
+            uint8_t * dst_ptr = ((uint8_t *)kv_self.k->data) + (elem_byte_size * n_embd * (il * n_ctx));
+            uint8_t * src_ptr = ((uint8_t *)kv_self.k->data) + (elem_byte_size * n_embd * (il * n_ctx + n));
+            memcpy(dst_ptr, src_ptr, elem_byte_size * n_embd * (n_ctx - n));
+        }
+        
+        // V: Embeddings are transposed so each embedding element must be copied separately
+        {
+            int elem_byte_size = ggml_element_size(kv_self.v);
+            for(int i = 0; i < n_embd; i++) {
+                uint8_t * dst_ptr = ((uint8_t *)kv_self.v->data) + (elem_byte_size * (il * n_ctx * i));
+                uint8_t * src_ptr = ((uint8_t *)kv_self.v->data) + (elem_byte_size * (il * n_ctx * i + n));
+                memcpy(dst_ptr, src_ptr, elem_byte_size * (n_ctx - n));
+            }
+        }
+    }
+}
+
+
+int gpt2_init_logits(struct gpt2_context * ctx,int   n_threads){
+    size_t mem_per_token = 0;
+    if (!gpt2_eval(ctx->model, n_threads, 0, { 0, 1, 2, 3 }, ctx->logits, mem_per_token)) {
+        fprintf(stderr, "%s: failed to eval\n", __func__);
+        return 1;
+    }
+    return  0;
+}
+
+int gpt2_eval(
+        struct gpt2_context * ctx,
+           const gpt2_token * tokens,
+                         int   n_tokens,
+                         int   n_past,
+                  int   n_threads) {
+    
+//    std::vector<float> logits;
+    std::vector<gpt_vocab::id> embd;
+    for (int i=0;i<n_tokens;i++){
+        embd.push_back(tokens[i]);
+    }
+    size_t mem_per_token = 0;
+//    gpt2_eval(ctx->model, n_threads, 0, { 0, 1, 2, 3 }, ctx->logits, mem_per_token);
+    //    if (!gptneox_eval_internal(*ctx, tokens, n_tokens, n_past, n_threads)) {
+    if (!gpt2_eval(ctx->model, n_threads, n_past, embd, ctx->logits, mem_per_token)) {
+        fprintf(stderr, "%s: failed to eval\n", __func__);
+        return 1;
+    }
+    // get a more accurate load time, upon first eval
+    if (!ctx->has_evaluated_once) {
+        ctx->t_load_us = ggml_time_us() - ctx->t_start_us;
+        ctx->has_evaluated_once = true;
+    }
+    return 0;
+}
+
+int gpt2_tokenize(
+        struct gpt2_context * ctx,
+                  const char * text,
+                 gpt2_token * tokens,
+                         int   n_max_tokens,
+                        bool   add_bos) {
+//    auto res = gptneox_tokenize(ctx->vocab, text, add_bos);
+    auto res = gpt_tokenize(ctx->vocab, text);
+    
+    if (n_max_tokens < (int) res.size()) {
+        fprintf(stderr, "%s: too many tokens\n", __func__);
+        return -((int) res.size());
+    }
+
+    for (size_t i = 0; i < res.size(); i++) {
+        tokens[i] = res[i];
+    }
+
+    return res.size();
+}
+
+int gpt2_n_vocab(struct gpt2_context * ctx) {
+    return ctx->vocab.id_to_token.size();
+}
+
+int gpt2_n_ctx(struct gpt2_context * ctx) {
+    return ctx->model.hparams.n_ctx;
+}
+
+int gpt2_n_embd(struct gpt2_context * ctx) {
+    return ctx->model.hparams.n_embd;
+}
+
+float * gpt2_get_logits(struct gpt2_context * ctx) {
+    return ctx->logits.data();
+}
+
+float * gpt2_get_embeddings(struct gpt2_context * ctx) {
+    return ctx->embedding.data();
+}
+
+gpt2_token gpt2_str_to_token(struct gpt2_context * ctx, const char * str) {
+    return ctx->vocab.token_to_id[str];
+}
+
+const char * gpt2_token_to_str(struct gpt2_context * ctx, gpt2_token token) {
+    if (token >= ctx->vocab.id_to_token.size()) {
+        return nullptr;
+    }
+    return ctx->vocab.id_to_token[token].c_str();
+}
+
+gpt2_token gpt2_token_bos() {
+    return 0;
+}
+
+gpt2_token gpt2_token_eos() {
+    return 0;
+}
+
+
+int32_t gpt2_sample(struct gpt2_context * ctx, int top_k, float top_p, float temp) {
+    const int64_t t_start_sample_us = ggml_time_us();
+    gpt_vocab::id smpl = gpt_sample_top_k_top_p(ctx->vocab, ctx->logits.data() + (ctx->logits.size() - ctx->vocab.id_to_token.size()), top_k, top_p, temp, ctx->rng);
+    if (ctx) {
+        ctx->t_sample_us += ggml_time_us() - t_start_sample_us;
+    }
+    return  smpl;
+}
+
+
+int32_t gpt2_sample_repeat(struct gpt2_context * ctx,
+                               const int32_t * last_n_tokens_data,
+                               size_t last_n_tokens_data_size,
+                               int top_k, float top_p, float temp,
+                               int repeat_last_n,
+                               float repeat_penalty) {
+    const int64_t t_start_sample_us = ggml_time_us();
+    gpt_vocab::id smpl = gpt_sample_top_k_top_p_repeat(ctx->vocab, ctx->logits.data() + (ctx->logits.size() - ctx->vocab.id_to_token.size()),
+                                                       last_n_tokens_data,last_n_tokens_data_size,
+                                                       top_k, top_p, temp,
+                                                       repeat_last_n,repeat_penalty,
+                                                       ctx->rng);
+    if (ctx) {
+        ctx->t_sample_us += ggml_time_us() - t_start_sample_us;
+    }
+    return  smpl;
+}
+
+int test_run(int argc, char ** argv) {
     ggml_time_init();
 
     const int64_t t_main_start_us = ggml_time_us();
@@ -702,9 +1042,9 @@ int test_run() {
     gpt_params params;
     params.model = "models/gpt-2-117M/ggml-model.bin";
 
-//    if (gpt_params_parse(argc, argv, params) == false) {
-//        return 1;
-//    }
+    if (gpt_params_parse(argc, argv, params) == false) {
+        return 1;
+    }
 
     if (params.seed < 0) {
         params.seed = time(NULL);

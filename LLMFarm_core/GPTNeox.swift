@@ -315,7 +315,7 @@ public class GPTNeoX: Model {
             return []
         }
 
-        var embeddings = Array<ModelToken>(repeating: gpt_neox_token(), count: input.utf8.count)
+        var embeddings = Array<ModelToken>(repeating: gpt_token(), count: input.utf8.count)
         let n = gpt_neox_tokenize(context, input, &embeddings, Int32(input.utf8.count), bos)
         assert(n >= 0)
         embeddings.removeSubrange(Int(n)..<embeddings.count)

@@ -1,5 +1,6 @@
 #include "gptneox.h"
 #include "../gpt_helpers.h"
+#include "../gpt_spm.h"
 
 #include "../ggml.h"
 
@@ -18,7 +19,7 @@
 
 
 //#define GPTNEOX_USE_SCRATCH
-#define GPTNEOX_MAX_SCRATCH_BUFFERS 16
+//#define GPTNEOX_MAX_SCRATCH_BUFFERS 16
 
 // default hparams (StableLM 3B)
 //struct gpt_neox_hparams {
@@ -42,6 +43,25 @@ struct gpt_neox_hparams {
     int32_t par_res = 1; // 1 = true, 0 = false
     int32_t ftype   = 1;
 };
+
+struct gpt_context_params gpt_context_default_params() {
+    struct gpt_context_params result = {
+        /*.n_ctx                       =*/ 512,
+        /*.n_parts                     =*/ -1,
+        /*.seed                        =*/ 0,
+        /*.f16_kv                      =*/ false,
+        /*.logits_all                  =*/ false,
+        /*.vocab_only                  =*/ false,
+        /*.use_mmap                    =*/ true,
+        /*.use_mlock                   =*/ false,
+        /*.embedding                   =*/ false,
+        /*.progress_callback           =*/ nullptr,
+        /*.progress_callback_user_data =*/ nullptr,
+    };
+
+    return result;
+};
+
 
 struct gpt_neox_layer {
     // pre normalization
@@ -98,15 +118,77 @@ struct gpt_neox_model {
     }
 };
 
-static const char *gpt_model_type_name(e_model type) {
-    switch (type) {
-        case MODEL_3B: return "3B";
-        case MODEL_7B: return "7B";
-        case MODEL_13B: return "13B";
-        case MODEL_30B: return "30B";
-        case MODEL_65B: return "65B";
-        default: return "UNKNOWN";
+
+struct gpt_context {
+    std::mt19937 rng;
+
+    int64_t t_load_us = 0;
+    int64_t t_start_us = 0;
+    bool has_evaluated_once = false;
+
+    int64_t t_sample_us = 0;
+    int64_t t_eval_us   = 0;
+    int64_t t_p_eval_us = 0;
+
+    int32_t n_sample = 0; // number of tokens sampled
+    int32_t n_eval   = 0; // number of eval calls
+    int32_t n_p_eval = 0; // number of tokens in eval calls for the prompt (with batch size > 1)
+
+
+    size_t mem_per_token = 0;
+
+    // decode output (2-dimensional array: [n_tokens][n_vocab])
+    std::vector<float> logits;
+    bool logits_all = false;
+
+    // input embedding (1-dimensional array: [n_embd])
+    std::vector<float> embedding;
+
+    
+};
+
+struct gpt_neox_context:gpt_context {
+    gpt_neox_model model;
+    gpt_vocab vocab;
+};
+
+
+
+void gpt_neox_free(struct gpt_context * ctx) {
+    delete ctx;
+}
+
+
+
+static bool kv_cache_init(
+        const struct gpt_neox_hparams & hparams,
+             struct gpt_kv_cache & cache,
+                           ggml_type   wtype,
+                                 int   n_ctx) {
+    const int n_embd  = hparams.n_embd;
+    const int n_layer = hparams.n_layer;
+
+    const int64_t n_mem      = (int64_t)n_layer*n_ctx;
+    const int64_t n_elements = n_embd*n_mem;
+
+    cache.buf.resize(2u*n_elements*ggml_type_size(wtype) + 2u*MB);
+
+    struct ggml_init_params params;
+    params.mem_size   = cache.buf.size;
+    params.mem_buffer = cache.buf.addr;
+    params.no_alloc   = false;
+
+    cache.ctx = ggml_init(params);
+
+    if (!cache.ctx) {
+        fprintf(stderr, "%s: failed to allocate memory for kv cache\n", __func__);
+        return false;
     }
+
+    cache.k = ggml_new_tensor_1d(cache.ctx, wtype, n_elements);
+    cache.v = ggml_new_tensor_1d(cache.ctx, wtype, n_elements);
+
+    return true;
 }
 
 // load the model's weights from a file
@@ -726,130 +808,9 @@ bool gpt_neox_eval(
 
 
 
-struct gpt_neox_context {
-    std::mt19937 rng;
-
-    int64_t t_load_us = 0;
-    int64_t t_start_us = 0;
-    bool has_evaluated_once = false;
-
-    int64_t t_sample_us = 0;
-    int64_t t_eval_us   = 0;
-    int64_t t_p_eval_us = 0;
-
-    int32_t n_sample = 0; // number of tokens sampled
-    int32_t n_eval   = 0; // number of eval calls
-    int32_t n_p_eval = 0; // number of tokens in eval calls for the prompt (with batch size > 1)
-
-    gpt_neox_model model;
-    gpt_vocab vocab;
-
-    size_t mem_per_token = 0;
-
-    // decode output (2-dimensional array: [n_tokens][n_vocab])
-    std::vector<float> logits;
-    bool logits_all = false;
-
-    // input embedding (1-dimensional array: [n_embd])
-    std::vector<float> embedding;
-
-    // memory buffers used to evaluate the model
-    // TODO: move in gptneox_state
-//    gpt_buffer buf_compute;
-//    gpt_buffer buf_scratch[GPTNEOX_MAX_SCRATCH_BUFFERS];
-//
-//    int    buf_last = 0;
-//    size_t buf_max_size[GPTNEOX_MAX_SCRATCH_BUFFERS] = { 0 };
-//
-//    void use_buf(struct ggml_context * ctx, int i) {
-//#if defined(GPTNEOX_USE_SCRATCH)
-//        size_t last_size = 0;
-//
-//        if (i == -1) {
-//            last_size = ggml_set_scratch(ctx, { 0, 0, nullptr, });
-//        } else {
-//            auto & buf = buf_scratch[i];
-//            last_size = ggml_set_scratch(ctx, { 0, buf.size, buf.addr, });
-//        }
-//
-//        if (buf_last >= 0) {
-//            buf_max_size[buf_last] = std::max(buf_max_size[buf_last], last_size);
-//        }
-//
-//        buf_last = i;
-//#else
-//        (void) i;
-//        (void) ctx;
-//#endif
-//    }
-//
-//    size_t get_buf_max_mem(int i) const {
-//#if defined(GPTNEOX_USE_SCRATCH)
-//        return buf_max_size[i];
-//#else
-//        (void) i;
-//        return 0;
-//#endif
-//    }
-};
 
 
 
-struct gpt_context_params gpt_context_default_params() {
-    struct gpt_context_params result = {
-        /*.n_ctx                       =*/ 512,
-        /*.n_parts                     =*/ -1,
-        /*.seed                        =*/ 0,
-        /*.f16_kv                      =*/ false,
-        /*.logits_all                  =*/ false,
-        /*.vocab_only                  =*/ false,
-        /*.use_mmap                    =*/ true,
-        /*.use_mlock                   =*/ false,
-        /*.embedding                   =*/ false,
-        /*.progress_callback           =*/ nullptr,
-        /*.progress_callback_user_data =*/ nullptr,
-    };
-
-    return result;
-}
-
-
-void gpt_neox_free(struct gpt_neox_context * ctx) {
-    delete ctx;
-}
-
-
-
-static bool kv_cache_init(
-        const struct gpt_neox_hparams & hparams,
-             struct gpt_kv_cache & cache,
-                           ggml_type   wtype,
-                                 int   n_ctx) {
-    const int n_embd  = hparams.n_embd;
-    const int n_layer = hparams.n_layer;
-
-    const int64_t n_mem      = (int64_t)n_layer*n_ctx;
-    const int64_t n_elements = n_embd*n_mem;
-
-    cache.buf.resize(2u*n_elements*ggml_type_size(wtype) + 2u*MB);
-
-    struct ggml_init_params params;
-    params.mem_size   = cache.buf.size;
-    params.mem_buffer = cache.buf.addr;
-    params.no_alloc   = false;
-
-    cache.ctx = ggml_init(params);
-
-    if (!cache.ctx) {
-        fprintf(stderr, "%s: failed to allocate memory for kv cache\n", __func__);
-        return false;
-    }
-
-    cache.k = ggml_new_tensor_1d(cache.ctx, wtype, n_elements);
-    cache.v = ggml_new_tensor_1d(cache.ctx, wtype, n_elements);
-
-    return true;
-}
 
 
 
@@ -985,7 +946,7 @@ int init_logits(struct gpt_neox_context * ctx,int   n_threads){
 
 int gpt_neox_eval(
         struct gpt_neox_context * ctx,
-           const gpt_neox_token * tokens,
+           const gpt_token * tokens,
                          int   n_tokens,
                          int   n_past,
                   int   n_threads) {
@@ -1013,7 +974,7 @@ int gpt_neox_eval(
 int gpt_neox_tokenize(
         struct gpt_neox_context * ctx,
                   const char * text,
-                 gpt_neox_token * tokens,
+                 gpt_token * tokens,
                          int   n_max_tokens,
                         bool   add_bos) {
 //    auto res = gptneox_tokenize(ctx->vocab, text, add_bos);
@@ -1073,22 +1034,22 @@ float * gpt_neox_get_embeddings(struct gpt_neox_context * ctx) {
     return ctx->embedding.data();
 }
 
-gpt_neox_token gpt_neox_str_to_token(struct gpt_neox_context * ctx, const char * str) {
+gpt_token gpt_neox_str_to_token(struct gpt_neox_context * ctx, const char * str) {
     return ctx->vocab.token_to_id[str];
 }
 
-const char * gpt_neox_token_to_str(struct gpt_neox_context * ctx, gpt_neox_token token) {
-    if (token >= gpt_neox_n_vocab(ctx)) {
+const char * gpt_neox_token_to_str(struct gpt_neox_context * ctx, gpt_token token) {
+    if (token >= ctx->vocab.id_to_token.size()) {
         return nullptr;
     }
     return ctx->vocab.id_to_token[token].c_str();
 }
 
-gpt_neox_token gpt_neox_token_bos() {
+gpt_token gpt_neox_token_bos() {
     return 0;
 }
 
-gpt_neox_token gpt_neox_token_eos() {
+gpt_token gpt_neox_token_eos() {
     return 0;
 }
 

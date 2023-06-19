@@ -37,11 +37,17 @@ func prompt_for_generation(_ instruction:String) -> String{
 
 func main(){
     print("Hello.")
-    let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/Models/ok/dolly-v2-3b-ggml_v3-q5_1.bin",_chatName: "chat")
-    try? ai.loadModel(ModelInference.GPTNeoxInference)
+//    let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/Models/ok/dolly-v2-3b-ggml_v3-q5_1.bin",_chatName: "chat")
+//    try? ai.loadModel(ModelInference.GPTNeoxInference)
+//    ai.model.promptFormat = .Dolly_b3
+    
+    let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/AI-Dungeon-2-Classic.bin",_chatName: "chat")
+    try? ai.loadModel(ModelInference.GPT2)
+    ai.model.promptFormat = .None
+    
     ai.model.contextParams.seed = 0;
 //    ai.model.promptStyle = .StableLM_Tuned
-    ai.model.promptFormat = .Dolly_b3
+    
     let input_text = "State the meaning of life."
 //    let input_text = "Tell about Stavropol."
 //    let prompt = prompt_for_generation(input_text)

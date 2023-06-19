@@ -74,7 +74,7 @@ struct AddChatView: View {
     let bin_type = UTType(tag: "bin", tagClass: .filenameExtension, conformingTo: nil)
     
     @State private var model_inference = "auto"
-    let model_inferences = ["auto","gptneox", "llama"]
+    let model_inferences = ["auto","gptneox", "llama", "gpt2"]
     
     init(add_chat_dialog: Binding<Bool>,edit_chat_dialog:Binding<Bool>) {
         self._add_chat_dialog = add_chat_dialog

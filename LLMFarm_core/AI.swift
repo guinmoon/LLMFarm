@@ -9,6 +9,7 @@ import Foundation
 enum ModelInference {
     case LLamaInference
     case GPTNeoxInference
+    case GPT2
 }
 
 class AI {
@@ -36,9 +37,11 @@ class AI {
         case .LLamaInference:
             model = try? LLaMa(path: self.modelPath, contextParams: contextParams)
         case .GPTNeoxInference:
-//            model = try? GPTNeoX(path: self.modelPath)
             model = try? GPTNeoX(path: self.modelPath, contextParams: contextParams)
+        case .GPT2:
+            model = try? GPT2(path: self.modelPath, contextParams: contextParams)
         }
+        
     }
     
     func text(_ input: String, _ maxOutputCount: Int = 2048, _ tokenCallback: ((String, Double) -> ())?, _ completion: ((String) -> ())?) {

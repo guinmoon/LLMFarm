@@ -5,6 +5,10 @@
 #include <stdbool.h>
 #include "ggml.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 int test_fn();
 
 static const size_t MB = 1024*1024;
@@ -53,3 +57,21 @@ struct gpt_kv_cache {
         }
     }
 };
+
+
+static const char *gpt_model_type_name(e_model type) {
+    switch (type) {
+        case MODEL_3B: return "3B";
+        case MODEL_7B: return "7B";
+        case MODEL_13B: return "13B";
+        case MODEL_30B: return "30B";
+        case MODEL_65B: return "65B";
+        default: return "UNKNOWN";
+    }
+};
+
+
+
+#ifdef __cplusplus
+}
+#endif

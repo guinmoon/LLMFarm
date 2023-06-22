@@ -17,7 +17,7 @@ public class GPT2: Model {
         
         self.contextParams = contextParams
 //        var params = gptneox_context_default_params()
-        var params = gpt2_context_default_params()
+        var params = gpt_context_default_params()
         params.n_ctx = contextParams.context
         params.n_parts = contextParams.parts
         params.seed = contextParams.seed

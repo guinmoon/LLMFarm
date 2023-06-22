@@ -20,6 +20,7 @@ int test_fn()
 }
 
 
+
 static const std::map<e_model, size_t> & MEM_REQ_SCRATCH0()
 {
     static std::map<e_model, size_t> k_sizes = {

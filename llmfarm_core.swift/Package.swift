@@ -25,14 +25,14 @@ let package = Package(
         .target(
             name: "llmfarm_core",
             sources: ["ggml.c", "gptneox/gptneox.cpp","gpt2/gpt2.cpp","common.cpp","gpt_helpers.cpp","gpt_spm.cpp", "llama/llama.cpp"],
-//            sources: ["ggml.c", "gptneox/gptneox.cpp","gptneox/gptneox_new.cpp","gptneox/common.cpp", "llama.cpp"],
+            //            sources: ["ggml.c", "gptneox/gptneox.cpp","gptneox/gptneox_new.cpp","gptneox/common.cpp", "llama.cpp"],
             publicHeadersPath: "spm-headers",
             cSettings: [
                 .unsafeFlags(["-O3"]),
                 .unsafeFlags(["-DNDEBUG"]),
-//                .unsafeFlags(["-march=native"]),
-//                .unsafeFlags(["-mtune=native"]),
-                .unsafeFlags(["-mfma"]),
+                //                .unsafeFlags(["-march=native"]),
+                //                .unsafeFlags(["-mtune=native"]),
+                    .unsafeFlags(["-mfma"]),
                 .unsafeFlags(["-mavx"]),
                 .unsafeFlags(["-mavx2"]),
                 .unsafeFlags(["-mf16c"]),
@@ -41,7 +41,8 @@ let package = Package(
                 .unsafeFlags(["-w"])    // ignore all warnings
             ]),
     ],
-    cxxLanguageStandard: CXXLanguageStandard.cxx11
+    cLanguageStandard: .gnu11,
+    cxxLanguageStandard: .gnucxx20
 )
 #else
 let package = Package(
@@ -63,7 +64,7 @@ let package = Package(
         .target(
             name: "llmfarm_core",
             sources: ["ggml.c", "gptneox/gptneox.cpp","gpt2/gpt2.cpp","common.cpp","gpt_helpers.cpp","gpt_spm.cpp", "llama/llama.cpp", ],
-//            sources: ["ggml.c", "gptneox/gptneox.cpp","gptneox/gptneox_new.cpp","gptneox/common.cpp", "llama.cpp"],
+            //            sources: ["ggml.c", "gptneox/gptneox.cpp","gptneox/gptneox_new.cpp","gptneox/common.cpp", "llama.cpp"],
             publicHeadersPath: "spm-headers",
             cSettings: [
                 .unsafeFlags(["-O3"]),
@@ -73,7 +74,8 @@ let package = Package(
                 .unsafeFlags(["-w"])    // ignore all warnings
             ]),
     ],
-    cxxLanguageStandard: CXXLanguageStandard.cxx11
+    cLanguageStandard: .gnu11,
+    cxxLanguageStandard: .gnucxx20
 )
 #endif
 #endif
@@ -98,7 +100,7 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "llmfarm_core",
-//            sources: ["ggml.c", "gptneox/gptneox.cpp","gptneox/gptneox_new.cpp","gptneox/common.cpp", "llama.cpp"],
+            //            sources: ["ggml.c", "gptneox/gptneox.cpp","gptneox/gptneox_new.cpp","gptneox/common.cpp", "llama.cpp"],
             sources: ["ggml.c", "gptneox/gptneox.cpp","gpt2/gpt2.cpp","common.cpp","gpt_helpers.cpp","gpt_spm.cpp", "llama/llama.cpp"],
             publicHeadersPath: "spm-headers",
             cSettings: [
@@ -109,7 +111,8 @@ let package = Package(
                 .unsafeFlags(["-w"])    // ignore all warnings
             ]),
     ],
-    cxxLanguageStandard: CXXLanguageStandard.cxx11
+    cLanguageStandard: .gnu11,
+    cxxLanguageStandard: .gnucxx20
 )
 
 #endif

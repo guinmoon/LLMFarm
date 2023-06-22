@@ -7,7 +7,7 @@
 #endif
 
 #include "llama-util.h"
-#include "llama.h"
+#include "../spm-headers/llama.h"
 
 #include "../ggml.h"
 #ifdef GGML_USE_CUBLAS

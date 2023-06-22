@@ -174,7 +174,7 @@ public class GPTNeoX: Model {
         // Input
         var inputBatch: [ModelToken] = []
         // Inputs tokens eval, input token will not be included in output
-        if init_logits(context, contextParams.numberOfThreads) != 0 {
+        if gpt_neox_init_logits(context, contextParams.numberOfThreads) != 0 {
             throw ModelError.failedToEval
         }
         while inputTokens.count > 0 {

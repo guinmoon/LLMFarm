@@ -1,7 +1,7 @@
 
-#include "gpt2.h"
+#include "../spm-headers/gpt2.h"
 #include "../gpt_helpers.h"
-#include "../gpt_spm.h"
+#include "../spm-headers/gpt_spm.h"
 
 #include "../ggml.h"
 
@@ -19,7 +19,7 @@
 #include <vector>
 
 // default hparams (GPT-2 117M)
-struct gpt2_hparams {
+struct gpt2_hparams:gpt_base_hparams {
     int32_t n_vocab = 50257;
     int32_t n_ctx   = 1024;
     int32_t n_embd  = 768;
@@ -28,23 +28,23 @@ struct gpt2_hparams {
     int32_t ftype   = 1;
 };
 
-struct gpt2_context_params gpt2_context_default_params() {
-    struct gpt2_context_params result = {
-        /*.n_ctx                       =*/ 512,
-        /*.n_parts                     =*/ -1,
-        /*.seed                        =*/ 0,
-        /*.f16_kv                      =*/ false,
-        /*.logits_all                  =*/ false,
-        /*.vocab_only                  =*/ false,
-        /*.use_mmap                    =*/ true,
-        /*.use_mlock                   =*/ false,
-        /*.embedding                   =*/ false,
-        /*.progress_callback           =*/ nullptr,
-        /*.progress_callback_user_data =*/ nullptr,
-    };
-
-    return result;
-};
+//struct gpt2_context_params gpt2_context_default_params() {
+//    struct gpt2_context_params result = {
+//        /*.n_ctx                       =*/ 512,
+//        /*.n_parts                     =*/ -1,
+//        /*.seed                        =*/ 0,
+//        /*.f16_kv                      =*/ false,
+//        /*.logits_all                  =*/ false,
+//        /*.vocab_only                  =*/ false,
+//        /*.use_mmap                    =*/ true,
+//        /*.use_mlock                   =*/ false,
+//        /*.embedding                   =*/ false,
+//        /*.progress_callback           =*/ nullptr,
+//        /*.progress_callback_user_data =*/ nullptr,
+//    };
+//
+//    return result;
+//};
 
 struct gpt2_layer {
     // normalization
@@ -69,27 +69,11 @@ struct gpt2_layer {
     struct ggml_tensor * c_mlp_proj_b;
 };
 
-struct gpt2_model {
+
+
+struct gpt2_model:gpt_base_model {
     gpt2_hparams hparams;
-    struct gpt_kv_cache kv_self;
-
-    // normalization
-    struct ggml_tensor * ln_f_g;
-    struct ggml_tensor * ln_f_b;
-
-    struct ggml_tensor * wte;     // position embedding
-    struct ggml_tensor * wpe;     //    token embedding
-    struct ggml_tensor * lm_head; // language model head
-
     std::vector<gpt2_layer> layers;
-
-    // key + value memory
-    struct ggml_tensor * memory_k;
-    struct ggml_tensor * memory_v;
-
-    //
-    struct ggml_context * ctx;
-    std::map<std::string, struct ggml_tensor *> tensors;
     ~gpt2_model() {
         if (ctx) {
             ggml_free(ctx);
@@ -97,35 +81,39 @@ struct gpt2_model {
     }
 };
 
-struct gpt2_context {
-    std::mt19937 rng;
-
-    int64_t t_load_us = 0;
-    int64_t t_start_us = 0;
-    bool has_evaluated_once = false;
-    
-    int64_t t_sample_us = 0;
-    int64_t t_eval_us   = 0;
-    int64_t t_p_eval_us = 0;
-
-    int32_t n_sample = 0; // number of tokens sampled
-    int32_t n_eval   = 0; // number of eval calls
-    int32_t n_p_eval = 0; // number of tokens in eval calls for the prompt (with batch size > 1)
-    
+struct gpt2_context:gpt_base_context {
     gpt2_model model;
-    gpt_vocab vocab;
-
-    size_t mem_per_token = 0;
-
-    // decode output (2-dimensional array: [n_tokens][n_vocab])
-    std::vector<float> logits;
-    bool logits_all = false;
-
-    // input embedding (1-dimensional array: [n_embd])
-    std::vector<float> embedding;
-
-    
 };
+
+//struct gpt2_context {
+//    std::mt19937 rng;
+//
+//    int64_t t_load_us = 0;
+//    int64_t t_start_us = 0;
+//    bool has_evaluated_once = false;
+//
+//    int64_t t_sample_us = 0;
+//    int64_t t_eval_us   = 0;
+//    int64_t t_p_eval_us = 0;
+//
+//    int32_t n_sample = 0; // number of tokens sampled
+//    int32_t n_eval   = 0; // number of eval calls
+//    int32_t n_p_eval = 0; // number of tokens in eval calls for the prompt (with batch size > 1)
+//
+//    gpt2_model model;
+//    gpt_vocab vocab;
+//
+//    size_t mem_per_token = 0;
+//
+//    // decode output (2-dimensional array: [n_tokens][n_vocab])
+//    std::vector<float> logits;
+//    bool logits_all = false;
+//
+//    // input embedding (1-dimensional array: [n_embd])
+//    std::vector<float> embedding;
+//
+//
+//};
 
 
 
@@ -135,38 +123,38 @@ void gpt2_free(struct gpt2_context * ctx) {
     delete ctx;
 }
 
-
-
-static bool kv_cache_init(
-        const struct gpt2_hparams & hparams,
-             struct gpt_kv_cache & cache,
-                           ggml_type   wtype,
-                                 int   n_ctx) {
-    const int n_embd  = hparams.n_embd;
-    const int n_layer = hparams.n_layer;
-
-    const int64_t n_mem      = (int64_t)n_layer*n_ctx;
-    const int64_t n_elements = n_embd*n_mem;
-
-    cache.buf.resize(2u*n_elements*ggml_type_size(wtype) + 2u*MB);
-
-    struct ggml_init_params params;
-    params.mem_size   = cache.buf.size;
-    params.mem_buffer = cache.buf.addr;
-    params.no_alloc   = false;
-
-    cache.ctx = ggml_init(params);
-
-    if (!cache.ctx) {
-        fprintf(stderr, "%s: failed to allocate memory for kv cache\n", __func__);
-        return false;
-    }
-
-    cache.k = ggml_new_tensor_1d(cache.ctx, wtype, n_elements);
-    cache.v = ggml_new_tensor_1d(cache.ctx, wtype, n_elements);
-
-    return true;
-}
+//
+//
+//static bool kv_cache_init(
+//        const struct gpt2_hparams & hparams,
+//             struct gpt_kv_cache & cache,
+//                           ggml_type   wtype,
+//                                 int   n_ctx) {
+//    const int n_embd  = hparams.n_embd;
+//    const int n_layer = hparams.n_layer;
+//
+//    const int64_t n_mem      = (int64_t)n_layer*n_ctx;
+//    const int64_t n_elements = n_embd*n_mem;
+//
+//    cache.buf.resize(2u*n_elements*ggml_type_size(wtype) + 2u*MB);
+//
+//    struct ggml_init_params params;
+//    params.mem_size   = cache.buf.size;
+//    params.mem_buffer = cache.buf.addr;
+//    params.no_alloc   = false;
+//
+//    cache.ctx = ggml_init(params);
+//
+//    if (!cache.ctx) {
+//        fprintf(stderr, "%s: failed to allocate memory for kv cache\n", __func__);
+//        return false;
+//    }
+//
+//    cache.k = ggml_new_tensor_1d(cache.ctx, wtype, n_elements);
+//    cache.v = ggml_new_tensor_1d(cache.ctx, wtype, n_elements);
+//
+//    return true;
+//}
 
 // load the model's weights from a file
 bool gpt2_model_load(const std::string & fname, gpt2_model & model, gpt_vocab & vocab) {
@@ -798,7 +786,7 @@ bool gpt2_eval(
 
 
 
-struct gpt2_context * gpt2_init_from_file(const char * path_model, struct gpt2_context_params   params) {
+struct gpt2_context * gpt2_init_from_file(const char * path_model, struct gpt_context_params   params) {
     ggml_time_init();
 
     gpt2_context * ctx = new gpt2_context;
@@ -833,7 +821,7 @@ struct gpt2_context * gpt2_init_from_file(const char * path_model, struct gpt2_c
 //    bool gpt2_model_load(const std::string & fname, gpt2_model & model, gpt_vocab & vocab)
     if (!gpt2_model_load(path_model, ctx->model, ctx->vocab)) {
         fprintf(stderr, "%s: failed to load model\n", __func__);
-        gpt2_free(ctx);
+        delete ctx;
         return nullptr;
     }
 //    test_gpt_tokenizer(ctx->vocab, "");
@@ -849,7 +837,7 @@ struct gpt2_context * gpt2_init_from_file(const char * path_model, struct gpt2_c
     if (!params.vocab_only) {
         if (!kv_cache_init(ctx->model.hparams, ctx->model.kv_self, memory_type, ctx->model.hparams.n_ctx)) {
             fprintf(stderr, "%s: kv_cache_init() failed for self-attention cache\n", __func__);
-            gpt2_free(ctx);
+            delete ctx;
             return nullptr;
         }
 

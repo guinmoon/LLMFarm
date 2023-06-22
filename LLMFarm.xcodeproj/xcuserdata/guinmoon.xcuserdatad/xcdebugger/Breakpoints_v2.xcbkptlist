@@ -5375,8 +5375,8 @@
             filePath = "llmfarm_core.swift/Sources/llmfarm_core/gptneox/gptneox.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "851"
-            endingLineNumber = "851"
+            startingLineNumber = "759"
+            endingLineNumber = "759"
             landmarkName = "gpt_neox_init_from_file(path_model, params)"
             landmarkType = "9">
             <Locations>
@@ -5471,8 +5471,8 @@
             filePath = "llmfarm_core.swift/Sources/llmfarm_core/gptneox/gptneox.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "283"
-            endingLineNumber = "283"
+            startingLineNumber = "191"
+            endingLineNumber = "191"
             landmarkName = "gpt_neox_model_load(fname, model, vocab, max_n_ctx)"
             landmarkType = "9">
          </BreakpointContent>
@@ -5487,8 +5487,8 @@
             filePath = "llmfarm_core.swift/Sources/llmfarm_core/gptneox/gptneox.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "331"
-            endingLineNumber = "331"
+            startingLineNumber = "239"
+            endingLineNumber = "239"
             landmarkName = "gpt_neox_model_load(fname, model, vocab, max_n_ctx)"
             landmarkType = "9">
          </BreakpointContent>
@@ -5503,8 +5503,8 @@
             filePath = "llmfarm_core.swift/Sources/llmfarm_core/gptneox/gptneox.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "344"
-            endingLineNumber = "344"
+            startingLineNumber = "252"
+            endingLineNumber = "252"
             landmarkName = "gpt_neox_model_load(fname, model, vocab, max_n_ctx)"
             landmarkType = "9">
             <Locations>
@@ -5695,8 +5695,8 @@
             filePath = "llmfarm_core.swift/Sources/llmfarm_core/gptneox/gptneox.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "878"
-            endingLineNumber = "878"
+            startingLineNumber = "786"
+            endingLineNumber = "786"
             landmarkName = "gpt_neox_init_from_file(path_model, params)"
             landmarkType = "9">
          </BreakpointContent>
@@ -5711,8 +5711,8 @@
             filePath = "llmfarm_core.swift/Sources/llmfarm_core/gptneox/gptneox.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "284"
-            endingLineNumber = "284"
+            startingLineNumber = "192"
+            endingLineNumber = "192"
             landmarkName = "gpt_neox_model_load(fname, model, vocab, max_n_ctx)"
             landmarkType = "9">
          </BreakpointContent>
@@ -5775,8 +5775,8 @@
             filePath = "llmfarm_core.swift/Sources/llmfarm_core/gptneox/gptneox.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "220"
-            endingLineNumber = "220"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
             landmarkName = "gpt_neox_model_load(fname, model, vocab, max_n_ctx)"
             landmarkType = "9">
          </BreakpointContent>
@@ -5791,8 +5791,8 @@
             filePath = "llmfarm_core.swift/Sources/llmfarm_core/gptneox/gptneox.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "221"
-            endingLineNumber = "221"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
             landmarkName = "gpt_neox_model_load(fname, model, vocab, max_n_ctx)"
             landmarkType = "9">
          </BreakpointContent>
@@ -5807,8 +5807,8 @@
             filePath = "llmfarm_core.swift/Sources/llmfarm_core/gptneox/gptneox.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "229"
-            endingLineNumber = "229"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
             landmarkName = "gpt_neox_model_load(fname, model, vocab, max_n_ctx)"
             landmarkType = "9">
          </BreakpointContent>
@@ -5871,8 +5871,8 @@
             filePath = "llmfarm_core.swift/Sources/llmfarm_core/gpt_helpers.h"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9"
-            endingLineNumber = "9"
+            startingLineNumber = "21"
+            endingLineNumber = "21"
             landmarkName = "unknown"
             landmarkType = "0">
          </BreakpointContent>
@@ -5907,6 +5907,22 @@
             endingLineNumber = "176"
             landmarkName = "predict(_:_:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6B89C7DF-74D2-489F-BB16-F7C5E9FF0A9D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "llmfarm_core.swift/Sources/llmfarm_core/gptneox/gptneox.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
+            landmarkName = "gpt_neox_free(ctx)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

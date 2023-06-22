@@ -1,6 +1,6 @@
-#include "gptneox.h"
+#include "../spm-headers/gptneox.h"
 #include "../gpt_helpers.h"
-#include "../gpt_spm.h"
+#include "../spm-headers/gpt_spm.h"
 
 #include "../ggml.h"
 
@@ -33,7 +33,7 @@
 //    int32_t ftype   = 1;
 //};
 
-struct gpt_neox_hparams {
+struct gpt_neox_hparams:gpt_base_hparams {
     int32_t n_vocab = 50257;
     int32_t n_ctx   = 1024;
     int32_t n_embd  = 1024;
@@ -44,23 +44,6 @@ struct gpt_neox_hparams {
     int32_t ftype   = 1;
 };
 
-struct gpt_context_params gpt_context_default_params() {
-    struct gpt_context_params result = {
-        /*.n_ctx                       =*/ 512,
-        /*.n_parts                     =*/ -1,
-        /*.seed                        =*/ 0,
-        /*.f16_kv                      =*/ false,
-        /*.logits_all                  =*/ false,
-        /*.vocab_only                  =*/ false,
-        /*.use_mmap                    =*/ true,
-        /*.use_mlock                   =*/ false,
-        /*.embedding                   =*/ false,
-        /*.progress_callback           =*/ nullptr,
-        /*.progress_callback_user_data =*/ nullptr,
-    };
-
-    return result;
-};
 
 
 struct gpt_neox_layer {
@@ -89,28 +72,9 @@ struct gpt_neox_layer {
 
 
 
-struct gpt_neox_model {
-    e_model type = MODEL_UNKNOWN;
-    gpt_neox_hparams hparams;
-    struct gpt_kv_cache kv_self;
-    // normalization
-    struct ggml_tensor * ln_f_g;
-    struct ggml_tensor * ln_f_b;
-
-    struct ggml_tensor * wte; // position embedding
-
-    struct ggml_tensor * lmh_g; // language model head
-    //struct ggml_tensor * lmh_b; // language model bias
-
+struct gpt_neox_model:gpt_base_model {    
+    gpt_neox_hparams hparams ;
     std::vector<gpt_neox_layer> layers;
-
-    // key + value memory
-    struct ggml_tensor * memory_k;
-    struct ggml_tensor * memory_v;
-
-    //
-    struct ggml_context * ctx;
-    std::map<std::string, struct ggml_tensor *> tensors;
     ~gpt_neox_model() {
         if (ctx) {
             ggml_free(ctx);
@@ -119,77 +83,21 @@ struct gpt_neox_model {
 };
 
 
-struct gpt_context {
-    std::mt19937 rng;
-
-    int64_t t_load_us = 0;
-    int64_t t_start_us = 0;
-    bool has_evaluated_once = false;
-
-    int64_t t_sample_us = 0;
-    int64_t t_eval_us   = 0;
-    int64_t t_p_eval_us = 0;
-
-    int32_t n_sample = 0; // number of tokens sampled
-    int32_t n_eval   = 0; // number of eval calls
-    int32_t n_p_eval = 0; // number of tokens in eval calls for the prompt (with batch size > 1)
-
-
-    size_t mem_per_token = 0;
-
-    // decode output (2-dimensional array: [n_tokens][n_vocab])
-    std::vector<float> logits;
-    bool logits_all = false;
-
-    // input embedding (1-dimensional array: [n_embd])
-    std::vector<float> embedding;
-
-    
-};
-
-struct gpt_neox_context:gpt_context {
+struct gpt_neox_context:gpt_base_context {
     gpt_neox_model model;
-    gpt_vocab vocab;
 };
 
 
 
-void gpt_neox_free(struct gpt_context * ctx) {
+//void gpt_base_free(struct gpt_base_context * ctx) {
+//    delete ctx;
+//}
+
+void gpt_neox_free(struct gpt_neox_context * ctx) {
     delete ctx;
 }
 
 
-
-static bool kv_cache_init(
-        const struct gpt_neox_hparams & hparams,
-             struct gpt_kv_cache & cache,
-                           ggml_type   wtype,
-                                 int   n_ctx) {
-    const int n_embd  = hparams.n_embd;
-    const int n_layer = hparams.n_layer;
-
-    const int64_t n_mem      = (int64_t)n_layer*n_ctx;
-    const int64_t n_elements = n_embd*n_mem;
-
-    cache.buf.resize(2u*n_elements*ggml_type_size(wtype) + 2u*MB);
-
-    struct ggml_init_params params;
-    params.mem_size   = cache.buf.size;
-    params.mem_buffer = cache.buf.addr;
-    params.no_alloc   = false;
-
-    cache.ctx = ggml_init(params);
-
-    if (!cache.ctx) {
-        fprintf(stderr, "%s: failed to allocate memory for kv cache\n", __func__);
-        return false;
-    }
-
-    cache.k = ggml_new_tensor_1d(cache.ctx, wtype, n_elements);
-    cache.v = ggml_new_tensor_1d(cache.ctx, wtype, n_elements);
-
-    return true;
-}
 
 // load the model's weights from a file
 bool gpt_neox_model_load(const std::string & fname, gpt_neox_model & model, gpt_vocab & vocab, int max_n_ctx) {
@@ -363,7 +271,7 @@ bool gpt_neox_model_load(const std::string & fname, gpt_neox_model & model, gpt_
         model.ln_f_g = ggml_new_tensor_1d(ctx, GGML_TYPE_F32, n_embd);
         model.ln_f_b = ggml_new_tensor_1d(ctx, GGML_TYPE_F32, n_embd);
 
-        model.lmh_g  = ggml_new_tensor_2d(ctx, wtype,         n_embd, n_vocab);
+        model.lm_head  = ggml_new_tensor_2d(ctx, wtype,         n_embd, n_vocab);
         //model.lmh_b  = ggml_new_tensor_1d(ctx, GGML_TYPE_F32, n_vocab);
 
         // map by name
@@ -372,7 +280,7 @@ bool gpt_neox_model_load(const std::string & fname, gpt_neox_model & model, gpt_
         model.tensors["gpt_neox.final_layer_norm.weight"] = model.ln_f_g;
         model.tensors["gpt_neox.final_layer_norm.bias"]   = model.ln_f_b;
 
-        model.tensors["embed_out.weight"] = model.lmh_g;
+        model.tensors["embed_out.weight"] = model.lm_head;
         //model.tensors["lm_head.bias"]   = model.lmh_b;
 
         for (int i = 0; i < n_layer; ++i) {
@@ -768,7 +676,7 @@ bool gpt_neox_eval(
 
     // lm_head
     {
-        inpL = ggml_mul_mat(ctx0, model.lmh_g, inpL);
+        inpL = ggml_mul_mat(ctx0, model.lm_head, inpL);
 
         //inpL = ggml_add(ctx0,
         //        ggml_repeat(ctx0, model.lmh_b, inpL),
@@ -935,7 +843,7 @@ void gpt_shift_kv_cache(struct gpt_neox_context * ctx, int n) {
 }
 
 
-int init_logits(struct gpt_neox_context * ctx,int   n_threads){
+int gpt_neox_init_logits(struct gpt_neox_context * ctx,int   n_threads){
     size_t mem_per_token = 0;
     if (!gpt_neox_eval(ctx->model, n_threads, 0, { 0, 1, 2, 3 }, ctx->logits, mem_per_token)) {
         fprintf(stderr, "%s: failed to eval\n", __func__);

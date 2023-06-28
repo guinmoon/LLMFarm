@@ -37,13 +37,23 @@ func prompt_for_generation(_ instruction:String) -> String{
 
 func main(){
     print("Hello.")
-//    let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/Models/ok/dolly-v2-3b-ggml_v3-q5_1.bin",_chatName: "chat")
+//    let ai = AI(_modelPath: "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/dolly-v2-3b-q5_1.bin",_chatName: "chat")
 //    try? ai.loadModel(ModelInference.GPTNeoxInference)
 //    ai.model.promptFormat = .Dolly_b3
     
-    let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/AI-Dungeon-2-Classic.bin",_chatName: "chat")
-    try? ai.loadModel(ModelInference.GPT2)
-    ai.model.promptFormat = .None
+//    let ai = AI(_modelPath: "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/AI-Dungeon-2-Classic.bin",_chatName: "chat")
+//    try? ai.loadModel(ModelInference.GPT2)
+//    ai.model.promptFormat = .None
+    
+//    let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/replit-code-v1-3b-ggml-q5_1.bin",_chatName: "chat")
+//    try? ai.loadModel(ModelInference.Replit)
+//    ai.model.promptFormat = .None
+    
+    let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-3b.ggmlv3.q4_0.bin",_chatName: "chat")
+    try? ai.loadModel(ModelInference.LLamaInference)
+    ai.model.promptFormat = .LLaMa
+    
+    
     
     ai.model.contextParams.seed = 0;
 //    ai.model.promptStyle = .StableLM_Tuned

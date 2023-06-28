@@ -90,6 +90,8 @@ final class AIChatModel: ObservableObject {
                     try? self.chat?.loadModel(ModelInference.GPTNeoxInference,contextParams: model_context_param)
                 }else if chat_config!["model_inference"] as! String == "gpt2" {
                     try? self.chat?.loadModel(ModelInference.GPT2,contextParams: model_context_param)
+                }else if chat_config!["model_inference"] as! String == "replit" {
+                    try? self.chat?.loadModel(ModelInference.Replit,contextParams: model_context_param)
                 }
             }
             else{                
@@ -218,7 +220,8 @@ final class AIChatModel: ObservableObject {
                 
                     message.state = .predicting
                     message.text += str
-                    self.AI_typing += str.count
+//                    self.AI_typing += str.count
+                    self.AI_typing += 1
                     var updatedMessages = self.messages
                     updatedMessages[messageIndex] = message
                     self.messages = updatedMessages

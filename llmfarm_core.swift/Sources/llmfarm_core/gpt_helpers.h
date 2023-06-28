@@ -139,13 +139,12 @@ struct gpt_base_model {
     //
     struct ggml_context * ctx;
     std::map<std::string, struct ggml_tensor *> tensors;
-//    virtual ~gpt_base_model() {
-//        if (ctx) {
-//            ggml_free(ctx);
-//        }
-//    }
+    virtual ~gpt_base_model() {
+        if (ctx) {
+            ggml_free(ctx);
+        }
+    }
 };
-
 
 
 struct gpt_base_context {

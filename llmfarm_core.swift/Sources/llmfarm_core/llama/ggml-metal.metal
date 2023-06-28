@@ -1,5 +1,6 @@
+#ifdef GGML_USE_METAL
 #include <metal_stdlib>
-//#ifdef GGML_USE_METAL
+
 using namespace metal;
 
 #define MAX(x, y) ((x) > (y) ? (x) : (y))
@@ -1584,4 +1585,5 @@ kernel void kernel_mul_mat_q6_k_f32(
 
 }
 
-//#endif
+
+#endif

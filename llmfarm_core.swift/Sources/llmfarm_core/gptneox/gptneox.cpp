@@ -33,16 +33,7 @@
 //    int32_t ftype   = 1;
 //};
 
-struct gpt_neox_hparams:gpt_base_hparams {
-    int32_t n_vocab = 50257;
-    int32_t n_ctx   = 1024;
-    int32_t n_embd  = 1024;
-    int32_t n_head  = 32;
-    int32_t n_layer = 16;
-    int32_t n_rot   = 32; // rotary_pct * (n_embd / n_head)
-    int32_t par_res = 1; // 1 = true, 0 = false
-    int32_t ftype   = 1;
-};
+
 
 
 
@@ -70,16 +61,20 @@ struct gpt_neox_layer {
     struct ggml_tensor * c_mlp_proj_b;
 };
 
+struct gpt_neox_hparams:gpt_base_hparams {
+    int32_t n_vocab = 50257;
+    int32_t n_ctx   = 1024;
+    int32_t n_embd  = 1024;
+    int32_t n_head  = 32;
+    int32_t n_layer = 16;
+    int32_t n_rot   = 32; // rotary_pct * (n_embd / n_head)
+    int32_t par_res = 1; // 1 = true, 0 = false
+    int32_t ftype   = 1;
+};
 
-
-struct gpt_neox_model:gpt_base_model {    
+struct gpt_neox_model: gpt_base_model {
     gpt_neox_hparams hparams ;
     std::vector<gpt_neox_layer> layers;
-    ~gpt_neox_model() {
-        if (ctx) {
-            ggml_free(ctx);
-        }
-    }
 };
 
 
@@ -87,15 +82,15 @@ struct gpt_neox_context:gpt_base_context {
     gpt_neox_model model;
 };
 
-
+void gpt_neox_free(struct gpt_neox_context * ctx) {
+    delete ctx;
+}
 
 //void gpt_base_free(struct gpt_base_context * ctx) {
 //    delete ctx;
 //}
 
-void gpt_neox_free(struct gpt_neox_context * ctx) {
-    delete ctx;
-}
+
 
 
 
@@ -716,13 +711,6 @@ bool gpt_neox_eval(
 
 
 
-
-
-
-
-
-
-
 struct gpt_neox_context * gpt_neox_init_from_file(const char * path_model, struct gpt_context_params   params) {
     ggml_time_init();
 
@@ -732,49 +720,24 @@ struct gpt_neox_context * gpt_neox_init_from_file(const char * path_model, struc
         params.seed = time(NULL);
     }
 
-    unsigned cur_percentage = 0;
-    if (params.progress_callback == NULL) {
-        params.progress_callback_user_data = &cur_percentage;
-        params.progress_callback = [](float progress, void * ctx) {
-            unsigned * cur_percentage_p = (unsigned *) ctx;
-            unsigned percentage = (unsigned) (100 * progress);
-            while (percentage > *cur_percentage_p) {
-                ++*cur_percentage_p;
-                fprintf(stderr, ".");
-                fflush(stderr);
-                if (percentage >= 100) {
-                    fprintf(stderr, "\n");
-                }
-            }
-        };
-    }
+    
 
     ctx->rng = std::mt19937(params.seed);
     ctx->logits_all = params.logits_all;
 
     ggml_type memory_type = params.f16_kv ? GGML_TYPE_F16 : GGML_TYPE_F32;
     
-//    res =
-//    bool gpt_neox_model_load(const std::string & fname, gpt_neox_model & model, gpt_vocab & vocab)
     if (!gpt_neox_model_load(path_model, ctx->model, ctx->vocab,params.n_ctx)) {
         fprintf(stderr, "%s: failed to load model\n", __func__);
         gpt_neox_free(ctx);
         return nullptr;
     }
-//    test_gpt_tokenizer(ctx->vocab, "");
-//    if (!gpt_neox_model_load(path_model, *ctx, params.n_ctx, memory_type,
-//                          params.use_mmap, params.use_mlock, params.vocab_only,
-//                          params.progress_callback, params.progress_callback_user_data)) {
-//        fprintf(stderr, "%s: failed to load model\n", __func__);
-//        gptneox_free(ctx);
-//        return nullptr;
-//    }
 
     // reserve memory for context buffers
     if (!params.vocab_only) {
         if (!kv_cache_init(ctx->model.hparams, ctx->model.kv_self, memory_type, ctx->model.hparams.n_ctx)) {
             fprintf(stderr, "%s: kv_cache_init() failed for self-attention cache\n", __func__);
-            gpt_neox_free(ctx);
+            gpt_neox_free(ctx);            
             return nullptr;
         }
 
@@ -814,33 +777,33 @@ struct gpt_neox_context * gpt_neox_init_from_file(const char * path_model, struc
 //}
 
 
-void gpt_shift_kv_cache(struct gpt_neox_context * ctx, int n) {
-    auto & model = ctx->model;
-    auto & kv_self = model.kv_self;
-    auto & hparams = model.hparams;
-    auto n_layer = hparams.n_layer;
-    auto n_embd = hparams.n_embd;
-    auto n_ctx = hparams.n_ctx;
-    for(int il = 0; il < n_layer; il++) {
-        // K: Embeddings are in regular order so moving them is easy as copying the memory
-        {
-            int elem_byte_size = ggml_element_size(kv_self.k);
-            uint8_t * dst_ptr = ((uint8_t *)kv_self.k->data) + (elem_byte_size * n_embd * (il * n_ctx));
-            uint8_t * src_ptr = ((uint8_t *)kv_self.k->data) + (elem_byte_size * n_embd * (il * n_ctx + n));
-            memcpy(dst_ptr, src_ptr, elem_byte_size * n_embd * (n_ctx - n));
-        }
-        
-        // V: Embeddings are transposed so each embedding element must be copied separately
-        {
-            int elem_byte_size = ggml_element_size(kv_self.v);
-            for(int i = 0; i < n_embd; i++) {
-                uint8_t * dst_ptr = ((uint8_t *)kv_self.v->data) + (elem_byte_size * (il * n_ctx * i));
-                uint8_t * src_ptr = ((uint8_t *)kv_self.v->data) + (elem_byte_size * (il * n_ctx * i + n));
-                memcpy(dst_ptr, src_ptr, elem_byte_size * (n_ctx - n));
-            }
-        }
-    }
-}
+//void gpt_shift_kv_cache(struct gpt_neox_context * ctx, int n) {
+//    auto & model = ctx->model;
+//    auto & kv_self = model.kv_self;
+//    auto & hparams = model.hparams;
+//    auto n_layer = hparams.n_layer;
+//    auto n_embd = hparams.n_embd;
+//    auto n_ctx = hparams.n_ctx;
+//    for(int il = 0; il < n_layer; il++) {
+//        // K: Embeddings are in regular order so moving them is easy as copying the memory
+//        {
+//            int elem_byte_size = ggml_element_size(kv_self.k);
+//            uint8_t * dst_ptr = ((uint8_t *)kv_self.k->data) + (elem_byte_size * n_embd * (il * n_ctx));
+//            uint8_t * src_ptr = ((uint8_t *)kv_self.k->data) + (elem_byte_size * n_embd * (il * n_ctx + n));
+//            memcpy(dst_ptr, src_ptr, elem_byte_size * n_embd * (n_ctx - n));
+//        }
+//        
+//        // V: Embeddings are transposed so each embedding element must be copied separately
+//        {
+//            int elem_byte_size = ggml_element_size(kv_self.v);
+//            for(int i = 0; i < n_embd; i++) {
+//                uint8_t * dst_ptr = ((uint8_t *)kv_self.v->data) + (elem_byte_size * (il * n_ctx * i));
+//                uint8_t * src_ptr = ((uint8_t *)kv_self.v->data) + (elem_byte_size * (il * n_ctx * i + n));
+//                memcpy(dst_ptr, src_ptr, elem_byte_size * (n_ctx - n));
+//            }
+//        }
+//    }
+//}
 
 
 int gpt_neox_init_logits(struct gpt_neox_context * ctx,int   n_threads){
@@ -879,256 +842,251 @@ int gpt_neox_eval(
     return 0;
 }
 
-int gpt_neox_tokenize(
-        struct gpt_neox_context * ctx,
-                  const char * text,
-                 gpt_token * tokens,
-                         int   n_max_tokens,
-                        bool   add_bos) {
-//    auto res = gptneox_tokenize(ctx->vocab, text, add_bos);
-    auto res = gpt_tokenize(ctx->vocab, text);
-    
-    if (n_max_tokens < (int) res.size()) {
-        fprintf(stderr, "%s: too many tokens\n", __func__);
-        return -((int) res.size());
-    }
-
-    for (size_t i = 0; i < res.size(); i++) {
-        tokens[i] = res[i];
-    }
-
-    return res.size();
-}
-
-const char * print_system_info(void) {
-    static std::string s;
-
-    s  = "";
-    s += "AVX = "         + std::to_string(ggml_cpu_has_avx())         + " | ";
-    s += "AVX2 = "        + std::to_string(ggml_cpu_has_avx2())        + " | ";
-    s += "AVX512 = "      + std::to_string(ggml_cpu_has_avx512())      + " | ";
-    s += "AVX512_VBMI = " + std::to_string(ggml_cpu_has_avx512_vbmi()) + " | ";
-    s += "AVX512_VNNI = " + std::to_string(ggml_cpu_has_avx512_vnni()) + " | ";
-    s += "FMA = "         + std::to_string(ggml_cpu_has_fma())         + " | ";
-    s += "NEON = "        + std::to_string(ggml_cpu_has_neon())        + " | ";
-    s += "ARM_FMA = "     + std::to_string(ggml_cpu_has_arm_fma())     + " | ";
-    s += "F16C = "        + std::to_string(ggml_cpu_has_f16c())        + " | ";
-    s += "FP16_VA = "     + std::to_string(ggml_cpu_has_fp16_va())     + " | ";
-    s += "WASM_SIMD = "   + std::to_string(ggml_cpu_has_wasm_simd())   + " | ";
-    s += "BLAS = "        + std::to_string(ggml_cpu_has_blas())        + " | ";
-    s += "SSE3 = "        + std::to_string(ggml_cpu_has_sse3())        + " | ";
-    s += "VSX = "         + std::to_string(ggml_cpu_has_vsx())         + " | ";
-
-    return s.c_str();
-}
-
-int gpt_neox_n_vocab(struct gpt_neox_context * ctx) {
-    return ctx->vocab.id_to_token.size();
-}
-
-int gpt_neox_n_ctx(struct gpt_neox_context * ctx) {
-    return ctx->model.hparams.n_ctx;
-}
-
-int gpt_neox_n_embd(struct gpt_neox_context * ctx) {
-    return ctx->model.hparams.n_embd;
-}
-
-float * gpt_neox_get_logits(struct gpt_neox_context * ctx) {
-    return ctx->logits.data();
-}
-
-float * gpt_neox_get_embeddings(struct gpt_neox_context * ctx) {
-    return ctx->embedding.data();
-}
-
-gpt_token gpt_neox_str_to_token(struct gpt_neox_context * ctx, const char * str) {
-    return ctx->vocab.token_to_id[str];
-}
-
-const char * gpt_neox_token_to_str(struct gpt_neox_context * ctx, gpt_token token) {
-    if (token >= ctx->vocab.id_to_token.size()) {
-        return nullptr;
-    }
-    return ctx->vocab.id_to_token[token].c_str();
-}
-
-gpt_token gpt_neox_token_bos() {
-    return 0;
-}
-
-gpt_token gpt_neox_token_eos() {
-    return 0;
-}
-
-
-int32_t gpt_sample(struct gpt_neox_context * ctx, int top_k, float top_p, float temp) {
-    const int64_t t_start_sample_us = ggml_time_us();
-    gpt_vocab::id smpl = gpt_sample_top_k_top_p(ctx->vocab, ctx->logits.data() + (ctx->logits.size() - ctx->vocab.id_to_token.size()), top_k, top_p, temp, ctx->rng);
-    if (ctx) {
-        ctx->t_sample_us += ggml_time_us() - t_start_sample_us;
-    }
-    return  smpl;
-}
-
-
-int32_t gpt_sample_repeat(struct gpt_neox_context * ctx,
-                               const int32_t * last_n_tokens_data,
-                               size_t last_n_tokens_data_size,
-                               int top_k, float top_p, float temp,
-                               int repeat_last_n,
-                               float repeat_penalty) {
-    const int64_t t_start_sample_us = ggml_time_us();
-    gpt_vocab::id smpl = gpt_sample_top_k_top_p_repeat(ctx->vocab, ctx->logits.data() + (ctx->logits.size() - ctx->vocab.id_to_token.size()),
-                                                       last_n_tokens_data,last_n_tokens_data_size,
-                                                       top_k, top_p, temp,
-                                                       repeat_last_n,repeat_penalty,
-                                                       ctx->rng);
-    if (ctx) {
-        ctx->t_sample_us += ggml_time_us() - t_start_sample_us;
-    }
-    return  smpl;
-}
-
-
-int test_run() {
-    ggml_time_init();
-
-    const int64_t t_main_start_us = ggml_time_us();
-
-    gpt_params params;
-    params.model = "models/stablelm-base-alpha-3b/ggml-model-f16.bin";
-
-//    if (gpt_params_parse(argc, argv, params) == false) {
-//        return 1;
+//int gpt_neox_tokenize(
+//        struct gpt_base_context * ctx,
+//                  const char * text,
+//                 gpt_token * tokens,
+//                         int   n_max_tokens,
+//                        bool   add_bos) {
+////    auto res = gptneox_tokenize(ctx->vocab, text, add_bos);
+//    auto res = gpt_tokenize(ctx->vocab, text);
+//    
+//    if (n_max_tokens < (int) res.size()) {
+//        fprintf(stderr, "%s: too many tokens\n", __func__);
+//        return -((int) res.size());
 //    }
-
-    if (params.seed < 0) {
-        params.seed = time(NULL);
-    }
-
-    printf("%s: seed = %d\n", __func__, params.seed);
-
-    std::mt19937 rng(params.seed);
-//    if (params.prompt.empty()) {
-//        params.prompt = gpt_random_prompt(rng);
+//
+//    for (size_t i = 0; i < res.size(); i++) {
+//        tokens[i] = res[i];
 //    }
+//
+//    return res.size();
+//}
 
-    int64_t t_load_us = 0;
+//const char * print_system_info(void) {
+//    static std::string s;
+//
+//    s  = "";
+//    s += "AVX = "         + std::to_string(ggml_cpu_has_avx())         + " | ";
+//    s += "AVX2 = "        + std::to_string(ggml_cpu_has_avx2())        + " | ";
+//    s += "AVX512 = "      + std::to_string(ggml_cpu_has_avx512())      + " | ";
+//    s += "AVX512_VBMI = " + std::to_string(ggml_cpu_has_avx512_vbmi()) + " | ";
+//    s += "AVX512_VNNI = " + std::to_string(ggml_cpu_has_avx512_vnni()) + " | ";
+//    s += "FMA = "         + std::to_string(ggml_cpu_has_fma())         + " | ";
+//    s += "NEON = "        + std::to_string(ggml_cpu_has_neon())        + " | ";
+//    s += "ARM_FMA = "     + std::to_string(ggml_cpu_has_arm_fma())     + " | ";
+//    s += "F16C = "        + std::to_string(ggml_cpu_has_f16c())        + " | ";
+//    s += "FP16_VA = "     + std::to_string(ggml_cpu_has_fp16_va())     + " | ";
+//    s += "WASM_SIMD = "   + std::to_string(ggml_cpu_has_wasm_simd())   + " | ";
+//    s += "BLAS = "        + std::to_string(ggml_cpu_has_blas())        + " | ";
+//    s += "SSE3 = "        + std::to_string(ggml_cpu_has_sse3())        + " | ";
+//    s += "VSX = "         + std::to_string(ggml_cpu_has_vsx())         + " | ";
+//
+//    return s.c_str();
+//}
 
-    gpt_vocab vocab;
-    gpt_neox_model model;
+//int gpt_neox_n_vocab(struct gpt_base_context * ctx) {
+//    return ctx->vocab.id_to_token.size();
+//}
+//
+//int gpt_neox_n_ctx(struct gpt_base_context * ctx) {
+//    return ctx->model.hparams.n_ctx;
+//}
+//
+//int gpt_neox_n_embd(struct gpt_base_context * ctx) {
+//    return ctx->model.hparams.n_embd;
+//}
+//
+//float * gpt_neox_get_logits(struct gpt_base_context * ctx) {
+//    return ctx->logits.data();
+//}
+//
+//float * gpt_neox_get_embeddings(struct gpt_base_context * ctx) {
+//    return ctx->embedding.data();
+//}
+//
+//gpt_token gpt_neox_str_to_token(struct gpt_base_context * ctx, const char * str) {
+//    return ctx->vocab.token_to_id[str];
+//}
+//
+//const char * gpt_neox_token_to_str(struct gpt_base_context * ctx, gpt_token token) {
+//    if (token >= ctx->vocab.id_to_token.size()) {
+//        return nullptr;
+//    }
+//    return ctx->vocab.id_to_token[token].c_str();
+//}
 
-    // load the model
-    {
-        const int64_t t_start_us = ggml_time_us();
 
-        if (!gpt_neox_model_load(params.model, model, vocab,1024)) {
-            fprintf(stderr, "%s: failed to load model from '%s'\n", __func__, params.model.c_str());
-            return 1;
-        }
 
-        t_load_us = ggml_time_us() - t_start_us;
 
-        test_gpt_tokenizer(vocab, params.token_test);
-    }
+//
+//int32_t gpt_sample(struct gpt_neox_context * ctx, int top_k, float top_p, float temp) {
+//    const int64_t t_start_sample_us = ggml_time_us();
+//    gpt_vocab::id smpl = gpt_sample_top_k_top_p(ctx->vocab, ctx->logits.data() + (ctx->logits.size() - ctx->vocab.id_to_token.size()), top_k, top_p, temp, ctx->rng);
+//    if (ctx) {
+//        ctx->t_sample_us += ggml_time_us() - t_start_sample_us;
+//    }
+//    return  smpl;
+//}
+//
+//
+//int32_t gpt_sample_repeat(struct gpt_neox_context * ctx,
+//                               const int32_t * last_n_tokens_data,
+//                               size_t last_n_tokens_data_size,
+//                               int top_k, float top_p, float temp,
+//                               int repeat_last_n,
+//                               float repeat_penalty) {
+//    const int64_t t_start_sample_us = ggml_time_us();
+//    gpt_vocab::id smpl = gpt_sample_top_k_top_p_repeat(ctx->vocab, ctx->logits.data() + (ctx->logits.size() - ctx->vocab.id_to_token.size()),
+//                                                       last_n_tokens_data,last_n_tokens_data_size,
+//                                                       top_k, top_p, temp,
+//                                                       repeat_last_n,repeat_penalty,
+//                                                       ctx->rng);
+//    if (ctx) {
+//        ctx->t_sample_us += ggml_time_us() - t_start_sample_us;
+//    }
+//    return  smpl;
+//}
 
-    int n_past = 0;
-
-    int64_t t_sample_us  = 0;
-    int64_t t_predict_us = 0;
-
-    std::vector<float> logits;
-
-    // tokenize the prompt
-    std::vector<gpt_vocab::id> embd_inp = ::gpt_tokenize(vocab, params.prompt);
-
-    params.n_predict = std::min(params.n_predict, model.hparams.n_ctx - (int) embd_inp.size());
-
-    printf("%s: number of tokens in prompt = %zu\n", __func__, embd_inp.size());
-    for (int i = 0; i < embd_inp.size(); i++) {
-        printf("%s: token[%d] = %6d, %s\n", __func__, i, embd_inp[i], vocab.id_to_token.at(embd_inp[i]).c_str());
-    }
-    printf("\n");
-
-    std::vector<gpt_vocab::id> embd;
-
-    // determine the required inference memory per token:
-    size_t mem_per_token = 0;
-    gpt_neox_eval(model, params.n_threads, 0, { 0, 1, 2, 3 }, logits, mem_per_token);
-
-    for (int i = embd.size(); i < embd_inp.size() + params.n_predict; i++) {
-        // predict
-        if (embd.size() > 0) {
-            const int64_t t_start_us = ggml_time_us();
-
-            if (!gpt_neox_eval(model, params.n_threads, n_past, embd, logits, mem_per_token)) {
-                printf("Failed to predict\n");
-                return 1;
-            }
-
-            t_predict_us += ggml_time_us() - t_start_us;
-        }
-
-        n_past += embd.size();
-        embd.clear();
-
-        if (i >= embd_inp.size()) {
-            // sample next token
-            const int   top_k = params.top_k;
-            const float top_p = params.top_p;
-            const float temp  = params.temp;
-
-            const int n_vocab = model.hparams.n_vocab;
-
-            gpt_vocab::id id = 0;
-
-            {
-                const int64_t t_start_sample_us = ggml_time_us();
-
-                id = gpt_sample_top_k_top_p(vocab, logits.data() + (logits.size() - n_vocab), top_k, top_p, temp, rng);
-
-                t_sample_us += ggml_time_us() - t_start_sample_us;
-            }
-
-            // add it to the context
-            embd.push_back(id);
-        } else {
-            // if here, it means we are still processing the input prompt
-            for (int k = i; k < embd_inp.size(); k++) {
-                embd.push_back(embd_inp[k]);
-                if (embd.size() > params.n_batch) {
-                    break;
-                }
-            }
-            i += embd.size() - 1;
-        }
-
-        // display text
-        for (auto id : embd) {
-            printf("%s", vocab.id_to_token[id].c_str());
-        }
-        fflush(stdout);
-
-        // end of text token
-        if (embd.back() == 0) {
-            break;
-        }
-    }
-
-    // report timing
-    {
-        const int64_t t_main_end_us = ggml_time_us();
-
-        printf("\n\n");
-        printf("%s: mem per token = %8zu bytes\n", __func__, mem_per_token);
-        printf("%s:     load time = %8.2f ms\n", __func__, t_load_us/1000.0f);
-        printf("%s:   sample time = %8.2f ms\n", __func__, t_sample_us/1000.0f);
-        printf("%s:  predict time = %8.2f ms / %.2f ms per token\n", __func__, t_predict_us/1000.0f, t_predict_us/1000.0f/n_past);
-        printf("%s:    total time = %8.2f ms\n", __func__, (t_main_end_us - t_main_start_us)/1000.0f);
-    }
-
-    ggml_free(model.ctx);
-
-    return 0;
-}
+//
+//int test_run() {
+//    ggml_time_init();
+//
+//    const int64_t t_main_start_us = ggml_time_us();
+//
+//    gpt_params params;
+//    params.model = "models/stablelm-base-alpha-3b/ggml-model-f16.bin";
+//
+////    if (gpt_params_parse(argc, argv, params) == false) {
+////        return 1;
+////    }
+//
+//    if (params.seed < 0) {
+//        params.seed = time(NULL);
+//    }
+//
+//    printf("%s: seed = %d\n", __func__, params.seed);
+//
+//    std::mt19937 rng(params.seed);
+////    if (params.prompt.empty()) {
+////        params.prompt = gpt_random_prompt(rng);
+////    }
+//
+//    int64_t t_load_us = 0;
+//
+//    gpt_vocab vocab;
+//    gpt_neox_model model;
+//
+//    // load the model
+//    {
+//        const int64_t t_start_us = ggml_time_us();
+//
+//        if (!gpt_neox_model_load(params.model, model, vocab,1024)) {
+//            fprintf(stderr, "%s: failed to load model from '%s'\n", __func__, params.model.c_str());
+//            return 1;
+//        }
+//
+//        t_load_us = ggml_time_us() - t_start_us;
+//
+//        test_gpt_tokenizer(vocab, params.token_test);
+//    }
+//
+//    int n_past = 0;
+//
+//    int64_t t_sample_us  = 0;
+//    int64_t t_predict_us = 0;
+//
+//    std::vector<float> logits;
+//
+//    // tokenize the prompt
+//    std::vector<gpt_vocab::id> embd_inp = ::gpt_tokenize(vocab, params.prompt);
+//
+//    params.n_predict = std::min(params.n_predict, model.hparams.n_ctx - (int) embd_inp.size());
+//
+//    printf("%s: number of tokens in prompt = %zu\n", __func__, embd_inp.size());
+//    for (int i = 0; i < embd_inp.size(); i++) {
+//        printf("%s: token[%d] = %6d, %s\n", __func__, i, embd_inp[i], vocab.id_to_token.at(embd_inp[i]).c_str());
+//    }
+//    printf("\n");
+//
+//    std::vector<gpt_vocab::id> embd;
+//
+//    // determine the required inference memory per token:
+//    size_t mem_per_token = 0;
+//    gpt_neox_eval(model, params.n_threads, 0, { 0, 1, 2, 3 }, logits, mem_per_token);
+//
+//    for (int i = embd.size(); i < embd_inp.size() + params.n_predict; i++) {
+//        // predict
+//        if (embd.size() > 0) {
+//            const int64_t t_start_us = ggml_time_us();
+//
+//            if (!gpt_neox_eval(model, params.n_threads, n_past, embd, logits, mem_per_token)) {
+//                printf("Failed to predict\n");
+//                return 1;
+//            }
+//
+//            t_predict_us += ggml_time_us() - t_start_us;
+//        }
+//
+//        n_past += embd.size();
+//        embd.clear();
+//
+//        if (i >= embd_inp.size()) {
+//            // sample next token
+//            const int   top_k = params.top_k;
+//            const float top_p = params.top_p;
+//            const float temp  = params.temp;
+//
+//            const int n_vocab = model.hparams.n_vocab;
+//
+//            gpt_vocab::id id = 0;
+//
+//            {
+//                const int64_t t_start_sample_us = ggml_time_us();
+//
+//                id = gpt_sample_top_k_top_p(vocab, logits.data() + (logits.size() - n_vocab), top_k, top_p, temp, rng);
+//
+//                t_sample_us += ggml_time_us() - t_start_sample_us;
+//            }
+//
+//            // add it to the context
+//            embd.push_back(id);
+//        } else {
+//            // if here, it means we are still processing the input prompt
+//            for (int k = i; k < embd_inp.size(); k++) {
+//                embd.push_back(embd_inp[k]);
+//                if (embd.size() > params.n_batch) {
+//                    break;
+//                }
+//            }
+//            i += embd.size() - 1;
+//        }
+//
+//        // display text
+//        for (auto id : embd) {
+//            printf("%s", vocab.id_to_token[id].c_str());
+//        }
+//        fflush(stdout);
+//
+//        // end of text token
+//        if (embd.back() == 0) {
+//            break;
+//        }
+//    }
+//
+//    // report timing
+//    {
+//        const int64_t t_main_end_us = ggml_time_us();
+//
+//        printf("\n\n");
+//        printf("%s: mem per token = %8zu bytes\n", __func__, mem_per_token);
+//        printf("%s:     load time = %8.2f ms\n", __func__, t_load_us/1000.0f);
+//        printf("%s:   sample time = %8.2f ms\n", __func__, t_sample_us/1000.0f);
+//        printf("%s:  predict time = %8.2f ms / %.2f ms per token\n", __func__, t_predict_us/1000.0f, t_predict_us/1000.0f/n_past);
+//        printf("%s:    total time = %8.2f ms\n", __func__, (t_main_end_us - t_main_start_us)/1000.0f);
+//    }
+//
+//    ggml_free(model.ctx);
+//
+//    return 0;
+//}

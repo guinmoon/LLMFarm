@@ -8,14 +8,34 @@
 import Foundation 
 import llmfarm_core
 
-public class LLaMa: Model {
+public class LLaMa: GPTBase {
 
-    public override init(path: String, contextParams: ModelContextParams = .default) throws {
-        try super.init()
-        
-        self.promptFormat = .LLaMa_QA
-        
-        self.contextParams = contextParams
+//    public override init(path: String, contextParams: ModelContextParams = .default) throws {
+//        try super.init()
+//        
+//        self.promptFormat = .LLaMa_QA
+//        
+//        self.contextParams = contextParams
+//        var params = llama_context_default_params()
+//        params.n_ctx = contextParams.context
+////        params.n_parts = contextParams.parts
+//        params.seed = contextParams.seed
+//        params.f16_kv = contextParams.f16Kv
+//        params.logits_all = contextParams.logitsAll
+//        params.vocab_only = contextParams.vocabOnly
+//        params.use_mlock = contextParams.useMlock
+//        params.embedding = contextParams.embedding
+//        // Check if model file exists
+//        if !FileManager.default.fileExists(atPath: path) {
+//            throw ModelError.modelNotFound(path)
+//        }
+//        // Load model at path
+//        self.context = llama_init_from_file(path, params)
+//        // Print llama arch and cpu features info
+//        print(String(cString: llama_print_system_info()))
+//    }
+    
+    public override func load_model(path: String = "", contextParams: ModelContextParams = .default, params:gpt_context_params ) throws -> Bool{
         var params = llama_context_default_params()
         params.n_ctx = contextParams.context
 //        params.n_parts = contextParams.parts
@@ -25,14 +45,9 @@ public class LLaMa: Model {
         params.vocab_only = contextParams.vocabOnly
         params.use_mlock = contextParams.useMlock
         params.embedding = contextParams.embedding
-        // Check if model file exists
-        if !FileManager.default.fileExists(atPath: path) {
-            throw ModelError.modelNotFound(path)
-        }
-        // Load model at path
+        params.n_gpu_layers = 1
         self.context = llama_init_from_file(path, params)
-        // Print llama arch and cpu features info
-        print(String(cString: llama_print_system_info()))
+        return true
     }
     
     deinit {
@@ -40,7 +55,7 @@ public class LLaMa: Model {
     }
     
     // Simple topK, topP, temp sampling, with repeat penalty
-    func sample(ctx: OpaquePointer!,
+    override func sample(ctx: OpaquePointer!,
                 last_n_tokens: inout [ModelToken],
                 temp: Float32,
                 top_k: Int32,
@@ -115,10 +130,10 @@ public class LLaMa: Model {
         }
     }
     
-    // Used to keep old context until it needs to be rotated or purge out for new tokens
-    var past: [[ModelToken]] = [] // Will house both queries and responses in order
-    //var n_history: Int32 = 0
-    var nPast: Int32 = 0
+//    // Used to keep old context until it needs to be rotated or purge out for new tokens
+//    var past: [[ModelToken]] = [] // Will house both queries and responses in order
+//    //var n_history: Int32 = 0
+//    var nPast: Int32 = 0
 
     public override func predict(_ input: String, _ callback: ((String, Double) -> Bool) ) throws -> String {
         // Sample parameters
@@ -219,7 +234,8 @@ public class LLaMa: Model {
                 let (output, time) = Utils.time {
                     return str
                 }
-                print("🤖 \(output) \(outputToken)") //" \(tokenProb)")
+//                print("🤖 \(output) \(outputToken)") //" \(tokenProb)")
+                print("\(output)",terminator: "") //" \(tokenProb)")
                 if callback(output, time) {
                     // Early exit if requested by callback
                     print("💀 Early exit")
@@ -261,7 +277,7 @@ public class LLaMa: Model {
         return output.joined()
     }
 
-    public func embeddings(_ input: String) throws -> [Float] {
+    public override func embeddings(_ input: String) throws -> [Float] {
         // Add a space in front of the first character to match OG llama tokenizer behavior
         let input = " " + input
 

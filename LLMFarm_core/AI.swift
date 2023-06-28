@@ -10,6 +10,7 @@ enum ModelInference {
     case LLamaInference
     case GPTNeoxInference
     case GPT2
+    case Replit
 }
 
 class AI {
@@ -40,8 +41,9 @@ class AI {
             model = try? GPTNeoX(path: self.modelPath, contextParams: contextParams)
         case .GPT2:
             model = try? GPT2(path: self.modelPath, contextParams: contextParams)
+        case .Replit:
+            model = try? Replit(path: self.modelPath, contextParams: contextParams)
         }
-        
     }
     
     func text(_ input: String, _ maxOutputCount: Int = 2048, _ tokenCallback: ((String, Double) -> ())?, _ completion: ((String) -> ())?) {

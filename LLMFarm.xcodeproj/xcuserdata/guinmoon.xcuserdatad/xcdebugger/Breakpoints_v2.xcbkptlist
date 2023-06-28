@@ -1370,22 +1370,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "75732922-9627-44C2-999B-E4BFAC463002"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "LLMFarm_core/GPTNeoX.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "226"
-            endingLineNumber = "226"
-            landmarkName = "predict(_:_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "8294DB76-223E-4436-BDDA-4451662BD199"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -2088,8 +2072,8 @@
             filePath = "LLMFarm_core/Model.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "232"
-            endingLineNumber = "232"
+            startingLineNumber = "236"
+            endingLineNumber = "236"
             landmarkName = "tokenizePrompt(_:_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2814,8 +2798,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "149"
-            endingLineNumber = "149"
+            startingLineNumber = "151"
+            endingLineNumber = "151"
             landmarkName = "prepare(_:_:)"
             landmarkType = "7">
             <Locations>
@@ -2907,8 +2891,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "157"
-            endingLineNumber = "157"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
             landmarkName = "stop_predict(is_error:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2923,8 +2907,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "155"
-            endingLineNumber = "155"
+            startingLineNumber = "157"
+            endingLineNumber = "157"
             landmarkName = "stop_predict(is_error:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2939,8 +2923,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "146"
-            endingLineNumber = "146"
+            startingLineNumber = "148"
+            endingLineNumber = "148"
             landmarkName = "prepare(_:_:)"
             landmarkType = "7">
             <Locations>
@@ -3002,8 +2986,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "179"
-            endingLineNumber = "179"
+            startingLineNumber = "181"
+            endingLineNumber = "181"
             landmarkName = "send(message:)"
             landmarkType = "7">
             <Locations>
@@ -3050,8 +3034,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "177"
-            endingLineNumber = "177"
+            startingLineNumber = "179"
+            endingLineNumber = "179"
             landmarkName = "send(message:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3066,8 +3050,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "173"
-            endingLineNumber = "173"
+            startingLineNumber = "175"
+            endingLineNumber = "175"
             landmarkName = "send(message:)"
             landmarkType = "7">
             <Locations>
@@ -3226,8 +3210,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "184"
-            endingLineNumber = "184"
+            startingLineNumber = "186"
+            endingLineNumber = "186"
             landmarkName = "send(message:)"
             landmarkType = "7">
             <Locations>
@@ -3290,8 +3274,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "136"
-            endingLineNumber = "136"
+            startingLineNumber = "138"
+            endingLineNumber = "138"
             landmarkName = "load_model_by_chat_name(chat_name:)"
             landmarkType = "7">
             <Locations>
@@ -3369,8 +3353,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "186"
-            endingLineNumber = "186"
+            startingLineNumber = "188"
+            endingLineNumber = "188"
             landmarkName = "send(message:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3385,8 +3369,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "187"
-            endingLineNumber = "187"
+            startingLineNumber = "189"
+            endingLineNumber = "189"
             landmarkName = "send(message:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3401,8 +3385,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "127"
-            endingLineNumber = "127"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
             landmarkName = "load_model_by_chat_name(chat_name:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3417,8 +3401,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "129"
-            endingLineNumber = "129"
+            startingLineNumber = "131"
+            endingLineNumber = "131"
             landmarkName = "load_model_by_chat_name(chat_name:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3545,8 +3529,8 @@
             filePath = "LLMFarm_core/Model.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "219"
-            endingLineNumber = "219"
+            startingLineNumber = "223"
+            endingLineNumber = "223"
             landmarkName = "tokenizePrompt(_:_:)"
             landmarkType = "7">
             <Locations>
@@ -3593,8 +3577,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "111"
-            endingLineNumber = "111"
+            startingLineNumber = "113"
+            endingLineNumber = "113"
             landmarkName = "load_model_by_chat_name(chat_name:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3609,8 +3593,8 @@
             filePath = "LLMFarm_core/Model.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "216"
-            endingLineNumber = "216"
+            startingLineNumber = "220"
+            endingLineNumber = "220"
             landmarkName = "tokenizePrompt(_:_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3625,8 +3609,8 @@
             filePath = "LLMFarm_core/Model.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "215"
-            endingLineNumber = "215"
+            startingLineNumber = "219"
+            endingLineNumber = "219"
             landmarkName = "tokenizePrompt(_:_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3673,8 +3657,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
+            startingLineNumber = "98"
+            endingLineNumber = "98"
             landmarkName = "load_model_by_chat_name(chat_name:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3769,8 +3753,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "223"
-            endingLineNumber = "223"
+            startingLineNumber = "226"
+            endingLineNumber = "226"
             landmarkName = "send(message:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3801,8 +3785,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "224"
-            endingLineNumber = "224"
+            startingLineNumber = "227"
+            endingLineNumber = "227"
             landmarkName = "send(message:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3817,8 +3801,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "230"
-            endingLineNumber = "230"
+            startingLineNumber = "233"
+            endingLineNumber = "233"
             landmarkName = "send(message:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3833,8 +3817,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "215"
-            endingLineNumber = "215"
+            startingLineNumber = "217"
+            endingLineNumber = "217"
             landmarkName = "send(message:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3865,8 +3849,8 @@
             filePath = "LLMFarm_core/LLaMa.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "142"
-            endingLineNumber = "142"
+            startingLineNumber = "157"
+            endingLineNumber = "157"
             landmarkName = "predict(_:_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3881,8 +3865,8 @@
             filePath = "LLMFarm_core/LLaMa.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140"
+            startingLineNumber = "155"
+            endingLineNumber = "155"
             landmarkName = "predict(_:_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3897,8 +3881,8 @@
             filePath = "LLMFarm_core/LLaMa.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "156"
-            endingLineNumber = "156"
+            startingLineNumber = "171"
+            endingLineNumber = "171"
             landmarkName = "predict(_:_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3977,8 +3961,8 @@
             filePath = "LLMFarm_core/Model.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "258"
-            endingLineNumber = "258"
+            startingLineNumber = "262"
+            endingLineNumber = "262"
             landmarkName = "tokenizePrompt(_:_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3993,8 +3977,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "126"
-            endingLineNumber = "126"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
             landmarkName = "load_model_by_chat_name(chat_name:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4009,8 +3993,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
             landmarkName = "load_model_by_chat_name(chat_name:)"
             landmarkType = "7">
             <Locations>
@@ -4484,8 +4468,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "219"
-            endingLineNumber = "219"
+            startingLineNumber = "221"
+            endingLineNumber = "221"
             landmarkName = "send(message:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4494,22 +4478,6 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "08882431-B48B-4F53-B70B-9662A794DBFD"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "LLMFarm/AIChatModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "239"
-            endingLineNumber = "239"
-            landmarkName = "send(message:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "22F22C27-D15D-4A2E-9716-CDDA66951A2F"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -4525,6 +4493,22 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "22F22C27-D15D-4A2E-9716-CDDA66951A2F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LLMFarm/AIChatModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "245"
+            endingLineNumber = "245"
+            landmarkName = "send(message:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
             uuid = "C1C33C0F-B7A1-454A-9505-B72773286C40"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -4532,8 +4516,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "231"
-            endingLineNumber = "231"
+            startingLineNumber = "234"
+            endingLineNumber = "234"
             landmarkName = "send(message:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4548,8 +4532,8 @@
             filePath = "LLMFarm_core/LLaMa.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "158"
-            endingLineNumber = "158"
+            startingLineNumber = "173"
+            endingLineNumber = "173"
             landmarkName = "predict(_:_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4564,8 +4548,8 @@
             filePath = "LLMFarm_core/LLaMa.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "164"
-            endingLineNumber = "164"
+            startingLineNumber = "179"
+            endingLineNumber = "179"
             landmarkName = "predict(_:_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4817,8 +4801,8 @@
             filePath = "LLMFarm_core/Model.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "225"
-            endingLineNumber = "225"
+            startingLineNumber = "229"
+            endingLineNumber = "229"
             landmarkName = "tokenizePrompt(_:_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4833,8 +4817,8 @@
             filePath = "LLMFarm_core/Model.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "214"
-            endingLineNumber = "214"
+            startingLineNumber = "218"
+            endingLineNumber = "218"
             landmarkName = "tokenizePrompt(_:_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -5352,22 +5336,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "24A80561-1C94-46C2-892B-76A0B1734974"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "LLMFarm_core/GPTNeox.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "102"
-            endingLineNumber = "102"
-            landmarkName = "sample(ctx:last_n_tokens:temp:top_k:top_p:tfs_z:typical_p:repeat_last_n:repeat_penalty:alpha_presence:alpha_frequency:mirostat:mirostat_tau:mirostat_eta:penalize_nl:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "6987A9AF-C516-41DF-BA91-945FCF9995B3"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -5375,8 +5343,8 @@
             filePath = "llmfarm_core.swift/Sources/llmfarm_core/gptneox/gptneox.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "759"
-            endingLineNumber = "759"
+            startingLineNumber = "730"
+            endingLineNumber = "730"
             landmarkName = "gpt_neox_init_from_file(path_model, params)"
             landmarkType = "9">
             <Locations>
@@ -5471,8 +5439,8 @@
             filePath = "llmfarm_core.swift/Sources/llmfarm_core/gptneox/gptneox.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "191"
-            endingLineNumber = "191"
+            startingLineNumber = "186"
+            endingLineNumber = "186"
             landmarkName = "gpt_neox_model_load(fname, model, vocab, max_n_ctx)"
             landmarkType = "9">
          </BreakpointContent>
@@ -5487,8 +5455,8 @@
             filePath = "llmfarm_core.swift/Sources/llmfarm_core/gptneox/gptneox.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "239"
-            endingLineNumber = "239"
+            startingLineNumber = "234"
+            endingLineNumber = "234"
             landmarkName = "gpt_neox_model_load(fname, model, vocab, max_n_ctx)"
             landmarkType = "9">
          </BreakpointContent>
@@ -5503,8 +5471,8 @@
             filePath = "llmfarm_core.swift/Sources/llmfarm_core/gptneox/gptneox.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "252"
-            endingLineNumber = "252"
+            startingLineNumber = "247"
+            endingLineNumber = "247"
             landmarkName = "gpt_neox_model_load(fname, model, vocab, max_n_ctx)"
             landmarkType = "9">
             <Locations>
@@ -5695,8 +5663,8 @@
             filePath = "llmfarm_core.swift/Sources/llmfarm_core/gptneox/gptneox.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "786"
-            endingLineNumber = "786"
+            startingLineNumber = "749"
+            endingLineNumber = "749"
             landmarkName = "gpt_neox_init_from_file(path_model, params)"
             landmarkType = "9">
          </BreakpointContent>
@@ -5711,8 +5679,8 @@
             filePath = "llmfarm_core.swift/Sources/llmfarm_core/gptneox/gptneox.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "192"
-            endingLineNumber = "192"
+            startingLineNumber = "187"
+            endingLineNumber = "187"
             landmarkName = "gpt_neox_model_load(fname, model, vocab, max_n_ctx)"
             landmarkType = "9">
          </BreakpointContent>
@@ -5775,8 +5743,8 @@
             filePath = "llmfarm_core.swift/Sources/llmfarm_core/gptneox/gptneox.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
             landmarkName = "gpt_neox_model_load(fname, model, vocab, max_n_ctx)"
             landmarkType = "9">
          </BreakpointContent>
@@ -5791,8 +5759,8 @@
             filePath = "llmfarm_core.swift/Sources/llmfarm_core/gptneox/gptneox.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "129"
-            endingLineNumber = "129"
+            startingLineNumber = "124"
+            endingLineNumber = "124"
             landmarkName = "gpt_neox_model_load(fname, model, vocab, max_n_ctx)"
             landmarkType = "9">
          </BreakpointContent>
@@ -5807,26 +5775,10 @@
             filePath = "llmfarm_core.swift/Sources/llmfarm_core/gptneox/gptneox.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "137"
-            endingLineNumber = "137"
+            startingLineNumber = "132"
+            endingLineNumber = "132"
             landmarkName = "gpt_neox_model_load(fname, model, vocab, max_n_ctx)"
             landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "B3BBEAB9-7500-4874-8B79-64F205CCDC50"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "LLMFarm_core/GPTNeox.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "36"
-            endingLineNumber = "36"
-            landmarkName = "init(path:contextParams:)"
-            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -5880,49 +5832,873 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "6BB2638A-7EF8-49F8-BA27-CFA5A2497413"
+            uuid = "84EF4BE9-079D-4864-B899-57D89ABF114D"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "LLMFarm_core/GPT2.swift"
+            filePath = "llmfarm_core.swift/Sources/llmfarm_core/gpt_helpers.h"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "188"
-            endingLineNumber = "188"
-            landmarkName = "predict(_:_:)"
+            startingLineNumber = "143"
+            endingLineNumber = "143"
+            landmarkName = "~gpt_base_model()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "84EF4BE9-079D-4864-B899-57D89ABF114D - 49a327e2d55bc0bf"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "gpt_base_context::~gpt_base_context()"
+                  moduleName = "LLMFarm"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/llmfarm_core.swift/Sources/llmfarm_core/gpt_helpers.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "143"
+                  endingLineNumber = "143"
+                  offsetFromSymbolStart = "203">
+               </Location>
+               <Location
+                  uuid = "84EF4BE9-079D-4864-B899-57D89ABF114D - 44d03a481328f2f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "gpt_base_model::~gpt_base_model()"
+                  moduleName = "LLMFarm"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/llmfarm_core.swift/Sources/llmfarm_core/gpt_helpers.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "143"
+                  endingLineNumber = "143"
+                  offsetFromSymbolStart = "23">
+               </Location>
+               <Location
+                  uuid = "84EF4BE9-079D-4864-B899-57D89ABF114D - 19c005f54766273"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "gpt2_model::~gpt2_model()"
+                  moduleName = "LLMFarm"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/llmfarm_core.swift/Sources/llmfarm_core/gpt_helpers.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "143"
+                  endingLineNumber = "143"
+                  offsetFromSymbolStart = "78">
+               </Location>
+               <Location
+                  uuid = "84EF4BE9-079D-4864-B899-57D89ABF114D - b65e8822e3aec58a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "test_run()"
+                  moduleName = "LLMFarm"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/llmfarm_core.swift/Sources/llmfarm_core/gpt_helpers.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "143"
+                  endingLineNumber = "143"
+                  offsetFromSymbolStart = "1612">
+               </Location>
+               <Location
+                  uuid = "84EF4BE9-079D-4864-B899-57D89ABF114D - e46910a394df7161"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "gpt_neox_model::~gpt_neox_model()"
+                  moduleName = "LLMFarm"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/llmfarm_core.swift/Sources/llmfarm_core/gpt_helpers.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "143"
+                  endingLineNumber = "143"
+                  offsetFromSymbolStart = "64">
+               </Location>
+               <Location
+                  uuid = "84EF4BE9-079D-4864-B899-57D89ABF114D - 89b866ac1d96ffbd"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "gpt_neox_context::~gpt_neox_context()"
+                  moduleName = "LLMFarm"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/llmfarm_core.swift/Sources/llmfarm_core/gpt_helpers.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "143"
+                  endingLineNumber = "143"
+                  offsetFromSymbolStart = "80">
+               </Location>
+               <Location
+                  uuid = "84EF4BE9-079D-4864-B899-57D89ABF114D - edae2e1a5ccdb3d4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "virtual thunk to gpt_neox_model::~gpt_neox_model()"
+                  moduleName = "LLMFarm"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/llmfarm_core.swift/Sources/llmfarm_core/gpt_helpers.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "143"
+                  endingLineNumber = "143"
+                  offsetFromSymbolStart = "75">
+               </Location>
+               <Location
+                  uuid = "84EF4BE9-079D-4864-B899-57D89ABF114D - e488952429cc6f26"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "test_run(int, char**)"
+                  moduleName = "LLMFarm"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/llmfarm_core.swift/Sources/llmfarm_core/gpt_helpers.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "143"
+                  endingLineNumber = "143"
+                  offsetFromSymbolStart = "1643">
+               </Location>
+               <Location
+                  uuid = "84EF4BE9-079D-4864-B899-57D89ABF114D - 19c005f54766273"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "gpt2_model::~gpt2_model()"
+                  moduleName = "LLMFarm"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/llmfarm_core.swift/Sources/llmfarm_core/gpt_helpers.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "143"
+                  endingLineNumber = "143"
+                  offsetFromSymbolStart = "61">
+               </Location>
+               <Location
+                  uuid = "84EF4BE9-079D-4864-B899-57D89ABF114D - 12b7c5b55ef3d467"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "gpt2_context::~gpt2_context()"
+                  moduleName = "LLMFarm"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/llmfarm_core.swift/Sources/llmfarm_core/gpt_helpers.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "143"
+                  endingLineNumber = "143"
+                  offsetFromSymbolStart = "69">
+               </Location>
+               <Location
+                  uuid = "84EF4BE9-079D-4864-B899-57D89ABF114D - b65e8822e3aec58a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "test_run()"
+                  moduleName = "LLMFarm"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/llmfarm_core.swift/Sources/llmfarm_core/gpt_helpers.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "143"
+                  endingLineNumber = "143"
+                  offsetFromSymbolStart = "1570">
+               </Location>
+               <Location
+                  uuid = "84EF4BE9-079D-4864-B899-57D89ABF114D - e46910a394df7161"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "gpt_neox_model::~gpt_neox_model()"
+                  moduleName = "LLMFarm"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/llmfarm_core.swift/Sources/llmfarm_core/gpt_helpers.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "143"
+                  endingLineNumber = "143"
+                  offsetFromSymbolStart = "61">
+               </Location>
+               <Location
+                  uuid = "84EF4BE9-079D-4864-B899-57D89ABF114D - e488952429cc6f26"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "test_run(int, char**)"
+                  moduleName = "LLMFarm"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/llmfarm_core.swift/Sources/llmfarm_core/gpt_helpers.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "143"
+                  endingLineNumber = "143"
+                  offsetFromSymbolStart = "1704">
+               </Location>
+               <Location
+                  uuid = "84EF4BE9-079D-4864-B899-57D89ABF114D - 19c005f54766273"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "gpt2_model::~gpt2_model()"
+                  moduleName = "LLMFarm"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/llmfarm_core.swift/Sources/llmfarm_core/gpt_helpers.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "143"
+                  endingLineNumber = "143"
+                  offsetFromSymbolStart = "33">
+               </Location>
+               <Location
+                  uuid = "84EF4BE9-079D-4864-B899-57D89ABF114D - 12b7c5b55ef3d467"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "gpt2_context::~gpt2_context()"
+                  moduleName = "LLMFarm"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/llmfarm_core.swift/Sources/llmfarm_core/gpt_helpers.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "143"
+                  endingLineNumber = "143"
+                  offsetFromSymbolStart = "33">
+               </Location>
+               <Location
+                  uuid = "84EF4BE9-079D-4864-B899-57D89ABF114D - 49a327e2d55bc0bf"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "gpt_base_context::~gpt_base_context()"
+                  moduleName = "LLMFarm"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/llmfarm_core.swift/Sources/llmfarm_core/gpt_helpers.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "143"
+                  endingLineNumber = "143"
+                  offsetFromSymbolStart = "185">
+               </Location>
+               <Location
+                  uuid = "84EF4BE9-079D-4864-B899-57D89ABF114D - b65e8822e3aec58a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "test_run()"
+                  moduleName = "LLMFarm"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/llmfarm_core.swift/Sources/llmfarm_core/gpt_helpers.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "143"
+                  endingLineNumber = "143"
+                  offsetFromSymbolStart = "1597">
+               </Location>
+               <Location
+                  uuid = "84EF4BE9-079D-4864-B899-57D89ABF114D - e46910a394df7161"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "gpt_neox_model::~gpt_neox_model()"
+                  moduleName = "LLMFarm"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/llmfarm_core.swift/Sources/llmfarm_core/gpt_helpers.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "143"
+                  endingLineNumber = "143"
+                  offsetFromSymbolStart = "33">
+               </Location>
+               <Location
+                  uuid = "84EF4BE9-079D-4864-B899-57D89ABF114D - 89b866ac1d96ffbd"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "gpt_neox_context::~gpt_neox_context()"
+                  moduleName = "LLMFarm"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/llmfarm_core.swift/Sources/llmfarm_core/gpt_helpers.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "143"
+                  endingLineNumber = "143"
+                  offsetFromSymbolStart = "77">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "34C7F3A3-4872-47A1-AC2C-F7FB3B73FC3D"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "LLMFarm_core/GPT2.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "176"
-            endingLineNumber = "176"
-            landmarkName = "predict(_:_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "6B89C7DF-74D2-489F-BB16-F7C5E9FF0A9D"
+            uuid = "0067C5FA-8E21-43BD-BBF2-4A5AD370AC70"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "llmfarm_core.swift/Sources/llmfarm_core/gptneox/gptneox.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "97"
-            endingLineNumber = "97"
-            landmarkName = "gpt_neox_free(ctx)"
+            startingLineNumber = "913"
+            endingLineNumber = "913"
+            landmarkName = "unknown"
+            landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9BABD96E-E65A-4379-BFB1-B9E427E219F8"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "llmfarm_core.swift/Sources/llmfarm_core/gptneox/gptneox.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "914"
+            endingLineNumber = "914"
+            landmarkName = "unknown"
+            landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C33E366B-EC95-421C-A20A-EC094DB2C21C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LLMFarm_core/GPTBase.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "262"
+            endingLineNumber = "262"
+            landmarkName = "predict(_:_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "C33E366B-EC95-421C-A20A-EC094DB2C21C - f46f733e5528b599"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ModelTest.GPTBase.predict(Swift.String, (Swift.String, Swift.Double) -&gt; Swift.Bool) throws -&gt; Swift.String"
+                  moduleName = "ModelTest"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/LLMFarm_core/GPTBase.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "256"
+                  endingLineNumber = "256"
+                  offsetFromSymbolStart = "6815">
+               </Location>
+               <Location
+                  uuid = "C33E366B-EC95-421C-A20A-EC094DB2C21C - f46f733e5528b599"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ModelTest.GPTBase.predict(Swift.String, (Swift.String, Swift.Double) -&gt; Swift.Bool) throws -&gt; Swift.String"
+                  moduleName = "ModelTest"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/LLMFarm_core/GPTBase.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "256"
+                  endingLineNumber = "256"
+                  offsetFromSymbolStart = "6923">
+               </Location>
+               <Location
+                  uuid = "C33E366B-EC95-421C-A20A-EC094DB2C21C - f291cd395126eb92"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LLMFarm.GPTBase.predict(Swift.String, (Swift.String, Swift.Double) -&gt; Swift.Bool) throws -&gt; Swift.String"
+                  moduleName = "LLMFarm"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/LLMFarm_core/GPTBase.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "260"
+                  endingLineNumber = "260"
+                  offsetFromSymbolStart = "5364">
+               </Location>
+               <Location
+                  uuid = "C33E366B-EC95-421C-A20A-EC094DB2C21C - f291cd395126eb92"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LLMFarm.GPTBase.predict(Swift.String, (Swift.String, Swift.Double) -&gt; Swift.Bool) throws -&gt; Swift.String"
+                  moduleName = "LLMFarm"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/LLMFarm_core/GPTBase.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "260"
+                  endingLineNumber = "260"
+                  offsetFromSymbolStart = "5428">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1892A20D-C879-4428-BA25-26AB282F4F3D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LLMFarm_core/GPTBase.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "174"
+            endingLineNumber = "174"
+            landmarkName = "predict(_:_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FE22F654-1CB6-4FC2-9ECA-4E6CC51E0A6E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LLMFarm_core/GPTBase.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "225"
+            endingLineNumber = "225"
+            landmarkName = "predict(_:_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D36DB97A-F773-486F-8960-5C59580B8D12"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LLMFarm_core/GPTBase.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
+            landmarkName = "sample(ctx:last_n_tokens:temp:top_k:top_p:tfs_z:typical_p:repeat_last_n:repeat_penalty:alpha_presence:alpha_frequency:mirostat:mirostat_tau:mirostat_eta:penalize_nl:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B68FB3DB-C437-460A-BC2E-F01D83571659"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LLMFarm_core/GPTBase.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "118"
+            endingLineNumber = "118"
+            landmarkName = "sample(ctx:last_n_tokens:temp:top_k:top_p:tfs_z:typical_p:repeat_last_n:repeat_penalty:alpha_presence:alpha_frequency:mirostat:mirostat_tau:mirostat_eta:penalize_nl:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "67244E8A-57CB-4D07-B64B-575DB60EB60A"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LLMFarm_core/GPTBase.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "263"
+            endingLineNumber = "263"
+            landmarkName = "predict(_:_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "493B7DA0-A56D-46E3-8980-B80E2578A4D7"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "llmfarm_core.swift/Sources/llmfarm_core/llama/llama.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1697"
+            endingLineNumber = "1697"
+            landmarkName = "llama_eval_internal(lctx, tokens, n_tokens, n_past, n_threads, cgraph_fname)"
             landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "63705F3D-57BA-4056-AAE8-CA6A2EA5D8B4"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "llmfarm_core.swift/Sources/llmfarm_core/llama/llama.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2815"
+            endingLineNumber = "2815"
+            landmarkName = "llama_init_from_file(path_model, params)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "466FE32C-7035-4BC4-B22A-E0CBD67738DF"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "llmfarm_core.swift/Sources/llmfarm_core/llama/llama.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2819"
+            endingLineNumber = "2819"
+            landmarkName = "llama_init_from_file(path_model, params)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1DC9A3F6-2535-41A8-80C8-87A2D759B3AB"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "llmfarm_core.swift/Sources/llmfarm_core/llama/llama.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2774"
+            endingLineNumber = "2774"
+            landmarkName = "llama_new_context_with_model(model, params)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3BF34CC1-A30C-4034-882A-CFFDE4445462"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "llmfarm_core.swift/Sources/llmfarm_core/llama/llama.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2773"
+            endingLineNumber = "2773"
+            landmarkName = "llama_new_context_with_model(model, params)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7E211592-AF14-4F58-A0CB-0AE69581643D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "llmfarm_core.swift/Sources/llmfarm_core/llama/ggml-metal.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
+            landmarkName = "ggml_metal_init()"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  uuid = "7E211592-AF14-4F58-A0CB-0AE69581643D - 1c86e9abd0225c7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ggml_metal_init"
+                  moduleName = "ModelTest"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/llmfarm_core.swift/Sources/llmfarm_core/llama/ggml-metal.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "92"
+                  endingLineNumber = "92"
+                  offsetFromSymbolStart = "48">
+               </Location>
+               <Location
+                  uuid = "7E211592-AF14-4F58-A0CB-0AE69581643D - 93d17bf27d27c2f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ggml_metal_init"
+                  moduleName = "LLMFarm"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/llmfarm_core.swift/Sources/llmfarm_core/llama/ggml-metal.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "92"
+                  endingLineNumber = "92"
+                  offsetFromSymbolStart = "48">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5F039A85-ECFD-4C7C-B6E5-6F34027B1C82"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "llmfarm_core.swift/Sources/llmfarm_core/llama/ggml-metal.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
+            landmarkName = "ggml_metal_init()"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "02BD1EE8-3F8F-46E2-BC4A-EF8609AC4185"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "llmfarm_core.swift/Sources/llmfarm_core/llama/ggml-metal.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
+            landmarkName = "ggml_metal_init()"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  uuid = "02BD1EE8-3F8F-46E2-BC4A-EF8609AC4185 - 1c86e9abd022948"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ggml_metal_init"
+                  moduleName = "ModelTest"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/llmfarm_core.swift/Sources/llmfarm_core/llama/ggml-metal.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "127"
+                  endingLineNumber = "127"
+                  offsetFromSymbolStart = "252">
+               </Location>
+               <Location
+                  uuid = "02BD1EE8-3F8F-46E2-BC4A-EF8609AC4185 - 93d17bf27d270a0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ggml_metal_init"
+                  moduleName = "LLMFarm"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/llmfarm_core.swift/Sources/llmfarm_core/llama/ggml-metal.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "127"
+                  endingLineNumber = "127"
+                  offsetFromSymbolStart = "252">
+               </Location>
+               <Location
+                  uuid = "02BD1EE8-3F8F-46E2-BC4A-EF8609AC4185 - 1c86e9abd022948"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ggml_metal_init"
+                  moduleName = "ModelTest"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/llmfarm_core.swift/Sources/llmfarm_core/llama/ggml-metal.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "127"
+                  endingLineNumber = "127"
+                  offsetFromSymbolStart = "244">
+               </Location>
+               <Location
+                  uuid = "02BD1EE8-3F8F-46E2-BC4A-EF8609AC4185 - 93d17bf27d270a0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ggml_metal_init"
+                  moduleName = "LLMFarm"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/llmfarm_core.swift/Sources/llmfarm_core/llama/ggml-metal.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "127"
+                  endingLineNumber = "127"
+                  offsetFromSymbolStart = "244">
+               </Location>
+               <Location
+                  uuid = "02BD1EE8-3F8F-46E2-BC4A-EF8609AC4185 - 93d17bf27d27743"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ggml_metal_init"
+                  moduleName = "LLMFarm"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/llmfarm_core.swift/Sources/llmfarm_core/llama/ggml-metal.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "128"
+                  endingLineNumber = "128"
+                  offsetFromSymbolStart = "244">
+               </Location>
+               <Location
+                  uuid = "02BD1EE8-3F8F-46E2-BC4A-EF8609AC4185 - 1c86e9abd022eab"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ggml_metal_init"
+                  moduleName = "ModelTest"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/llmfarm_core.swift/Sources/llmfarm_core/llama/ggml-metal.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "128"
+                  endingLineNumber = "128"
+                  offsetFromSymbolStart = "244">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D1AF68EF-72D1-41D9-8A22-CF0CFA9A28CC"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "llmfarm_core.swift/Sources/llmfarm_core/llama/ggml-metal.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
+            landmarkName = "ggml_metal_init()"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  uuid = "D1AF68EF-72D1-41D9-8A22-CF0CFA9A28CC - 93d17bf27d27ce1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ggml_metal_init"
+                  moduleName = "LLMFarm"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/llmfarm_core.swift/Sources/llmfarm_core/llama/ggml-metal.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "94"
+                  endingLineNumber = "94"
+                  offsetFromSymbolStart = "61">
+               </Location>
+               <Location
+                  uuid = "D1AF68EF-72D1-41D9-8A22-CF0CFA9A28CC - 1c86e9abd022509"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ggml_metal_init"
+                  moduleName = "ModelTest"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/llmfarm_core.swift/Sources/llmfarm_core/llama/ggml-metal.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "94"
+                  endingLineNumber = "94"
+                  offsetFromSymbolStart = "61">
+               </Location>
+               <Location
+                  uuid = "D1AF68EF-72D1-41D9-8A22-CF0CFA9A28CC - 93d17bf27d27c80"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ggml_metal_init"
+                  moduleName = "LLMFarm"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/llmfarm_core.swift/Sources/llmfarm_core/llama/ggml-metal.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "95"
+                  endingLineNumber = "95"
+                  offsetFromSymbolStart = "62">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9BBBA642-0BA3-465E-BC06-EEABC72609FD"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "llmfarm_core.swift/Sources/llmfarm_core/llama/ggml-metal.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
+            landmarkName = "ggml_metal_init()"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  uuid = "9BBBA642-0BA3-465E-BC06-EEABC72609FD - 93d17bf27d270ee"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ggml_metal_init"
+                  moduleName = "LLMFarm"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/llmfarm_core.swift/Sources/llmfarm_core/llama/ggml-metal.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "125"
+                  endingLineNumber = "125"
+                  offsetFromSymbolStart = "162">
+               </Location>
+               <Location
+                  uuid = "9BBBA642-0BA3-465E-BC06-EEABC72609FD - 1c86e9abd022906"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ggml_metal_init"
+                  moduleName = "ModelTest"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/llmfarm_core.swift/Sources/llmfarm_core/llama/ggml-metal.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "125"
+                  endingLineNumber = "125"
+                  offsetFromSymbolStart = "162">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D1C12678-1E52-4998-BA06-62440E8A9C62"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LLMFarm_core/GPTBase.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "271"
+            endingLineNumber = "271"
+            landmarkName = "predict(_:_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

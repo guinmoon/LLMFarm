@@ -2072,8 +2072,8 @@
             filePath = "LLMFarm_core/Model.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "236"
-            endingLineNumber = "236"
+            startingLineNumber = "237"
+            endingLineNumber = "237"
             landmarkName = "tokenizePrompt(_:_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2798,8 +2798,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "151"
-            endingLineNumber = "151"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
             landmarkName = "prepare(_:_:)"
             landmarkType = "7">
             <Locations>
@@ -2891,8 +2891,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "159"
-            endingLineNumber = "159"
+            startingLineNumber = "160"
+            endingLineNumber = "160"
             landmarkName = "stop_predict(is_error:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2907,8 +2907,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "157"
-            endingLineNumber = "157"
+            startingLineNumber = "158"
+            endingLineNumber = "158"
             landmarkName = "stop_predict(is_error:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2923,8 +2923,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "148"
-            endingLineNumber = "148"
+            startingLineNumber = "149"
+            endingLineNumber = "149"
             landmarkName = "prepare(_:_:)"
             landmarkType = "7">
             <Locations>
@@ -2986,8 +2986,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "181"
-            endingLineNumber = "181"
+            startingLineNumber = "182"
+            endingLineNumber = "182"
             landmarkName = "send(message:)"
             landmarkType = "7">
             <Locations>
@@ -3034,8 +3034,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "179"
-            endingLineNumber = "179"
+            startingLineNumber = "180"
+            endingLineNumber = "180"
             landmarkName = "send(message:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3050,8 +3050,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "175"
-            endingLineNumber = "175"
+            startingLineNumber = "176"
+            endingLineNumber = "176"
             landmarkName = "send(message:)"
             landmarkType = "7">
             <Locations>
@@ -3210,8 +3210,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "186"
-            endingLineNumber = "186"
+            startingLineNumber = "187"
+            endingLineNumber = "187"
             landmarkName = "send(message:)"
             landmarkType = "7">
             <Locations>
@@ -3274,8 +3274,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
             landmarkName = "load_model_by_chat_name(chat_name:)"
             landmarkType = "7">
             <Locations>
@@ -3353,8 +3353,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "188"
-            endingLineNumber = "188"
+            startingLineNumber = "189"
+            endingLineNumber = "189"
             landmarkName = "send(message:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3369,8 +3369,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "189"
-            endingLineNumber = "189"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
             landmarkName = "send(message:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3385,8 +3385,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "129"
-            endingLineNumber = "129"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
             landmarkName = "load_model_by_chat_name(chat_name:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3401,8 +3401,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "131"
-            endingLineNumber = "131"
+            startingLineNumber = "132"
+            endingLineNumber = "132"
             landmarkName = "load_model_by_chat_name(chat_name:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3529,8 +3529,8 @@
             filePath = "LLMFarm_core/Model.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "223"
-            endingLineNumber = "223"
+            startingLineNumber = "224"
+            endingLineNumber = "224"
             landmarkName = "tokenizePrompt(_:_:)"
             landmarkType = "7">
             <Locations>
@@ -3564,6 +3564,36 @@
                   endingLineNumber = "217"
                   offsetFromSymbolStart = "543">
                </Location>
+               <Location
+                  uuid = "609E606F-A790-498E-92A3-434AE039BA08 - ecd2c5938c2ebbd6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LLMFarm.Model.tokenizePrompt(Swift.String, LLMFarm.ModelPromptStyle) -&gt; Swift.Array&lt;Swift.Int32&gt;"
+                  moduleName = "LLMFarm"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/LLMFarm_core/Model.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "223"
+                  endingLineNumber = "223"
+                  offsetFromSymbolStart = "496">
+               </Location>
+               <Location
+                  uuid = "609E606F-A790-498E-92A3-434AE039BA08 - ecd2c5938c2ebbf7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LLMFarm.Model.tokenizePrompt(Swift.String, LLMFarm.ModelPromptStyle) -&gt; Swift.Array&lt;Swift.Int32&gt;"
+                  moduleName = "LLMFarm"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/LLMFarm_core/Model.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "224"
+                  endingLineNumber = "224"
+                  offsetFromSymbolStart = "792">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -3577,8 +3607,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "113"
-            endingLineNumber = "113"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
             landmarkName = "load_model_by_chat_name(chat_name:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3657,8 +3687,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "98"
-            endingLineNumber = "98"
+            startingLineNumber = "99"
+            endingLineNumber = "99"
             landmarkName = "load_model_by_chat_name(chat_name:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3753,8 +3783,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "226"
-            endingLineNumber = "226"
+            startingLineNumber = "227"
+            endingLineNumber = "227"
             landmarkName = "send(message:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3785,8 +3815,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "227"
-            endingLineNumber = "227"
+            startingLineNumber = "228"
+            endingLineNumber = "228"
             landmarkName = "send(message:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3801,8 +3831,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "233"
-            endingLineNumber = "233"
+            startingLineNumber = "234"
+            endingLineNumber = "234"
             landmarkName = "send(message:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3817,8 +3847,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "217"
-            endingLineNumber = "217"
+            startingLineNumber = "218"
+            endingLineNumber = "218"
             landmarkName = "send(message:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3961,8 +3991,8 @@
             filePath = "LLMFarm_core/Model.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "262"
-            endingLineNumber = "262"
+            startingLineNumber = "263"
+            endingLineNumber = "263"
             landmarkName = "tokenizePrompt(_:_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3977,8 +4007,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
             landmarkName = "load_model_by_chat_name(chat_name:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3993,8 +4023,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "127"
-            endingLineNumber = "127"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
             landmarkName = "load_model_by_chat_name(chat_name:)"
             landmarkType = "7">
             <Locations>
@@ -4468,8 +4498,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "221"
-            endingLineNumber = "221"
+            startingLineNumber = "222"
+            endingLineNumber = "222"
             landmarkName = "send(message:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4484,8 +4514,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "242"
-            endingLineNumber = "242"
+            startingLineNumber = "243"
+            endingLineNumber = "243"
             landmarkName = "send(message:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4500,8 +4530,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "245"
-            endingLineNumber = "245"
+            startingLineNumber = "246"
+            endingLineNumber = "246"
             landmarkName = "send(message:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4516,8 +4546,8 @@
             filePath = "LLMFarm/AIChatModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "234"
-            endingLineNumber = "234"
+            startingLineNumber = "235"
+            endingLineNumber = "235"
             landmarkName = "send(message:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4801,8 +4831,8 @@
             filePath = "LLMFarm_core/Model.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "229"
-            endingLineNumber = "229"
+            startingLineNumber = "230"
+            endingLineNumber = "230"
             landmarkName = "tokenizePrompt(_:_:)"
             landmarkType = "7">
          </BreakpointContent>

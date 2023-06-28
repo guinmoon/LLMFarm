@@ -219,8 +219,9 @@ public class Model {
         case .None:
             return tokenize(input)
         case .Custom:
-            let formated_input = self.custom_prompt_format.replacingOccurrences(of: "{{prompt}}", with: input)
-            return tokenize(formated_input)
+            var formated_input = self.custom_prompt_format.replacingOccurrences(of: "{{prompt}}", with: input)
+            formated_input = formated_input.replacingOccurrences(of: "\\n", with: "\n")
+            return tokenize(formated_input, bos: true)
         case .ChatBase:
             return tokenize("<human>: " + input + "\n<bot>:")
         case .OpenAssistant:

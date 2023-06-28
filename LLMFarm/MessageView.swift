@@ -45,6 +45,7 @@ struct MessageView: View {
                     Text(message.text).textSelection(.enabled)
                     ProgressView()
                         .padding(.leading, 3.0)
+                        .frame(maxHeight: .infinity,alignment: .bottom)
                 }.textSelection(.enabled)
             case .predicted(totalSecond: let totalSecond):
                 VStack(alignment: .leading) {

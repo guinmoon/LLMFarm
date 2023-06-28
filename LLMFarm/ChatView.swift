@@ -109,7 +109,7 @@ struct ChatView: View {
                     }
                     .listRowSeparator(.hidden)
                 }.onChange(of: aiChatModel.AI_typing){ ai_typing in
-                    scrollView.scrollTo(aiChatModel.messages.last?.id, anchor: .center)
+                    scrollView.scrollTo(aiChatModel.messages.last?.id, anchor: .bottom)
                 }
                 .listStyle(PlainListStyle())
                 

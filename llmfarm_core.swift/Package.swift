@@ -30,7 +30,7 @@ let package = Package(
                 .unsafeFlags(["-Wno-shorten-64-to-32"]),
                 .unsafeFlags(["-DNDEBUG"]),
                 //                .unsafeFlags(["-march=native"]),
-                                .unsafeFlags(["-mtune=native"]),
+//                                .unsafeFlags(["-mtune=native"]),
                 .unsafeFlags(["-mfma","-mfma","-mavx","-mavx2","-mf16c","-msse3"]),
 //                .unsafeFlags(["-mfma"]),
 //                .unsafeFlags(["-mavx"]),

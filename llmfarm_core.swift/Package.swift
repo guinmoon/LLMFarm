@@ -23,7 +23,7 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "llmfarm_core",
-            sources: ["ggml.c", "gptneox/gptneox.cpp","gpt2/gpt2.cpp","replit/replit.cpp","common.cpp","gpt_helpers.cpp","gpt_spm.cpp", "llama/llama.cpp", "llama/ggml-metal.m"],
+            sources: ["ggml.c","k_quants.c", "gptneox/gptneox.cpp","gpt2/gpt2.cpp","replit/replit.cpp","common.cpp","gpt_helpers.cpp","gpt_spm.cpp", "llama/llama.cpp", "llama/ggml-metal.m"],
             publicHeadersPath: "spm-headers",
             cSettings: [
                 .unsafeFlags(["-O3"]),
@@ -38,6 +38,7 @@ let package = Package(
 //                .unsafeFlags(["-mf16c"]),
 //                .unsafeFlags(["-msse3"]),
                 .unsafeFlags(["-DGGML_USE_ACCELERATE"]),
+                .unsafeFlags(["-DGGML_USE_K_QUANTS"]),
 //                .unsafeFlags(["-DGGML_USE_METAL"]),
 //                .unsafeFlags(["-DGGML_METAL_NDEBUG"]),
                 .unsafeFlags(["-Wall"]),

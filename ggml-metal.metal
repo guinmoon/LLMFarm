@@ -1,4 +1,3 @@
-#ifdef GGML_USE_METAL
 #include <metal_stdlib>
 
 using namespace metal;
@@ -1586,4 +1585,3 @@ kernel void kernel_mul_mat_q6_k_f32(
 }
 
 
-#endif

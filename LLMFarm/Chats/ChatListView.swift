@@ -20,17 +20,25 @@ struct ChatListView: View {
     @Binding var add_chat_dialog: Bool
     var close_chat: () -> Void
     @Binding var edit_chat_dialog: Bool
+//    @State var selection: Int32? = nil
 //    var select_chat: (String) -> Void
     
 //    let users = ["Shezad", "Mathew", "Afna", "Jerin", "Catherine"]
-    var chats_previews = get_chat_list()!
+    @State var chats_previews = get_chat_list()!
     
     func delete(at offsets: IndexSet) {
 //        chats_preview.remove(atOffsets: offsets)
         let chatsToDelete = offsets.map { self.chats_previews[$0] }
-        delete_chats(chatsToDelete)        
+        let res = delete_chats(chatsToDelete)
         
     }
+    
+    func delete(at elem:Dictionary<String, String>){
+        let res = delete_chats([elem])
+        self.chats_previews.removeAll(where: { $0 == elem })
+    }
+
+
     
     var body: some View {
         ZStack{
@@ -58,12 +66,13 @@ struct ChatListView: View {
                 .padding(.top)
                 .padding(.horizontal)
                 
+                
 //                    Divider()
 //                        .padding(.bottom, 20)
                 
                 
                 VStack(){
-                    List {
+                    List() {
                         ForEach(chats_previews, id: \.self) { chat_preview in
                             ChatItem(
                                 chatImage: String(describing: chat_preview["icon"]!),
@@ -80,6 +89,13 @@ struct ChatListView: View {
                             )
 //                            .border(Color.green, width: 1)
                             .listRowInsets(.init())
+                            .contextMenu {
+                                Button(action: {
+                                    delete(at: chat_preview)
+                                }){
+                                    Text("Delete chat")
+                                }
+                            }
                         }
                         .onDelete(perform: delete)
                     }

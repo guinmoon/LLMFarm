@@ -45,7 +45,7 @@ public class LLaMa: GPTBase {
         params.vocab_only = contextParams.vocabOnly
         params.use_mlock = contextParams.useMlock
         params.embedding = contextParams.embedding
-        params.n_gpu_layers = 1
+        params.n_gpu_layers = 2
         self.context = llama_init_from_file(path, params)
         return true
     }
@@ -156,7 +156,7 @@ public class LLaMa: GPTBase {
             // Not enough room to predict even a single token so purge
             let forgetCount = Int32(past.first!.count)
             past.removeFirst()
-            llama_shift_kv_cache(context, forgetCount)
+//            llama_shift_kv_cache(context, forgetCount)
             // Update count vars
             nPast -= forgetCount
             totalLength -= forgetCount
@@ -263,7 +263,7 @@ public class LLaMa: GPTBase {
                         forgetCount = Int32(first.count)
                         past.removeFirst()
                     }
-                    llama_shift_kv_cache(context, forgetCount)
+//                    llama_shift_kv_cache(context, forgetCount)
                     // Update nPast from purge
                     nPast -= forgetCount
                     // Print how many tokens are purged

@@ -55,6 +55,7 @@ gpt_token gpt_base_token_eos();
 
 
 
+
 int gpt_base_n_vocab(struct gpt_base_context * ctx);
 
 int gpt_base_n_ctx(struct gpt_base_context * ctx);

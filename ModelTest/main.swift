@@ -50,6 +50,7 @@ func main(){
 //    ai.model.promptFormat = .None
     
     let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-3b.ggmlv3.q4_0.bin",_chatName: "chat")
+//    let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-7b.ggmlv3.q2_K.bin",_chatName: "chat")
     try? ai.loadModel(ModelInference.LLamaInference)
     ai.model.promptFormat = .LLaMa
     

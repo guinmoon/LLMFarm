@@ -7,7 +7,7 @@ import PackageDescription
 //#if (arch(i386) || arch(x86_64))
 let package = Package(
     name: "llmfarm_core.swift",
-    platforms: [.macOS(.v11)],
+    platforms: [.macOS(.v11),.iOS(.v15)],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
@@ -23,7 +23,11 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "llmfarm_core",
-            sources: ["ggml.c","k_quants.c", "gptneox/gptneox.cpp","gpt2/gpt2.cpp","replit/replit.cpp","common.cpp","gpt_helpers.cpp","gpt_spm.cpp", "llama/llama.cpp", "llama/ggml-metal.m"],
+            sources: ["ggml.c","llama/ggml-metal.m","k_quants.c", "gptneox/gptneox.cpp","gpt2/gpt2.cpp","replit/replit.cpp","common.cpp","gpt_helpers.cpp","gpt_spm.cpp", "llama/llama.cpp"],
+//            resources: [
+//                 .copy("metal/ggml-metal.metal")
+//               ],
+            resources: [.copy("Resources")],
             publicHeadersPath: "spm-headers",
             cSettings: [
                 .unsafeFlags(["-O3"]),
@@ -37,10 +41,12 @@ let package = Package(
 //                .unsafeFlags(["-mavx2"]),
 //                .unsafeFlags(["-mf16c"]),
 //                .unsafeFlags(["-msse3"]),
-                .unsafeFlags(["-DGGML_USE_ACCELERATE"]),
                 .unsafeFlags(["-DGGML_USE_K_QUANTS"]),
-//                .unsafeFlags(["-DGGML_USE_METAL"]),
-//                .unsafeFlags(["-DGGML_METAL_NDEBUG"]),
+//                .unsafeFlags(["-DGGML_QKK_64"]),
+                .unsafeFlags(["-DGGML_USE_ACCELERATE"]),
+                .unsafeFlags(["-DGGML_USE_METAL"]),
+                .unsafeFlags(["-DGGML_METAL_NDEBUG"]),
+                .unsafeFlags(["-pthread"]),
                 .unsafeFlags(["-Wall"]),
                 .unsafeFlags(["-Wpedantic"]),
                 .unsafeFlags(["-Wcast-qual"]),
@@ -63,8 +69,7 @@ let package = Package(
         ),
         
     ],
-    cLanguageStandard: .gnu18,
-    cxxLanguageStandard: .gnucxx20
+    cxxLanguageStandard: .cxx20
 )
 
 //#else

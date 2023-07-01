@@ -63,7 +63,7 @@ extern "C" {
 
     struct llama_model;
     struct llama_context;
-
+    
     typedef int llama_token;
 
     typedef struct llama_token_data {
@@ -132,8 +132,6 @@ extern "C" {
         bool quantize_output_tensor; // quantize output.weight
     } llama_model_quantize_params;
 
-    LLAMA_API void llama_shift_kv_cache(struct llama_context * ctx, int n);
-
     LLAMA_API struct llama_context_params llama_context_default_params();
     LLAMA_API struct llama_model_quantize_params llama_model_quantize_default_params();
 
@@ -142,8 +140,11 @@ extern "C" {
 
     // TODO: not great API - very likely to change
     // Initialize the llama + ggml backend
+    // If numa is true, use NUMA optimizations
     // Call once at the start of the program
-    LLAMA_API void llama_init_backend();
+    LLAMA_API void llama_init_backend(bool numa);
+
+//    LLAMA_API void llama_shift_kv_cache(struct llama_context * ctx, int n);
 
     LLAMA_API int64_t llama_time_us();
 
@@ -223,6 +224,14 @@ extern "C" {
     LLAMA_API int llama_eval(
             struct llama_context * ctx,
                const llama_token * tokens,
+                             int   n_tokens,
+                             int   n_past,
+                             int   n_threads);
+
+    // Same as llama_eval, but use float matrix input directly.
+    LLAMA_API int llama_eval_embd(
+            struct llama_context * ctx,
+                     const float * embd,
                              int   n_tokens,
                              int   n_past,
                              int   n_threads);

@@ -1,5 +1,6 @@
 #include "../spm-headers/gpt_spm.h"
 #include "gpt_helpers.h"
+#include "../spm-headers/llama.h"
 #include "ggml.h"
 #include <cassert>
 #include <cmath>
@@ -92,6 +93,8 @@ const char * gpt_base_token_to_str(struct gpt_base_context * ctx, gpt_token toke
     }
     return ctx->vocab.id_to_token[token].c_str();
 }
+
+
 
 
 int gpt_base_tokenize(

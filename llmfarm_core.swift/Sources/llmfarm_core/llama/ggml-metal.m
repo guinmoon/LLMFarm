@@ -130,7 +130,11 @@ struct ggml_metal_context * ggml_metal_init(void) {
     // read the source from "ggml-metal.metal" into a string and use newLibraryWithSource
     {
         NSError * error = nil;
+#ifdef MacMetal
         NSString *metal_path = [NSBundle.mainBundle.resourcePath stringByAppendingString:@"/llmfarm_core.swift_llmfarm_core.bundle/Contents/Resources/Resources/ggml-metal.metal"];
+#else
+        NSString *metal_path = [NSBundle.mainBundle.resourcePath stringByAppendingString:@"/ggml-metal.mtl"];
+#endif
 //        NSString *metal_path = @"/Users/guinmoon/Library/Developer/Xcode/DerivedData/LLMFarm-bfxpdlswbhfozgepczdsdayclcnh/Build/Products/Debug/llmfarm_core.swift_llmfarm_core.bundle/Contents/Resources/Resources/ggml-metal.metal";
         fprintf(stderr, "%s: loading '%s'\n", __func__, [metal_path UTF8String]);
         NSString * src  = [NSString stringWithContentsOfFile:metal_path encoding:NSUTF8StringEncoding error:&error];
@@ -199,7 +203,8 @@ struct ggml_metal_context * ggml_metal_init(void) {
 
 #undef GGML_METAL_ADD_KERNEL
     }
-
+    
+#ifdef MacMetal
     fprintf(stderr, "%s: recommendedMaxWorkingSetSize = %8.2f MB\n", __func__, ctx->device.recommendedMaxWorkingSetSize / 1024.0 / 1024.0);
     fprintf(stderr, "%s: hasUnifiedMemory             = %s\n",       __func__, ctx->device.hasUnifiedMemory ? "true" : "false");
     if (ctx->device.maxTransferRate != 0) {
@@ -207,7 +212,7 @@ struct ggml_metal_context * ggml_metal_init(void) {
     } else {
         fprintf(stderr, "%s: maxTransferRate              = built-in GPU\n", __func__);
     }
-
+#endif
     return ctx;
 }
 
@@ -318,7 +323,7 @@ bool ggml_metal_add_buffer(
                 ++ctx->n_buffers;
             }
         }
-
+#ifdef MacMetal
         fprintf(stderr, ", (%8.2f / %8.2f)",
                 ctx->device.currentAllocatedSize / 1024.0 / 1024.0,
                 ctx->device.recommendedMaxWorkingSetSize / 1024.0 / 1024.0);
@@ -328,8 +333,8 @@ bool ggml_metal_add_buffer(
         } else {
             fprintf(stderr, "\n");
         }
+#endif
     }
-
     return true;
 }
 

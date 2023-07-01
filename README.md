@@ -1,11 +1,11 @@
 # LLMFarm
 
 <p align="center">
-  <img width="256px" alt="Icon" src="dist/LLMFarm0.1.2_256.png">
+  <img width="178px" alt="Icon" src="dist/LLMFarm0.1.2_256.png">
 </p>
 
 <p align="center">
-  <img alt="Icon" height="400px"  src="dist/screen1.png">
+  <img alt="Icon" height="380px"  src="dist/screen1.png">
   <img alt="Icon" width="570px"  src="dist/screen2.png">
 </p>
 

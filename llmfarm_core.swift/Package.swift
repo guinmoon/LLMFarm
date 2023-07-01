@@ -27,7 +27,7 @@ let package = Package(
 //            resources: [
 //                 .copy("metal/ggml-metal.metal")
 //               ],
-            resources: [.copy("Resources")],
+//            resources: [.copy("Resources")],
             publicHeadersPath: "spm-headers",
             cSettings: [
                 .unsafeFlags(["-O3"]),

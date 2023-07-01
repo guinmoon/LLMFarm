@@ -15,6 +15,7 @@
 		155FBBA32A48B5C1004DD5AE /* Replit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155FBBA12A48B5C0004DD5AE /* Replit.swift */; };
 		1560D6172A2D1A3D00918330 /* AddChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1560D6162A2D1A3D00918330 /* AddChatView.swift */; };
 		1560D61C2A2E142900918330 /* ExceptionCatcher.h in Sources */ = {isa = PBXBuildFile; fileRef = 1560D61B2A2E11E200918330 /* ExceptionCatcher.h */; };
+		156A48C92A50786F007DF519 /* ggml-metal.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 156A48C82A50786F007DF519 /* ggml-metal.mtl */; };
 		159650ED2A49F8280007BE5C /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61E38F329B1F0BA00114C15 /* Accelerate.framework */; };
 		159650F12A49F8400007BE5C /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 159650EE2A49F8400007BE5C /* MetalKit.framework */; };
 		159650F22A49F8400007BE5C /* MetalPerformanceShaders.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 159650EF2A49F8400007BE5C /* MetalPerformanceShaders.framework */; };
@@ -84,6 +85,8 @@
 		155FBBA12A48B5C0004DD5AE /* Replit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Replit.swift; sourceTree = "<group>"; };
 		1560D6162A2D1A3D00918330 /* AddChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChatView.swift; sourceTree = "<group>"; };
 		1560D61B2A2E11E200918330 /* ExceptionCatcher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExceptionCatcher.h; sourceTree = "<group>"; };
+		156A48C62A50756D007DF519 /* ggml-metal.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = "ggml-metal.metal"; sourceTree = "<group>"; };
+		156A48C82A50786F007DF519 /* ggml-metal.mtl */ = {isa = PBXFileReference; lastKnownFileType = text; path = "ggml-metal.mtl"; sourceTree = "<group>"; };
 		159650EE2A49F8400007BE5C /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
 		159650EF2A49F8400007BE5C /* MetalPerformanceShaders.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalPerformanceShaders.framework; path = System/Library/Frameworks/MetalPerformanceShaders.framework; sourceTree = SDKROOT; };
 		159650F02A49F8400007BE5C /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
@@ -160,6 +163,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		156A48C52A50756D007DF519 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				156A48C62A50756D007DF519 /* ggml-metal.metal */,
+			);
+			name = Resources;
+			path = llmfarm_core.swift/Sources/llmfarm_core/Resources;
+			sourceTree = "<group>";
+		};
 		15A3EDBD2A2121D90030AF5A /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -271,6 +283,8 @@
 		E624E1F52958ECC800996CD1 = {
 			isa = PBXGroup;
 			children = (
+				156A48C82A50786F007DF519 /* ggml-metal.mtl */,
+				156A48C52A50756D007DF519 /* Resources */,
 				E6024EC229EA7BEB001FE9B0 /* Packages */,
 				E624E2102958F21E00996CD1 /* Info.plist */,
 				15E415D22A18A2980057A15E /* ModelTest */,
@@ -393,6 +407,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				156A48C92A50786F007DF519 /* ggml-metal.mtl in Resources */,
 				15F210892A191B1B0021F414 /* Preview Assets.xcassets in Resources */,
 				15F210852A191B1B0021F414 /* Assets.xcassets in Resources */,
 			);
@@ -504,6 +519,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_ENTITLEMENTS = LLMFarm/LLMFarm.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_ASSET_PATHS = "\"LLMFarm/Preview Content\"";
@@ -532,6 +548,7 @@
 				MARKETING_VERSION = 0.1.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.guinmoon.LLMFarm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -549,6 +566,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_ENTITLEMENTS = LLMFarm/LLMFarm.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_ASSET_PATHS = "\"LLMFarm/Preview Content\"";
@@ -577,6 +595,7 @@
 				MARKETING_VERSION = 0.1.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.guinmoon.LLMFarm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SWIFT_EMIT_LOC_STRINGS = YES;

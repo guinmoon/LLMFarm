@@ -69,7 +69,9 @@ struct AddChatView: View {
     @State private var prompt_format: String = "auto"
     @State private var model_icon: String = "ava0"
     @State private var numberOfThreads: String = "0"
+    @State private var use_metal: Bool = false
     @State private var isImporting: Bool = false
+
     private var chat_name: String = ""
     let bin_type = UTType(tag: "bin", tagClass: .filenameExtension, conformingTo: nil)
     
@@ -98,6 +100,9 @@ struct AddChatView: View {
         }
         if (chat_config!["model_inference"] != nil){
             self._model_inference = State(initialValue: chat_config!["model_inference"]! as! String)
+        }
+        if (chat_config!["use_metal"] != nil){
+            self._use_metal = State(initialValue: chat_config!["use_metal"]! as! Bool)
         }
         if (chat_config!["prompt_format"] != nil){
             self._prompt_format = State(initialValue: chat_config!["prompt_format"]! as! String)
@@ -157,6 +162,7 @@ struct AddChatView: View {
                                                                    "top_k":Int32(model_top_k),
                                                                    "top_p":Float(model_top_p),
                                                                    "model_inference":model_inference,
+                                                                   "use_metal":use_metal,
                                                                    "prompt_format":prompt_format,
                                                                    "numberOfThreads":Int32(numberOfThreads),
                                                                    "icon":model_icon]
@@ -238,6 +244,11 @@ struct AddChatView: View {
                                 .pickerStyle(.menu)
                             }
                             .frame(maxWidth: .infinity, alignment: .trailing)
+                        }
+                        .padding()
+                        
+                        HStack {
+                            Toggle("Use Metal", isOn: $use_metal)
                         }
                         .padding()
                         

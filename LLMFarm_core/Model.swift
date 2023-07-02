@@ -53,6 +53,7 @@ public func get_model_sample_param_by_config(_ model_config:Dictionary<String, A
     if (model_config["mirostat_eta"] != nil){
         tmp_param.mirostat_eta = Float(model_config["mirostat_tau"] as! Double)
     }
+    
     return tmp_param
 }
 
@@ -80,6 +81,7 @@ public struct ModelContextParams {
     public var useMlock = false     // force system to keep model in RAM
     public var embedding = false    // embedding mode only
     public var processorsConunt  = Int32(ProcessInfo.processInfo.processorCount)
+    public var use_metal = false
 
     public static let `default` = ModelContextParams()
 
@@ -144,7 +146,8 @@ public struct ModelSampleParams {
                 mirostat: Int32 = 0,
                 mirostat_tau: Float = 5.0,
                 mirostat_eta: Float = 0.1,
-                penalize_nl: Bool = true) {
+                penalize_nl: Bool = true,
+                use_metal:Bool = false) {
         self.n_batch = n_batch
         self.temp = temp
         self.top_k = top_k

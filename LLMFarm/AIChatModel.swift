@@ -85,6 +85,9 @@ final class AIChatModel: ObservableObject {
 //Set mode linference and try to load model
             if (chat_config!["model_inference"] != nil && chat_config!["model_inference"]! as! String != "auto"){
                 if chat_config!["model_inference"] as! String == "llama"{
+                    if (chat_config!["use_metal"] != nil){
+                        model_context_param.use_metal = chat_config!["use_metal"] as! Bool
+                    }
                     try? self.chat?.loadModel(ModelInference.LLamaInference,contextParams: model_context_param)
                 }else if chat_config!["model_inference"] as! String == "gptneox" {
                     try? self.chat?.loadModel(ModelInference.GPTNeoxInference,contextParams: model_context_param)

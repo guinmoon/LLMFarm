@@ -45,7 +45,9 @@ public class LLaMa: GPTBase {
         params.vocab_only = contextParams.vocabOnly
         params.use_mlock = contextParams.useMlock
         params.embedding = contextParams.embedding
-        params.n_gpu_layers = 2
+        if contextParams.use_metal{
+            params.n_gpu_layers = 1
+        }
         self.context = llama_init_from_file(path, params)
         return true
     }

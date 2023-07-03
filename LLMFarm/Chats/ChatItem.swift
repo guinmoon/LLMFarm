@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+
+
 struct ChatItem: View {
     
     var chatImage: String = ""
@@ -31,7 +33,7 @@ struct ChatItem: View {
                 title = self.chatTitle
                 chat_selected = true
             }){
-            Image(chatImage+"_85")
+                Image(chatImage+"_85")
                 .resizable()
                 .background( Color("color_bg_inverted").opacity(0.05))
                 .padding(EdgeInsets(top: 7, leading: 5, bottom: 7, trailing: 5))

@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:/Users/guinmoon/dev/alpaca_llama_etc/LLMFarm_Proj/LLMFarm.xcodeproj">
+      location = "self:">
    </FileRef>
 </Workspace>

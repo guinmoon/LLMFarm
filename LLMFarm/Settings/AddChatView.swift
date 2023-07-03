@@ -183,6 +183,7 @@ struct AddChatView: View {
                             //                            Text(model_file.input)
                             TextField("Title...", text: $model_title)
                                 .frame(maxWidth: .infinity, alignment: .leading)
+                                .textFieldStyle(.plain)
                             
                         }
                         .padding()
@@ -193,6 +194,7 @@ struct AddChatView: View {
                                 //                            Text(model_file.input)
                                 TextField("Model file...", text: $model_file_name)
                                     .frame(maxWidth: .infinity, alignment: .leading)
+                                    .textFieldStyle(.plain)
                                 Button {
                                     Task {
                                         isImporting = true
@@ -233,10 +235,10 @@ struct AddChatView: View {
                             .padding(.top, 8)
                         
                         HStack{
-                            Text("Infc:")
-                                .frame(maxWidth: .infinity, alignment: .leading)
+//                            Text("Infc:")
+//                                .frame(maxWidth: .infinity, alignment: .leading)
                             VStack {
-                                Picker("Select an inference", selection: $model_inference) {
+                                Picker("inference", selection: $model_inference) {
                                     ForEach(model_inferences, id: \.self) {
                                         Text($0)
                                     }
@@ -250,14 +252,16 @@ struct AddChatView: View {
                         HStack {
                             Toggle("Use Metal", isOn: $use_metal)
                         }
+                        .disabled(self.model_inference != "llama")
                         .padding()
                         
-                        HStack {
+                        VStack {
                             Text("Prompt format:")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                             TextField("size..", text: $prompt_format)
                                 .frame( alignment: .leading)
                                 .multilineTextAlignment(.trailing)
+                                .textFieldStyle(.plain)
                         }
                         .padding()
                         
@@ -267,64 +271,71 @@ struct AddChatView: View {
                         Group {
                             HStack {
                                 Text("Threads:")
-                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .frame(maxWidth: 75, alignment: .leading)
                                 TextField("size..", text: $numberOfThreads)
                                     .frame( alignment: .leading)
                                     .multilineTextAlignment(.trailing)
+                                    .textFieldStyle(.plain)
                             }
                             .padding()
                             
                             HStack {
                                 Text("Context:")
-                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .frame(maxWidth: 75, alignment: .leading)
                                 TextField("size..", text: $model_context)
                                     .frame( alignment: .leading)
                                     .multilineTextAlignment(.trailing)
+                                    .textFieldStyle(.plain)
                             }
                             .padding(.horizontal)
                                                                                 
                             HStack {
                                 Text("N_Batch:")
-                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .frame(maxWidth: 75, alignment: .leading)
                                 TextField("size..", text: $model_n_batch)
                                     .frame( alignment: .leading)
                                     .multilineTextAlignment(.trailing)
+                                    .textFieldStyle(.plain)
                             }
                             .padding(.horizontal)
                             
                             HStack {
                                 Text("Temp:")
-                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .frame(maxWidth: 75, alignment: .leading)
                                 TextField("size..", text: $model_temp)
                                     .frame( alignment: .leading)
                                     .multilineTextAlignment(.trailing)
+                                    .textFieldStyle(.plain)
                             }
                             .padding(.horizontal)
                             
                             HStack {
                                 Text("Top_k:")
-                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .frame(maxWidth: 75, alignment: .leading)
                                 TextField("size..", text: $model_top_k)
                                     .frame( alignment: .leading)
                                     .multilineTextAlignment(.trailing)
+                                    .textFieldStyle(.plain)
                             }
                             .padding(.horizontal)
                             
                             HStack {
                                 Text("Top_p:")
-                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .frame(maxWidth: 75, alignment: .leading)
                                 TextField("size..", text: $model_top_p)
                                     .frame( alignment: .leading)
                                     .multilineTextAlignment(.trailing)
+                                    .textFieldStyle(.plain)
                             }
                             .padding(.horizontal)
                             
                             HStack {
                                 Text("Icon:")
-                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .frame(maxWidth: 75, alignment: .leading)
                                 TextField("size..", text: $model_icon)
                                     .frame( alignment: .leading)
                                     .multilineTextAlignment(.trailing)
+                                    .textFieldStyle(.plain)
                             }
                             .padding()
                         }

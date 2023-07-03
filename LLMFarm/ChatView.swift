@@ -49,7 +49,7 @@ struct ChatView: View {
         ScrollViewReader { scrollView in
             VStack {
                 HStack{
-                    if (orientationInfo.orientation == .portrait){
+                    if (orientationInfo.orientation == .portrait || orientationInfo.userInterfaceIdiom == .phone){
                         Button {
                             Task {
                                 close_chat()
@@ -100,8 +100,8 @@ struct ChatView: View {
                 .frame(minHeight: 45)
 #endif
                 
-                Divider()
-                    .padding(.bottom, 20)
+//                Divider()
+//                    .padding(.bottom, 20)
                 
                 List {
                     ForEach(0..<aiChatModel.messages.count, id: \.self) { index in
@@ -166,8 +166,8 @@ struct ChatView: View {
     }
 }
 
-struct ChatView_Previews: PreviewProvider {
-    static var previews: some View {
-        ChatView(chat_selected: .constant(true),model_name: .constant(""),chat_name:.constant(""),title: .constant("Title"),close_chat: {},add_chat_dialog:.constant(false),edit_chat_dialog:.constant(false))
-    }
-}
+//struct ChatView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ChatView(chat_selected: .constant(true),model_name: .constant(""),chat_name:.constant(""),title: .constant("Title"),close_chat: {},add_chat_dialog:.constant(false),edit_chat_dialog:.constant(false))
+//    }
+//}

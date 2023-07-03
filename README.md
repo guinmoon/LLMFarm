@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <img alt="Icon" height="380px"  src="dist/screen1.png">
+  <img alt="Icon" height="400px"  src="dist/screen1.png">
   <img alt="Icon" width="570px"  src="dist/screen2.png">
 </p>
 
@@ -30,8 +30,6 @@ List of supported models:
 | [RWKV-4 "Raven"](https://huggingface.co/BlinkDL/rwkv-4-raven)                      | RWKV      | 3B       |                                                                                                             | in dev                  | ok    |
 
 Models must be maintained by [ggml](https://github.com/ggerganov/ggml) after [#154](https://github.com/ggerganov/ggml/pull/154).
-
-Currently, loading 7B models on a real iOS device causes a `bad alloc error`, while in the simulator everything works without problems. It may be necessary to add extended-memory to solve the problem.
 
 The application operates in sandbox mode and places the added models in the "models" directory. 
 

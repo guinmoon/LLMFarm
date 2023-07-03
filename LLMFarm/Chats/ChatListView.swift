@@ -42,7 +42,8 @@ struct ChatListView: View {
     
     var body: some View {
         ZStack{
-            Color("color_bg").edgesIgnoringSafeArea(.all)
+//            Color("color_bg").edgesIgnoringSafeArea(.all)
+            
             VStack(alignment: .leading, spacing: 5){
                 HStack{
                     Text("Chats")
@@ -74,38 +75,45 @@ struct ChatListView: View {
                 VStack(){
                     List() {
                         ForEach(chats_previews, id: \.self) { chat_preview in
-                            ChatItem(
-                                chatImage: String(describing: chat_preview["icon"]!),
-                                chatTitle: String(describing: chat_preview["title"]!),
-                                message: String(describing: chat_preview["message"]!),
-                                time: String(describing: chat_preview["time"]!),
-                                model:String(describing: chat_preview["model"]!),
-                                chat:String(describing: chat_preview["chat"]!),
-                                chat_selected: $chat_selected,
-                                model_name: $model_name,
-                                chat_name: $chat_name,
-                                title: $title,
-                                close_chat:close_chat
-                            )
-//                            .border(Color.green, width: 1)
-                            .listRowInsets(.init())
-                            .contextMenu {
-                                Button(action: {
-                                    delete(at: chat_preview)
-                                }){
-                                    Text("Delete chat")
+//                            NavigationLink(value: chat_preview){
+                                ChatItem(
+                                    chatImage: String(describing: chat_preview["icon"]!),
+                                    chatTitle: String(describing: chat_preview["title"]!),
+                                    message: String(describing: chat_preview["message"]!),
+                                    time: String(describing: chat_preview["time"]!),
+                                    model:String(describing: chat_preview["model"]!),
+                                    chat:String(describing: chat_preview["chat"]!),
+                                    chat_selected: $chat_selected,
+                                    model_name: $model_name,
+                                    chat_name: $chat_name,
+                                    title: $title,
+                                    close_chat:close_chat
+                                )
+                                //                            .border(Color.green, width: 1)
+                                .listRowInsets(.init())
+                                .contextMenu {
+                                    Button(action: {
+                                        delete(at: chat_preview)
+                                    }){
+                                        Text("Delete chat")
+                                    }
                                 }
-                            }
+//                            }
                         }
                         .onDelete(perform: delete)
                     }
 //                    .border(Color.red, width: 1)
-                    .listStyle(PlainListStyle())
-//                    .listStyle(InsetListStyle())
+//                    .listStyle(PlainListStyle())
+                    #if os(macOS)
+                    .listStyle(.sidebar)
+                    #else
+                    .listStyle(InsetListStyle())
+                    #endif
                 }
-                
+                .background(.opacity(0))
             }
         }
+        
     }
 }
 

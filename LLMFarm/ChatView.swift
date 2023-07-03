@@ -140,13 +140,14 @@ struct ChatView: View {
                         }
                         .padding(.horizontal, 6.0)
                         .disabled((inputText.isEmpty && !aiChatModel.predicting))
+                        .keyboardShortcut(.defaultAction)
 #if os(macOS)
                         .buttonStyle(.borderedProminent)
                         .controlSize(.large)
 #endif
                     }
                 }
-                .padding(.all)
+                .padding(.bottom)
             }
             .navigationTitle("Chat")
             .task {

@@ -6,10 +6,12 @@
       "scale" : "1x"
     },
     {
+      "filename" : "ava1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "ava1 1.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

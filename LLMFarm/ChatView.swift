@@ -148,6 +148,7 @@ struct ChatView: View {
                     }
                 }
                 .padding(.bottom)
+                .padding(.leading)
             }
             .navigationTitle("Chat")
             .task {

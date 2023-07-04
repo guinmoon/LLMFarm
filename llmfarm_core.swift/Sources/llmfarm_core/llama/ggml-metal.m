@@ -131,7 +131,7 @@ struct ggml_metal_context * ggml_metal_init(void) {
     {
         NSError * error = nil;
 #ifdef MacMetal
-        NSString *metal_path = [NSBundle.mainBundle.resourcePath stringByAppendingString:@"/llmfarm_core.swift_llmfarm_core.bundle/Contents/Resources/Resources/ggml-metal.metal"];
+        NSString *metal_path = @"/Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/ggml-metal.mtl";
 #else
         NSString *metal_path = [NSBundle.mainBundle.resourcePath stringByAppendingString:@"/ggml-metal.mtl"];
 #endif
@@ -175,26 +175,26 @@ struct ggml_metal_context * ggml_metal_init(void) {
         GGML_METAL_ADD_KERNEL(diag_mask_inf);
         GGML_METAL_ADD_KERNEL(get_rows_f16);
         GGML_METAL_ADD_KERNEL(get_rows_q4_0);
-//        GGML_METAL_ADD_KERNEL(get_rows_q4_1);
-//        GGML_METAL_ADD_KERNEL(get_rows_q2_K);
-        ctx->function_get_rows_q4_1 = [ctx->library newFunctionWithName:@"kernel_get_rows_q4_1"];
-        ctx->pipeline_get_rows_q4_1 = [ctx->device newComputePipelineStateWithFunction:ctx->function_get_rows_q4_1 error:nil];
-        ctx->function_get_rows_q2_K = [ctx->library newFunctionWithName:@"test_fn"];
+        GGML_METAL_ADD_KERNEL(get_rows_q4_1);
+        GGML_METAL_ADD_KERNEL(get_rows_q2_K);
+//        ctx->function_get_rows_q4_1 = [ctx->library newFunctionWithName:@"kernel_get_rows_q4_1"];
+//        ctx->pipeline_get_rows_q4_1 = [ctx->device newComputePipelineStateWithFunction:ctx->function_get_rows_q4_1 error:nil];
+//        ctx->function_get_rows_q2_K = [ctx->library newFunctionWithName:@"kernel_get_rows_q2_K"];
 //        ctx->pipeline_get_rows_q2_K = [ctx->device newComputePipelineStateWithFunction:ctx->function_get_rows_q2_K error:nil];
-//        GGML_METAL_ADD_KERNEL(get_rows_q3_K);
-//        GGML_METAL_ADD_KERNEL(get_rows_q4_K);
-//        GGML_METAL_ADD_KERNEL(get_rows_q5_K);
-//        GGML_METAL_ADD_KERNEL(get_rows_q6_K);
+        GGML_METAL_ADD_KERNEL(get_rows_q3_K);
+        GGML_METAL_ADD_KERNEL(get_rows_q4_K);
+        GGML_METAL_ADD_KERNEL(get_rows_q5_K);
+        GGML_METAL_ADD_KERNEL(get_rows_q6_K);
         GGML_METAL_ADD_KERNEL(rms_norm);
         GGML_METAL_ADD_KERNEL(norm);
         GGML_METAL_ADD_KERNEL(mul_mat_f16_f32);
         GGML_METAL_ADD_KERNEL(mul_mat_q4_0_f32);
         GGML_METAL_ADD_KERNEL(mul_mat_q4_1_f32);
-//        GGML_METAL_ADD_KERNEL(mul_mat_q2_K_f32);
-//        GGML_METAL_ADD_KERNEL(mul_mat_q3_K_f32);
-//        GGML_METAL_ADD_KERNEL(mul_mat_q4_K_f32);
-//        GGML_METAL_ADD_KERNEL(mul_mat_q5_K_f32);
-//        GGML_METAL_ADD_KERNEL(mul_mat_q6_K_f32);
+        GGML_METAL_ADD_KERNEL(mul_mat_q2_K_f32);
+        GGML_METAL_ADD_KERNEL(mul_mat_q3_K_f32);
+        GGML_METAL_ADD_KERNEL(mul_mat_q4_K_f32);
+        GGML_METAL_ADD_KERNEL(mul_mat_q5_K_f32);
+        GGML_METAL_ADD_KERNEL(mul_mat_q6_K_f32);
         GGML_METAL_ADD_KERNEL(rope);
         GGML_METAL_ADD_KERNEL(alibi_f32);
         GGML_METAL_ADD_KERNEL(cpy_f32_f16);

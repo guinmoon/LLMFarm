@@ -49,9 +49,12 @@ func main(){
 //    try? ai.loadModel(ModelInference.Replit)
 //    ai.model.promptFormat = .None
     
-    let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-3b.ggmlv3.q4_0.bin",_chatName: "chat")
-//    let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-7b.ggmlv3.q2_K.bin",_chatName: "chat")
-    try? ai.loadModel(ModelInference.LLamaInference)
+//    #define MacMetal
+//    let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-3b.ggmlv3.q4_0.bin",_chatName: "chat")
+    let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-7b.ggmlv3.q3_K_M.bin",_chatName: "chat")
+    var params:ModelContextParams = .default
+    params.use_metal = true
+    try? ai.loadModel(ModelInference.LLamaInference,contextParams: params)
     ai.model.promptFormat = .LLaMa
     
     

@@ -88,7 +88,6 @@
 		155FBBA12A48B5C0004DD5AE /* Replit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Replit.swift; sourceTree = "<group>"; };
 		1560D6162A2D1A3D00918330 /* AddChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChatView.swift; sourceTree = "<group>"; };
 		1560D61B2A2E11E200918330 /* ExceptionCatcher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExceptionCatcher.h; sourceTree = "<group>"; };
-		156A48C62A50756D007DF519 /* ggml-metal.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = "ggml-metal.metal"; sourceTree = "<group>"; };
 		156A48C82A50786F007DF519 /* ggml-metal.mtl */ = {isa = PBXFileReference; lastKnownFileType = text; path = "ggml-metal.mtl"; sourceTree = "<group>"; };
 		156A48CF2A52B55B007DF519 /* SplitViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViews.swift; sourceTree = "<group>"; };
 		156A48D12A52B65C007DF519 /* Orientation_helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Orientation_helper.swift; sourceTree = "<group>"; };
@@ -169,15 +168,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		156A48C52A50756D007DF519 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				156A48C62A50756D007DF519 /* ggml-metal.metal */,
-			);
-			name = Resources;
-			path = llmfarm_core.swift/Sources/llmfarm_core/Resources;
-			sourceTree = "<group>";
-		};
 		15A3EDBD2A2121D90030AF5A /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -292,7 +282,6 @@
 			isa = PBXGroup;
 			children = (
 				156A48C82A50786F007DF519 /* ggml-metal.mtl */,
-				156A48C52A50756D007DF519 /* Resources */,
 				E6024EC229EA7BEB001FE9B0 /* Packages */,
 				E624E2102958F21E00996CD1 /* Info.plist */,
 				15E415D22A18A2980057A15E /* ModelTest */,

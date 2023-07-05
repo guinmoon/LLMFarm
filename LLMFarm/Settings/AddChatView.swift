@@ -9,15 +9,15 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct InputDoument: FileDocument {
-
+    
     static var readableContentTypes: [UTType] { [.plainText] }
-
+    
     var input: String
-
+    
     init(input: String) {
         self.input = input
     }
-
+    
     init(configuration: FileDocumentReadConfiguration) throws {
         guard let data = configuration.file.regularFileContents,
               let string = String(data: data, encoding: .utf8)
@@ -26,18 +26,18 @@ struct InputDoument: FileDocument {
         }
         input = string
     }
-
+    
     func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
         return FileWrapper(regularFileWithContents: input.data(using: .utf8)!)
     }
-
+    
 }
 
 
 struct SelectInference: View {
     @State private var selection = "Red"
     let colors = ["Red", "Green", "Blue", "Black", "Tartan"]
-
+    
     var body: some View {
         VStack {
             Picker("Select an inference", selection: $selection) {
@@ -46,7 +46,7 @@ struct SelectInference: View {
                 }
             }
             .pickerStyle(.menu)
-
+            
             Text("Selected inference: \(selection)")
         }
     }
@@ -56,27 +56,31 @@ struct AddChatView: View {
     
     @Binding var add_chat_dialog: Bool
     @Binding var edit_chat_dialog: Bool
-//    @State private var model_file: InputDoument = InputDoument(input: "")
+    //    @State private var model_file: InputDoument = InputDoument(input: "")
     @State private var model_file_url: URL = URL(filePath: "")
     @State private var model_file_name: String = ""
     @State private var model_file_path: String = "select model"
     @State private var model_title: String = ""
-    @State private var model_context: String = "1024"
-    @State private var model_n_batch: String = "512"
-    @State private var model_temp: String = "0.9"
-    @State private var model_top_k: String = "40"
-    @State private var model_top_p: String = "0.95"
+    @State private var model_context: Int32 = 1024
+    @State private var model_n_batch: Int32 = 512
+    @State private var model_temp: Float = 0.9
+    @State private var model_top_k: Int32 = 40
+    @State private var model_top_p: Float = 0.95
+    @State private var model_repeat_last_n: Int32 = 64
+    @State private var model_repeat_penalty: Float = 1.1
     @State private var prompt_format: String = "auto"
-    @State private var model_icon: String = "ava0"
-    @State private var numberOfThreads: String = "0"
+    @State private var numberOfThreads: Int32 = 0
     @State private var use_metal: Bool = false
     @State private var isImporting: Bool = false
-
+    
     private var chat_name: String = ""
     let bin_type = UTType(tag: "bin", tagClass: .filenameExtension, conformingTo: nil)
     
     @State private var model_inference = "auto"
     let model_inferences = ["auto","gptneox", "llama", "gpt2", "replit"]
+    
+    @State private var model_icon: String = "ava0"
+    let model_icons = ["ava0","ava1","ava2","ava3","ava4","ava5","ava6","ava7"]
     
     init(add_chat_dialog: Binding<Bool>,edit_chat_dialog:Binding<Bool>) {
         self._add_chat_dialog = add_chat_dialog
@@ -108,28 +112,34 @@ struct AddChatView: View {
             self._prompt_format = State(initialValue: chat_config!["prompt_format"]! as! String)
         }
         if (chat_config!["numberOfThreads"] != nil){
-            self._numberOfThreads = State(initialValue: String(chat_config!["numberOfThreads"]! as! Int32))
+            self._numberOfThreads = State(initialValue: chat_config!["numberOfThreads"]! as! Int32)
         }
         if (chat_config!["context"] != nil){
-            self._model_context = State(initialValue: String(chat_config!["context"]! as! Int32))
+            self._model_context = State(initialValue: chat_config!["context"]! as! Int32)
         }
         if (chat_config!["n_batch"] != nil){
-            self._model_n_batch = State(initialValue: String(chat_config!["n_batch"]! as! Int32))
+            self._model_n_batch = State(initialValue: chat_config!["n_batch"]! as! Int32)
         }
         if (chat_config!["top_k"] != nil){
-            self._model_top_k = State(initialValue: String(chat_config!["top_k"]! as! Int32))
+            self._model_top_k = State(initialValue: chat_config!["top_k"]! as! Int32)
         }
         if (chat_config!["temp"] != nil){
-            self._model_temp = State(initialValue: String(chat_config!["temp"]! as! Float))
+            self._model_temp = State(initialValue: chat_config!["temp"]! as! Float)
         }
         if (chat_config!["top_p"] != nil){
-            self._model_top_p = State(initialValue: String(chat_config!["top_p"]! as! Float))
+            self._model_top_p = State(initialValue: chat_config!["top_p"]! as! Float)
+        }
+        if (chat_config!["repeat_penalty"] != nil){
+            self._model_repeat_penalty = State(initialValue: chat_config!["repeat_penalty"]! as! Float)
+        }
+        if (chat_config!["repeat_last_n"] != nil){
+            self._model_repeat_last_n = State(initialValue: chat_config!["repeat_last_n"]! as! Int32)
         }
     }
     
     var body: some View {
         ZStack{
-            Color("color_bg").edgesIgnoringSafeArea(.all)
+//            Color("color_bg").edgesIgnoringSafeArea(.all)
             VStack{
                 
                 HStack{
@@ -150,15 +160,17 @@ struct AddChatView: View {
                         Task {
                             if !edit_chat_dialog {
                                 let sandbox_path = copyModelToSandbox(url: model_file_url)
-//#if os(macOS)
+                                //#if os(macOS)
                                 model_file_path = sandbox_path!
-//#endif
+                                //#endif
                             }
                             let options:Dictionary<String, Any> = ["model":model_file_path,
                                                                    "title":model_title,
                                                                    "context":Int32(model_context),
                                                                    "n_batch":Int32(model_n_batch),
                                                                    "temp":Float(model_temp),
+                                                                   "repeat_last_n":Int32(model_repeat_last_n),
+                                                                   "repeat_penalty":Float(model_repeat_penalty),
                                                                    "top_k":Int32(model_top_k),
                                                                    "top_p":Float(model_top_p),
                                                                    "model_inference":model_inference,
@@ -187,7 +199,7 @@ struct AddChatView: View {
                             
                         }
                         .padding()
-                                                
+                        
                         
                         if !edit_chat_dialog{
                             HStack {
@@ -216,12 +228,12 @@ struct AddChatView: View {
                                     //                                model_file.input = selectedFile.lastPathComponent
                                     model_file_name = selectedFile.lastPathComponent
                                     model_file_url = selectedFile
-//                                    saveBookmark(url: selectedFile)
-//#if os(iOS) || os(watchOS) || os(tvOS)
+                                    //                                    saveBookmark(url: selectedFile)
+                                    //#if os(iOS) || os(watchOS) || os(tvOS)
                                     model_file_path = selectedFile.lastPathComponent
-//#else
-//                                    model_file_path = selectedFile.path
-//#endif
+                                    //#else
+                                    //                                    model_file_path = selectedFile.path
+                                    //#endif
                                     model_title = get_file_name_without_ext(fileName:selectedFile.lastPathComponent)
                                 } catch {
                                     // Handle failure.
@@ -235,8 +247,6 @@ struct AddChatView: View {
                             .padding(.top, 8)
                         
                         HStack{
-//                            Text("Infc:")
-//                                .frame(maxWidth: .infinity, alignment: .leading)
                             VStack {
                                 Picker("inference", selection: $model_inference) {
                                     ForEach(model_inferences, id: \.self) {
@@ -272,72 +282,118 @@ struct AddChatView: View {
                             HStack {
                                 Text("Threads:")
                                     .frame(maxWidth: 75, alignment: .leading)
-                                TextField("size..", text: $numberOfThreads)
+                                TextField("count..", value: $numberOfThreads, format:.number)
                                     .frame( alignment: .leading)
                                     .multilineTextAlignment(.trailing)
                                     .textFieldStyle(.plain)
+#if os(iOS)
+                                    .keyboardType(.numberPad)
+#endif
                             }
                             .padding()
                             
                             HStack {
                                 Text("Context:")
                                     .frame(maxWidth: 75, alignment: .leading)
-                                TextField("size..", text: $model_context)
+                                TextField("size..", value: $model_context, format:.number)
                                     .frame( alignment: .leading)
                                     .multilineTextAlignment(.trailing)
                                     .textFieldStyle(.plain)
+#if os(iOS)
+                                    .keyboardType(.numberPad)
+#endif
                             }
                             .padding(.horizontal)
-                                                                                
+                            
                             HStack {
                                 Text("N_Batch:")
                                     .frame(maxWidth: 75, alignment: .leading)
-                                TextField("size..", text: $model_n_batch)
+                                TextField("size..", value: $model_n_batch, format:.number)
                                     .frame( alignment: .leading)
                                     .multilineTextAlignment(.trailing)
                                     .textFieldStyle(.plain)
+#if os(iOS)
+                                    .keyboardType(.numberPad)
+#endif
                             }
                             .padding(.horizontal)
                             
                             HStack {
                                 Text("Temp:")
                                     .frame(maxWidth: 75, alignment: .leading)
-                                TextField("size..", text: $model_temp)
+                                TextField("size..", value: $model_temp, format:.number)
                                     .frame( alignment: .leading)
                                     .multilineTextAlignment(.trailing)
                                     .textFieldStyle(.plain)
+#if os(iOS)
+                                    .keyboardType(.numbersAndPunctuation)
+#endif
                             }
                             .padding(.horizontal)
                             
                             HStack {
                                 Text("Top_k:")
                                     .frame(maxWidth: 75, alignment: .leading)
-                                TextField("size..", text: $model_top_k)
+                                TextField("size..", value: $model_top_k, format:.number)
                                     .frame( alignment: .leading)
                                     .multilineTextAlignment(.trailing)
                                     .textFieldStyle(.plain)
+#if os(iOS)
+                                    .keyboardType(.numberPad)
+#endif
                             }
                             .padding(.horizontal)
                             
                             HStack {
                                 Text("Top_p:")
                                     .frame(maxWidth: 75, alignment: .leading)
-                                TextField("size..", text: $model_top_p)
+                                TextField("size..", value: $model_top_p, format:.number)
                                     .frame( alignment: .leading)
                                     .multilineTextAlignment(.trailing)
                                     .textFieldStyle(.plain)
+#if os(iOS)
+                                    .keyboardType(.numbersAndPunctuation)
+#endif
                             }
                             .padding(.horizontal)
                             
                             HStack {
-                                Text("Icon:")
+                                Text("Repean last N:")
                                     .frame(maxWidth: 75, alignment: .leading)
-                                TextField("size..", text: $model_icon)
+                                TextField("count..", value: $model_repeat_last_n, format:.number)
                                     .frame( alignment: .leading)
                                     .multilineTextAlignment(.trailing)
                                     .textFieldStyle(.plain)
+#if os(iOS)
+                                    .keyboardType(.numberPad)
+#endif
                             }
-                            .padding()
+                            .padding(.horizontal)
+                            
+                            HStack {
+                                Text("Repeat Penalty:")
+                                    .frame(maxWidth: 75, alignment: .leading)
+                                TextField("size..", value: $model_repeat_penalty, format:.number)
+                                    .frame( alignment: .leading)
+                                    .multilineTextAlignment(.trailing)
+                                    .textFieldStyle(.plain)
+#if os(iOS)
+                                    .keyboardType(.numbersAndPunctuation)
+#endif
+                            }
+                            .padding(.horizontal)
+                            
+                            HStack{
+                                VStack {
+                                    Picker("icon", selection: $model_icon) {
+                                        ForEach(model_icons, id: \.self) {
+                                            Text($0)
+                                        }
+                                    }
+                                    .pickerStyle(.menu)
+                                }
+                                .frame(maxWidth: .infinity, alignment: .trailing)
+                            }.padding()
                         }
                     }
                 }
@@ -347,10 +403,10 @@ struct AddChatView: View {
         }
     }
 }
-
-struct AddChatView_Previews: PreviewProvider {
-    static var previews: some View {
-        AddChatView(add_chat_dialog: .constant(true),edit_chat_dialog:.constant(false))
-            .preferredColorScheme(.dark)
-    }
-}
+//
+//struct AddChatView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AddChatView(add_chat_dialog: .constant(true),edit_chat_dialog:.constant(false))
+//            .preferredColorScheme(.dark)
+//    }
+//}

@@ -15,23 +15,25 @@ Also, when creating the application, the source codes from the repository [byron
 
 List of supported models:
 
-| model                                                                              | inference | size     | quantized link                                                                                              | iOS (iphone 12 pro max) | MacOS |
-|------------------------------------------------------------------------------------|-----------|----------|-------------------------------------------------------------------------------------------------------------|-------------------------|-------|
-| [OpenLLaMa](https://github.com/openlm-research/open_llama)                         | LLaMA     | 3B       | [hug](https://huggingface.co/guinmoon/LLMFarm_Models/resolve/main/open-llama-3b-1T_q5_1.bin)                | ok                      | ok    |
-| [ORCA](https://huggingface.co/psmathur/orca_mini_3b)                               | LLaMA     | 3B       | [hug](https://huggingface.co/guinmoon/LLMFarm_Models/resolve/main/orca-mini-3b.ggmlv3.q5_1.bin)             | ok                      | ok    |
-| [ORCA](https://huggingface.co/TheBloke/orca_mini_7B-GGML/)                         | LLaMA     | 7B(q2_K) | [hug](https://huggingface.co/TheBloke/orca_mini_7B-GGML/resolve/main/orca-mini-7b.ggmlv3.q2_K.bin)          | ok                      | ok    |
-| [StableLM Tuned Alpha](https://huggingface.co/stabilityai/stablelm-tuned-alpha-3b) | GPT-NeoX  | 3B       | [hug](https://huggingface.co/guinmoon/LLMFarm_Models/resolve/main/stablelm-tuned-alpha-3b-ggml_v3-q5_1.bin) | ok                      | ok    |
-| [Dolly v2](https://github.com/databrickslabs/dolly)                                | GPT-NeoX  | 3B       | [hug](https://huggingface.co/guinmoon/LLMFarm_Models/resolve/main/dolly-v2-3b-ggml_v3-q5_1.bin)             | ok                      | ok    |
-| [RedPajama](https://huggingface.co/togethercomputer/RedPajama-INCITE-Base-3B-v1)   | GPT-NeoX  | 3B       | [hug](https://huggingface.co/guinmoon/LLMFarm_Models/resolve/main/rp-incite-base-v1-3b-ggmlv3-q5_1.bin)     | ok                      | ok    |
-| [Pythia](https://huggingface.co/EleutherAI)                                        | GPT-NeoX  | 2.8B     | [hug](https://huggingface.co/guinmoon/LLMFarm_Models/resolve/main/pythia-2.8b-ggml_v3-q5_1.bin)             | ok                      | ok    |
-| [Llama](https://arxiv.org/abs/2302.13971)                                          | LLaMA     | 7B       |                                                                                                             | bad alloc               | ok    |
-| [WizardLM](https://arxiv.org/abs/2304.12244)                                       | LLaMA     | 7B       |                                                                                                             | bad alloc               | ok    |
-| [Cerebras](https://huggingface.co/cerebras/Cerebras-GPT-2.7B)                      | GPT-2     | 2.7B     |                                                                                                             | ok                      | ok    |
-| [RWKV-4 "Raven"](https://huggingface.co/BlinkDL/rwkv-4-raven)                      | RWKV      | 3B       |                                                                                                             | in dev                  | ok    |
+| model                                                                              | inference | size     | quantized link                                                     | iOS (iphone 12 pro max) | MacOS  |
+|------------------------------------------------------------------------------------|-----------|----------|--------------------------------------------------------------------|-------------------------|--------|
+| [OpenLLaMa](https://github.com/openlm-research/open_llama)                         | LLaMA     | 3B       | [hug](https://huggingface.co/guinmoon/LLMFarm_Models/tree/main)    | ok                      | ok     |
+| [ORCA](https://huggingface.co/psmathur/orca_mini_3b)                               | LLaMA     | 3B       | [hug](https://huggingface.co/guinmoon/LLMFarm_Models/tree/main)    | ok                      | ok     |
+| [ORCA](https://huggingface.co/TheBloke/orca_mini_7B-GGML/)                         | LLaMA     | 7B(q3_K) | [hug](https://huggingface.co/TheBloke/orca_mini_7B-GGML/tree/main) | ok                      | ok     |
+| [StableLM Tuned Alpha](https://huggingface.co/stabilityai/stablelm-tuned-alpha-3b) | GPT-NeoX  | 3B       | [hug](https://huggingface.co/guinmoon/LLMFarm_Models/tree/main)    | ok                      | ok     |
+| [Dolly v2](https://github.com/databrickslabs/dolly)                                | GPT-NeoX  | 3B       | [hug](https://huggingface.co/guinmoon/LLMFarm_Models/tree/main)    | ok                      | ok     |
+| [RedPajama](https://huggingface.co/togethercomputer/RedPajama-INCITE-Base-3B-v1)   | GPT-NeoX  | 3B       | [hug](https://huggingface.co/guinmoon/LLMFarm_Models/tree/main)    | ok                      | ok     |
+| [Pythia](https://huggingface.co/EleutherAI)                                        | GPT-NeoX  | 2.8B     | [hug](https://huggingface.co/guinmoon/LLMFarm_Models/tree/main)    | ok                      | ok     |
+| [Llama](https://arxiv.org/abs/2302.13971)                                          | LLaMA     | 7B(q3_K) |                                                                    | ok                      | ok     |
+| [WizardLM](https://arxiv.org/abs/2304.12244)                                       | LLaMA     | 7B(q3_K) |                                                                    | ok                      | ok     |
+| [Cerebras](https://huggingface.co/cerebras/Cerebras-GPT-2.7B)                      | GPT-2     | 2.7B     |                                                                    | ok                      | ok     |
+| [AI Dungeon](https://huggingface.co/Henk717/ai-dungeon2-classic-ggml)              | GPT-2     | ?        | [hug](https://huggingface.co/guinmoon/LLMFarm_Models/tree/main)    | ok                      | ok     |
+| [Replit](https://huggingface.co/replit/replit-code-v1-3b)                          | Replit    | 3B       | [hug](https://huggingface.co/guinmoon/LLMFarm_Models/tree/main)    | ok                      | ok     |
+| [RWKV-4 "Raven"](https://huggingface.co/BlinkDL/rwkv-4-raven)                      | RWKV      | 3B       |                                                                    | in dev                  | in dev |
 
-Models must be maintained by [ggml](https://github.com/ggerganov/ggml) after [#154](https://github.com/ggerganov/ggml/pull/154).
+Models must be quantized by [ggml](https://github.com/ggerganov/ggml) after [#154](https://github.com/ggerganov/ggml/pull/154).
 
-The application operates in sandbox mode and places the added models in the "models" directory. 
+The application operates in sandbox mode and put added models to the "models" directory. 
 
 When creating a chat, a JSON file is generated in which you can specify additional model parameters. The chat files are located in the "chats" directory.
 

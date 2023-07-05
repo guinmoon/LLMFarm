@@ -123,7 +123,7 @@ struct ChatView: View {
                         TextField("Type your message...", text: $inputText)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .focused($isInputFieldFocused)
-                        
+                            
                         Button {
                             Task {
                                 let text = inputText
@@ -149,6 +149,7 @@ struct ChatView: View {
                 }
                 .padding(.bottom)
                 .padding(.leading)
+                .padding(.trailing)
             }
             .navigationTitle("Chat")
             .task {

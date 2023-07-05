@@ -126,7 +126,7 @@ struct ggml_metal_context * ggml_metal_init(void) {
     }
 #else
     UNUSED(msl_library_source);
-
+//#define MacMetal
     // read the source from "ggml-metal.metal" into a string and use newLibraryWithSource
     {
         NSError * error = nil;
@@ -204,7 +204,7 @@ struct ggml_metal_context * ggml_metal_init(void) {
 #undef GGML_METAL_ADD_KERNEL
     }
     
-#ifdef MacMetal
+#ifndef TARGET_OS_IPHONE
     fprintf(stderr, "%s: recommendedMaxWorkingSetSize = %8.2f MB\n", __func__, ctx->device.recommendedMaxWorkingSetSize / 1024.0 / 1024.0);
     fprintf(stderr, "%s: hasUnifiedMemory             = %s\n",       __func__, ctx->device.hasUnifiedMemory ? "true" : "false");
     if (ctx->device.maxTransferRate != 0) {
@@ -325,7 +325,8 @@ bool ggml_metal_add_buffer(
                 ++ctx->n_buffers;
             }
         }
-#ifdef MacMetal
+
+#ifndef TARGET_OS_IPHONE
         fprintf(stderr, ", (%8.2f / %8.2f)",
                 ctx->device.currentAllocatedSize / 1024.0 / 1024.0,
                 ctx->device.recommendedMaxWorkingSetSize / 1024.0 / 1024.0);

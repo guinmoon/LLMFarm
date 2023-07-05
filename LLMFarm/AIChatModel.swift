@@ -179,7 +179,7 @@ final class AIChatModel: ObservableObject {
     public func send(message text: String) async {
         let requestMessage = Message(sender: .user, state: .typed, text: text)
         messages.append(requestMessage)
-        
+        self.AI_typing += 1
         if self.chat != nil{
             if self.chat_name != self.chat?.chatName{
                 self.chat = nil

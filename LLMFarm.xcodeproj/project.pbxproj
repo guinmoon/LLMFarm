@@ -15,7 +15,7 @@
 		155FBBA32A48B5C1004DD5AE /* Replit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155FBBA12A48B5C0004DD5AE /* Replit.swift */; };
 		1560D6172A2D1A3D00918330 /* AddChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1560D6162A2D1A3D00918330 /* AddChatView.swift */; };
 		1560D61C2A2E142900918330 /* ExceptionCatcher.h in Sources */ = {isa = PBXBuildFile; fileRef = 1560D61B2A2E11E200918330 /* ExceptionCatcher.h */; };
-		156A48C92A50786F007DF519 /* ggml-metal.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 156A48C82A50786F007DF519 /* ggml-metal.mtl */; };
+		1567138D2A5B155D002BE054 /* ggml-metal.metal in Resources */ = {isa = PBXBuildFile; fileRef = 156713882A5B12A6002BE054 /* ggml-metal.metal */; };
 		156A48CC2A52A6CF007DF519 /* ViewExtractor in Frameworks */ = {isa = PBXBuildFile; productRef = 156A48CB2A52A6CF007DF519 /* ViewExtractor */; };
 		156A48D02A52B55B007DF519 /* SplitViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156A48CF2A52B55B007DF519 /* SplitViews.swift */; };
 		156A48D22A52B65C007DF519 /* Orientation_helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156A48D12A52B65C007DF519 /* Orientation_helper.swift */; };
@@ -88,7 +88,7 @@
 		155FBBA12A48B5C0004DD5AE /* Replit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Replit.swift; sourceTree = "<group>"; };
 		1560D6162A2D1A3D00918330 /* AddChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChatView.swift; sourceTree = "<group>"; };
 		1560D61B2A2E11E200918330 /* ExceptionCatcher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExceptionCatcher.h; sourceTree = "<group>"; };
-		156A48C82A50786F007DF519 /* ggml-metal.mtl */ = {isa = PBXFileReference; lastKnownFileType = text; path = "ggml-metal.mtl"; sourceTree = "<group>"; };
+		156713882A5B12A6002BE054 /* ggml-metal.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = "ggml-metal.metal"; sourceTree = "<group>"; };
 		156A48CF2A52B55B007DF519 /* SplitViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViews.swift; sourceTree = "<group>"; };
 		156A48D12A52B65C007DF519 /* Orientation_helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Orientation_helper.swift; sourceTree = "<group>"; };
 		159650EE2A49F8400007BE5C /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
@@ -168,6 +168,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1567138A2A5B13C4002BE054 /* metal */ = {
+			isa = PBXGroup;
+			children = (
+				156713882A5B12A6002BE054 /* ggml-metal.metal */,
+			);
+			path = metal;
+			sourceTree = "<group>";
+		};
 		15A3EDBD2A2121D90030AF5A /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -281,7 +289,7 @@
 		E624E1F52958ECC800996CD1 = {
 			isa = PBXGroup;
 			children = (
-				156A48C82A50786F007DF519 /* ggml-metal.mtl */,
+				1567138A2A5B13C4002BE054 /* metal */,
 				E6024EC229EA7BEB001FE9B0 /* Packages */,
 				E624E2102958F21E00996CD1 /* Info.plist */,
 				15E415D22A18A2980057A15E /* ModelTest */,
@@ -406,7 +414,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				156A48C92A50786F007DF519 /* ggml-metal.mtl in Resources */,
+				1567138D2A5B155D002BE054 /* ggml-metal.metal in Resources */,
 				15F210892A191B1B0021F414 /* Preview Assets.xcassets in Resources */,
 				15F210852A191B1B0021F414 /* Assets.xcassets in Resources */,
 			);

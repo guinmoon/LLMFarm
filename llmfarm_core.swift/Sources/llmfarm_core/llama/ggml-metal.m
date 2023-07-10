@@ -126,15 +126,14 @@ struct ggml_metal_context * ggml_metal_init(void) {
     }
 #else
     UNUSED(msl_library_source);
-//#define MacMetal
     // read the source from "ggml-metal.metal" into a string and use newLibraryWithSource
     {
         NSError * error = nil;
-#ifdef MacMetal
-        NSString *metal_path = @"/Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/ggml-metal.mtl";
-#else
-        NSString *metal_path = [NSBundle.mainBundle.resourcePath stringByAppendingString:@"/ggml-metal.mtl"];
-#endif
+#ifndef CompiledMetal
+        NSString *metal_path = @"/Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/metal/ggml-metal.metal";
+//#else
+//        NSString *metal_path = [NSBundle.mainBundle.resourcePath stringByAppendingString:@"/ggml-metal.mtl"];
+//#endif
 //        NSString *metal_path = @"/Users/guinmoon/Library/Developer/Xcode/DerivedData/LLMFarm-bfxpdlswbhfozgepczdsdayclcnh/Build/Products/Debug/llmfarm_core.swift_llmfarm_core.bundle/Contents/Resources/Resources/ggml-metal.metal";
         fprintf(stderr, "%s: loading '%s'\n", __func__, [metal_path UTF8String]);
         NSString * src  = [NSString stringWithContentsOfFile:metal_path encoding:NSUTF8StringEncoding error:&error];
@@ -142,13 +141,18 @@ struct ggml_metal_context * ggml_metal_init(void) {
             fprintf(stderr, "%s: error: %s\n", __func__, [[error description] UTF8String]);
             exit(1);
         }
-
+#endif
 #ifdef GGML_QKK_64
         MTLCompileOptions* options = [MTLCompileOptions new];
         options.preprocessorMacros = @{ @"QK_K" : @(64) };
         ctx->library = [ctx->device newLibraryWithSource:src options:options error:&error];
 #else
+#ifndef CompiledMetal
         ctx->library = [ctx->device newLibraryWithSource:src options:nil error:&error];
+#else
+        NSString *libraryFile = [[NSBundle mainBundle] pathForResource:@"default" ofType:@"metallib"];
+        ctx->library = [ctx->device newLibraryWithFile:libraryFile error:&error];
+#endif
 #endif
         if (error) {
             fprintf(stderr, "%s: error: %s\n", __func__, [[error description] UTF8String]);

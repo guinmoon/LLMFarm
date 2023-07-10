@@ -25,7 +25,7 @@ let package = Package(
             publicHeadersPath: "spm-headers",
 //            I'm not sure about some of the flags, please correct it's wrong.
             cSettings: [
-                .unsafeFlags(["-Ofast"]),
+                //.unsafeFlags(["-Ofast"]),
                 .unsafeFlags(["-Wno-shorten-64-to-32"]),
                 .unsafeFlags(["-DNDEBUG"]),
                 //                .unsafeFlags(["-march=native"]),
@@ -36,6 +36,7 @@ let package = Package(
                 //                .unsafeFlags(["-DGGML_QKK_64"]),
                 .unsafeFlags(["-DGGML_USE_ACCELERATE"]),
                 .unsafeFlags(["-DGGML_USE_METAL"]),
+                .unsafeFlags(["-DCompiledMetal"]),
                 .unsafeFlags(["-DGGML_METAL_NDEBUG"]),
                 .unsafeFlags(["-pthread"]),
                 .unsafeFlags(["-w"])    // ignore all warnings

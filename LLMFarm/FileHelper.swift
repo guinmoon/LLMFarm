@@ -236,7 +236,7 @@ func copyModelToSandbox (url: URL) -> String?{
     do{
         if (CFURLStartAccessingSecurityScopedResource(url as CFURL)) { // <- here
             
-            let fileData = try? Data.init(contentsOf: url)
+//            let fileData = try? Data.init(contentsOf: url)
             let fileName = url.lastPathComponent
             
             let fileManager = FileManager.default
@@ -254,13 +254,14 @@ func copyModelToSandbox (url: URL) -> String?{
 //#else
             
             do {
-                try fileData?.write(to: actualPath)
-                if(fileData == nil){
-                    print("Permission error!")
-                }
-                else {
-                    print("Success.")
-                }
+                try FileManager.default.copyItem(at: url, to: actualPath)
+//                try fileData?.write(to: actualPath)
+//                if(fileData == nil){
+//                    print("Permission error!")
+//                }
+//                else {
+//                    print("Success.")
+//                }
             } catch {
                 print(error.localizedDescription)
             }

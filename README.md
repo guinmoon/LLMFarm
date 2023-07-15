@@ -21,7 +21,7 @@ Also, when creating the application, the source codes from the repository [byron
 - [x] Metal for llama inference (MacOS and iOS)
 - [ ] Metal for other inference
 - [ ] Restore dialog (now only history) 
-- [ ] Direct embedding input (Lava, etc.)
+- [ ] Direct embedding input (LLaVA, etc.)
 - [ ] Model setting templates
 
 ## Inferences

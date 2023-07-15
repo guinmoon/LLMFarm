@@ -9,7 +9,7 @@
   <img alt="Icon" width="535px"  src="dist/screen2.png">
 </p>
 
-Application for iOS and MacOS designed to work with large language models (LLM). It allows you to load different LLMs with certain parameters.
+LLMFarm is a iOS and MacOS app to work with large language models (LLM). It allows you to load different LLMs with certain parameters.<br>
 Based on [ggml](https://github.com/ggerganov/ggml) and [llama.cpp](https://github.com/ggerganov/llama.cpp) by [Georgi Gerganov](https://github.com/ggerganov).
 Also, when creating the application, the source codes from the repository [byroneverson](https://github.com/byroneverson/Mia) were used.
 
@@ -36,7 +36,7 @@ Also, when creating the application, the source codes from the repository [byron
 ## Getting Started
 
 Models must be quantized by [ggml](https://github.com/ggerganov/ggml) after [#154](https://github.com/ggerganov/ggml/pull/154).
-The application operates in sandbox mode and put added models to the "models" directory. 
+LLMFarm work in sandbox mode and put added models to the "models" directory. 
 When creating a chat, a JSON file is generated in which you can specify additional model parameters. The chat files are located in the "chats" directory.
 
 ## Models

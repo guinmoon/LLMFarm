@@ -10,7 +10,6 @@ import SwiftUI
 
 struct ChatView: View {
     
-//    @StateObject  var aiChatModel = AIChatModel()
     @EnvironmentObject var aiChatModel: AIChatModel
     @EnvironmentObject var orientationInfo: OrientationInfo
         
@@ -19,9 +18,8 @@ struct ChatView: View {
         
         
     
-    @Binding var chat_selected: Bool
     @Binding var model_name: String
-    @Binding var chat_name: String
+    @Binding var chat_selection: String?
     @Binding var title: String
     var close_chat: () -> Void
     @Binding var add_chat_dialog:Bool
@@ -32,77 +30,23 @@ struct ChatView: View {
     @FocusState
     private var isInputFieldFocused: Bool
     
-//    private func select_model(modelName: String) -> Void{
-//        aiChatModel.load_model_by_name(model_name: modelName)
-//    }
+
     
     func reload() async{
+        if chat_selection == nil {
+            return
+        }
         print("\nreload\n")
         aiChatModel.stop_predict()
-        await aiChatModel.prepare(model_name,chat_name)
+        await aiChatModel.prepare(model_name,chat_selection!)
         aiChatModel.messages = []
-        aiChatModel.messages = load_chat_history(chat_name+".json")!
+        aiChatModel.messages = load_chat_history(chat_selection!+".json")!
         aiChatModel.AI_typing = -1
     }
     
     var body: some View {
         ScrollViewReader { scrollView in
             VStack {
-                HStack{
-                    if (orientationInfo.orientation == .portrait || orientationInfo.userInterfaceIdiom == .phone){
-                        Button {
-                            Task {
-                                close_chat()
-                                chat_selected = false
-//                                aiChatModel.stop_predict()
-//                                save_chat_history(aiChatModel.messages,chat_name+".json")
-//                                chat_selected = false
-                            }
-                        } label: {
-                            Image(systemName: "chevron.backward")
-                        }
-                        .padding(.horizontal, 16.0)
-                        .font(.title)
-                    }
-                                        
-                    Text(title)
-                        .fontWeight(.semibold)
-                        .font(.title3)
-                        .frame(maxWidth: .infinity)
-                        .padding(.trailing, 5)
-                    
-                    Button {
-                        Task {
-                            self.aiChatModel.chat = nil
-                        }
-                    } label: {
-                        Image(systemName: "arrow.counterclockwise.circle")
-                    }
-                    .disabled(aiChatModel.predicting)
-                    .padding(.horizontal, 16.0)
-                    .font(.title2)
-                    
-                    Button {
-                        Task {
-                            add_chat_dialog = true
-                            edit_chat_dialog = true
-                        }
-                    } label: {
-                        Image(systemName: "slider.horizontal.3")
-                    }
-                    .padding(.horizontal, 16.0)
-                    .font(.title2)
-                }
-//                .background( Color("color_bg_inverted").opacity(0.05))
-                .padding(.top,10)
-                .buttonStyle(.borderless)
-#if os(macOS)
-                .frame(minHeight: 45)
-#endif
-                
-//                Divider()
-//                    .padding(.bottom, 20)
-                
                 List {
                     ForEach(0..<aiChatModel.messages.count, id: \.self) { index in
                         MessageView(message: aiChatModel.messages[index]).id(aiChatModel.messages[index].id)
@@ -151,18 +95,41 @@ struct ChatView: View {
                 .padding(.leading)
                 .padding(.trailing)
             }
-            .navigationTitle("Chat")
-            .task {
-                print(chat_name)
-                await self.reload()
-                isInputFieldFocused = true
+            .navigationTitle($title)
+            .toolbar {
+                Button {
+                    Task {
+                        self.aiChatModel.chat = nil
+                    }
+                } label: {
+                    Image(systemName: "arrow.counterclockwise.circle")
+                }
+                .disabled(aiChatModel.predicting)
+//                .font(.title2)
+                
+                Button {
+                    Task {
+//                        add_chat_dialog = true
+                        edit_chat_dialog = true
+//                        chat_selection = nil
+                    }
+                } label: {
+                    Image(systemName: "slider.horizontal.3")
+                }
+//                .font(.title2)
             }
             
         }
-        .onChange(of: chat_name) { chat_name in
+        .onChange(of: chat_selection) { chat_name in
             Task {
                 print(chat_name)
-                await self.reload()
+                if chat_name == nil{
+                    close_chat()
+                }
+                else{
+                    isInputFieldFocused = true
+                    await self.reload()
+                }
             }
         }
         

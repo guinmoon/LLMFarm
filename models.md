@@ -1,0 +1,16 @@
+# List of supported models:
+
+| model                                                                              | inference | size     | quantized link                                                     | iOS (iphone 12 pro max) | MacOS  |
+|------------------------------------------------------------------------------------|-----------|----------|--------------------------------------------------------------------|-------------------------|--------|
+| [OpenLLaMa](https://github.com/openlm-research/open_llama)                         | LLaMA     | 3B       | [hug](https://huggingface.co/guinmoon/LLMFarm_Models/tree/main)    | ok                      | ok     |
+| [ORCA](https://huggingface.co/psmathur/orca_mini_3b)                               | LLaMA     | 3B       | [hug](https://huggingface.co/guinmoon/LLMFarm_Models/tree/main)    | ok                      | ok     |
+| [ORCA](https://huggingface.co/TheBloke/orca_mini_7B-GGML/)                         | LLaMA     | 7B(q3_K) | [hug](https://huggingface.co/TheBloke/orca_mini_7B-GGML/tree/main) | ok                      | ok     |
+| [StableLM Tuned Alpha](https://huggingface.co/stabilityai/stablelm-tuned-alpha-3b) | GPT-NeoX  | 3B       | [hug](https://huggingface.co/guinmoon/LLMFarm_Models/tree/main)    | ok                      | ok     |
+| [Dolly v2](https://github.com/databrickslabs/dolly)                                | GPT-NeoX  | 3B       | [hug](https://huggingface.co/guinmoon/LLMFarm_Models/tree/main)    | ok                      | ok     |
+| [RedPajama](https://huggingface.co/togethercomputer/RedPajama-INCITE-Base-3B-v1)   | GPT-NeoX  | 3B       | [hug](https://huggingface.co/guinmoon/LLMFarm_Models/tree/main)    | ok                      | ok     |
+| [Pythia](https://huggingface.co/EleutherAI)                                        | GPT-NeoX  | 2.8B     | [hug](https://huggingface.co/guinmoon/LLMFarm_Models/tree/main)    | ok                      | ok     |
+| [Llama](https://arxiv.org/abs/2302.13971)                                          | LLaMA     | 7B(q3_K) |                                                                    | ok                      | ok     |
+| [WizardLM](https://arxiv.org/abs/2304.12244)                                       | LLaMA     | 7B(q3_K) |                                                                    | ok                      | ok     |
+| [Cerebras](https://huggingface.co/cerebras/Cerebras-GPT-2.7B)                      | GPT-2     | 2.7B     |                                                                    | ok                      | ok     |
+| [AI Dungeon](https://huggingface.co/Henk717/ai-dungeon2-classic-ggml)              | GPT-2     | ?        | [hug](https://huggingface.co/guinmoon/LLMFarm_Models/tree/main)    | ok                      | ok     |
+| [Replit](https://huggingface.co/replit/replit-code-v1-3b)                          | Replit    | 3B       | [hug](https://huggingface.co/guinmoon/LLMFarm_Models/tree/main)    | ok                      | ok     |

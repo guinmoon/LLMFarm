@@ -93,13 +93,17 @@ final class AIChatModel: ObservableObject {
                     try? self.chat?.loadModel(ModelInference.GPTNeoxInference,contextParams: model_context_param)
                 }else if chat_config!["model_inference"] as! String == "gpt2" {
                     try? self.chat?.loadModel(ModelInference.GPT2,contextParams: model_context_param)
+                    self.chat?.model.stop_words.append("<|endoftext|>")
                 }else if chat_config!["model_inference"] as! String == "replit" {
                     try? self.chat?.loadModel(ModelInference.Replit,contextParams: model_context_param)
                     self.chat?.model.stop_words.append("<|endoftext|>")
                 }
             }
             else{                
-                if (model_lowercase.contains("llama")||model_lowercase.contains("alpaca")||model_lowercase.contains("vic")){
+                if (model_lowercase.contains("llama") ||
+                    model_lowercase.contains("alpaca") ||
+                    model_lowercase.contains("vic") ||
+                    model_lowercase.contains("orca")){
                     try? self.chat?.loadModel(ModelInference.LLamaInference)
                 }else{
                     try? self.chat?.loadModel(ModelInference.GPTNeoxInference)

@@ -13,21 +13,16 @@ struct ChatListView: View {
     
     @State var searchText: String = ""
     @Binding var tabSelection: Int
-    @Binding var chat_selected: Bool
     @Binding var model_name: String
-    @Binding var chat_name: String
     @Binding var title: String
     @Binding var add_chat_dialog: Bool
     var close_chat: () -> Void
     @Binding var edit_chat_dialog: Bool
-//    @State var selection: Int32? = nil
-//    var select_chat: (String) -> Void
-    
-//    let users = ["Shezad", "Mathew", "Afna", "Jerin", "Catherine"]
+    @Binding var chat_selection: String?
+
     @State var chats_previews = get_chat_list()!
     
     func delete(at offsets: IndexSet) {
-//        chats_preview.remove(atOffsets: offsets)
         let chatsToDelete = offsets.map { self.chats_previews[$0] }
         let res = delete_chats(chatsToDelete)
         
@@ -73,9 +68,9 @@ struct ChatListView: View {
                 
                 
                 VStack(){
-                    List() {
+                    List(selection: $chat_selection){
                         ForEach(chats_previews, id: \.self) { chat_preview in
-//                            NavigationLink(value: chat_preview){
+                            NavigationLink(value: chat_preview["chat"]!){
                                 ChatItem(
                                     chatImage: String(describing: chat_preview["icon"]!),
                                     chatTitle: String(describing: chat_preview["title"]!),
@@ -83,9 +78,8 @@ struct ChatListView: View {
                                     time: String(describing: chat_preview["time"]!),
                                     model:String(describing: chat_preview["model"]!),
                                     chat:String(describing: chat_preview["chat"]!),
-                                    chat_selected: $chat_selected,
+                                    chat_selection: $chat_selection,
                                     model_name: $model_name,
-                                    chat_name: $chat_name,
                                     title: $title,
                                     close_chat:close_chat
                                 )
@@ -98,7 +92,7 @@ struct ChatListView: View {
                                         Text("Delete chat")
                                     }
                                 }
-//                            }
+                            }
                         }
                         .onDelete(perform: delete)
                     }
@@ -119,16 +113,16 @@ struct ChatListView: View {
 
 
 
-struct ChatListView_Previews: PreviewProvider {
-    static var previews: some View {
-        ChatListView(tabSelection: .constant(1),
-                     chat_selected: .constant(false),
-                     model_name: .constant(""),
-                     chat_name: .constant(""),
-                     title: .constant(""),
-                     add_chat_dialog: .constant(false),
-                     close_chat:{},
-                     edit_chat_dialog:.constant(false))
-//            .preferredColorScheme(.dark)
-    }
-}
+//struct ChatListView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ChatListView(tabSelection: .constant(1),
+//                     chat_selected: .constant(false),
+//                     model_name: .constant(""),
+//                     chat_name: .constant(""),
+//                     title: .constant(""),
+//                     add_chat_dialog: .constant(false),
+//                     close_chat:{},
+//                     edit_chat_dialog:.constant(false))
+////            .preferredColorScheme(.dark)
+//    }
+//}

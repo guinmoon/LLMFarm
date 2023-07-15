@@ -146,6 +146,7 @@ struct AddChatView: View {
                     Button {
                         Task {
                             add_chat_dialog = false
+                            edit_chat_dialog = false
                         }
                     } label: {
                         Text("Cancel")
@@ -401,7 +402,9 @@ struct AddChatView: View {
             .padding(.top)
             .padding(.horizontal)
         }
+        .navigationTitle($model_title)
     }
+    
 }
 //
 //struct AddChatView_Previews: PreviewProvider {

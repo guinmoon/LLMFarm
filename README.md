@@ -9,7 +9,7 @@
   <img alt="Icon" width="535px"  src="dist/screen2.png">
 </p>
 
-LLMFarm is a iOS and MacOS app to work with large language models (LLM). It allows you to load different LLMs with certain parameters.<br>
+LLMFarm is an iOS and MacOS app to work with large language models (LLM). It allows you to load different LLMs with certain parameters.<br>
 Based on [ggml](https://github.com/ggerganov/ggml) and [llama.cpp](https://github.com/ggerganov/llama.cpp) by [Georgi Gerganov](https://github.com/ggerganov).
 Also, when creating the application, the source codes from the repository [byroneverson](https://github.com/byroneverson/Mia) were used.
 
@@ -20,7 +20,7 @@ Also, when creating the application, the source codes from the repository [byron
 - [x] Various inferences
 - [x] Metal for llama inference (MacOS and iOS)
 - [ ] Metal for other inference
-- [ ] Restore dialog (now only history) 
+- [ ] Restore context state (now only chat history) 
 - [ ] Direct embedding input (LLaVA, etc.)
 - [ ] Model setting templates
 

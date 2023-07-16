@@ -72,9 +72,27 @@ struct gpt_neox_hparams:gpt_base_hparams {
     int32_t ftype   = 1;
 };
 
-struct gpt_neox_model: gpt_base_model {
-    gpt_neox_hparams hparams ;
+struct gpt_neox_model {
+    gpt_neox_hparams hparams;
+
+    // normalization
+    struct ggml_tensor * ln_f_g;
+    struct ggml_tensor * ln_f_b;
+
+    struct ggml_tensor * wte; // position embedding
+
+    struct ggml_tensor * lmh_g; // language model head
+    //struct ggml_tensor * lmh_b; // language model bias
+
     std::vector<gpt_neox_layer> layers;
+
+    // key + value memory
+    struct ggml_tensor * memory_k;
+    struct ggml_tensor * memory_v;
+
+    //
+    struct ggml_context * ctx;
+    std::map<std::string, struct ggml_tensor *> tensors;
 };
 
 
@@ -136,16 +154,6 @@ bool gpt_neox_model_load(const std::string & fname, gpt_neox_model & model, gpt_
 //        }
         const int32_t qntvr = hparams.ftype / GGML_QNT_VERSION_FACTOR;
         
-        {
-            switch (hparams.n_layer) {
-                case 16: model.type = e_model::MODEL_3B; break;
-                case 26: model.type = e_model::MODEL_3B; break;
-                case 32: model.type = e_model::MODEL_3B; break;
-                case 40: model.type = e_model::MODEL_7B; break;
-                case 60: model.type = e_model::MODEL_30B; break;
-                case 80: model.type = e_model::MODEL_65B; break;
-            }
-        }
             
         printf("%s: n_vocab = %d\n", __func__, hparams.n_vocab);
         printf("%s: n_ctx   = %d\n", __func__, hparams.n_ctx);
@@ -154,7 +162,6 @@ bool gpt_neox_model_load(const std::string & fname, gpt_neox_model & model, gpt_
         printf("%s: n_layer = %d\n", __func__, hparams.n_layer);
         printf("%s: n_rot   = %d\n", __func__, hparams.n_rot);
         printf("%s: par_res = %d\n", __func__, hparams.par_res);
-        printf("%s: model_size   = %s\n", __func__, gpt_model_type_name(model.type));
         printf("%s: ftype   = %d\n", __func__, hparams.ftype);
         printf("%s: qntvr   = %d\n", __func__, qntvr);
 
@@ -266,7 +273,7 @@ bool gpt_neox_model_load(const std::string & fname, gpt_neox_model & model, gpt_
         model.ln_f_g = ggml_new_tensor_1d(ctx, GGML_TYPE_F32, n_embd);
         model.ln_f_b = ggml_new_tensor_1d(ctx, GGML_TYPE_F32, n_embd);
 
-        model.lm_head  = ggml_new_tensor_2d(ctx, wtype,         n_embd, n_vocab);
+        model.lmh_g  = ggml_new_tensor_2d(ctx, wtype,         n_embd, n_vocab);
         //model.lmh_b  = ggml_new_tensor_1d(ctx, GGML_TYPE_F32, n_vocab);
 
         // map by name
@@ -275,7 +282,7 @@ bool gpt_neox_model_load(const std::string & fname, gpt_neox_model & model, gpt_
         model.tensors["gpt_neox.final_layer_norm.weight"] = model.ln_f_g;
         model.tensors["gpt_neox.final_layer_norm.bias"]   = model.ln_f_b;
 
-        model.tensors["embed_out.weight"] = model.lm_head;
+        model.tensors["embed_out.weight"] = model.lmh_g;
         //model.tensors["lm_head.bias"]   = model.lmh_b;
 
         for (int i = 0; i < n_layer; ++i) {
@@ -506,14 +513,13 @@ bool gpt_neox_eval(
     }
 
     struct ggml_init_params params = {
-        .mem_size   = buf_size,
-        .mem_buffer = buf,
-        .no_alloc   = false,
+        /*.mem_size   =*/ buf_size,
+        /*.mem_buffer =*/ buf,
+        /*.no_alloc   =*/ false,
     };
 
     struct ggml_context * ctx0 = ggml_init(params);
     struct ggml_cgraph gf = {};
-    gf.n_threads = n_threads;
 
     struct ggml_tensor * embd = ggml_new_tensor_1d(ctx0, GGML_TYPE_I32, N);
     memcpy(embd->data, embd_inp.data(), N*ggml_element_size(embd));
@@ -671,7 +677,7 @@ bool gpt_neox_eval(
 
     // lm_head
     {
-        inpL = ggml_mul_mat(ctx0, model.lm_head, inpL);
+        inpL = ggml_mul_mat(ctx0, model.lmh_g, inpL);
 
         //inpL = ggml_add(ctx0,
         //        ggml_repeat(ctx0, model.lmh_b, inpL),
@@ -683,7 +689,7 @@ bool gpt_neox_eval(
 
     // run the computation
     ggml_build_forward_expand(&gf, inpL);
-    ggml_graph_compute       (ctx0, &gf);
+    ggml_graph_compute_with_ctx(ctx0, &gf, n_threads);
 
     //if (n_past%100 == 0) {
     //    ggml_graph_print   (&gf);
@@ -706,7 +712,7 @@ bool gpt_neox_eval(
 
     return true;
 }
-//
+
 
 
 
@@ -735,16 +741,16 @@ struct gpt_neox_context * gpt_neox_init_from_file(const char * path_model, struc
 
     // reserve memory for context buffers
     if (!params.vocab_only) {
-        if (!kv_cache_init(ctx->model.hparams, ctx->model.kv_self, memory_type, ctx->model.hparams.n_ctx)) {
-            fprintf(stderr, "%s: kv_cache_init() failed for self-attention cache\n", __func__);
-            gpt_neox_free(ctx);            
-            return nullptr;
-        }
-
-        {
-            const size_t memory_size = ggml_nbytes(ctx->model.kv_self.k) + ggml_nbytes(ctx->model.kv_self.v);
-            fprintf(stderr, "%s: kv self size  = %7.2f MiB\n", __func__, memory_size / 1024.0 / 1024.0);
-        }
+//        if (!kv_cache_init(ctx->model.hparams, ctx->model.kv_self, memory_type, ctx->model.hparams.n_ctx)) {
+//            fprintf(stderr, "%s: kv_cache_init() failed for self-attention cache\n", __func__);
+//            gpt_neox_free(ctx);            
+//            return nullptr;
+//        }
+//
+//        {
+//            const size_t memory_size = ggml_nbytes(ctx->model.kv_self.k) + ggml_nbytes(ctx->model.kv_self.v);
+//            fprintf(stderr, "%s: kv self size  = %7.2f MiB\n", __func__, memory_size / 1024.0 / 1024.0);
+//        }
 
         const auto & hparams = ctx->model.hparams;
 

@@ -22,7 +22,7 @@ public class GPTBase: Model {
         var params = gpt_context_default_params()
         params.n_ctx = contextParams.context
         params.n_parts = contextParams.parts
-        params.seed = contextParams.seed
+        params.seed = 0
         params.f16_kv = contextParams.f16Kv
         params.logits_all = contextParams.logitsAll
         params.vocab_only = contextParams.vocabOnly

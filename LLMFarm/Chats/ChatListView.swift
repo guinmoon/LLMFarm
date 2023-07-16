@@ -19,8 +19,12 @@ struct ChatListView: View {
     var close_chat: () -> Void
     @Binding var edit_chat_dialog: Bool
     @Binding var chat_selection: String?
-
+    @Binding var renew_chat_list: () -> Void
     @State var chats_previews = get_chat_list()!
+    
+    func refresh_chat_list(){
+        self.chats_previews = get_chat_list()!
+    }
     
     func delete(at offsets: IndexSet) {
         let chatsToDelete = offsets.map { self.chats_previews[$0] }
@@ -105,6 +109,9 @@ struct ChatListView: View {
                     #endif
                 }
                 .background(.opacity(0))
+            }.task {
+                renew_chat_list = refresh_chat_list
+                refresh_chat_list()
             }
         }
         

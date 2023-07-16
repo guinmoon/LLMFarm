@@ -97,6 +97,9 @@ final class AIChatModel: ObservableObject {
                 }else if chat_config!["model_inference"] as! String == "replit" {
                     try? self.chat?.loadModel(ModelInference.Replit,contextParams: model_context_param)
                     self.chat?.model.stop_words.append("<|endoftext|>")
+                }else if chat_config!["model_inference"] as! String == "starcoder" {
+                    try? self.chat?.loadModel(ModelInference.Starcoder,contextParams: model_context_param)
+                    self.chat?.model.stop_words.append("<|endoftext|>")
                 }
             }
             else{                

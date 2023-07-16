@@ -1,6 +1,6 @@
 #import "ggml-metal.h"
 
-#import "../ggml.h"
+#import "ggml.h"
 
 #import <Foundation/Foundation.h>
 
@@ -25,6 +25,8 @@ struct ggml_metal_buffer {
 };
 
 struct ggml_metal_context {
+    int n_cb;
+
     float * logits;
 
     id<MTLDevice>       device;
@@ -86,22 +88,14 @@ static NSString * const msl_library_source = @"see metal.metal";
 @implementation GGMLMetalClass
 @end
 
-@interface llmfarm_core_swift_llmfarm_core_SWIFTPM_MODULE_BUNDLER_FINDER_ : NSObject
-@end
-
-@implementation llmfarm_core_swift_llmfarm_core_SWIFTPM_MODULE_BUNDLER_FINDER_
-@end
-
-struct ggml_metal_context * ggml_metal_init(void) {
+struct ggml_metal_context * ggml_metal_init(int n_cb) {
     fprintf(stderr, "%s: allocating\n", __func__);
 
-//    struct ggml_metal_context * ctx = malloc(sizeof(struct ggml_metal_context));
+    //struct ggml_metal_context * ctx = malloc(sizeof(struct ggml_metal_context));
     struct ggml_metal_context * ctx = calloc(1, sizeof(struct ggml_metal_context));
-
-//    sleep(5);
+    
+    ctx->n_cb   = n_cb;
     ctx->device = MTLCreateSystemDefaultDevice();
-//    ctx->device = MTLCopyAllDevices().firstObject;
-//    sleep(5);
     ctx->queue  = [ctx->device newCommandQueue];
     ctx->n_buffers = 0;
 
@@ -126,15 +120,13 @@ struct ggml_metal_context * ggml_metal_init(void) {
     }
 #else
     UNUSED(msl_library_source);
+
     // read the source from "ggml-metal.metal" into a string and use newLibraryWithSource
     {
         NSError * error = nil;
+
 #ifndef CompiledMetal
         NSString *metal_path = @"/Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/metal/ggml-metal.metal";
-//#else
-//        NSString *metal_path = [NSBundle.mainBundle.resourcePath stringByAppendingString:@"/ggml-metal.mtl"];
-//#endif
-//        NSString *metal_path = @"/Users/guinmoon/Library/Developer/Xcode/DerivedData/LLMFarm-bfxpdlswbhfozgepczdsdayclcnh/Build/Products/Debug/llmfarm_core.swift_llmfarm_core.bundle/Contents/Resources/Resources/ggml-metal.metal";
         fprintf(stderr, "%s: loading '%s'\n", __func__, [metal_path UTF8String]);
         NSString * src  = [NSString stringWithContentsOfFile:metal_path encoding:NSUTF8StringEncoding error:&error];
         if (error) {
@@ -142,6 +134,7 @@ struct ggml_metal_context * ggml_metal_init(void) {
             exit(1);
         }
 #endif
+
 #ifdef GGML_QKK_64
         MTLCompileOptions* options = [MTLCompileOptions new];
         options.preprocessorMacros = @{ @"QK_K" : @(64) };
@@ -166,7 +159,7 @@ struct ggml_metal_context * ggml_metal_init(void) {
 #define GGML_METAL_ADD_KERNEL(name) \
         ctx->function_##name = [ctx->library newFunctionWithName:@"kernel_"#name]; \
         ctx->pipeline_##name = [ctx->device newComputePipelineStateWithFunction:ctx->function_##name error:nil]; \
-        fprintf(stderr, "%s: loaded %-32s \n", __func__, "kernel_"#name);
+        fprintf(stderr, "%s: loaded %-32s\n", __func__, "kernel_"#name);
 
         GGML_METAL_ADD_KERNEL(add);
         GGML_METAL_ADD_KERNEL(mul);
@@ -181,10 +174,6 @@ struct ggml_metal_context * ggml_metal_init(void) {
         GGML_METAL_ADD_KERNEL(get_rows_q4_0);
         GGML_METAL_ADD_KERNEL(get_rows_q4_1);
         GGML_METAL_ADD_KERNEL(get_rows_q2_K);
-//        ctx->function_get_rows_q4_1 = [ctx->library newFunctionWithName:@"kernel_get_rows_q4_1"];
-//        ctx->pipeline_get_rows_q4_1 = [ctx->device newComputePipelineStateWithFunction:ctx->function_get_rows_q4_1 error:nil];
-//        ctx->function_get_rows_q2_K = [ctx->library newFunctionWithName:@"kernel_get_rows_q2_K"];
-//        ctx->pipeline_get_rows_q2_K = [ctx->device newComputePipelineStateWithFunction:ctx->function_get_rows_q2_K error:nil];
         GGML_METAL_ADD_KERNEL(get_rows_q3_K);
         GGML_METAL_ADD_KERNEL(get_rows_q4_K);
         GGML_METAL_ADD_KERNEL(get_rows_q5_K);
@@ -207,7 +196,6 @@ struct ggml_metal_context * ggml_metal_init(void) {
 
 #undef GGML_METAL_ADD_KERNEL
     }
-    
 #ifndef TARGET_OS_IPHONE
     fprintf(stderr, "%s: recommendedMaxWorkingSetSize = %8.2f MB\n", __func__, ctx->device.recommendedMaxWorkingSetSize / 1024.0 / 1024.0);
     fprintf(stderr, "%s: hasUnifiedMemory             = %s\n",       __func__, ctx->device.hasUnifiedMemory ? "true" : "false");
@@ -223,9 +211,13 @@ struct ggml_metal_context * ggml_metal_init(void) {
 void ggml_metal_free(struct ggml_metal_context * ctx) {
     fprintf(stderr, "%s: deallocating\n", __func__);
 //    for (int i = 0; i < ctx->n_buffers; ++i) {
-//            [ctx->buffers[i].metal release];
+//        [ctx->buffers[i].metal release];
 //    }
     free(ctx);
+}
+
+void ggml_metal_set_n_cb(struct ggml_metal_context * ctx, int n_cb) {
+    ctx->n_cb = n_cb;
 }
 
 // finds the Metal buffer that contains the tensor data on the GPU device
@@ -329,7 +321,6 @@ bool ggml_metal_add_buffer(
                 ++ctx->n_buffers;
             }
         }
-
 #ifndef TARGET_OS_IPHONE
         fprintf(stderr, ", (%8.2f / %8.2f)",
                 ctx->device.currentAllocatedSize / 1024.0 / 1024.0,
@@ -342,6 +333,7 @@ bool ggml_metal_add_buffer(
         }
 #endif
     }
+
     return true;
 }
 
@@ -375,7 +367,7 @@ void ggml_metal_graph_compute(
     // create multiple command buffers and enqueue them
     // then, we encode the graph into the command buffers in parallel
 
-    const int n_cb = gf->n_threads;
+    const int n_cb = ctx->n_cb;
 
     NSMutableArray * command_buffers = [NSMutableArray arrayWithCapacity:n_cb];
 
@@ -407,8 +399,8 @@ void ggml_metal_graph_compute(
             for (int i = node_start; i < node_end; ++i) {
                 metal_printf("%s: encoding node %3d, op = %8s\n", __func__, i, ggml_op_name(gf->nodes[i]->op));
 
-                struct ggml_tensor * src0 = gf->nodes[i]->src0;
-                struct ggml_tensor * src1 = gf->nodes[i]->src1;
+                struct ggml_tensor * src0 = gf->nodes[i]->src[0];
+                struct ggml_tensor * src1 = gf->nodes[i]->src[1];
                 struct ggml_tensor * dst  = gf->nodes[i];
 
                 const int64_t  ne00 = src0 ? src0->ne[0] : 0;
@@ -464,6 +456,7 @@ void ggml_metal_graph_compute(
                 //}
 
                 switch (dst->op) {
+                    case GGML_OP_NONE:
                     case GGML_OP_RESHAPE:
                     case GGML_OP_VIEW:
                     case GGML_OP_TRANSPOSE:
@@ -753,8 +746,7 @@ void ggml_metal_graph_compute(
                                 [encoder setBytes:&ne1  length:sizeof(ne1)  atIndex:14];
 
                                 if (src0t == GGML_TYPE_Q4_0 || src0t == GGML_TYPE_Q4_1) {
-                                    [encoder setThreadgroupMemoryLength:nth0*nth1*sizeof(float) atIndex:0];
-                                    [encoder dispatchThreadgroups:MTLSizeMake(ne01, ne11, 1) threadsPerThreadgroup:MTLSizeMake(nth0, nth1, 1)];
+                                    [encoder dispatchThreadgroups:MTLSizeMake((ne01 + 7) / 8, ne11, 1) threadsPerThreadgroup:MTLSizeMake(nth0, nth1, 1)];
                                 }
                                 else if (src0t == GGML_TYPE_Q2_K ||
                                          src0t == GGML_TYPE_Q3_K ||
@@ -895,28 +887,35 @@ void ggml_metal_graph_compute(
 
                             const int n_past = ((int32_t *)(src1->data))[0];
 
+                            float freq_base;
+                            float freq_scale;
+                            memcpy(&freq_base,  (int32_t *) src1->data + 4, sizeof(float));
+                            memcpy(&freq_scale, (int32_t *) src1->data + 5, sizeof(float));
+
                             [encoder setComputePipelineState:ctx->pipeline_rope];
                             [encoder setBuffer:id_src0 offset:offs_src0 atIndex:0];
                             [encoder setBuffer:id_dst  offset:offs_dst  atIndex:1];
-                            [encoder setBytes:&ne00   length:sizeof( int64_t) atIndex:2];
-                            [encoder setBytes:&ne01   length:sizeof( int64_t) atIndex:3];
-                            [encoder setBytes:&ne02   length:sizeof( int64_t) atIndex:4];
-                            [encoder setBytes:&ne03   length:sizeof( int64_t) atIndex:5];
-                            [encoder setBytes:&nb00   length:sizeof(uint64_t) atIndex:6];
-                            [encoder setBytes:&nb01   length:sizeof(uint64_t) atIndex:7];
-                            [encoder setBytes:&nb02   length:sizeof(uint64_t) atIndex:8];
-                            [encoder setBytes:&nb03   length:sizeof(uint64_t) atIndex:9];
-                            [encoder setBytes:&ne0    length:sizeof( int64_t) atIndex:10];
-                            [encoder setBytes:&ne1    length:sizeof( int64_t) atIndex:11];
-                            [encoder setBytes:&ne2    length:sizeof( int64_t) atIndex:12];
-                            [encoder setBytes:&ne3    length:sizeof( int64_t) atIndex:13];
-                            [encoder setBytes:&nb0    length:sizeof(uint64_t) atIndex:14];
-                            [encoder setBytes:&nb1    length:sizeof(uint64_t) atIndex:15];
-                            [encoder setBytes:&nb2    length:sizeof(uint64_t) atIndex:16];
-                            [encoder setBytes:&nb3    length:sizeof(uint64_t) atIndex:17];
-                            [encoder setBytes:&n_past length:sizeof(     int) atIndex:18];
-                            [encoder setBytes:&n_dims length:sizeof(     int) atIndex:19];
-                            [encoder setBytes:&mode   length:sizeof(     int) atIndex:20];
+                            [encoder setBytes:&ne00    length:sizeof( int64_t) atIndex:2];
+                            [encoder setBytes:&ne01    length:sizeof( int64_t) atIndex:3];
+                            [encoder setBytes:&ne02    length:sizeof( int64_t) atIndex:4];
+                            [encoder setBytes:&ne03    length:sizeof( int64_t) atIndex:5];
+                            [encoder setBytes:&nb00    length:sizeof(uint64_t) atIndex:6];
+                            [encoder setBytes:&nb01    length:sizeof(uint64_t) atIndex:7];
+                            [encoder setBytes:&nb02    length:sizeof(uint64_t) atIndex:8];
+                            [encoder setBytes:&nb03    length:sizeof(uint64_t) atIndex:9];
+                            [encoder setBytes:&ne0     length:sizeof( int64_t) atIndex:10];
+                            [encoder setBytes:&ne1     length:sizeof( int64_t) atIndex:11];
+                            [encoder setBytes:&ne2     length:sizeof( int64_t) atIndex:12];
+                            [encoder setBytes:&ne3     length:sizeof( int64_t) atIndex:13];
+                            [encoder setBytes:&nb0     length:sizeof(uint64_t) atIndex:14];
+                            [encoder setBytes:&nb1     length:sizeof(uint64_t) atIndex:15];
+                            [encoder setBytes:&nb2     length:sizeof(uint64_t) atIndex:16];
+                            [encoder setBytes:&nb3     length:sizeof(uint64_t) atIndex:17];
+                            [encoder setBytes:&n_past  length:sizeof(     int) atIndex:18];
+                            [encoder setBytes:&n_dims  length:sizeof(     int) atIndex:19];
+                            [encoder setBytes:&mode    length:sizeof(     int) atIndex:20];
+                            [encoder setBytes:&freq_base  length:sizeof(float) atIndex:21];
+                            [encoder setBytes:&freq_scale length:sizeof(float) atIndex:22];
 
                             [encoder dispatchThreadgroups:MTLSizeMake(ne01, ne02, ne03) threadsPerThreadgroup:MTLSizeMake(1, 1, 1)];
                         } break;

@@ -72,25 +72,29 @@ struct AddChatView: View {
     @State private var numberOfThreads: Int32 = 0
     @State private var use_metal: Bool = false
     @State private var isImporting: Bool = false
+    @Binding var renew_chat_list: () -> Void
     
     private var chat_name: String = ""
     let bin_type = UTType(tag: "bin", tagClass: .filenameExtension, conformingTo: nil)
     
     @State private var model_inference = "auto"
-    let model_inferences = ["auto","gptneox", "llama", "gpt2", "replit"]
+    let model_inferences = ["auto","gptneox", "llama", "gpt2", "replit", "starcoder"]
     
     @State private var model_icon: String = "ava0"
     let model_icons = ["ava0","ava1","ava2","ava3","ava4","ava5","ava6","ava7"]
     
-    init(add_chat_dialog: Binding<Bool>,edit_chat_dialog:Binding<Bool>) {
+    init(add_chat_dialog: Binding<Bool>,edit_chat_dialog:Binding<Bool>,
+         renew_chat_list: Binding<() -> Void>) {
         self._add_chat_dialog = add_chat_dialog
         self._edit_chat_dialog = edit_chat_dialog
+        self._renew_chat_list = renew_chat_list
     }
     
-    init(add_chat_dialog: Binding<Bool>,edit_chat_dialog:Binding<Bool>,chat_name:String
-    ) {
+    init(add_chat_dialog: Binding<Bool>,edit_chat_dialog:Binding<Bool>,
+         chat_name:String,renew_chat_list: Binding<() -> Void>) {
         self._add_chat_dialog = add_chat_dialog
         self._edit_chat_dialog = edit_chat_dialog
+        self._renew_chat_list = renew_chat_list
         self.chat_name = chat_name
         let chat_config = get_chat_info(chat_name)
         if (chat_config!["title"] != nil){
@@ -180,8 +184,14 @@ struct AddChatView: View {
                                                                    "numberOfThreads":Int32(numberOfThreads),
                                                                    "icon":model_icon]
                             let res = create_chat(options,edit_chat_dialog:self.edit_chat_dialog,chat_name:self.chat_name)
-                            add_chat_dialog = false
-                            edit_chat_dialog = false
+                            if add_chat_dialog {
+                                add_chat_dialog = false
+                                
+                            }
+                            if edit_chat_dialog {
+                                edit_chat_dialog = false
+                            }
+                            renew_chat_list()
                         }
                     } label: {
                         Text(edit_chat_dialog ? "Save" :"Add" )

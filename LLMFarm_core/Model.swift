@@ -72,7 +72,7 @@ public func get_model_context_param_by_config(_ model_config:Dictionary<String, 
 public struct ModelContextParams {
     public var context: Int32 = 512    // text context
     public var parts: Int32 = -1   // -1 for default
-    public var seed: Int32 = -1      // RNG seed, 0 for random
+    public var seed: UInt32 = 0xFFFFFFFF      // RNG seed, 0 for random
     public var numberOfThreads: Int32 = 1
 
     public var f16Kv = true         // use fp16 for KV cache
@@ -85,7 +85,7 @@ public struct ModelContextParams {
 
     public static let `default` = ModelContextParams()
 
-    public init(context: Int32 = 2048 /*512*/, parts: Int32 = -1, seed: Int32 = -1, numberOfThreads: Int32 = 0, f16Kv: Bool = true, logitsAll: Bool = false, vocabOnly: Bool = false, useMlock: Bool = false, embedding: Bool = false) {
+    public init(context: Int32 = 2048 /*512*/, parts: Int32 = -1, seed: UInt32 = 0xFFFFFFFF, numberOfThreads: Int32 = 0, f16Kv: Bool = true, logitsAll: Bool = false, vocabOnly: Bool = false, useMlock: Bool = false, embedding: Bool = false) {
         self.context = context
         self.parts = parts
         self.seed = seed

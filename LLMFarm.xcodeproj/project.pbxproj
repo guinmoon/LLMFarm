@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		150CAD012A3CE7B30015CD66 /* GPTNeox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150CAD002A3CE7B30015CD66 /* GPTNeox.swift */; };
 		150CAD022A3CE7B30015CD66 /* GPTNeox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150CAD002A3CE7B30015CD66 /* GPTNeox.swift */; };
+		15141E162A6438AE0060E767 /* Starcoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15141E152A6438AE0060E767 /* Starcoder.swift */; };
+		15141E172A6438AE0060E767 /* Starcoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15141E152A6438AE0060E767 /* Starcoder.swift */; };
 		155FBB9F2A460566004DD5AE /* GPTBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155FBB9E2A460566004DD5AE /* GPTBase.swift */; };
 		155FBBA02A460566004DD5AE /* GPTBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155FBB9E2A460566004DD5AE /* GPTBase.swift */; };
 		155FBBA22A48B5C1004DD5AE /* Replit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155FBBA12A48B5C0004DD5AE /* Replit.swift */; };
@@ -84,6 +86,7 @@
 
 /* Begin PBXFileReference section */
 		150CAD002A3CE7B30015CD66 /* GPTNeox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPTNeox.swift; sourceTree = "<group>"; };
+		15141E152A6438AE0060E767 /* Starcoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Starcoder.swift; sourceTree = "<group>"; };
 		155FBB9E2A460566004DD5AE /* GPTBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPTBase.swift; sourceTree = "<group>"; };
 		155FBBA12A48B5C0004DD5AE /* Replit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Replit.swift; sourceTree = "<group>"; };
 		1560D6162A2D1A3D00918330 /* AddChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChatView.swift; sourceTree = "<group>"; };
@@ -221,6 +224,7 @@
 				1560D61B2A2E11E200918330 /* ExceptionCatcher.h */,
 				15F210552A1919390021F414 /* AI.swift */,
 				15F210512A1919390021F414 /* ArrayExt.swift */,
+				15141E152A6438AE0060E767 /* Starcoder.swift */,
 				15F210542A1919390021F414 /* GPTNeoX_old.swift */,
 				150CAD002A3CE7B30015CD66 /* GPTNeox.swift */,
 				155FBB9E2A460566004DD5AE /* GPTBase.swift */,
@@ -427,6 +431,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15141E162A6438AE0060E767 /* Starcoder.swift in Sources */,
 				15F2102C2A190D5B0021F414 /* Math.swift in Sources */,
 				155FBBA22A48B5C1004DD5AE /* Replit.swift in Sources */,
 				15F210642A19193A0021F414 /* AI.swift in Sources */,
@@ -469,6 +474,7 @@
 				15F210A42A1921E40021F414 /* Utils.swift in Sources */,
 				15A480002A40D2A300B72DC3 /* GPT2.swift in Sources */,
 				15F210A52A1921E40021F414 /* ComputeGraph.swift in Sources */,
+				15141E172A6438AE0060E767 /* Starcoder.swift in Sources */,
 				1560D6172A2D1A3D00918330 /* AddChatView.swift in Sources */,
 				15F210962A1920AA0021F414 /* AIChatModel.swift in Sources */,
 				15F210AA2A1A659B0021F414 /* FileHelper.swift in Sources */,

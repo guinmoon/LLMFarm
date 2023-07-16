@@ -31,7 +31,7 @@ typedef void (*gpt_progress_callback)(float progress, void *ctx);
 struct gpt_context_params {
     int n_ctx;   // text context
     int n_parts; // -1 for default
-    int seed;    // RNG seed, 0 for random
+    uint32_t seed;    // RNG seed, 0 for random
 
     bool f16_kv;     // use fp16 for KV cache
     bool logits_all; // the gptneox_eval() call computes all logits, not just the last one

@@ -20,6 +20,7 @@ struct LLMFarmApp: App {
     @StateObject var orientationInfo = OrientationInfo()
     @State var isLandscape:Bool = false
     @State private var chat_selection: String?
+    @State var renew_chat_list: () -> Void = {}
     
     func close_chat() -> Void{
         aiChatModel.stop_predict()
@@ -36,12 +37,14 @@ struct LLMFarmApp: App {
                                  add_chat_dialog:$add_chat_dialog,
                                  close_chat:close_chat,
                                  edit_chat_dialog:$edit_chat_dialog,
-                                 chat_selection:$chat_selection)
+                                 chat_selection:$chat_selection,
+                                 renew_chat_list: $renew_chat_list)
                     .disabled(edit_chat_dialog)
                     .frame(minWidth: 250, maxHeight: .infinity)
                 }else{
                     AddChatView(add_chat_dialog: $add_chat_dialog,
-                                edit_chat_dialog:.constant(false))
+                                edit_chat_dialog: $edit_chat_dialog,
+                                renew_chat_list: $renew_chat_list)
                     .frame(minWidth: 200,maxHeight: .infinity)
                 }
             }
@@ -58,8 +61,9 @@ struct LLMFarmApp: App {
             }
             else{
                 AddChatView(add_chat_dialog: $add_chat_dialog,
-                            edit_chat_dialog:$edit_chat_dialog,
-                            chat_name: aiChatModel.chat_name)
+                            edit_chat_dialog: $edit_chat_dialog,
+                            chat_name: aiChatModel.chat_name,
+                            renew_chat_list: $renew_chat_list)
                 .frame(minWidth: 200,maxHeight: .infinity)
                 #if !os(macOS)
                 .toolbar(.hidden, for: .automatic)

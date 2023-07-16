@@ -37,6 +37,7 @@ func prompt_for_generation(_ instruction:String) -> String{
 
 func main(){
     print("Hello.")
+    var input_text = "State the meaning of life."
 //    let ai = AI(_modelPath: "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/dolly-v2-3b-q5_1.bin",_chatName: "chat")
 //    try? ai.loadModel(ModelInference.GPTNeoxInference)
 //    ai.model.promptFormat = .Dolly_b3
@@ -44,25 +45,27 @@ func main(){
 //    let ai = AI(_modelPath: "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/AI-Dungeon-2-Classic.bin",_chatName: "chat")
 //    try? ai.loadModel(ModelInference.GPT2)
 //    ai.model.promptFormat = .None
-    
+//
 //    let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/replit-code-v1-3b-ggml-q5_1.bin",_chatName: "chat")
 //    try? ai.loadModel(ModelInference.Replit)
 //    ai.model.promptFormat = .None
     
-//    #define MacMetal
 //    let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-3b.ggmlv3.q4_0.bin",_chatName: "chat")
-    let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-7b.ggmlv3.q3_K_M.bin",_chatName: "chat")
-    var params:ModelContextParams = .default
-    params.use_metal = true
-    try? ai.loadModel(ModelInference.LLamaInference,contextParams: params)
-    ai.model.promptFormat = .LLaMa
+//    let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-7b.ggmlv3.q3_K_M.bin",_chatName: "chat")
+//    var params:ModelContextParams = .default
+//    params.use_metal = true
+//    try? ai.loadModel(ModelInference.LLamaInference,contextParams: params)
+//    ai.model.promptFormat = .LLaMa
     
-    
+    let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/santacoder-q8_0.bin",_chatName: "chat")
+    try? ai.loadModel(ModelInference.Starcoder)
+    ai.model.promptFormat = .None
+    input_text = "def quicksort"
     
     ai.model.contextParams.seed = 0;
 //    ai.model.promptStyle = .StableLM_Tuned
     
-    let input_text = "State the meaning of life."
+    
 //    let input_text = "Tell about Stavropol."
 //    let prompt = prompt_for_generation(input_text)
     let prompt = input_text

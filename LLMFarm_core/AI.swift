@@ -11,6 +11,7 @@ enum ModelInference {
     case GPTNeoxInference
     case GPT2
     case Replit
+    case Starcoder
 }
 
 class AI {
@@ -43,6 +44,8 @@ class AI {
             model = try? GPT2(path: self.modelPath, contextParams: contextParams)
         case .Replit:
             model = try? Replit(path: self.modelPath, contextParams: contextParams)
+        case .Starcoder:
+            model = try? Starcoder(path: self.modelPath, contextParams: contextParams)
         }
     }
     

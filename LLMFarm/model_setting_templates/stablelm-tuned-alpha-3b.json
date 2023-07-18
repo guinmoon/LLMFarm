@@ -1,0 +1,11 @@
+{
+  "icon" : "ava0",
+  "top_k" : 40,
+  "temp" : 0.89999997615814209,
+  "n_batch" : 512,
+  "model_inference" : "gptneox",
+  "template_name" : "StableLM tuned 3B",
+  "context" : 1024,
+  "prompt_format" : "{{prompt}}",
+  "top_p" : 0.94999998807907104
+}

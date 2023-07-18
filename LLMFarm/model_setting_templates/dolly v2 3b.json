@@ -1,0 +1,10 @@
+{
+  "context" : 1024,
+  "temp" : 0.89999997615814209,
+  "top_p" : 0.94999998807907104,
+  "prompt_format" : "Below is an instruction that describes a task. Write a response that appropriately completes the request.### Instruction:{{prompt}}### Response:",
+  "top_k" : 40,
+  "model_inference" : "gptneox",
+  "n_batch" : 512,
+  "template_name" : "Dolly v2 3B"
+}

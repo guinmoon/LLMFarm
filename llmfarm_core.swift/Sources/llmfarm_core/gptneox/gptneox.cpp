@@ -63,7 +63,7 @@ struct gpt_neox_layer {
 
 struct gpt_neox_hparams:gpt_base_hparams {
     int32_t n_vocab = 50257;
-    int32_t n_ctx   = 1024;
+    int32_t n_ctx   = 4096;
     int32_t n_embd  = 1024;
     int32_t n_head  = 32;
     int32_t n_layer = 16;
@@ -72,27 +72,11 @@ struct gpt_neox_hparams:gpt_base_hparams {
     int32_t ftype   = 1;
 };
 
-struct gpt_neox_model {
+struct gpt_neox_model:gpt_base_model {
     gpt_neox_hparams hparams;
-
-    // normalization
-    struct ggml_tensor * ln_f_g;
-    struct ggml_tensor * ln_f_b;
-
-    struct ggml_tensor * wte; // position embedding
-
     struct ggml_tensor * lmh_g; // language model head
     //struct ggml_tensor * lmh_b; // language model bias
-
     std::vector<gpt_neox_layer> layers;
-
-    // key + value memory
-    struct ggml_tensor * memory_k;
-    struct ggml_tensor * memory_v;
-
-    //
-    struct ggml_context * ctx;
-    std::map<std::string, struct ggml_tensor *> tensors;
 };
 
 
@@ -204,10 +188,10 @@ bool gpt_neox_model_load(const std::string & fname, gpt_neox_model & model, gpt_
     {
         const auto & hparams = model.hparams;
 
-        const int n_embd  = hparams.n_embd;
-        const int n_layer = hparams.n_layer;
-        const int n_ctx   = hparams.n_ctx;
-        const int n_vocab = hparams.n_vocab;
+        const size_t n_embd  = hparams.n_embd;
+        const size_t n_layer = hparams.n_layer;
+        const size_t n_ctx   = hparams.n_ctx;
+        const size_t n_vocab = hparams.n_vocab;
 
         ctx_size += n_embd*ggml_type_sizef(GGML_TYPE_F32); // ln_f_g
         ctx_size += n_embd*ggml_type_sizef(GGML_TYPE_F32); // ln_f_b
@@ -238,7 +222,8 @@ bool gpt_neox_model_load(const std::string & fname, gpt_neox_model & model, gpt_
         ctx_size += n_ctx*n_layer*n_embd*ggml_type_sizef(GGML_TYPE_F32); // memory_k
         ctx_size += n_ctx*n_layer*n_embd*ggml_type_sizef(GGML_TYPE_F32); // memory_v
 
-        ctx_size += (6 + 16*n_layer)*512; // object overhead
+        size_t overhead =ggml_tensor_overhead();
+        ctx_size += (6 + 16*n_layer)*1024; // object overhead
 
         printf("%s: ggml ctx size = %6.2f MB\n", __func__, ctx_size/(1024.0*1024.0));
     }
@@ -489,6 +474,7 @@ bool gpt_neox_eval(
     const int n_rot   = hparams.n_rot;
 
     static size_t buf_size = 256u*1024*1024;
+//    static size_t buf_size = 256u*1024*ggml_tensor_overhead();
     static void * buf = malloc(buf_size);
 
     // use 2 scratch buffers

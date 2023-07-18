@@ -35,17 +35,22 @@ class AI {
     
     func loadModel(_ aiModel: ModelInference, contextParams: ModelContextParams = .default) {
         print("AI init")
-        switch aiModel {
-        case .LLamaInference:
-            model = try? LLaMa(path: self.modelPath, contextParams: contextParams)
-        case .GPTNeoxInference:
-            model = try? GPTNeoX(path: self.modelPath, contextParams: contextParams)
-        case .GPT2:
-            model = try? GPT2(path: self.modelPath, contextParams: contextParams)
-        case .Replit:
-            model = try? Replit(path: self.modelPath, contextParams: contextParams)
-        case .Starcoder:
-            model = try? Starcoder(path: self.modelPath, contextParams: contextParams)
+        do{
+            switch aiModel {
+            case .LLamaInference:
+                model = try LLaMa(path: self.modelPath, contextParams: contextParams)
+            case .GPTNeoxInference:
+                model = try GPTNeoX(path: self.modelPath, contextParams: contextParams)
+            case .GPT2:
+                model = try GPT2(path: self.modelPath, contextParams: contextParams)
+            case .Replit:
+                model = try Replit(path: self.modelPath, contextParams: contextParams)
+            case .Starcoder:
+                model = try Starcoder(path: self.modelPath, contextParams: contextParams)
+            }
+        }
+        catch {
+            print(error)
         }
     }
     

@@ -1,0 +1,11 @@
+{
+  "temp" : 0.8,
+  "context" : 1024,
+  "top_p" : 0.89999997615814209,
+  "top_k" : 80,
+  "model_inference" : "llama",
+  "n_batch" : 512,
+  "template_name" : "OpenLLaMA 3B 1T",
+  "prompt_format" : "Q: {{prompt}}\\nA:",
+  "icon" : "ava5"
+}

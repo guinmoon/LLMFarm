@@ -54,26 +54,9 @@ struct starcoder_layer {
     struct ggml_tensor * c_mlp_proj_b;
 };
 
-struct starcoder_model {
+struct starcoder_model:gpt_base_model {
     starcoder_hparams hparams;
-
-    // normalization
-    struct ggml_tensor * ln_f_g;
-    struct ggml_tensor * ln_f_b;
-
-    struct ggml_tensor * wte;     // position embedding
-    struct ggml_tensor * wpe;     //    token embedding
-    struct ggml_tensor * lm_head; // language model head
-
     std::vector<starcoder_layer> layers;
-
-    // key + value memory
-    struct ggml_tensor * memory_k;
-    struct ggml_tensor * memory_v;
-
-    //
-    struct ggml_context * ctx;
-    std::map<std::string, struct ggml_tensor *> tensors;
 };
 
 

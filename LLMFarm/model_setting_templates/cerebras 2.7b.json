@@ -1,0 +1,13 @@
+{
+  "top_k" : 40,
+  "n_batch" : 512,
+  "context" : 2048,
+  "top_p" : 0.94999998807907104,
+  "prompt_format" : "{{prompt}}",
+  "repeat_last_n" : 64,
+  "repeat_penalty" : 1.1000000238418579,
+  "temp" : 0.89999997615814209,
+  "model_inference" : "gpt2",
+  "use_metal" : false,
+  "template_name" : "cerebras 2.7B"
+}

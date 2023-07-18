@@ -21,7 +21,6 @@ Also, when creating the application, the source codes from the repository [byron
 - [x] Metal for llama inference (MacOS and iOS)
 - [ ] Metal for other inference
 - [ ] Restore context state (now only chat history) 
-- [ ] Direct embedding input (LLaVA, etc.)
 - [ ] Model setting templates
 
 ## Inferences
@@ -30,7 +29,7 @@ Also, when creating the application, the source codes from the repository [byron
 - [x] [GPTNeoX](https://huggingface.co/docs/transformers/model_doc/gpt_neox)
 - [x] [Replit](https://huggingface.co/replit/replit-code-v1-3b)
 - [x] [GPT2](https://huggingface.co/docs/transformers/model_doc/gpt2) + [Cerebras](https://arxiv.org/abs/2304.03208)
-- [ ] [Starcoder(Santacoder)](https://huggingface.co/bigcode/santacoder)
+- [x] [Starcoder(Santacoder)](https://huggingface.co/bigcode/santacoder)
 - [ ] [RWKV](https://huggingface.co/docs/transformers/model_doc/rwkv)
 
 ## Getting Started

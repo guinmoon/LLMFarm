@@ -26,6 +26,7 @@ struct LLMFarmApp: App {
         aiChatModel.stop_predict()
     }
     
+    
     var body: some Scene {
         WindowGroup {
             

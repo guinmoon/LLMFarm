@@ -166,36 +166,13 @@ struct replit_layer {
     struct ggml_tensor * ffn_down_proj;
 };
 
-struct replit_model {
+struct replit_model:gpt_base_model {
     replit_hparams hparams;
-
-    struct gpt_kv_cache kv_self;
-    
     struct ggml_tensor * wte_weight;    // position embedding
     struct ggml_tensor * norm_f_weight; // language model head
-
     std::vector<replit_layer> layers;
-
-    // key + value memory
-    struct ggml_tensor * memory_k;
-    struct ggml_tensor * memory_v;
-
-    struct ggml_context * ctx;
-    std::map<std::string, struct ggml_tensor *> tensors;
-     ~replit_model() {
-        if (ctx) {
-            ggml_free(ctx);
-        }
-    }
 };
 
-
-
-
-//struct replit_model:gpt_base_model {
-//    mpt_hparams hparams;
-//    std::vector<replit_layer> layers;
-//};
 
 struct replit_context:gpt_base_context {
     replit_model model;

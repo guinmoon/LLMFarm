@@ -1,0 +1,11 @@
+{
+  "model_inference" : "gpt2",
+  "temp" : 0.80000001192092896,
+  "prompt_format" : "{{prompt}}",
+  "top_k" : 100,
+  "icon" : "ava6",
+  "n_batch" : 1024,
+  "context" : 1024,
+  "top_p" : 0.94999998807907104,
+  "template_name" : "AI Dungeon 2 Classic"
+}

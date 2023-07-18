@@ -68,7 +68,7 @@ struct AddChatView: View {
     @State private var model_top_p: Float = 0.95
     @State private var model_repeat_last_n: Int32 = 64
     @State private var model_repeat_penalty: Float = 1.1
-    @State private var prompt_format: String = "auto"
+    @State private var prompt_format: String = "{{prompt}}"
     @State private var numberOfThreads: Int32 = 0
     @State private var use_metal: Bool = false
     @State private var isImporting: Bool = false
@@ -77,8 +77,11 @@ struct AddChatView: View {
     private var chat_name: String = ""
     let bin_type = UTType(tag: "bin", tagClass: .filenameExtension, conformingTo: nil)
     
-    @State private var model_inference = "auto"
-    let model_inferences = ["auto","gptneox", "llama", "gpt2", "replit", "starcoder"]
+    @State private var model_settings_template:ModelSettingsTemplate = ModelSettingsTemplate()
+    let model_setting_templates = get_model_setting_templates()
+    
+    @State private var model_inference = "llama"
+    let model_inferences = ["gptneox", "llama", "gpt2", "replit", "starcoder"]
     
     @State private var model_icon: String = "ava0"
     let model_icons = ["ava0","ava1","ava2","ava3","ava4","ava5","ava6","ava7"]
@@ -141,9 +144,21 @@ struct AddChatView: View {
         }
     }
     
+    func apply_setting_template(template:ModelSettingsTemplate){
+        model_inference = template.inference
+        prompt_format = template.prompt_format
+        model_context = template.context
+        model_n_batch = template.n_batch
+        model_temp = template.temp
+        model_top_k = template.top_k
+        model_top_p = template.top_p
+        model_repeat_penalty = template.repeat_penalty
+        model_repeat_last_n = template.repeat_last_n
+    }
+    
     var body: some View {
         ZStack{
-//            Color("color_bg").edgesIgnoringSafeArea(.all)
+            //            Color("color_bg").edgesIgnoringSafeArea(.all)
             VStack{
                 
                 HStack{
@@ -258,17 +273,34 @@ struct AddChatView: View {
                             .padding(.top, 8)
                         
                         HStack{
-                            VStack {
-                                Picker("inference", selection: $model_inference) {
-                                    ForEach(model_inferences, id: \.self) {
-                                        Text($0)
-                                    }
+                            Text("Settings template:")
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            Picker("", selection: $model_settings_template) {
+                                ForEach(model_setting_templates, id: \.self) { template in
+                                    Text(template.template_name).tag(template)
                                 }
-                                .pickerStyle(.menu)
                             }
-                            .frame(maxWidth: .infinity, alignment: .trailing)
+                            .onChange(of: model_settings_template) { tmpl in
+                                apply_setting_template(template:model_settings_template)
+                            }
+                            .pickerStyle(.menu)
                         }
-                        .padding()
+                        .padding(.horizontal)
+                        .padding(.top, 8)
+                        
+                        HStack{
+                            Text("Inference:")
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            Picker("", selection: $model_inference) {
+                                ForEach(model_inferences, id: \.self) {
+                                    Text($0)
+                                }
+                            }
+                            .pickerStyle(.menu)
+                            //
+                        }
+                        .padding(.horizontal)
+                        .padding(.top, 8)
                         
                         HStack {
                             Toggle("Use Metal", isOn: $use_metal)
@@ -279,12 +311,16 @@ struct AddChatView: View {
                         VStack {
                             Text("Prompt format:")
                                 .frame(maxWidth: .infinity, alignment: .leading)
-                            TextField("size..", text: $prompt_format)
+                            TextField("size..", text: $prompt_format, axis: .vertical)
+                                .lineLimit(2)
+
+                                            .textFieldStyle(.roundedBorder)
                                 .frame( alignment: .leading)
-                                .multilineTextAlignment(.trailing)
-                                .textFieldStyle(.plain)
+                            //                                .multilineTextAlignment(.trailing)
+                            //                                .textFieldStyle(.plain)
                         }
-                        .padding()
+                        .padding(.horizontal)
+                        .padding(.top, 8)
                         
                         Divider()
                             .padding(.top, 8)
@@ -369,7 +405,7 @@ struct AddChatView: View {
                             .padding(.horizontal)
                             
                             HStack {
-                                Text("Repean last N:")
+                                Text("Repeat last N:")
                                     .frame(maxWidth: 75, alignment: .leading)
                                 TextField("count..", value: $model_repeat_last_n, format:.number)
                                     .frame( alignment: .leading)
@@ -395,8 +431,10 @@ struct AddChatView: View {
                             .padding(.horizontal)
                             
                             HStack{
+                                Text("Icon:")
+                                    .frame(maxWidth: .infinity, alignment: .leading)
                                 VStack {
-                                    Picker("icon", selection: $model_icon) {
+                                    Picker("", selection: $model_icon) {
                                         ForEach(model_icons, id: \.self) {
                                             Text($0)
                                         }
@@ -417,9 +455,9 @@ struct AddChatView: View {
     
 }
 //
-//struct AddChatView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AddChatView(add_chat_dialog: .constant(true),edit_chat_dialog:.constant(false))
-//            .preferredColorScheme(.dark)
-//    }
-//}
+struct AddChatView_Previews: PreviewProvider {
+    static var previews: some View {
+        AddChatView(add_chat_dialog: .constant(true),edit_chat_dialog:.constant(false),renew_chat_list: .constant({}))
+            .preferredColorScheme(.dark)
+    }
+}

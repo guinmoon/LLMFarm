@@ -11,6 +11,8 @@
 		150CAD022A3CE7B30015CD66 /* GPTNeox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150CAD002A3CE7B30015CD66 /* GPTNeox.swift */; };
 		15141E162A6438AE0060E767 /* Starcoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15141E152A6438AE0060E767 /* Starcoder.swift */; };
 		15141E172A6438AE0060E767 /* Starcoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15141E152A6438AE0060E767 /* Starcoder.swift */; };
+		15141E5C2A651F8C0060E767 /* model_setting_templates in Resources */ = {isa = PBXBuildFile; fileRef = 15141E5B2A651F8C0060E767 /* model_setting_templates */; };
+		15141E712A65799D0060E767 /* ModelSettingsTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15141E702A65799D0060E767 /* ModelSettingsTemplate.swift */; };
 		155FBB9F2A460566004DD5AE /* GPTBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155FBB9E2A460566004DD5AE /* GPTBase.swift */; };
 		155FBBA02A460566004DD5AE /* GPTBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155FBB9E2A460566004DD5AE /* GPTBase.swift */; };
 		155FBBA22A48B5C1004DD5AE /* Replit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155FBBA12A48B5C0004DD5AE /* Replit.swift */; };
@@ -73,6 +75,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		15141E6B2A6577160060E767 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		15E415CF2A18A2970057A15E /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
@@ -87,6 +99,18 @@
 /* Begin PBXFileReference section */
 		150CAD002A3CE7B30015CD66 /* GPTNeox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPTNeox.swift; sourceTree = "<group>"; };
 		15141E152A6438AE0060E767 /* Starcoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Starcoder.swift; sourceTree = "<group>"; };
+		15141E362A6488A60060E767 /* Replit 3B.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Replit 3B.json"; sourceTree = "<group>"; };
+		15141E372A6488A60060E767 /* dolly v2 3b.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "dolly v2 3b.json"; sourceTree = "<group>"; };
+		15141E382A6488A60060E767 /* orca mini 3b.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "orca mini 3b.json"; sourceTree = "<group>"; };
+		15141E392A6488A60060E767 /* openllama 3b.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "openllama 3b.json"; sourceTree = "<group>"; };
+		15141E3A2A6488A60060E767 /* rp-incite-base-v1-3b.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "rp-incite-base-v1-3b.json"; sourceTree = "<group>"; };
+		15141E3B2A6488A60060E767 /* santacoder.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = santacoder.json; sourceTree = "<group>"; };
+		15141E3C2A6488A60060E767 /* saiga 7B.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "saiga 7B.json"; sourceTree = "<group>"; };
+		15141E3D2A6488A60060E767 /* cerebras 2.7b.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "cerebras 2.7b.json"; sourceTree = "<group>"; };
+		15141E3F2A6488A70060E767 /* stablelm-tuned-alpha-3b.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stablelm-tuned-alpha-3b.json"; sourceTree = "<group>"; };
+		15141E402A6488A70060E767 /* AI Dungeon 2 Classic.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "AI Dungeon 2 Classic.json"; sourceTree = "<group>"; };
+		15141E5B2A651F8C0060E767 /* model_setting_templates */ = {isa = PBXFileReference; lastKnownFileType = folder; name = model_setting_templates; path = LLMFarm/model_setting_templates; sourceTree = "<group>"; };
+		15141E702A65799D0060E767 /* ModelSettingsTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelSettingsTemplate.swift; sourceTree = "<group>"; };
 		155FBB9E2A460566004DD5AE /* GPTBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPTBase.swift; sourceTree = "<group>"; };
 		155FBBA12A48B5C0004DD5AE /* Replit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Replit.swift; sourceTree = "<group>"; };
 		1560D6162A2D1A3D00918330 /* AddChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChatView.swift; sourceTree = "<group>"; };
@@ -171,6 +195,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		15141E332A64875F0060E767 /* model_setting_templates */ = {
+			isa = PBXGroup;
+			children = (
+				15141E402A6488A70060E767 /* AI Dungeon 2 Classic.json */,
+				15141E3D2A6488A60060E767 /* cerebras 2.7b.json */,
+				15141E372A6488A60060E767 /* dolly v2 3b.json */,
+				15141E392A6488A60060E767 /* openllama 3b.json */,
+				15141E382A6488A60060E767 /* orca mini 3b.json */,
+				15141E362A6488A60060E767 /* Replit 3B.json */,
+				15141E3A2A6488A60060E767 /* rp-incite-base-v1-3b.json */,
+				15141E3C2A6488A60060E767 /* saiga 7B.json */,
+				15141E3B2A6488A60060E767 /* santacoder.json */,
+				15141E3F2A6488A70060E767 /* stablelm-tuned-alpha-3b.json */,
+			);
+			path = model_setting_templates;
+			sourceTree = "<group>";
+		};
 		1567138A2A5B13C4002BE054 /* metal */ = {
 			isa = PBXGroup;
 			children = (
@@ -252,6 +293,7 @@
 		15F2107F2A191B190021F414 /* LLMFarm */ = {
 			isa = PBXGroup;
 			children = (
+				15141E332A64875F0060E767 /* model_setting_templates */,
 				15A3EDC42A2121D90030AF5A /* Chats */,
 				15A3EDC12A2121D90030AF5A /* Contacts */,
 				15A3EDBD2A2121D90030AF5A /* Settings */,
@@ -269,6 +311,7 @@
 				15A3EDBB2A2121C70030AF5A /* ContentView.swift */,
 				15A3EDD02A21266D0030AF5A /* SearchView.swift */,
 				156A48D12A52B65C007DF519 /* Orientation_helper.swift */,
+				15141E702A65799D0060E767 /* ModelSettingsTemplate.swift */,
 			);
 			path = LLMFarm;
 			sourceTree = "<group>";
@@ -293,6 +336,7 @@
 		E624E1F52958ECC800996CD1 = {
 			isa = PBXGroup;
 			children = (
+				15141E5B2A651F8C0060E767 /* model_setting_templates */,
 				1567138A2A5B13C4002BE054 /* metal */,
 				E6024EC229EA7BEB001FE9B0 /* Packages */,
 				E624E2102958F21E00996CD1 /* Info.plist */,
@@ -359,6 +403,7 @@
 				15F2107A2A191B190021F414 /* Sources */,
 				15F2107B2A191B190021F414 /* Frameworks */,
 				15F2107C2A191B190021F414 /* Resources */,
+				15141E6B2A6577160060E767 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -418,6 +463,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15141E5C2A651F8C0060E767 /* model_setting_templates in Resources */,
 				1567138D2A5B155D002BE054 /* ggml-metal.metal in Resources */,
 				15F210892A191B1B0021F414 /* Preview Assets.xcassets in Resources */,
 				15F210852A191B1B0021F414 /* Assets.xcassets in Resources */,
@@ -470,6 +516,7 @@
 				15F210A32A1921E40021F414 /* Math.swift in Sources */,
 				155FBBA02A460566004DD5AE /* GPTBase.swift in Sources */,
 				15A3EDCB2A2121D90030AF5A /* ModelsView.swift in Sources */,
+				15141E712A65799D0060E767 /* ModelSettingsTemplate.swift in Sources */,
 				15A3EDC92A2121D90030AF5A /* SettingsItem.swift in Sources */,
 				15F210A42A1921E40021F414 /* Utils.swift in Sources */,
 				15A480002A40D2A300B72DC3 /* GPT2.swift in Sources */,
@@ -560,7 +607,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 0.2.2;
+				MARKETING_VERSION = 0.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.guinmoon.LLMFarm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -607,7 +654,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 0.2.2;
+				MARKETING_VERSION = 0.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.guinmoon.LLMFarm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -1,0 +1,13 @@
+{
+  "model_inference" : "starcoder",
+  "template_name" : "Santacoder",
+  "context" : 2048,
+  "n_batch" : 512,
+  "top_k" : 1,
+  "prompt_format" : "{{prompt}}",
+  "temp" : 0.89999997615814209,
+  "top_p" : 0.94999998807907104,
+  "use_metal" : false,
+  "repeat_last_n" : 64,
+  "repeat_penalty" : 1.1759999990463257
+}

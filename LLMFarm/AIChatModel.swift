@@ -88,17 +88,17 @@ final class AIChatModel: ObservableObject {
                     if (chat_config!["use_metal"] != nil){
                         model_context_param.use_metal = chat_config!["use_metal"] as! Bool
                     }
-                    try? self.chat?.loadModel(ModelInference.LLamaInference,contextParams: model_context_param)
+                    self.chat?.loadModel(ModelInference.LLamaInference,contextParams: model_context_param)
                 }else if chat_config!["model_inference"] as! String == "gptneox" {
-                    try? self.chat?.loadModel(ModelInference.GPTNeoxInference,contextParams: model_context_param)
+                    self.chat?.loadModel(ModelInference.GPTNeoxInference,contextParams: model_context_param)
                 }else if chat_config!["model_inference"] as! String == "gpt2" {
-                    try? self.chat?.loadModel(ModelInference.GPT2,contextParams: model_context_param)
+                    self.chat?.loadModel(ModelInference.GPT2,contextParams: model_context_param)
                     self.chat?.model.stop_words.append("<|endoftext|>")
                 }else if chat_config!["model_inference"] as! String == "replit" {
-                    try? self.chat?.loadModel(ModelInference.Replit,contextParams: model_context_param)
+                    self.chat?.loadModel(ModelInference.Replit,contextParams: model_context_param)
                     self.chat?.model.stop_words.append("<|endoftext|>")
                 }else if chat_config!["model_inference"] as! String == "starcoder" {
-                    try? self.chat?.loadModel(ModelInference.Starcoder,contextParams: model_context_param)
+                    self.chat?.loadModel(ModelInference.Starcoder,contextParams: model_context_param)
                     self.chat?.model.stop_words.append("<|endoftext|>")
                 }
             }
@@ -107,9 +107,9 @@ final class AIChatModel: ObservableObject {
                     model_lowercase.contains("alpaca") ||
                     model_lowercase.contains("vic") ||
                     model_lowercase.contains("orca")){
-                    try? self.chat?.loadModel(ModelInference.LLamaInference)
+                    self.chat?.loadModel(ModelInference.LLamaInference)
                 }else{
-                    try? self.chat?.loadModel(ModelInference.GPTNeoxInference)
+                    self.chat?.loadModel(ModelInference.GPTNeoxInference)
                 }
             }
             if self.chat?.model.context == nil{
@@ -120,7 +120,8 @@ final class AIChatModel: ObservableObject {
             print(model_sample_param)
             print(model_context_param)
 //Set prompt model if in config or try to set promt format by filename
-            if (chat_config!["prompt_format"] != nil && chat_config!["prompt_format"]! as! String != "auto"){
+            if (chat_config!["prompt_format"] != nil && chat_config!["prompt_format"]! as! String != "auto"
+                && chat_config!["prompt_format"]! as! String != "{{prompt}}"){
                 self.chat?.model.custom_prompt_format = chat_config!["prompt_format"]! as! String
                 self.chat?.model.promptFormat = .Custom
             }

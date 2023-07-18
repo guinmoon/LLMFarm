@@ -23,10 +23,68 @@ func get_avalible_models() -> [String]?{
         return res
     } catch {
         // failed to read directory – bad permissions, perhaps?
+        print(error)
     }
     return res
 }
 
+func parse_model_setting_template(template_path:String) -> ModelSettingsTemplate{
+    var tmp_template:ModelSettingsTemplate = ModelSettingsTemplate()
+    do{
+        let data = try Data(contentsOf: URL(fileURLWithPath: template_path), options: .mappedIfSafe)
+        let jsonResult = try JSONSerialization.jsonObject(with: data, options: .mutableLeaves)
+        let jsonResult_dict = jsonResult as? Dictionary<String, AnyObject>
+        if (jsonResult_dict!["template_name"] != nil){
+            tmp_template.template_name = jsonResult_dict!["template_name"] as! String
+        }else{
+            tmp_template.template_name = (template_path as NSString).lastPathComponent
+        }
+        if (jsonResult_dict!["model_inference"] != nil){
+            tmp_template.inference = jsonResult_dict!["model_inference"] as! String
+        }
+        if (jsonResult_dict!["prompt_format"] != nil){
+            tmp_template.prompt_format = jsonResult_dict!["prompt_format"] as! String
+        }
+        if (jsonResult_dict!["n_batch"] != nil){
+            tmp_template.n_batch = jsonResult_dict!["n_batch"] as! Int32
+        }
+        if (jsonResult_dict!["temp"] != nil){
+            tmp_template.temp = Float(jsonResult_dict!["temp"] as! Double)
+        }
+        if (jsonResult_dict!["top_k"] != nil){
+            tmp_template.top_k = jsonResult_dict!["top_k"] as! Int32
+        }
+        if (jsonResult_dict!["top_p"] != nil){
+            tmp_template.top_p = Float(jsonResult_dict!["top_p"] as! Double)
+        }
+        if (jsonResult_dict!["repeat_penalty"] != nil){
+            tmp_template.repeat_penalty = Float(jsonResult_dict!["repeat_penalty"] as! Double)
+        }
+        if (jsonResult_dict!["repeat_last_n"] != nil){
+            tmp_template.repeat_last_n = jsonResult_dict!["repeat_last_n"] as! Int32
+        }
+    }
+    catch {
+        print(error)
+    }
+    return tmp_template
+}
+
+func get_model_setting_templates() -> [ModelSettingsTemplate]{
+    var model_setting_templates: [ModelSettingsTemplate] = []
+    model_setting_templates.append(ModelSettingsTemplate())
+    do{
+        var templates_path=Bundle.main.resourcePath!.appending("/model_setting_templates")
+        let tenplate_files = try FileManager.default.contentsOfDirectory(atPath: templates_path)
+        for tenplate_file in tenplate_files {
+            model_setting_templates.append(parse_model_setting_template(template_path: templates_path+"/"+tenplate_file))
+        }
+    }
+    catch {
+        print(error)
+    }
+    return model_setting_templates
+}
 
 public func get_chat_info(_ chat_fname:String) -> Dictionary<String, AnyObject>? {
     do {
@@ -39,7 +97,7 @@ public func get_chat_info(_ chat_fname:String) -> Dictionary<String, AnyObject>?
         let jsonResult_dict = jsonResult as? Dictionary<String, AnyObject>
         return jsonResult_dict
     } catch {
-        
+        print(error)
     }
     return nil
 }

@@ -19,9 +19,9 @@ Also, when creating the application, the source codes from the repository [byron
 - [x] iOS (16+)
 - [x] Various inferences
 - [x] Metal for llama inference (MacOS and iOS)
+- [x] Model setting templates
 - [ ] Metal for other inference
 - [ ] Restore context state (now only chat history) 
-- [ ] Model setting templates
 
 ## Inferences
 

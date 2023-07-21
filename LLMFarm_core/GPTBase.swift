@@ -40,6 +40,8 @@ public class GPTBase: Model {
         print("%s: seed = %d\n", params.seed);
         
         print(String(cString: print_system_info()))
+        try gpt_init_logits()
+        print("Logits inited.")
     }
     
     public override func load_model(path: String = "", contextParams: ModelContextParams = .default, params:gpt_context_params ) throws -> Bool{
@@ -156,6 +158,19 @@ public class GPTBase: Model {
     }
     
     public func gpt_init_logits() throws -> Bool {
+        do{
+            if self.contextParams.warm_prompt.count<1{
+                self.contextParams.warm_prompt = "\n\n\n"
+            }
+            let inputs = tokenize(self.contextParams.warm_prompt)
+            if try gpt_eval(inputBatch: inputs) == false {
+                throw ModelError.failedToEval
+            }
+            return true
+        }
+        catch{
+            print(error)
+        }
         return false
     }
     
@@ -197,7 +212,7 @@ public class GPTBase: Model {
         //        if gpt_neox_init_logits(context, contextParams.numberOfThreads) != 0 {
         //            throw ModelError.failedToEval
         //        }
-        try gpt_init_logits()
+        
         while inputTokens.count > 0 {
             // Clear input batch
             inputBatch.removeAll()

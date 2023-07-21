@@ -45,6 +45,12 @@ func parse_model_setting_template(template_path:String) -> ModelSettingsTemplate
         if (jsonResult_dict!["prompt_format"] != nil){
             tmp_template.prompt_format = jsonResult_dict!["prompt_format"] as! String
         }
+        if (jsonResult_dict!["warm_prompt"] != nil){
+            tmp_template.warm_prompt = jsonResult_dict!["warm_prompt"] as! String
+        }
+        if (jsonResult_dict!["reverse_prompt"] != nil){
+            tmp_template.reverse_prompt = jsonResult_dict!["reverse_prompt"] as! String
+        }
         if (jsonResult_dict!["n_batch"] != nil){
             tmp_template.n_batch = jsonResult_dict!["n_batch"] as! Int32
         }
@@ -261,7 +267,15 @@ func load_chat_history(_ fname:String) -> [Message]?{
             if (row["text"] != nil){
                 tmp_msg.text = row["text"]!
             }
-            tmp_msg.state = .predicted(totalSecond: 0)
+            if (row["state"] != nil && row["state"]!.firstIndex(of: ":") != nil){
+                var str = String(row["state"]!)
+                let b_ind=str.index(str.firstIndex(of: ":")!, offsetBy: 2)
+                let e_ind=str.firstIndex(of: ")")
+                let val=str[b_ind..<e_ind!]
+                tmp_msg.state = .predicted(totalSecond: Double(val)!)
+            }else{
+                tmp_msg.state = .predicted(totalSecond: 0)
+            }
             res.append(tmp_msg)
         }
     }

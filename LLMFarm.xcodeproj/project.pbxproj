@@ -19,7 +19,6 @@
 		155FBBA32A48B5C1004DD5AE /* Replit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155FBBA12A48B5C0004DD5AE /* Replit.swift */; };
 		1560D6172A2D1A3D00918330 /* AddChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1560D6162A2D1A3D00918330 /* AddChatView.swift */; };
 		1560D61C2A2E142900918330 /* ExceptionCatcher.h in Sources */ = {isa = PBXBuildFile; fileRef = 1560D61B2A2E11E200918330 /* ExceptionCatcher.h */; };
-		1567138D2A5B155D002BE054 /* ggml-metal.metal in Resources */ = {isa = PBXBuildFile; fileRef = 156713882A5B12A6002BE054 /* ggml-metal.metal */; };
 		156A48CC2A52A6CF007DF519 /* ViewExtractor in Frameworks */ = {isa = PBXBuildFile; productRef = 156A48CB2A52A6CF007DF519 /* ViewExtractor */; };
 		156A48D02A52B55B007DF519 /* SplitViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156A48CF2A52B55B007DF519 /* SplitViews.swift */; };
 		156A48D22A52B65C007DF519 /* Orientation_helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156A48D12A52B65C007DF519 /* Orientation_helper.swift */; };
@@ -44,6 +43,7 @@
 		15B9D7422A4B55EA00276782 /* MetalPerformanceShaders.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B9D73F2A4B55E800276782 /* MetalPerformanceShaders.framework */; };
 		15B9D7432A4B55EA00276782 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B9D7402A4B55E900276782 /* Metal.framework */; };
 		15B9D7442A4B55EA00276782 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B9D7412A4B55E900276782 /* MetalKit.framework */; };
+		15C00EEC2A6725010049246F /* metal in Resources */ = {isa = PBXBuildFile; fileRef = 15C00EEB2A6725000049246F /* metal */; };
 		15E415D42A18A2980057A15E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E415D32A18A2980057A15E /* main.swift */; };
 		15F2102C2A190D5B0021F414 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F210142A190CF80021F414 /* Math.swift */; };
 		15F2102D2A190D5B0021F414 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F210152A190CF80021F414 /* Utils.swift */; };
@@ -137,6 +137,7 @@
 		15B9D73F2A4B55E800276782 /* MetalPerformanceShaders.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalPerformanceShaders.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.4.sdk/System/Library/Frameworks/MetalPerformanceShaders.framework; sourceTree = DEVELOPER_DIR; };
 		15B9D7402A4B55E900276782 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.4.sdk/System/Library/Frameworks/Metal.framework; sourceTree = DEVELOPER_DIR; };
 		15B9D7412A4B55E900276782 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.4.sdk/System/Library/Frameworks/MetalKit.framework; sourceTree = DEVELOPER_DIR; };
+		15C00EEB2A6725000049246F /* metal */ = {isa = PBXFileReference; lastKnownFileType = folder; path = metal; sourceTree = "<group>"; };
 		15E415D12A18A2970057A15E /* ModelTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ModelTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		15E415D32A18A2980057A15E /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		15F210142A190CF80021F414 /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
@@ -146,7 +147,6 @@
 		15F210512A1919390021F414 /* ArrayExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayExt.swift; sourceTree = "<group>"; };
 		15F210522A1919390021F414 /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		15F210532A1919390021F414 /* StringExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExt.swift; sourceTree = "<group>"; };
-		15F210542A1919390021F414 /* GPTNeoX_old.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPTNeoX_old.swift; sourceTree = "<group>"; };
 		15F210552A1919390021F414 /* AI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AI.swift; sourceTree = "<group>"; };
 		15F210562A1919390021F414 /* Tasker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tasker.swift; sourceTree = "<group>"; };
 		15F2107E2A191B190021F414 /* LLMFarm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LLMFarm.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -243,6 +243,7 @@
 		15A3EDC42A2121D90030AF5A /* Chats */ = {
 			isa = PBXGroup;
 			children = (
+				15F2108D2A191EE60021F414 /* ChatView.swift */,
 				15A3EDC52A2121D90030AF5A /* ChatListView.swift */,
 				15A3EDC62A2121D90030AF5A /* OnlineUserView.swift */,
 				15A3EDC72A2121D90030AF5A /* ChatItem.swift */,
@@ -266,7 +267,6 @@
 				15F210552A1919390021F414 /* AI.swift */,
 				15F210512A1919390021F414 /* ArrayExt.swift */,
 				15141E152A6438AE0060E767 /* Starcoder.swift */,
-				15F210542A1919390021F414 /* GPTNeoX_old.swift */,
 				150CAD002A3CE7B30015CD66 /* GPTNeox.swift */,
 				155FBB9E2A460566004DD5AE /* GPTBase.swift */,
 				15F210502A1919390021F414 /* LLaMa.swift */,
@@ -301,7 +301,6 @@
 				15F210922A1920AA0021F414 /* AIChatModel.swift */,
 				15F210902A1920AA0021F414 /* Message.swift */,
 				15F2108F2A1920AA0021F414 /* MessageView.swift */,
-				15F2108D2A191EE60021F414 /* ChatView.swift */,
 				15F210AC2A1A8B7A0021F414 /* LLMUser.swift */,
 				15F210802A191B190021F414 /* LLMFarmApp.swift */,
 				15F210842A191B1B0021F414 /* Assets.xcassets */,
@@ -336,6 +335,7 @@
 		E624E1F52958ECC800996CD1 = {
 			isa = PBXGroup;
 			children = (
+				15C00EEB2A6725000049246F /* metal */,
 				15141E5B2A651F8C0060E767 /* model_setting_templates */,
 				1567138A2A5B13C4002BE054 /* metal */,
 				E6024EC229EA7BEB001FE9B0 /* Packages */,
@@ -463,8 +463,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15C00EEC2A6725010049246F /* metal in Resources */,
 				15141E5C2A651F8C0060E767 /* model_setting_templates in Resources */,
-				1567138D2A5B155D002BE054 /* ggml-metal.metal in Resources */,
 				15F210892A191B1B0021F414 /* Preview Assets.xcassets in Resources */,
 				15F210852A191B1B0021F414 /* Assets.xcassets in Resources */,
 			);

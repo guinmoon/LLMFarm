@@ -27,12 +27,12 @@ public class Replit: GPTBase {
         return true
     }
     
-    public override func gpt_init_logits() throws -> Bool {
-        if replit_init_logits(context, contextParams.numberOfThreads) != 0 {
-            throw ModelError.failedToEval
-        }
-        return true
-    }
+//    public override func gpt_init_logits() throws -> Bool {
+//        if replit_init_logits(context, contextParams.numberOfThreads) != 0 {
+//            throw ModelError.failedToEval
+//        }
+//        return true
+//    }
     
     override func sample(ctx: OpaquePointer!,
                 last_n_tokens: inout [ModelToken],

@@ -41,7 +41,7 @@ struct ChatView: View {
         await aiChatModel.prepare(model_name,chat_selection!)
         aiChatModel.messages = []
         aiChatModel.messages = load_chat_history(chat_selection!+".json")!
-        aiChatModel.AI_typing = -1
+        aiChatModel.AI_typing = -Int.random(in: 0..<100000)
     }
     
     var body: some View {
@@ -118,11 +118,13 @@ struct ChatView: View {
                 }
 //                .font(.title2)
             }
-            
+            .task {// fix autoscroll
+                scrollView.scrollTo(aiChatModel.messages.last?.id, anchor: .bottom)
+            }
         }
         .onChange(of: chat_selection) { chat_name in
             Task {
-                print(chat_name)
+                
                 if chat_name == nil{
                     close_chat()
                 }

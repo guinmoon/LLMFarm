@@ -10,11 +10,6 @@ import Foundation
 let maxOutputLength = 512
 var total_output = 0
 
-let  INSTRUCTION_KEY = "### Instruction:";
-let  RESPONSE_KEY    = "### Response:";
-let  END_KEY         = "### End";
-let  INTRO_BLURB     = "Below is an instruction that describes a task. Write a response that appropriately completes the request.";
-
 func mainCallback(_ str: String, _ time: Double) -> Bool {
 //    DispatchQueue.main.async {
 //        print(str)
@@ -28,11 +23,6 @@ func mainCallback(_ str: String, _ time: Double) -> Bool {
     }
     
     return false
-}
-
-// dollyv2 prompt format
-func prompt_for_generation(_ instruction:String) -> String{
-    return INTRO_BLURB + "\n\n" + INSTRUCTION_KEY + "\n" + instruction + "\n\n" + RESPONSE_KEY + "\n";
 }
 
 func main(){

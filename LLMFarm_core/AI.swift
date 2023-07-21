@@ -54,7 +54,7 @@ class AI {
         }
     }
     
-    func text(_ input: String, _ maxOutputCount: Int = 2048, _ tokenCallback: ((String, Double) -> ())?, _ completion: ((String) -> ())?) {
+    func text(_ input: String,  _ tokenCallback: ((String, Double) -> ())?, _ completion: ((String) -> ())?) {
         flagResponding = true
         aiQueue.async {
             func mainCallback(_ str: String, _ time: Double) -> Bool {

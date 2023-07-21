@@ -1,14 +1,15 @@
 {
-  "repeat_penalty" : 1.1000000238418579,
   "use_metal" : false,
   "icon" : "ava2",
   "n_batch" : 512,
-  "prompt_format" : "Ты — Сайга, русскоязычный автоматический ассистент. Ты разговариваешь с людьми и помогаешь им.\\n<s>user:{{prompt}}<\/s>",
-  "top_k" : 40,
-  "context" : 2048,
-  "temp" : 0.40000000596046448,
+  "prompt_format" : "user\\n{{prompt}}\\n",
+  "warm_prompt":"Ты — Сайга, русскоязычный автоматический ассистент. Ты разговариваешь с людьми и помогаешь им.",
+  "top_k" : 20,
+  "context" : 1024,
+  "temp" : 0.8,
   "model_inference" : "llama",
   "repeat_last_n" : 64,
   "prompt_format" : "Saiga 7B",
+  "repeat_penalty" : 1.1759999990463257,
   "top_p" : 0.94999998807907104
 }

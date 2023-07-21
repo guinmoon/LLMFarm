@@ -8,7 +8,7 @@
 import Foundation
 
 struct Message: Identifiable {
-    enum State {
+    enum State: Equatable {
         case none
         case error
         case typed

@@ -137,6 +137,13 @@ public class LLaMa: GPTBase {
 //    //var n_history: Int32 = 0
 //    var nPast: Int32 = 0
 
+    public override func gpt_eval(inputBatch:[ModelToken]) throws -> Bool{
+        if llama_eval(context, inputBatch, Int32(inputBatch.count), nPast, contextParams.numberOfThreads) != 0 {
+            throw ModelError.failedToEval
+        }
+        return true
+    }
+    
     public override func predict(_ input: String, _ callback: ((String, Double) -> Bool) ) throws -> String {
         // Sample parameters
         let params = sampleParams

@@ -18,6 +18,9 @@ struct ModelSettingsTemplate: Hashable {
     var repeat_last_n: Int32 = 64
     var repeat_penalty: Float = 1.174
     var prompt_format: String = "{{prompt}}"
+    var warm_prompt: String = "\\n\\n\\n"
+    var reverse_prompt:String = ""
+    
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(template_name)

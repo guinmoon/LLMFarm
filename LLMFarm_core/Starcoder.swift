@@ -27,12 +27,12 @@ public class Starcoder: GPTBase {
         return true
     }
     
-    public override func gpt_init_logits() throws -> Bool {
-        if starcoder_init_logits(context, contextParams.numberOfThreads) != 0 {
-            throw ModelError.failedToEval
-        }
-        return true
-    }
+//    public override func gpt_init_logits() throws -> Bool {
+//        if starcoder_init_logits(context, contextParams.numberOfThreads) != 0 {
+//            throw ModelError.failedToEval
+//        }
+//        return true
+//    }
 }
 
 

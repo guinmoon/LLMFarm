@@ -69,6 +69,8 @@ struct AddChatView: View {
     @State private var model_repeat_last_n: Int32 = 64
     @State private var model_repeat_penalty: Float = 1.1
     @State private var prompt_format: String = "{{prompt}}"
+    @State private var warm_prompt: String = "   "
+    @State private var reverse_prompt:String = ""
     @State private var numberOfThreads: Int32 = 0
     @State private var use_metal: Bool = false
     @State private var isImporting: Bool = false
@@ -118,6 +120,12 @@ struct AddChatView: View {
         if (chat_config!["prompt_format"] != nil){
             self._prompt_format = State(initialValue: chat_config!["prompt_format"]! as! String)
         }
+        if (chat_config!["warm_prompt"] != nil){
+            self._warm_prompt = State(initialValue: chat_config!["warm_prompt"]! as! String)
+        }
+        if (chat_config!["reverse_prompt"] != nil){
+            self._reverse_prompt = State(initialValue: chat_config!["reverse_prompt"]! as! String)
+        }
         if (chat_config!["numberOfThreads"] != nil){
             self._numberOfThreads = State(initialValue: chat_config!["numberOfThreads"]! as! Int32)
         }
@@ -154,6 +162,8 @@ struct AddChatView: View {
         model_top_p = template.top_p
         model_repeat_penalty = template.repeat_penalty
         model_repeat_last_n = template.repeat_last_n
+        warm_prompt = template.warm_prompt
+        reverse_prompt = template.reverse_prompt
     }
     
     var body: some View {
@@ -196,6 +206,8 @@ struct AddChatView: View {
                                                                    "model_inference":model_inference,
                                                                    "use_metal":use_metal,
                                                                    "prompt_format":prompt_format,
+                                                                   "warm_prompt":warm_prompt,
+                                                                   "reverse_prompt":reverse_prompt,
                                                                    "numberOfThreads":Int32(numberOfThreads),
                                                                    "icon":model_icon]
                             let res = create_chat(options,edit_chat_dialog:self.edit_chat_dialog,chat_name:self.chat_name)
@@ -308,23 +320,51 @@ struct AddChatView: View {
                         .disabled(self.model_inference != "llama")
                         .padding()
                         
-                        VStack {
-                            Text("Prompt format:")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            TextField("size..", text: $prompt_format, axis: .vertical)
-                                .lineLimit(2)
-
-                                            .textFieldStyle(.roundedBorder)
-                                .frame( alignment: .leading)
-                            //                                .multilineTextAlignment(.trailing)
-                            //                                .textFieldStyle(.plain)
-                        }
-                        .padding(.horizontal)
-                        .padding(.top, 8)
-                        
-                        Divider()
+                        Group {
+                            VStack {
+                                Text("Warm prompt:")
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                TextField("prompt..", text: $warm_prompt, axis: .vertical)
+                                    .lineLimit(2)
+                                
+                                    .textFieldStyle(.roundedBorder)
+                                    .frame( alignment: .leading)
+                                //                                .multilineTextAlignment(.trailing)
+                                //                                .textFieldStyle(.plain)
+                            }
+                            .padding(.horizontal)
+                            
+                            VStack {
+                                Text("Prompt format:")
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                TextField("prompt..", text: $prompt_format, axis: .vertical)
+                                    .lineLimit(2)
+                                
+                                    .textFieldStyle(.roundedBorder)
+                                    .frame( alignment: .leading)
+                                //                                .multilineTextAlignment(.trailing)
+                                //                                .textFieldStyle(.plain)
+                            }
                             .padding(.top, 8)
-                        
+                            .padding(.horizontal)
+                            
+                            VStack {
+                                Text("Reverse prompt:")
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                TextField("prompt..", text: $reverse_prompt, axis: .vertical)
+                                    .lineLimit(2)
+                                
+                                    .textFieldStyle(.roundedBorder)
+                                    .frame( alignment: .leading)
+                                //                                .multilineTextAlignment(.trailing)
+                                //                                .textFieldStyle(.plain)
+                            }
+                            .padding(.top, 8)
+                            .padding(.horizontal)
+                            
+                            Divider()
+                                .padding(.top, 8)
+                        }
                         Group {
                             HStack {
                                 Text("Threads:")
@@ -455,9 +495,9 @@ struct AddChatView: View {
     
 }
 //
-struct AddChatView_Previews: PreviewProvider {
-    static var previews: some View {
-        AddChatView(add_chat_dialog: .constant(true),edit_chat_dialog:.constant(false),renew_chat_list: .constant({}))
-            .preferredColorScheme(.dark)
-    }
-}
+//struct AddChatView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AddChatView(add_chat_dialog: .constant(true),edit_chat_dialog:.constant(false),renew_chat_list: .constant({}))
+//            .preferredColorScheme(.dark)
+//    }
+//}

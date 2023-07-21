@@ -125,27 +125,24 @@ struct ggml_metal_context * ggml_metal_init(int n_cb) {
     {
         NSError * error = nil;
 
-#ifndef CompiledMetal
+#ifdef ExternalMetal
         NSString *metal_path = @"/Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/metal/ggml-metal.metal";
+#else
+        NSString *metal_path = [NSBundle.mainBundle.resourcePath stringByAppendingString:@"/metal/ggml-metal.metal"];
+#endif
         fprintf(stderr, "%s: loading '%s'\n", __func__, [metal_path UTF8String]);
         NSString * src  = [NSString stringWithContentsOfFile:metal_path encoding:NSUTF8StringEncoding error:&error];
         if (error) {
             fprintf(stderr, "%s: error: %s\n", __func__, [[error description] UTF8String]);
             exit(1);
         }
-#endif
 
 #ifdef GGML_QKK_64
         MTLCompileOptions* options = [MTLCompileOptions new];
         options.preprocessorMacros = @{ @"QK_K" : @(64) };
         ctx->library = [ctx->device newLibraryWithSource:src options:options error:&error];
 #else
-#ifndef CompiledMetal
         ctx->library = [ctx->device newLibraryWithSource:src options:nil error:&error];
-#else
-        NSString *libraryFile = [[NSBundle mainBundle] pathForResource:@"default" ofType:@"metallib"];
-        ctx->library = [ctx->device newLibraryWithFile:libraryFile error:&error];
-#endif
 #endif
         if (error) {
             fprintf(stderr, "%s: error: %s\n", __func__, [[error description] UTF8String]);

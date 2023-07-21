@@ -82,6 +82,8 @@ public struct ModelContextParams {
     public var embedding = false    // embedding mode only
     public var processorsConunt  = Int32(ProcessInfo.processInfo.processorCount)
     public var use_metal = false
+    
+    public var warm_prompt = "\n\n\n"
 
     public static let `default` = ModelContextParams()
 
@@ -193,7 +195,8 @@ public class Model {
     var promptFormat: ModelPromptStyle = .None
     var custom_prompt_format = ""
     
-    var stop_words: [String] = []
+    var reverse_prompt: [String] = []
+    
     
     // Init
     public init(path: String = "", contextParams: ModelContextParams = .default) throws {

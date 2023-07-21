@@ -26,12 +26,22 @@ public class GPTNeoX: GPTBase {
         return true
     }
     
-    public override func gpt_init_logits() throws -> Bool {
-        if gpt_neox_init_logits(context, contextParams.numberOfThreads) != 0 {
-            throw ModelError.failedToEval
-        }
-        return true
-    }
+//    public override func gpt_init_logits() throws -> Bool {
+//        do{
+//            let inputs = tokenize(self.warm_prompt)
+//            if try gpt_eval(inputBatch: inputs) == false {
+//                throw ModelError.failedToEval
+//            }
+//            //        if gpt_neox_init_logits(context, contextParams.numberOfThreads) != 0 {
+//            //            throw ModelError.failedToEval
+//            //        }
+//            return true
+//        }
+//        catch{
+//            print(error)
+//        }
+//        return false
+//    }
     
 }
 

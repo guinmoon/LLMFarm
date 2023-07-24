@@ -29,7 +29,7 @@ let package = Package(
 //                .unsafeFlags(["-mcpu=native"]),
                 .unsafeFlags(["-mfma","-mfma","-mavx","-mavx2","-mf16c","-msse3"]),
                 .unsafeFlags(["-DGGML_USE_K_QUANTS"]),
-                .unsafeFlags(["-DGGML_QKK_64"]),
+//                .unsafeFlags(["-DGGML_QKK_64"]),
                 .unsafeFlags(["-DGGML_USE_ACCELERATE"]),
                 .unsafeFlags(["-DGGML_USE_METAL"]),
 //                .unsafeFlags(["-DExternalMetal"]),

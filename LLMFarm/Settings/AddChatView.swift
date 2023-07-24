@@ -69,7 +69,7 @@ struct AddChatView: View {
     @State private var model_repeat_last_n: Int32 = 64
     @State private var model_repeat_penalty: Float = 1.1
     @State private var prompt_format: String = "{{prompt}}"
-    @State private var warm_prompt: String = "   "
+    @State private var warm_prompt: String = "\n\n\n"
     @State private var reverse_prompt:String = ""
     @State private var numberOfThreads: Int32 = 0
     @State private var use_metal: Bool = false
@@ -321,18 +321,18 @@ struct AddChatView: View {
                         .padding()
                         
                         Group {
-                            VStack {
-                                Text("Warm prompt:")
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                TextField("prompt..", text: $warm_prompt, axis: .vertical)
-                                    .lineLimit(2)
-                                
-                                    .textFieldStyle(.roundedBorder)
-                                    .frame( alignment: .leading)
-                                //                                .multilineTextAlignment(.trailing)
-                                //                                .textFieldStyle(.plain)
-                            }
-                            .padding(.horizontal)
+//                            VStack {
+//                                Text("Warm prompt:")
+//                                    .frame(maxWidth: .infinity, alignment: .leading)
+//                                TextField("prompt..", text: $warm_prompt, axis: .vertical)
+//                                    .lineLimit(2)
+//                                
+//                                    .textFieldStyle(.roundedBorder)
+//                                    .frame( alignment: .leading)
+//                                //                                .multilineTextAlignment(.trailing)
+//                                //                                .textFieldStyle(.plain)
+//                            }
+//                            .padding(.horizontal)
                             
                             VStack {
                                 Text("Prompt format:")

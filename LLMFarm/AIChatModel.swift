@@ -31,17 +31,17 @@ final class AIChatModel: ObservableObject {
     public var predicting = false
     public var action_button_icon = "paperplane"
     public var model_loading = false
-//    public var model_name = "llama-7b-q5_1.bin"
-//    public var model_name = "stablelm-tuned-alpha-3b-ggml-model-q5_1.bin"
+    //    public var model_name = "llama-7b-q5_1.bin"
+    //    public var model_name = "stablelm-tuned-alpha-3b-ggml-model-q5_1.bin"
     public var model_name = ""
     public var chat_name = ""
     public var avalible_models: [String]
     public var start_predicting_time = DispatchTime.now()
-//    public var title:String = ""
-
+    //    public var title:String = ""
+    
     @Published
     var state: State = .none
-
+    
     @Published
     var messages: [Message] = []
     
@@ -50,7 +50,7 @@ final class AIChatModel: ObservableObject {
         modelURL = ""
         avalible_models = []
     }
-        
+    
     func _get_avalible_models(){
         self.avalible_models = get_avalible_models()!
     }
@@ -75,8 +75,8 @@ final class AIChatModel: ObservableObject {
             }
             self.model_loading = true
             self.chat = nil
-//            let a: URL = URL(filePath: modelURL)
-//            let res = a.startAccessingSecurityScopedResource()
+            //            let a: URL = URL(filePath: modelURL)
+            //            let res = a.startAccessingSecurityScopedResource()
             self.chat = AI(_modelPath: modelURL,_chatName: chat_name);
             if (self.modelURL==""){
                 return nil
@@ -87,7 +87,7 @@ final class AIChatModel: ObservableObject {
                 model_context_param.warm_prompt = chat_config!["warm_prompt"]! as! String
             }
             
-//Set mode linference and try to load model
+            //Set mode linference and try to load model
             if (chat_config!["model_inference"] != nil && chat_config!["model_inference"]! as! String != "auto"){
                 if (chat_config!["use_metal"] != nil){
                     model_context_param.use_metal = chat_config!["use_metal"] as! Bool
@@ -107,7 +107,7 @@ final class AIChatModel: ObservableObject {
                     self.chat?.model.reverse_prompt.append("<|endoftext|>")
                 }
             }
-            else{                
+            else{
                 if (model_lowercase.contains("llama") ||
                     model_lowercase.contains("alpaca") ||
                     model_lowercase.contains("vic") ||
@@ -121,13 +121,25 @@ final class AIChatModel: ObservableObject {
                 return nil
             }
             if (chat_config!["reverse_prompt"] != nil){
-                self.chat?.model.reverse_prompt.append(chat_config!["reverse_prompt"]! as! String)
+                let splited_revrse_prompt = String(chat_config!["reverse_prompt"]! as! String).components(separatedBy: [";"])
+                for word in splited_revrse_prompt{
+                    var exist = false
+                    for r_word in self.chat!.model.reverse_prompt{
+                        if r_word == word{
+                            exist = true
+                            break
+                        }
+                    }
+                    if !exist{
+                        self.chat?.model.reverse_prompt.append(word)
+                    }
+                }
             }
             self.chat?.model.sampleParams = model_sample_param
             self.chat?.model.contextParams = model_context_param
             print(model_sample_param)
             print(model_context_param)
-//Set prompt model if in config or try to set promt format by filename
+            //Set prompt model if in config or try to set promt format by filename
             if (chat_config!["prompt_format"] != nil && chat_config!["prompt_format"]! as! String != "auto"
                 && chat_config!["prompt_format"]! as! String != "{{prompt}}"){
                 self.chat?.model.custom_prompt_format = chat_config!["prompt_format"]! as! String
@@ -152,7 +164,7 @@ final class AIChatModel: ObservableObject {
                 }
             }
             
-           
+            
             self.model_loading = false
             return true
         }
@@ -166,13 +178,13 @@ final class AIChatModel: ObservableObject {
         state = .loading
         self.model_name = model_name
         self.chat_name = chat_name
-//        if self.chat == nil{
-//            let res=self.load_model_by_name(model_name:model_name)
-//            if (res == nil){
-//                let message = Message(sender: .system, text: "Failed to load model.")
-//                messages.append(message)
-//            }
-//        }
+        //        if self.chat == nil{
+        //            let res=self.load_model_by_name(model_name:model_name)
+        //            if (res == nil){
+        //                let message = Message(sender: .system, text: "Failed to load model.")
+        //                messages.append(message)
+        //            }
+        //        }
         state = .completed
     }
     
@@ -208,10 +220,10 @@ final class AIChatModel: ObservableObject {
         if (check &&
             self.chat?.flagExit != true &&
             self.chat_name == self.chat?.chatName){
-        
+            
             message.state = .predicting
             message.text += str
-//                    self.AI_typing += str.count
+            //                    self.AI_typing += str.count
             self.AI_typing += 1
             var updatedMessages = self.messages
             updatedMessages[messageIndex] = message
@@ -255,14 +267,14 @@ final class AIChatModel: ObservableObject {
             var message = Message(sender: .system, text: "")
             messages.append(message)
             let messageIndex = messages.endIndex - 1
-
+            
             self.numberOfTokens = 0
             self.total_sec = 0.0
             self.predicting = true
             self.action_button_icon = "stop.circle"
             var check = true
             self.start_predicting_time = DispatchTime.now()
-            self.chat?.text(text, { str, time in
+            self.chat?.conversation(text, { str, time in
                 check = self.process_predicted_str(str, time, &message, messageIndex)
             }, {
                 str in

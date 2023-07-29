@@ -18,7 +18,7 @@ let package = Package(
     targets: [
         .target(
             name: "llmfarm_core",
-            sources: ["ggml.c","ggml-metal.m","k_quants.c", "gptneox/gptneox.cpp","gpt2/gpt2.cpp","replit/replit.cpp","starcoder/starcoder.cpp","common.cpp","gpt_helpers.cpp","gpt_spm.cpp", "llama/llama.cpp"],
+            sources: ["ggml.c","ggml-metal.m","k_quants.c","common.cpp","gpt_helpers.cpp","gpt_spm.cpp", "gptneox/gptneox.cpp","gpt2/gpt2.cpp","replit/replit.cpp","starcoder/starcoder.cpp", "llama/llama.cpp","rwkv/rwkv.cpp"],
             publicHeadersPath: "spm-headers",
 //            I'm not sure about some of the flags, please correct it's wrong.
             cSettings: [

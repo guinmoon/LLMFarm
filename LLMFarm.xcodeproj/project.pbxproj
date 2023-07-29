@@ -19,9 +19,10 @@
 		155FBBA32A48B5C1004DD5AE /* Replit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155FBBA12A48B5C0004DD5AE /* Replit.swift */; };
 		1560D6172A2D1A3D00918330 /* AddChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1560D6162A2D1A3D00918330 /* AddChatView.swift */; };
 		1560D61C2A2E142900918330 /* ExceptionCatcher.h in Sources */ = {isa = PBXBuildFile; fileRef = 1560D61B2A2E11E200918330 /* ExceptionCatcher.h */; };
-		156A48CC2A52A6CF007DF519 /* ViewExtractor in Frameworks */ = {isa = PBXBuildFile; productRef = 156A48CB2A52A6CF007DF519 /* ViewExtractor */; };
 		156A48D02A52B55B007DF519 /* SplitViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156A48CF2A52B55B007DF519 /* SplitViews.swift */; };
 		156A48D22A52B65C007DF519 /* Orientation_helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156A48D12A52B65C007DF519 /* Orientation_helper.swift */; };
+		1587C8BD2A752C7B004668BA /* RWKV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1587C8BC2A752C7B004668BA /* RWKV.swift */; };
+		1587C8BE2A752C7B004668BA /* RWKV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1587C8BC2A752C7B004668BA /* RWKV.swift */; };
 		159650ED2A49F8280007BE5C /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61E38F329B1F0BA00114C15 /* Accelerate.framework */; };
 		159650F12A49F8400007BE5C /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 159650EE2A49F8400007BE5C /* MetalKit.framework */; };
 		159650F22A49F8400007BE5C /* MetalPerformanceShaders.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 159650EF2A49F8400007BE5C /* MetalPerformanceShaders.framework */; };
@@ -118,6 +119,7 @@
 		156713882A5B12A6002BE054 /* ggml-metal.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = "ggml-metal.metal"; sourceTree = "<group>"; };
 		156A48CF2A52B55B007DF519 /* SplitViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViews.swift; sourceTree = "<group>"; };
 		156A48D12A52B65C007DF519 /* Orientation_helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Orientation_helper.swift; sourceTree = "<group>"; };
+		1587C8BC2A752C7B004668BA /* RWKV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RWKV.swift; sourceTree = "<group>"; };
 		159650EE2A49F8400007BE5C /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
 		159650EF2A49F8400007BE5C /* MetalPerformanceShaders.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalPerformanceShaders.framework; path = System/Library/Frameworks/MetalPerformanceShaders.framework; sourceTree = SDKROOT; };
 		159650F02A49F8400007BE5C /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
@@ -175,7 +177,6 @@
 				159650F22A49F8400007BE5C /* MetalPerformanceShaders.framework in Frameworks */,
 				159650F32A49F8400007BE5C /* Metal.framework in Frameworks */,
 				159650ED2A49F8280007BE5C /* Accelerate.framework in Frameworks */,
-				156A48CC2A52A6CF007DF519 /* ViewExtractor in Frameworks */,
 				15A3EDD62A223C9E0030AF5A /* llmfarm_core in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -276,6 +277,7 @@
 				15F210132A190CF80021F414 /* Math */,
 				15A47FFE2A40D2A300B72DC3 /* GPT2.swift */,
 				155FBBA12A48B5C0004DD5AE /* Replit.swift */,
+				1587C8BC2A752C7B004668BA /* RWKV.swift */,
 			);
 			path = LLMFarm_core;
 			sourceTree = "<group>";
@@ -390,7 +392,6 @@
 			name = ModelTest;
 			packageProductDependencies = (
 				15A3EDD52A223C9E0030AF5A /* llmfarm_core */,
-				156A48CB2A52A6CF007DF519 /* ViewExtractor */,
 			);
 			productName = ModelTest;
 			productReference = 15E415D12A18A2970057A15E /* ModelTest */;
@@ -446,7 +447,6 @@
 			);
 			mainGroup = E624E1F52958ECC800996CD1;
 			packageReferences = (
-				156A48CA2A52A6CF007DF519 /* XCRemoteSwiftPackageReference "ViewExtractor" */,
 			);
 			productRefGroup = E624E1FF2958ECC800996CD1 /* Products */;
 			projectDirPath = "";
@@ -492,6 +492,7 @@
 				15E415D42A18A2980057A15E /* main.swift in Sources */,
 				15F210662A19193A0021F414 /* Tasker.swift in Sources */,
 				15F2105E2A19193A0021F414 /* Model.swift in Sources */,
+				1587C8BD2A752C7B004668BA /* RWKV.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -506,6 +507,7 @@
 				15A3EDCC2A2121D90030AF5A /* ContactItem.swift in Sources */,
 				156A48D02A52B55B007DF519 /* SplitViews.swift in Sources */,
 				155FBBA32A48B5C1004DD5AE /* Replit.swift in Sources */,
+				1587C8BE2A752C7B004668BA /* RWKV.swift in Sources */,
 				15F2109C2A1921E40021F414 /* ArrayExt.swift in Sources */,
 				15A3EDCD2A2121D90030AF5A /* ChatListView.swift in Sources */,
 				15F2109E2A1921E40021F414 /* LLaMa.swift in Sources */,
@@ -607,7 +609,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 0.3.0;
+				MARKETING_VERSION = 0.3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.guinmoon.LLMFarm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -654,7 +656,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 0.3.0;
+				MARKETING_VERSION = 0.3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.guinmoon.LLMFarm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -718,8 +720,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -774,8 +776,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -816,26 +818,10 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		156A48CA2A52A6CF007DF519 /* XCRemoteSwiftPackageReference "ViewExtractor" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/GeorgeElsham/ViewExtractor";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
 /* Begin XCSwiftPackageProductDependency section */
 		1560D6142A237D4100918330 /* llmfarm_core */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = llmfarm_core;
-		};
-		156A48CB2A52A6CF007DF519 /* ViewExtractor */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 156A48CA2A52A6CF007DF519 /* XCRemoteSwiftPackageReference "ViewExtractor" */;
-			productName = ViewExtractor;
 		};
 		15A3EDD52A223C9E0030AF5A /* llmfarm_core */ = {
 			isa = XCSwiftPackageProductDependency;

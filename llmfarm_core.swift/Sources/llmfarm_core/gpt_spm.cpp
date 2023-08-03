@@ -1,6 +1,7 @@
 #include "../spm-headers/gpt_spm.h"
 #include "gpt_helpers.h"
 #include "../spm-headers/llama.h"
+#include "../spm-headers/rwkv.h"
 #include "ggml.h"
 #include <cassert>
 #include <cmath>
@@ -150,7 +151,8 @@ void gpt_base_shift_kv_cache(struct gpt_base_context * ctx, int n) {
 
 int32_t gpt_base_sample(struct gpt_base_context * ctx, int top_k, float top_p, float temp) {
     const int64_t t_start_sample_us = ggml_time_us();
-    gpt_vocab::id smpl = gpt_sample_top_k_top_p(ctx->vocab, ctx->logits.data() + (ctx->logits.size() - ctx->vocab.id_to_token.size()), top_k, top_p, temp, ctx->rng);
+    int n_logits = ctx->vocab.id_to_token.size();
+    gpt_vocab::id smpl = gpt_sample_top_k_top_p(n_logits, ctx->logits.data() + (ctx->logits.size() - ctx->vocab.id_to_token.size()), top_k, top_p, temp, ctx->rng);
     if (ctx) {
         ctx->t_sample_us += ggml_time_us() - t_start_sample_us;
     }
@@ -165,7 +167,8 @@ int32_t gpt_base_sample_repeat(struct gpt_base_context * ctx,
                                int repeat_last_n,
                                float repeat_penalty) {
     const int64_t t_start_sample_us = ggml_time_us();
-    gpt_vocab::id smpl = gpt_sample_top_k_top_p_repeat(ctx->vocab, ctx->logits.data() + (ctx->logits.size() - ctx->vocab.id_to_token.size()),
+    int n_logits = ctx->vocab.id_to_token.size();
+    gpt_vocab::id smpl = gpt_sample_top_k_top_p_repeat(n_logits, ctx->logits.data() + (ctx->logits.size() - ctx->vocab.id_to_token.size()),
                                                        last_n_tokens_data,last_n_tokens_data_size,
                                                        top_k, top_p, temp,
                                                        repeat_last_n,repeat_penalty,
@@ -174,4 +177,82 @@ int32_t gpt_base_sample_repeat(struct gpt_base_context * ctx,
         ctx->t_sample_us += ggml_time_us() - t_start_sample_us;
     }
     return  smpl;
+}
+
+
+void rwkv_tokenize(){
+    
+}
+
+void rwkv_init_logits(struct rwkv_context * model) {
+
+//    struct rwkv_context * model = rwkv_init_from_file(model_path, N_THREADS);
+//    enum rwkv_error_flags error = rwkv_get_last_error(NULL);
+//    ASSERT(error == 0, "Unexpected error %d", error);
+//
+//#ifdef GGML_USE_CUBLAS
+//    ASSERT(rwkv_gpu_offload_layers(model, rwkv_get_n_layer(model)), "Failed to offload layers to GPU");
+//#endif
+
+    const size_t n_vocab = rwkv_get_logits_len(model);
+
+
+    float * state = (float * )malloc(sizeof(float) * rwkv_get_state_len(model));
+    float * logits = (float * )malloc(sizeof(float) * n_vocab);
+
+    uint32_t prompt_seq[] = { 10002, 209, 312, 209, 74 };
+
+    const size_t prompt_length = 4;
+
+    rwkv_init_state(model, state);
+    rwkv_eval_sequence(model, prompt_seq, prompt_length, state, state, logits);
+
+}
+
+int32_t rwkv_sample(int n_logits, float * logits, int top_k, float top_p, float temp) {
+    std::mt19937 rng = std::mt19937(time(NULL));
+    gpt_vocab::id smpl = gpt_sample_top_k_top_p(n_logits, logits, top_k, top_p, temp, rng);
+    return  smpl;
+}
+
+
+int32_t rwkv_sample_repeat(int n_logits, float * logits,
+                               const int32_t * last_n_tokens_data,
+                               size_t last_n_tokens_data_size,
+                               int top_k, float top_p, float temp,
+                               int repeat_last_n,
+                               float repeat_penalty) {
+    std::mt19937 rng = std::mt19937(time(NULL));
+    gpt_vocab::id smpl = gpt_sample_top_k_top_p_repeat(n_logits, logits,
+                                                       last_n_tokens_data,last_n_tokens_data_size,
+                                                       top_k, top_p, temp,
+                                                       repeat_last_n,repeat_penalty,
+                                                       rng);
+    return  smpl;
+}
+
+void rwkv_eval(struct rwkv_context * model) {
+
+//    struct rwkv_context * model = rwkv_init_from_file(model_path, N_THREADS);
+//    enum rwkv_error_flags error = rwkv_get_last_error(NULL);
+//    ASSERT(error == 0, "Unexpected error %d", error);
+//
+//#ifdef GGML_USE_CUBLAS
+//    ASSERT(rwkv_gpu_offload_layers(model, rwkv_get_n_layer(model)), "Failed to offload layers to GPU");
+//#endif
+
+    const size_t n_vocab = rwkv_get_logits_len(model);
+
+
+    float * state = (float * )malloc(sizeof(float) * rwkv_get_state_len(model));
+    float * logits = (float * )malloc(sizeof(float) * n_vocab);
+
+    char * prompt = "\"in";
+    uint32_t prompt_seq[] = { 10002, 209, 312, 209, 74 };
+
+    const size_t prompt_length = strlen(prompt);
+
+    rwkv_init_state(model, state);
+    rwkv_eval_sequence(model, prompt_seq, prompt_length, state, state, logits);
+
 }

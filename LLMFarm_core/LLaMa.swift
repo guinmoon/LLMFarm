@@ -291,7 +291,7 @@ public class LLaMa: GPTBase {
         let input = " " + input
 
         // tokenize the prompt
-        let inputs = tokenize(input)
+        let inputs = llm_tokenize(input)
 
         guard inputs.count > 0 else {
             return []
@@ -308,7 +308,7 @@ public class LLaMa: GPTBase {
         return Array(UnsafeBufferPointer(start: embeddings, count: embeddingsCount))
     }
 
-    public override func tokenize(_ input: String, bos: Bool = true, eos: Bool = false) -> [ModelToken] {
+    public override func llm_tokenize(_ input: String, bos: Bool = true, eos: Bool = false) -> [ModelToken] {
         if input.count == 0 {
             return []
         }

@@ -89,6 +89,15 @@ int32_t gpt_base_sample_repeat(struct gpt_base_context * ctx,
                                            int repeat_last_n,
                                            float repeat_penalty);
 
+void rwkv_init_logits(struct rwkv_context * model);
+int32_t rwkv_sample(int n_logits, float * logits, int top_k, float top_p, float temp);
+int32_t rwkv_sample_repeat(int n_logits, float * logits,
+                               const int32_t * last_n_tokens_data,
+                               size_t last_n_tokens_data_size,
+                               int top_k, float top_p, float temp,
+                               int repeat_last_n,
+                           float repeat_penalty);
+
 #ifdef __cplusplus
 }
 #endif

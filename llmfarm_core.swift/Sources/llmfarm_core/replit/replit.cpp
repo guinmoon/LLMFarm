@@ -764,7 +764,8 @@ int32_t replit_sample(struct replit_context * ctx, int top_k, float top_p, float
     const int64_t t_start_sample_us = ggml_time_us();
 //    gpt_sample_top_k_top_p(vocab.raw_vocab, logits.data() + (logits.size() - n_vocab), top_k, top_p,
 //                                temp, rng);
-    gpt_vocab::id smpl = gpt_sample_top_k_top_p(ctx->vocab.raw_vocab, ctx->logits.data() + (ctx->logits.size() - ctx->vocab.raw_vocab.id_to_token.size()), top_k, top_p, temp, ctx->rng);
+    int n_logits = ctx->vocab.raw_vocab.id_to_token.size();
+    gpt_vocab::id smpl = gpt_sample_top_k_top_p(n_logits, ctx->logits.data() + (ctx->logits.size() - ctx->vocab.raw_vocab.id_to_token.size()), top_k, top_p, temp, ctx->rng);
     if (ctx) {
         ctx->t_sample_us += ggml_time_us() - t_start_sample_us;
     }
@@ -779,7 +780,8 @@ int32_t replit_sample_repeat(struct replit_context * ctx,
                                int repeat_last_n,
                                float repeat_penalty) {
     const int64_t t_start_sample_us = ggml_time_us();
-    gpt_vocab::id smpl = gpt_sample_top_k_top_p_repeat(ctx->vocab.raw_vocab, ctx->logits.data() + (ctx->logits.size() - ctx->vocab.raw_vocab.id_to_token.size()),
+    int n_logits = ctx->vocab.raw_vocab.id_to_token.size();
+    gpt_vocab::id smpl = gpt_sample_top_k_top_p_repeat(n_logits, ctx->logits.data() + (ctx->logits.size() - ctx->vocab.raw_vocab.id_to_token.size()),
                                                        last_n_tokens_data,last_n_tokens_data_size,
                                                        top_k, top_p, temp,
                                                        repeat_last_n,repeat_penalty,

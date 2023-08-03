@@ -71,11 +71,14 @@ public class Replit: GPTBase {
         
     }
     
-    public override func gpt_token_to_str(outputToken:Int32) -> UnsafePointer<CChar>? {
-        return replit_token_to_str(context, outputToken)
+    public override func gpt_token_to_str(outputToken:Int32) -> String? {
+        if let cStr = replit_token_to_str(context, outputToken){
+            return String(cString: cStr)
+        }
+        return nil
     }
     
-    public override func tokenize(_ input: String, bos: Bool = false, eos: Bool = false) -> [ModelToken] {
+    public override func llm_tokenize(_ input: String, bos: Bool = false, eos: Bool = false) -> [ModelToken] {
         if input.count == 0 {
             return []
         }

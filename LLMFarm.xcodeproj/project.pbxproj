@@ -21,8 +21,6 @@
 		1560D61C2A2E142900918330 /* ExceptionCatcher.h in Sources */ = {isa = PBXBuildFile; fileRef = 1560D61B2A2E11E200918330 /* ExceptionCatcher.h */; };
 		156A48D02A52B55B007DF519 /* SplitViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156A48CF2A52B55B007DF519 /* SplitViews.swift */; };
 		156A48D22A52B65C007DF519 /* Orientation_helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156A48D12A52B65C007DF519 /* Orientation_helper.swift */; };
-		1587C8BD2A752C7B004668BA /* RWKV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1587C8BC2A752C7B004668BA /* RWKV.swift */; };
-		1587C8BE2A752C7B004668BA /* RWKV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1587C8BC2A752C7B004668BA /* RWKV.swift */; };
 		159650ED2A49F8280007BE5C /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61E38F329B1F0BA00114C15 /* Accelerate.framework */; };
 		159650F12A49F8400007BE5C /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 159650EE2A49F8400007BE5C /* MetalKit.framework */; };
 		159650F22A49F8400007BE5C /* MetalPerformanceShaders.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 159650EF2A49F8400007BE5C /* MetalPerformanceShaders.framework */; };
@@ -73,6 +71,16 @@
 		15F210A52A1921E40021F414 /* ComputeGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F210162A190CF80021F414 /* ComputeGraph.swift */; };
 		15F210AA2A1A659B0021F414 /* FileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F210A92A1A659B0021F414 /* FileHelper.swift */; };
 		15F210AD2A1A8B7A0021F414 /* LLMUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F210AC2A1A8B7A0021F414 /* LLMUser.swift */; };
+		15F21BD02A7A818100CCC837 /* RWKV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F21BCF2A7A818100CCC837 /* RWKV.swift */; };
+		15F21BD12A7A818100CCC837 /* RWKV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F21BCF2A7A818100CCC837 /* RWKV.swift */; };
+		15F21BD82A7A939800CCC837 /* Tokenizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F21BD72A7A939800CCC837 /* Tokenizer.swift */; };
+		15F21BD92A7A939800CCC837 /* Tokenizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F21BD72A7A939800CCC837 /* Tokenizer.swift */; };
+		15F21BDB2A7A93A100CCC837 /* TokenizerConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F21BDA2A7A93A100CCC837 /* TokenizerConfig.swift */; };
+		15F21BDC2A7A93A100CCC837 /* TokenizerConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F21BDA2A7A93A100CCC837 /* TokenizerConfig.swift */; };
+		15F21BDE2A7A93A800CCC837 /* ByteEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F21BDD2A7A93A800CCC837 /* ByteEncoder.swift */; };
+		15F21BDF2A7A93A800CCC837 /* ByteEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F21BDD2A7A93A800CCC837 /* ByteEncoder.swift */; };
+		15F21BE12A7A93AE00CCC837 /* TokenizeUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F21BE02A7A93AE00CCC837 /* TokenizeUtils.swift */; };
+		15F21BE22A7A93AE00CCC837 /* TokenizeUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F21BE02A7A93AE00CCC837 /* TokenizeUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -119,7 +127,6 @@
 		156713882A5B12A6002BE054 /* ggml-metal.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = "ggml-metal.metal"; sourceTree = "<group>"; };
 		156A48CF2A52B55B007DF519 /* SplitViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViews.swift; sourceTree = "<group>"; };
 		156A48D12A52B65C007DF519 /* Orientation_helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Orientation_helper.swift; sourceTree = "<group>"; };
-		1587C8BC2A752C7B004668BA /* RWKV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RWKV.swift; sourceTree = "<group>"; };
 		159650EE2A49F8400007BE5C /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
 		159650EF2A49F8400007BE5C /* MetalPerformanceShaders.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalPerformanceShaders.framework; path = System/Library/Frameworks/MetalPerformanceShaders.framework; sourceTree = SDKROOT; };
 		159650F02A49F8400007BE5C /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
@@ -163,6 +170,11 @@
 		15F210A92A1A659B0021F414 /* FileHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileHelper.swift; sourceTree = "<group>"; };
 		15F210AB2A1A7B790021F414 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		15F210AC2A1A8B7A0021F414 /* LLMUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLMUser.swift; sourceTree = "<group>"; };
+		15F21BCF2A7A818100CCC837 /* RWKV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RWKV.swift; sourceTree = "<group>"; };
+		15F21BD72A7A939800CCC837 /* Tokenizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tokenizer.swift; sourceTree = "<group>"; };
+		15F21BDA2A7A93A100CCC837 /* TokenizerConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenizerConfig.swift; sourceTree = "<group>"; };
+		15F21BDD2A7A93A800CCC837 /* ByteEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ByteEncoder.swift; sourceTree = "<group>"; };
+		15F21BE02A7A93AE00CCC837 /* TokenizeUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenizeUtils.swift; sourceTree = "<group>"; };
 		E61E38F329B1F0BA00114C15 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		E61E38F529B1F12E00114C15 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		E624E2102958F21E00996CD1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -265,6 +277,11 @@
 			isa = PBXGroup;
 			children = (
 				1560D61B2A2E11E200918330 /* ExceptionCatcher.h */,
+				15F21BCF2A7A818100CCC837 /* RWKV.swift */,
+				15F21BDA2A7A93A100CCC837 /* TokenizerConfig.swift */,
+				15F21BE02A7A93AE00CCC837 /* TokenizeUtils.swift */,
+				15F21BDD2A7A93A800CCC837 /* ByteEncoder.swift */,
+				15F21BD72A7A939800CCC837 /* Tokenizer.swift */,
 				15F210552A1919390021F414 /* AI.swift */,
 				15F210512A1919390021F414 /* ArrayExt.swift */,
 				15141E152A6438AE0060E767 /* Starcoder.swift */,
@@ -277,7 +294,6 @@
 				15F210132A190CF80021F414 /* Math */,
 				15A47FFE2A40D2A300B72DC3 /* GPT2.swift */,
 				155FBBA12A48B5C0004DD5AE /* Replit.swift */,
-				1587C8BC2A752C7B004668BA /* RWKV.swift */,
 			);
 			path = LLMFarm_core;
 			sourceTree = "<group>";
@@ -447,6 +463,7 @@
 			);
 			mainGroup = E624E1F52958ECC800996CD1;
 			packageReferences = (
+				15F21BD22A7A910500CCC837 /* XCRemoteSwiftPackageReference "SwiftTokenizer" */,
 			);
 			productRefGroup = E624E1FF2958ECC800996CD1 /* Products */;
 			projectDirPath = "";
@@ -484,15 +501,19 @@
 				15A47FFF2A40D2A300B72DC3 /* GPT2.swift in Sources */,
 				150CAD012A3CE7B30015CD66 /* GPTNeox.swift in Sources */,
 				15F2102D2A190D5B0021F414 /* Utils.swift in Sources */,
+				15F21BDB2A7A93A100CCC837 /* TokenizerConfig.swift in Sources */,
 				15F2105A2A19193A0021F414 /* LLaMa.swift in Sources */,
+				15F21BDE2A7A93A800CCC837 /* ByteEncoder.swift in Sources */,
 				15F210602A19193A0021F414 /* StringExt.swift in Sources */,
 				155FBB9F2A460566004DD5AE /* GPTBase.swift in Sources */,
 				15F2102E2A190D5B0021F414 /* ComputeGraph.swift in Sources */,
 				15F2105C2A19193A0021F414 /* ArrayExt.swift in Sources */,
+				15F21BD82A7A939800CCC837 /* Tokenizer.swift in Sources */,
+				15F21BE12A7A93AE00CCC837 /* TokenizeUtils.swift in Sources */,
 				15E415D42A18A2980057A15E /* main.swift in Sources */,
 				15F210662A19193A0021F414 /* Tasker.swift in Sources */,
 				15F2105E2A19193A0021F414 /* Model.swift in Sources */,
-				1587C8BD2A752C7B004668BA /* RWKV.swift in Sources */,
+				15F21BD02A7A818100CCC837 /* RWKV.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -507,7 +528,7 @@
 				15A3EDCC2A2121D90030AF5A /* ContactItem.swift in Sources */,
 				156A48D02A52B55B007DF519 /* SplitViews.swift in Sources */,
 				155FBBA32A48B5C1004DD5AE /* Replit.swift in Sources */,
-				1587C8BE2A752C7B004668BA /* RWKV.swift in Sources */,
+				15F21BD12A7A818100CCC837 /* RWKV.swift in Sources */,
 				15F2109C2A1921E40021F414 /* ArrayExt.swift in Sources */,
 				15A3EDCD2A2121D90030AF5A /* ChatListView.swift in Sources */,
 				15F2109E2A1921E40021F414 /* LLaMa.swift in Sources */,
@@ -515,15 +536,19 @@
 				15F210A12A1921E40021F414 /* StringExt.swift in Sources */,
 				15F210A22A1921E40021F414 /* Tasker.swift in Sources */,
 				156A48D22A52B65C007DF519 /* Orientation_helper.swift in Sources */,
+				15F21BE22A7A93AE00CCC837 /* TokenizeUtils.swift in Sources */,
 				15F210A32A1921E40021F414 /* Math.swift in Sources */,
 				155FBBA02A460566004DD5AE /* GPTBase.swift in Sources */,
 				15A3EDCB2A2121D90030AF5A /* ModelsView.swift in Sources */,
 				15141E712A65799D0060E767 /* ModelSettingsTemplate.swift in Sources */,
 				15A3EDC92A2121D90030AF5A /* SettingsItem.swift in Sources */,
 				15F210A42A1921E40021F414 /* Utils.swift in Sources */,
+				15F21BD92A7A939800CCC837 /* Tokenizer.swift in Sources */,
 				15A480002A40D2A300B72DC3 /* GPT2.swift in Sources */,
 				15F210A52A1921E40021F414 /* ComputeGraph.swift in Sources */,
+				15F21BDF2A7A93A800CCC837 /* ByteEncoder.swift in Sources */,
 				15141E172A6438AE0060E767 /* Starcoder.swift in Sources */,
+				15F21BDC2A7A93A100CCC837 /* TokenizerConfig.swift in Sources */,
 				1560D6172A2D1A3D00918330 /* AddChatView.swift in Sources */,
 				15F210962A1920AA0021F414 /* AIChatModel.swift in Sources */,
 				15F210AA2A1A659B0021F414 /* FileHelper.swift in Sources */,
@@ -609,7 +634,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 0.3.2;
+				MARKETING_VERSION = 0.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.guinmoon.LLMFarm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -656,7 +681,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 0.3.2;
+				MARKETING_VERSION = 0.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.guinmoon.LLMFarm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -817,6 +842,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		15F21BD22A7A910500CCC837 /* XCRemoteSwiftPackageReference "SwiftTokenizer" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RayKitajima/SwiftTokenizer.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		1560D6142A237D4100918330 /* llmfarm_core */ = {

@@ -162,7 +162,7 @@ public class GPTBase: Model {
             if self.contextParams.warm_prompt.count<1{
                 self.contextParams.warm_prompt = "\n\n\n"
             }
-            let inputs = tokenize(self.contextParams.warm_prompt)
+            let inputs = llm_tokenize(self.contextParams.warm_prompt)
             if try gpt_eval(inputBatch: inputs) == false {
                 throw ModelError.failedToEval
             }
@@ -174,8 +174,11 @@ public class GPTBase: Model {
         return false
     }
     
-    public func gpt_token_to_str(outputToken:Int32) -> UnsafePointer<CChar>? {
-        return gpt_base_token_to_str(context, outputToken)
+    public func gpt_token_to_str(outputToken:Int32) -> String? {
+        if let cStr = gpt_base_token_to_str(context, outputToken){
+            return String(cString: cStr)
+        }
+        return nil
     }
     
     public override func predict(_ input: String, _ callback: ((String, Double) -> Bool) ) throws -> String {
@@ -195,17 +198,17 @@ public class GPTBase: Model {
             throw ModelError.inputTooLong
         }
         var totalLength = nPast + Int32(inputTokensCount)
-        while totalLength > contextLength {
-            // Not enough room to predict even a single token so purge
-            let forgetCount = Int32(past.first!.count)
-            past.removeFirst()
-            gpt_base_shift_kv_cache(context, forgetCount)
-            // Update count vars
-            nPast -= forgetCount
-            totalLength -= forgetCount
-            // Print how many tokens are purged
-            print("💾 \(forgetCount) tokens purged from context memory")
-        }
+//        while totalLength > contextLength {
+//            // Not enough room to predict even a single token so purge
+//            let forgetCount = Int32(past.first!.count)
+//            past.removeFirst()
+//            gpt_base_shift_kv_cache(context, forgetCount)
+//            // Update count vars
+//            nPast -= forgetCount
+//            totalLength -= forgetCount
+//            // Print how many tokens are purged
+//            print("💾 \(forgetCount) tokens purged from context memory")
+//        }
         // Input
         var inputBatch: [ModelToken] = []
         // Inputs tokens eval, input token will not be included in output
@@ -274,9 +277,7 @@ public class GPTBase: Model {
                 skipCallback = true
             }
             // Convert token to string and callback
-            if !skipCallback, let cStr = gpt_token_to_str(outputToken: outputToken){
-                let str = String(cString: cStr)
-                // Append string to output
+            if !skipCallback, let str = gpt_token_to_str(outputToken: outputToken){
                 output.append(str)
                 // Per token callback
                 let (output, time) = Utils.time {
@@ -310,16 +311,16 @@ public class GPTBase: Model {
                     // If nothing in past to purge so simply remove tokens from the beginning of the response
                     // Remove a batch of 8 or 16 tokens from beginning of response if no past, this helps reduce the frequency of shifts, but will make the model forget quicker if the forget batch size is too high
                     // In theory, the model can continue to build a response infinitely
-                    var forgetCount: Int32 = 16 //8 //1
-                    if let first = past.first {
-                        forgetCount = Int32(first.count)
-                        past.removeFirst()
-                    }
-                    gpt_base_shift_kv_cache(context, forgetCount)
-                    // Update nPast from purge
-                    nPast -= forgetCount
-                    // Print how many tokens are purged
-                    print("💾 \(forgetCount) tokens purged from context memory")
+//                    var forgetCount: Int32 = 16 //8 //1
+//                    if let first = past.first {
+//                        forgetCount = Int32(first.count)
+//                        past.removeFirst()
+//                    }
+//                    gpt_base_shift_kv_cache(context, forgetCount)
+//                    // Update nPast from purge
+//                    nPast -= forgetCount
+//                    // Print how many tokens are purged
+//                    print("💾 \(forgetCount) tokens purged from context memory")
                 }
             }
         }
@@ -335,7 +336,7 @@ public class GPTBase: Model {
     
     public func embeddings(_ input: String) throws -> [Float] {
         // Tokenize the prompt, does not include prompt style special tokens
-        let inputs = tokenize(input)
+        let inputs = llm_tokenize(input)
         
         guard inputs.count > 0 else {
             return []
@@ -353,7 +354,7 @@ public class GPTBase: Model {
         return Array(UnsafeBufferPointer(start: embeddings, count: embeddingsCount))
     }
     
-    public override func tokenize(_ input: String, bos: Bool = false, eos: Bool = false) -> [ModelToken] {
+    public override func llm_tokenize(_ input: String, bos: Bool = false, eos: Bool = false) -> [ModelToken] {
         if input.count == 0 {
             return []
         }

@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "llmfarm_core.swift",
+    name: "llmfarm_core",
     platforms: [.macOS(.v11),.iOS(.v15)],
     products: [
         .library(
@@ -14,25 +14,31 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
+//        .package(url: "https://github.com/RayKitajima/SwiftTokenizer.git", from: "1.0.0")
     ],
     targets: [
         .target(
             name: "llmfarm_core",
-            sources: ["ggml.c","ggml-metal.m","k_quants.c","common.cpp","gpt_helpers.cpp","gpt_spm.cpp", "gptneox/gptneox.cpp","gpt2/gpt2.cpp","replit/replit.cpp","starcoder/starcoder.cpp", "llama/llama.cpp","rwkv/rwkv.cpp"],
+            sources: ["ggml.c","ggml_old.c","ggml-metal.m","k_quants.c","common.cpp","gpt_helpers.cpp","gpt_spm.cpp","package_helper.m",
+                      "gptneox/gptneox.cpp","gpt2/gpt2.cpp","replit/replit.cpp","starcoder/starcoder.cpp", "llama/llama.cpp","rwkv/rwkv.cpp",
+                      ],
+            resources: [
+                .copy("tokenizers")
+            ],
             publicHeadersPath: "spm-headers",
-//            I'm not sure about some of the flags, please correct it's wrong.
+            //            I'm not sure about some of the flags, please correct it's wrong.
             cSettings: [
                 .unsafeFlags(["-Ofast"]), //comment this if you need to Debug llama
                 .unsafeFlags(["-DNDEBUG"]),
                 //                .unsafeFlags(["-march=native"]),
-//                                .unsafeFlags(["-mtune=native"]),
-//                .unsafeFlags(["-mcpu=native"]),
+                //                                .unsafeFlags(["-mtune=native"]),
+                //                .unsafeFlags(["-mcpu=native"]),
                 .unsafeFlags(["-mfma","-mfma","-mavx","-mavx2","-mf16c","-msse3"]),
                 .unsafeFlags(["-DGGML_USE_K_QUANTS"]),
-//                .unsafeFlags(["-DGGML_QKK_64"]),
+                //                .unsafeFlags(["-DGGML_QKK_64"]),
                 .unsafeFlags(["-DGGML_USE_ACCELERATE"]),
                 .unsafeFlags(["-DGGML_USE_METAL"]),
-//                .unsafeFlags(["-DExternalMetal"]),
+                //                .unsafeFlags(["-DExternalMetal"]),
                 .unsafeFlags(["-DGGML_METAL_NDEBUG"]),
                 .unsafeFlags(["-pthread"]),
                 .unsafeFlags(["-w"])    // ignore all warnings

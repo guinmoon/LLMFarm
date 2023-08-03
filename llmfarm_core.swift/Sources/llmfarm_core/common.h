@@ -112,7 +112,7 @@ bool gpt_vocab_init(const std::string & fname, gpt_vocab & vocab);
 // TODO: temperature is not implemented
 //
 gpt_vocab::id gpt_sample_top_k_top_p(
-        const gpt_vocab & vocab,
+        int n_logits,
         const float * logits,
         int    top_k,
         double top_p,
@@ -120,7 +120,7 @@ gpt_vocab::id gpt_sample_top_k_top_p(
         std::mt19937 & rng);
 
 gpt_vocab::id gpt_sample_top_k_top_p_repeat(
-        const gpt_vocab & vocab,
+        int n_logits,
         const float * logits,
         const int32_t * last_n_tokens_data,
         size_t last_n_tokens_data_size,

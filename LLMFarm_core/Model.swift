@@ -194,7 +194,7 @@ public class Model {
     var sampleParams: ModelSampleParams = .default
     var promptFormat: ModelPromptStyle = .None
     var custom_prompt_format = ""
-    
+    var core_resourses = get_core_bundle_path()
     var reverse_prompt: [String] = []
     
     
@@ -213,7 +213,7 @@ public class Model {
         return ""
     }
     
-    public func tokenize(_ input: String, bos: Bool = false, eos: Bool = false) -> [ModelToken] {
+    public func llm_tokenize(_ input: String, bos: Bool = false, eos: Bool = false) -> [ModelToken] {
         return []
     }
     
@@ -223,28 +223,28 @@ public class Model {
     public func tokenizePrompt(_ input: String, _ style: ModelPromptStyle) -> [ModelToken] {
         switch style {
         case .None:
-            return tokenize(input)
+            return llm_tokenize(input)
         case .Custom:
             var formated_input = self.custom_prompt_format.replacingOccurrences(of: "{{prompt}}", with: input)
             formated_input = formated_input.replacingOccurrences(of: "\\n", with: "\n")
-            return tokenize(formated_input, bos: true)
+            return llm_tokenize(formated_input, bos: true)
         case .ChatBase:
-            return tokenize("<human>: " + input + "\n<bot>:")
+            return llm_tokenize("<human>: " + input + "\n<bot>:")
         case .OpenAssistant:
-            let inputTokens = tokenize("<|prompter|>" + input + "<|endoftext|>" + "<|assistant|>")
+            let inputTokens = llm_tokenize("<|prompter|>" + input + "<|endoftext|>" + "<|assistant|>")
 //            var inputTokens = tokenize(input)
 //            inputTokens.insert(gptneox_str_to_token(context, "<|prompter|>"), at: 0)
 //            inputTokens.append(gptneox_str_to_token(context, "<|endoftext|>"))
 //            inputTokens.append(gptneox_str_to_token(context, "<|assistant|>"))
             return inputTokens
         case .RedPajama_chat:            
-            return tokenize("<human>:\n" + input + "\n<bot>:")
+            return llm_tokenize("<human>:\n" + input + "\n<bot>:")
         case .Dolly_b3:
             let  INSTRUCTION_KEY = "### Instruction:";
             let  RESPONSE_KEY    = "### Response:";
 //            let  END_KEY         = "### End";
             let  INTRO_BLURB     = "Below is an instruction that describes a task. Write a response that appropriately completes the request.";
-            let inputTokens = tokenize(INTRO_BLURB + INSTRUCTION_KEY + input + RESPONSE_KEY)
+            let inputTokens = llm_tokenize(INTRO_BLURB + INSTRUCTION_KEY + input + RESPONSE_KEY)
 //            var inputTokens = tokenize(input)
 //            inputTokens.insert(gptneox_str_to_token(context, INSTRUCTION_KEY), at: 0)
 //            inputTokens.insert(gptneox_str_to_token(context, INTRO_BLURB), at: 0)
@@ -259,21 +259,21 @@ public class Model {
 //            //inputTokens.insert(contentsOf: systemTokens, at: 0)
 //            //inputTokens.insert(gptneox_str_to_token(context, "<|SYSTEM|>"), at: 0)
 //            inputTokens.append(gptneox_str_to_token(context, "<|ASSISTANT|>"))
-            let inputTokens = tokenize("<|USER|>" + input + "<|ASSISTANT|>")
+            let inputTokens = llm_tokenize("<|USER|>" + input + "<|ASSISTANT|>")
             return inputTokens
         case .LLaMa:
 //            let bos = llama_token_bos()
             // Add a space in front of the first character to match OG llama tokenizer behavior
             let input = " " + input
             // Tokenize
-            return tokenize(input, bos: true)
+            return llm_tokenize(input, bos: true)
         case .LLaMa_QA:
             // Add a space in front of the first character to match OG llama tokenizer behavior
             // Question answering prompt
             // Is the space in front of Question needed for Stack LLaMa?
             let input = " Question: " + input + "\n\nAnswer: "
             // Tokenize
-            return tokenize(input, bos: true)
+            return llm_tokenize(input, bos: true)
         }
     }
     

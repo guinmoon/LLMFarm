@@ -289,6 +289,7 @@ final class AIChatModel: ObservableObject {
                 self.predicting = false
                 self.numberOfTokens = 0
                 self.action_button_icon = "paperplane"
+                save_chat_history(self.messages,self.chat_name+".json")
             })
             
             

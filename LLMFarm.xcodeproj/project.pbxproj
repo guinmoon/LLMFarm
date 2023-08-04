@@ -463,7 +463,6 @@
 			);
 			mainGroup = E624E1F52958ECC800996CD1;
 			packageReferences = (
-				15F21BD22A7A910500CCC837 /* XCRemoteSwiftPackageReference "SwiftTokenizer" */,
 			);
 			productRefGroup = E624E1FF2958ECC800996CD1 /* Products */;
 			projectDirPath = "";
@@ -842,17 +841,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		15F21BD22A7A910500CCC837 /* XCRemoteSwiftPackageReference "SwiftTokenizer" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/RayKitajima/SwiftTokenizer.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		1560D6142A237D4100918330 /* llmfarm_core */ = {

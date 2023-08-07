@@ -96,6 +96,8 @@ final class AIChatModel: ObservableObject {
                     self.chat?.loadModel(ModelInference.LLamaInference,contextParams: model_context_param)
                 }else if chat_config!["model_inference"] as! String == "gptneox" {
                     self.chat?.loadModel(ModelInference.GPTNeoxInference,contextParams: model_context_param)
+                }else if chat_config!["model_inference"] as! String == "rwkv" {
+                    self.chat?.loadModel(ModelInference.RWKV,contextParams: model_context_param)
                 }else if chat_config!["model_inference"] as! String == "gpt2" {
                     self.chat?.loadModel(ModelInference.GPT2,contextParams: model_context_param)
                     self.chat?.model.reverse_prompt.append("<|endoftext|>")
@@ -211,7 +213,7 @@ final class AIChatModel: ObservableObject {
     {
         var check = true
         for stop_word in self.chat?.model.reverse_prompt ?? [] {
-            if str.contains(stop_word){
+            if str == stop_word || message.text.contains(stop_word) {
                 self.stop_predict()
                 check = false
                 break

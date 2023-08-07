@@ -18,7 +18,7 @@ enum ModelInference {
 
 class AI {
     
-    var aiQueue = DispatchQueue(label: "Mia-Main", qos: .userInitiated, attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
+    var aiQueue = DispatchQueue(label: "LLMFarm-Main", qos: .userInitiated, attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
     
     //var model: Model!
     var model: Model!

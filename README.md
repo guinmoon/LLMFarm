@@ -11,7 +11,7 @@
 
 LLMFarm is an iOS and MacOS app to work with large language models (LLM). It allows you to load different LLMs with certain parameters.<br>
 Based on [ggml](https://github.com/ggerganov/ggml) and [llama.cpp](https://github.com/ggerganov/llama.cpp) by [Georgi Gerganov](https://github.com/ggerganov).
-Also, when creating the application, the source codes from the repository [byroneverson](https://github.com/byroneverson/Mia) were used.
+Also used sources from [rwkv.cpp](https://github.com/saharNooby/rwkv.cpp) by [saharNooby](https://github.com/saharNooby).
 
 ## Features
 
@@ -20,8 +20,10 @@ Also, when creating the application, the source codes from the repository [byron
 - [x] Various inferences
 - [x] Metal for llama inference (MacOS and iOS)
 - [x] Model setting templates
-- [ ] Metal for other inference
+- [ ] Sampling from llama.cpp for other inference
+- [ ] Other tokenizers support
 - [ ] Restore context state (now only chat history) 
+- [ ] Metal for other inference
 
 ## Inferences
 
@@ -30,7 +32,7 @@ Also, when creating the application, the source codes from the repository [byron
 - [x] [Replit](https://huggingface.co/replit/replit-code-v1-3b)
 - [x] [GPT2](https://huggingface.co/docs/transformers/model_doc/gpt2) + [Cerebras](https://arxiv.org/abs/2304.03208)
 - [x] [Starcoder(Santacoder)](https://huggingface.co/bigcode/santacoder)
-- [ ] [RWKV](https://huggingface.co/docs/transformers/model_doc/rwkv)
+- [x] [RWKV](https://huggingface.co/docs/transformers/model_doc/rwkv) (20B tokenizer)
 
 ## Getting Started
 

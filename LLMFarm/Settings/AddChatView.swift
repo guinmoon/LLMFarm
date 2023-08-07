@@ -83,7 +83,7 @@ struct AddChatView: View {
     let model_setting_templates = get_model_setting_templates()
     
     @State private var model_inference = "llama"
-    let model_inferences = ["gptneox", "llama", "gpt2", "replit", "starcoder"]
+    let model_inferences = ["gptneox", "llama", "gpt2", "replit", "starcoder", "rwkv"]
     
     @State private var model_icon: String = "ava0"
     let model_icons = ["ava0","ava1","ava2","ava3","ava4","ava5","ava6","ava7"]

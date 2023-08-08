@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import llmfarm_core
+import llmfarm_core_cpp
 
 public class GPTNeoX: GPTBase {
 

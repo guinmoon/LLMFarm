@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import os
+import llmfarm_core
 
 private extension Duration {
     var seconds: Double {

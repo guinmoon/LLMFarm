@@ -7,6 +7,7 @@
 
 import Foundation
 import llmfarm_core
+import llmfarm_core_cpp
 
 let maxOutputLength = 256
 var total_output = 0
@@ -37,7 +38,6 @@ func main(){
     //    let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/replit-code-v1-3b-ggml-q5_1.bin",_chatName: "chat")
     //    try? ai.loadModel(ModelInference.Replit)
     //    ai.model.promptFormat = .None
-    
         let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-3b.ggmlv3.q4_1.bin",_chatName: "chat")
     //    let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-7b.ggmlv3.q3_K_M.bin",_chatName: "chat")
         var params:ModelContextParams = .default

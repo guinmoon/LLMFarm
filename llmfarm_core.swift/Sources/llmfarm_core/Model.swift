@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import llmfarm_core
+import llmfarm_core_cpp
 
 private typealias _ModelProgressCallback = (_ progress: Float, _ userData: UnsafeMutableRawPointer?) -> Void
 
@@ -189,13 +189,13 @@ public typealias ModelToken = Int32
 
 public class Model {
     
-    var context: OpaquePointer?
-    var contextParams: ModelContextParams
-    var sampleParams: ModelSampleParams = .default
-    var promptFormat: ModelPromptStyle = .None
-    var custom_prompt_format = ""
-    var core_resourses = get_core_bundle_path()
-    var reverse_prompt: [String] = []
+    public var context: OpaquePointer?
+    public var contextParams: ModelContextParams
+    public var sampleParams: ModelSampleParams = .default
+    public var promptFormat: ModelPromptStyle = .None
+    public var custom_prompt_format = ""
+    public var core_resourses = get_core_bundle_path()
+    public var reverse_prompt: [String] = []
     
     
     // Init

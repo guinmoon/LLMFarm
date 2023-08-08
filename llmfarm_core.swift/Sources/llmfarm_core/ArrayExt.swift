@@ -7,7 +7,7 @@
 
 import Accelerate
 
-extension Array {
+public extension Array {
     
     // Convenience unsafe mutable pointer - Apple's method is annoying
     var mutPtr: UnsafeMutablePointer<Element> {

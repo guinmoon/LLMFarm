@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ModelInference {
+public enum ModelInference {
     case LLamaInference
     case GPTNeoxInference
     case GPT2
@@ -16,26 +16,26 @@ enum ModelInference {
     case RWKV
 }
 
-class AI {
+public class AI {
     
     var aiQueue = DispatchQueue(label: "LLMFarm-Main", qos: .userInitiated, attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
     
     //var model: Model!
-    var model: Model!
-    var modelPath: String
-    var modelName: String
-    var chatName: String
+    public var model: Model!
+    public var modelPath: String
+    public var modelName: String
+    public var chatName: String
     
-    var flagExit = false
+    public var flagExit = false
     private(set) var flagResponding = false
     
-    init(_modelPath: String,_chatName: String) {
+    public init(_modelPath: String,_chatName: String) {
         self.modelPath = _modelPath
         self.modelName = NSURL(fileURLWithPath: _modelPath).lastPathComponent!
         self.chatName = _chatName
     }
     
-    func loadModel(_ aiModel: ModelInference, contextParams: ModelContextParams = .default) {
+    public func loadModel(_ aiModel: ModelInference, contextParams: ModelContextParams = .default) {
         print("AI init")
         do{
             switch aiModel {
@@ -58,7 +58,7 @@ class AI {
         }
     }
     
-    func conversation(_ input: String,  _ tokenCallback: ((String, Double) -> ())?, _ completion: ((String) -> ())?) {
+    public func conversation(_ input: String,  _ tokenCallback: ((String, Double) -> ())?, _ completion: ((String) -> ())?) {
         flagResponding = true
         aiQueue.async {
             func mainCallback(_ str: String, _ time: Double) -> Bool {

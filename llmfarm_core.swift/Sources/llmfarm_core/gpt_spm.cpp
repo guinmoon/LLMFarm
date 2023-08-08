@@ -231,28 +231,49 @@ int32_t rwkv_sample_repeat(int n_logits, float * logits,
     return  smpl;
 }
 
-void rwkv_eval(struct rwkv_context * model) {
-
-//    struct rwkv_context * model = rwkv_init_from_file(model_path, N_THREADS);
-//    enum rwkv_error_flags error = rwkv_get_last_error(NULL);
-//    ASSERT(error == 0, "Unexpected error %d", error);
-//
-//#ifdef GGML_USE_CUBLAS
-//    ASSERT(rwkv_gpu_offload_layers(model, rwkv_get_n_layer(model)), "Failed to offload layers to GPU");
-//#endif
-
-    const size_t n_vocab = rwkv_get_logits_len(model);
-
-
-    float * state = (float * )malloc(sizeof(float) * rwkv_get_state_len(model));
-    float * logits = (float * )malloc(sizeof(float) * n_vocab);
-
-    char * prompt = "\"in";
-    uint32_t prompt_seq[] = { 10002, 209, 312, 209, 74 };
-
-    const size_t prompt_length = strlen(prompt);
-
-    rwkv_init_state(model, state);
-    rwkv_eval_sequence(model, prompt_seq, prompt_length, state, state, logits);
-
+bool llama_save_state(struct llama_context * ctx, const char * fname){
+    const size_t state_size = llama_get_state_size(ctx);
+    uint8_t * state_mem = new uint8_t[state_size];
+    FILE *fp_write = fopen(fname, "wb");
+    llama_copy_state_data(ctx, state_mem); // could also copy directly to memory mapped file
+    fwrite(state_mem, 1, state_size, fp_write);
+    fclose(fp_write);
+    delete[] state_mem;
+    return  true;
 }
+
+//bool llama_load_state(struct llama_context * ctx, const char * fname)
+//{
+//    FILE *fp_read = fopen(fname, "rb");
+//    const size_t ret = fread(state_mem, 1, state_size, fp_read);
+//    llama_set_state_data(ctx, state_mem);  // could also read directly from memory mapped file
+//    fclose(fp_read);
+//    delete[] state_mem;
+//}
+//void rwkv_eval(struct rwkv_context * model) {
+//
+////    struct rwkv_context * model = rwkv_init_from_file(model_path, N_THREADS);
+////    enum rwkv_error_flags error = rwkv_get_last_error(NULL);
+////    ASSERT(error == 0, "Unexpected error %d", error);
+////
+////#ifdef GGML_USE_CUBLAS
+////    ASSERT(rwkv_gpu_offload_layers(model, rwkv_get_n_layer(model)), "Failed to offload layers to GPU");
+////#endif
+//
+//    const size_t n_vocab = rwkv_get_logits_len(model);
+//
+//
+//    float * state = (float * )malloc(sizeof(float) * rwkv_get_state_len(model));
+//    float * logits = (float * )malloc(sizeof(float) * n_vocab);
+//
+//    char * prompt = "\"in";
+//    uint32_t prompt_seq[] = { 10002, 209, 312, 209, 74 };
+//
+//    const size_t prompt_length = strlen(prompt);
+//
+//    rwkv_init_state(model, state);
+//    rwkv_eval_sequence(model, prompt_seq, prompt_length, state, state, logits);
+//
+//}
+//
+

@@ -11,7 +11,10 @@
 
 LLMFarm is an iOS and MacOS app to work with large language models (LLM). It allows you to load different LLMs with certain parameters.<br>
 Based on [ggml](https://github.com/ggerganov/ggml) and [llama.cpp](https://github.com/ggerganov/llama.cpp) by [Georgi Gerganov](https://github.com/ggerganov).
-Also used sources from [rwkv.cpp](https://github.com/saharNooby/rwkv.cpp) by [saharNooby](https://github.com/saharNooby).
+
+Also used sources from:
+* [rwkv.cpp](https://github.com/saharNooby/rwkv.cpp) by [saharNooby](https://github.com/saharNooby).
+* [Mia](https://github.com/byroneverson/Mia) by [byroneverson](https://github.com/byroneverson).
 
 ## Features
 
@@ -33,6 +36,7 @@ Also used sources from [rwkv.cpp](https://github.com/saharNooby/rwkv.cpp) by [sa
 - [x] [GPT2](https://huggingface.co/docs/transformers/model_doc/gpt2) + [Cerebras](https://arxiv.org/abs/2304.03208)
 - [x] [Starcoder(Santacoder)](https://huggingface.co/bigcode/santacoder)
 - [x] [RWKV](https://huggingface.co/docs/transformers/model_doc/rwkv) (20B tokenizer)
+- [ ] [Falcon](https://github.com/cmp-nct/ggllm.cpp)
 
 ## Getting Started
 

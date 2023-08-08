@@ -184,7 +184,7 @@ public class LLaMa: GPTBase {
             inputBatch.append(contentsOf: inputTokens[0 ..< evalCount])
             inputTokens.removeFirst(evalCount)
             // Eval batch
-            if llama_eval(context, inputBatch, Int32(inputBatch.count), nPast, contextParams.numberOfThreads) != 0 {
+            if try gpt_eval(inputBatch:inputBatch) != true {
                 throw ModelError.failedToEval
             }
             // Increment past count
@@ -256,7 +256,7 @@ public class LLaMa: GPTBase {
             // Check if we need to run another eval
             if outputEnabled {
                 // Send generated token back into model for next generation
-                if llama_eval(context, [outputToken], 1, nPast, contextParams.numberOfThreads) != 0 {
+                if try gpt_eval(inputBatch:[outputToken]) != true {
                     throw ModelError.failedToEval
                 }
                 // Increment past count
@@ -267,16 +267,16 @@ public class LLaMa: GPTBase {
                     // If nothing in past to purge so simply remove tokens from the beginning of the response
                     // Remove a batch of 8 or 16 tokens from beginning of response if no past, this helps reduce the frequency of shifts, but will make the model forget quicker if the forget batch size is too high
                     // In theory, the model can continue to build a response infinitely
-                    var forgetCount: Int32 = 16 //8 //1
-                    if let first = past.first {
-                        forgetCount = Int32(first.count)
-                        past.removeFirst()
-                    }
-//                    llama_shift_kv_cache(context, forgetCount)
-                    // Update nPast from purge
-                    nPast -= forgetCount
-                    // Print how many tokens are purged
-                    print("💾 \(forgetCount) tokens purged from context memory")
+//                    var forgetCount: Int32 = 16 //8 //1
+//                    if let first = past.first {
+//                        forgetCount = Int32(first.count)
+//                        past.removeFirst()
+//                    }
+////                    llama_shift_kv_cache(context, forgetCount)
+//                    // Update nPast from purge
+//                    nPast -= forgetCount
+//                    // Print how many tokens are purged
+//                    print("💾 \(forgetCount) tokens purged from context memory")
                 }
             }
         }

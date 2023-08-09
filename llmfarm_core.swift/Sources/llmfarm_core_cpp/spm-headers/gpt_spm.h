@@ -11,7 +11,7 @@
 extern "C" {
 #endif
 
-
+typedef int gpt_token;
 const char * print_system_info(void);
 
 typedef struct gpt_neox_token_data {
@@ -25,6 +25,19 @@ typedef struct gpt_neox_token_data_array {
     size_t size;
     bool sorted;
 } gpt_neox_token_data_array;
+
+typedef struct gpt_token_data {
+    gpt_token id; // token id
+    float logit;    // log-odds of the token
+    float p;        // probability of the token
+} gpt_token_data;
+
+typedef struct gpt_token_data_array {
+    gpt_token_data * data;
+    size_t size;
+    bool sorted;
+} gpt_token_data_array;
+
 
 typedef void (*gpt_progress_callback)(float progress, void *ctx);
 
@@ -48,7 +61,7 @@ struct gpt_context_params {
 
 struct gpt_context_params gpt_context_default_params();
 
-typedef int gpt_token;
+
 
 gpt_token gpt_base_token_bos();
 gpt_token gpt_base_token_eos();

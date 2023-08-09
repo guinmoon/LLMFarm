@@ -44,10 +44,10 @@ Models must be quantized by [ggml](https://github.com/ggerganov/ggml) after [#15
 LLMFarm work in sandbox mode and put added models to the "models" directory. 
 When creating a chat, a JSON file is generated in which you can specify additional model parameters. The chat files are located in the "chats" directory.
 
-## Models
+### Models
 You can download some of the supported [models here](/models.md).
 
-## Parameter list:
+### Parameter list:
 
 | parametr          | default           | description                                         |
 |-------------------|-------------------|-----------------------------------------------------|
@@ -74,7 +74,7 @@ You can download some of the supported [models here](/models.md).
 | mirostat_eta      | 0.1               | Mirostat learning rate, parameter eta               |
 
 
-## Dev
+## Development
 To debug `llmfarm_core` package, do not forget to comment `.unsafeFlags(["-Ofast"])` in `Package.swift`.
 Don't forget that the debug version is slower than the release version.
 

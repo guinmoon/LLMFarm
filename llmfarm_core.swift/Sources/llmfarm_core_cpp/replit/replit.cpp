@@ -772,6 +772,9 @@ int32_t replit_sample(struct replit_context * ctx, int top_k, float top_p, float
     return  smpl;
 }
 
+int32_t replit_n_logits(struct replit_context * ctx){
+    return ctx->vocab.raw_vocab.id_to_token.size();
+}
 
 int32_t replit_sample_repeat(struct replit_context * ctx,
                                const int32_t * last_n_tokens_data,

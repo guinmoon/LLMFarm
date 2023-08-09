@@ -10,30 +10,6 @@ import llmfarm_core_cpp
 
 public class LLaMa: GPTBase {
 
-//    public override init(path: String, contextParams: ModelContextParams = .default) throws {
-//        try super.init()
-//        
-//        self.promptFormat = .LLaMa_QA
-//        
-//        self.contextParams = contextParams
-//        var params = llama_context_default_params()
-//        params.n_ctx = contextParams.context
-////        params.n_parts = contextParams.parts
-//        params.seed = contextParams.seed
-//        params.f16_kv = contextParams.f16Kv
-//        params.logits_all = contextParams.logitsAll
-//        params.vocab_only = contextParams.vocabOnly
-//        params.use_mlock = contextParams.useMlock
-//        params.embedding = contextParams.embedding
-//        // Check if model file exists
-//        if !FileManager.default.fileExists(atPath: path) {
-//            throw ModelError.modelNotFound(path)
-//        }
-//        // Load model at path
-//        self.context = llama_init_from_file(path, params)
-//        // Print llama arch and cpu features info
-//        print(String(cString: llama_print_system_info()))
-//    }
     
     public override func load_model(path: String = "", contextParams: ModelContextParams = .default, params:gpt_context_params ) throws -> Bool{
         var params = llama_context_default_params()
@@ -132,10 +108,7 @@ public class LLaMa: GPTBase {
         }
     }
     
-//    // Used to keep old context until it needs to be rotated or purge out for new tokens
-//    var past: [[ModelToken]] = [] // Will house both queries and responses in order
-//    //var n_history: Int32 = 0
-//    var nPast: Int32 = 0
+
 
     public override func gpt_eval(inputBatch:[ModelToken]) throws -> Bool{
         if llama_eval(context, inputBatch, Int32(inputBatch.count), nPast, contextParams.numberOfThreads) != 0 {
@@ -144,148 +117,22 @@ public class LLaMa: GPTBase {
         return true
     }
     
-    public override func predict(_ input: String, _ callback: ((String, Double) -> Bool) ) throws -> String {
-        // Sample parameters
-        let params = sampleParams
-        // Debug shorter contextLength to purge faster
-        let contextLength = Int32(contextParams.context)
-        print("Past token count: \(nPast)/\(contextLength) (\(past.count))")
-        // Tokenize with prompt style
-        var inputTokens = tokenizePrompt(input, promptFormat)
-        let inputTokensCount = inputTokens.count
-        print("Input tokens: \(inputTokens)")
-        // Add new input tokens to past array
-        past.append(inputTokens)
-        // Create space in context if needed
-        if inputTokensCount > contextLength {
-            throw ModelError.inputTooLong
+    public override func gpt_token_to_str(outputToken:Int32) -> String? {
+        if let cStr = llama_token_to_str(context, outputToken){
+            return String(cString: cStr)
         }
-        var totalLength = nPast + Int32(inputTokensCount)
-        while totalLength > contextLength {
-            // Not enough room to predict even a single token so purge
-            let forgetCount = Int32(past.first!.count)
-            past.removeFirst()
-//            llama_shift_kv_cache(context, forgetCount)
-            // Update count vars
-            nPast -= forgetCount
-            totalLength -= forgetCount
-            // Print how many tokens are purged
-            print("💾 \(forgetCount) tokens purged from context memory")
-        }
-        // Input
-        var inputBatch = Array<llama_token>()
-        // Inputs tokens, do not include inputs in output for conversational usage
-        while inputTokens.count > 0 {
-            // Clear input batch
-            inputBatch.removeAll()
-            // See how many to eval (up to batch size??? or can we feed the entire input)
-            let evalCount = min(inputTokens.count, Int(params.n_batch))
-            // Move tokens to batch
-            inputBatch.append(contentsOf: inputTokens[0 ..< evalCount])
-            inputTokens.removeFirst(evalCount)
-            // Eval batch
-            if try gpt_eval(inputBatch:inputBatch) != true {
-                throw ModelError.failedToEval
-            }
-            // Increment past count
-            nPast += Int32(evalCount)
-        }
-        // Output
-        var outputRepeatTokens: [ModelToken] = []
-        var outputTokens: [ModelToken] = []
-        var output = [String]()
-        // Loop until target count is reached
-        var outputEnabled = true
-        while outputEnabled {
-            // Pull a generation from context
-            let outputToken = sample(
-                ctx: context,
-                last_n_tokens: &outputRepeatTokens,
-                temp: params.temp,
-                top_k: params.top_k,
-                top_p: params.top_p,
-                tfs_z: params.tfs_z,
-                typical_p: params.repeat_penalty,
-                repeat_last_n: params.repeat_last_n,
-                repeat_penalty: params.repeat_penalty,
-                alpha_presence: params.presence_penalty,
-                alpha_frequency: params.frequence_penalty,
-                mirostat: params.mirostat,
-                mirostat_tau: params.mirostat_tau,
-                mirostat_eta: params.mirostat_eta,
-                penalize_nl: params.penalize_nl
-            )
-            // Add output token to array
-            outputTokens.append(outputToken)
-            // Repeat tokens update
-            outputRepeatTokens.append(outputToken)
-            if outputRepeatTokens.count > params.repeat_last_n {
-                outputRepeatTokens.removeFirst()
-            }
-            // Check for eos - end early - check eos before bos in case they are the same
-            if outputToken == llama_token_eos() {
-                outputEnabled = false
-                print("🤖 [EOS]")
-                break
-            }
-            // Check for bos - skip callback if so
-            var skipCallback = false
-            if outputToken == llama_token_bos() {
-                print("🤖 [BOS]")
-                skipCallback = true //continue
-            }
-            // Convert token to string and callback
-            if !skipCallback, let cStr = llama_token_to_str(context, outputToken) {
-                let str = String(cString: cStr)
-                // Append string to output
-                output.append(str)
-                // Per token callback
-                let (output, time) = Utils.time {
-                    return str
-                }
-//                print("🤖 \(output) \(outputToken)") //" \(tokenProb)")
-                print("\(output)",terminator: "") //" \(tokenProb)")
-                if callback(output, time) {
-                    // Early exit if requested by callback
-                    print("💀 Early exit")
-                    //generating = false
-                    outputEnabled = false
-                    break
-                }
-            }
-            // Check if we need to run another eval
-            if outputEnabled {
-                // Send generated token back into model for next generation
-                if try gpt_eval(inputBatch:[outputToken]) != true {
-                    throw ModelError.failedToEval
-                }
-                // Increment past count
-                nPast += 1
-                // Check to see if we need to forget (create space in context)
-                if nPast > contextLength {
-                    // Not enough room to predict even a single token so purge oldest from past and kv cache
-                    // If nothing in past to purge so simply remove tokens from the beginning of the response
-                    // Remove a batch of 8 or 16 tokens from beginning of response if no past, this helps reduce the frequency of shifts, but will make the model forget quicker if the forget batch size is too high
-                    // In theory, the model can continue to build a response infinitely
-//                    var forgetCount: Int32 = 16 //8 //1
-//                    if let first = past.first {
-//                        forgetCount = Int32(first.count)
-//                        past.removeFirst()
-//                    }
-////                    llama_shift_kv_cache(context, forgetCount)
-//                    // Update nPast from purge
-//                    nPast -= forgetCount
-//                    // Print how many tokens are purged
-//                    print("💾 \(forgetCount) tokens purged from context memory")
-                }
-            }
-        }
-        // Total tokens used
-        print("Total tokens: \(inputTokensCount + outputTokens.count) (\(inputTokensCount) -> \(outputTokens.count))")
-        // Return full string (for cases where callback is not used)
-        return output.joined()
+        return nil
     }
 
+
+    public override func gpt_token_bos() -> ModelToken{
+        return llama_token_bos()
+    }
+    
+    public override func gpt_token_eos() -> ModelToken{
+        return llama_token_eos()
+    }
+    
     public override func embeddings(_ input: String) throws -> [Float] {
         // Add a space in front of the first character to match OG llama tokenizer behavior
         let input = " " + input

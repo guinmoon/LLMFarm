@@ -46,6 +46,8 @@ int replit_eval(
 
 const char * replit_token_to_str(struct replit_context * ctx, replit_token token);
 
+int32_t replit_n_logits(struct replit_context * ctx);
+
 int32_t replit_sample(struct replit_context * ctx, int top_k, float top_p, float temp);
 int32_t replit_sample_repeat(struct replit_context * ctx,
                                const int32_t * last_n_tokens_data,

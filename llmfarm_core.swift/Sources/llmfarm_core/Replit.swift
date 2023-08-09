@@ -27,48 +27,46 @@ public class Replit: GPTBase {
         return true
     }
     
-//    public override func gpt_init_logits() throws -> Bool {
-//        if replit_init_logits(context, contextParams.numberOfThreads) != 0 {
-//            throw ModelError.failedToEval
+    
+//    override func sample(ctx: OpaquePointer!,
+//                last_n_tokens: inout [ModelToken],
+//                temp: Float32,
+//                top_k: Int32,
+//                top_p: Float32,
+//                tfs_z: Float32,
+//                typical_p: Float32,
+//                repeat_last_n: Int32,
+//                repeat_penalty: Float32,
+//                alpha_presence: Float32,
+//                alpha_frequency: Float32,
+//                mirostat: Int32,
+//                mirostat_tau: Float32,
+//                mirostat_eta: Float32,
+//                penalize_nl: Bool) -> ModelToken {
+//        // Model input context size
+//        let n_ctx = gpt_base_n_ctx(ctx)
+//        
+//        // Auto params
+//        
+//        let top_k = top_k <= 0 ? gpt_base_n_vocab(ctx) : top_k
+//        let repeat_last_n = repeat_last_n < 0 ? n_ctx : repeat_last_n
+//        
+//        if (last_n_tokens.count>0){
+//            let sampl = replit_sample_repeat(ctx,
+//                                               last_n_tokens,
+//                                               last_n_tokens.count,
+//                                               top_k, top_p, temp,
+//                                               repeat_last_n,repeat_penalty);
+//            return sampl
+//        }else{
+//            let sampl = replit_sample(ctx, top_k, top_p, temp)
+//            return sampl
 //        }
-//        return true
+//        
 //    }
     
-    override func sample(ctx: OpaquePointer!,
-                last_n_tokens: inout [ModelToken],
-                temp: Float32,
-                top_k: Int32,
-                top_p: Float32,
-                tfs_z: Float32,
-                typical_p: Float32,
-                repeat_last_n: Int32,
-                repeat_penalty: Float32,
-                alpha_presence: Float32,
-                alpha_frequency: Float32,
-                mirostat: Int32,
-                mirostat_tau: Float32,
-                mirostat_eta: Float32,
-                penalize_nl: Bool) -> ModelToken {
-        // Model input context size
-        let n_ctx = gpt_base_n_ctx(ctx)
-        
-        // Auto params
-        
-        let top_k = top_k <= 0 ? gpt_base_n_vocab(ctx) : top_k
-        let repeat_last_n = repeat_last_n < 0 ? n_ctx : repeat_last_n
-        
-        if (last_n_tokens.count>0){
-            let sampl = replit_sample_repeat(ctx,
-                                               last_n_tokens,
-                                               last_n_tokens.count,
-                                               top_k, top_p, temp,
-                                               repeat_last_n,repeat_penalty);
-            return sampl
-        }else{
-            let sampl = replit_sample(ctx, top_k, top_p, temp)
-            return sampl
-        }
-        
+    override func gpt_n_vocab(_ ctx: OpaquePointer!) -> Int32{
+        return replit_n_logits(ctx)
     }
     
     public override func gpt_token_to_str(outputToken:Int32) -> String? {

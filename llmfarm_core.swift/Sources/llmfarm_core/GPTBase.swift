@@ -54,6 +54,14 @@ public class GPTBase: Model {
         
     }
     
+    func gpt_n_vocab(_ ctx: OpaquePointer!) -> Int32{
+        return gpt_base_n_vocab(ctx)
+    }
+    
+    func gpt_get_logits(_ ctx: OpaquePointer!) -> UnsafeMutablePointer<Float>?{
+        return gpt_base_get_logits(ctx);
+    }
+    
     // Simple topK, topP, temp sampling, with repeat penalty
     func sample(ctx: OpaquePointer!,
                 last_n_tokens: inout [ModelToken],
@@ -78,73 +86,67 @@ public class GPTBase: Model {
         let top_k = top_k <= 0 ? gpt_base_n_vocab(ctx) : top_k
         let repeat_last_n = repeat_last_n < 0 ? n_ctx : repeat_last_n
         
-        //        // Get logits and vocab size
-        //        let vocabSize = gpt_neox_n_vocab(ctx)
-        //        guard let logits = gpt_neox_get_logits(ctx) else {
-        //            print("LLaMa sample error logits nil")
-        //            return 0
-        //        }
         //
-        //        // Create candidates
-        //        var candidates = Array<gpt_neox_token_data>()
-        //        for i in 0 ..< vocabSize {
-        //            candidates.append(gpt_neox_token_data(id: i, logit: logits[Int(i)], p: 0.0))
-        //        }
-        //        var candidates_p = gpt_neox_token_data_array(data: candidates.mutPtr, size: candidates.count, sorted: false)
+        let vocabSize = gpt_n_vocab(ctx)
+        guard let logits = gpt_get_logits(ctx) else {
+            print("GPT sample error logits nil")
+            return 0
+        }
+        var candidates = Array<llama_token_data>()
+        for i in 0 ..< vocabSize {
+            candidates.append(llama_token_data(id: i, logit: logits[Int(i)], p: 0.0))
+        }
+        var candidates_p = llama_token_data_array(data: candidates.mutPtr, size: candidates.count, sorted: false)
         
         // Apply penalties
-        //        let nl_token = Int(gpt_neox_str_to_token(ctx, "\n"))
-        //        let nl_logit = logits[nl_token]
-        //        let last_n_repeat = min(min(Int32(last_n_tokens.count), repeat_last_n), n_ctx)
+        let nl_token = Int(llama_token_nl())
+        let nl_logit = logits[nl_token]
+        let last_n_repeat = min(min(Int32(last_n_tokens.count), repeat_last_n), n_ctx)
         
-        
-        
-        //        gpt_neox_sample_repetition_penalty(context, &candidates_p,
-        //                    last_n_tokens.mutPtr.advanced(by: last_n_tokens.count - Int(repeat_last_n)),
-        //                    Int(repeat_last_n), repeat_penalty)
-        //        gpt_neox_sample_frequency_and_presence_penalties(ctx, &candidates_p,
-        //                    last_n_tokens.mutPtr.advanced(by: last_n_tokens.count - Int(repeat_last_n)),
-        //                    Int(last_n_repeat), alpha_frequency, alpha_presence)
-        //        if(!penalize_nl) {
-        //            logits[nl_token] = nl_logit
-        //        }
-        
-        if (last_n_tokens.count>0){
-            let sampl = gpt_base_sample_repeat(ctx,
-                                               last_n_tokens,
-                                               last_n_tokens.count,
-                                               top_k, top_p, temp,
-                                               repeat_last_n,repeat_penalty);
-            return sampl
-        }else{
-            let sampl = gpt_base_sample(ctx, top_k, top_p, temp)
-            return sampl
+        llama_sample_repetition_penalty(context, &candidates_p,
+                    last_n_tokens.mutPtr.advanced(by: last_n_tokens.count - Int(repeat_last_n)),
+                    Int(repeat_last_n), repeat_penalty)
+        llama_sample_frequency_and_presence_penalties(ctx, &candidates_p,
+                    last_n_tokens.mutPtr.advanced(by: last_n_tokens.count - Int(repeat_last_n)),
+                    Int(last_n_repeat), alpha_frequency, alpha_presence)
+        if(!penalize_nl) {
+            logits[nl_token] = nl_logit
         }
-        
-        //        if(temp <= 0) {
-        //            // Greedy sampling
-        //            return gptneox_sample_token_greedy(ctx, &candidates_p)
-        //        } else {
-        //            if(mirostat == 1) {
-        //                var mirostat_mu: Float = 2.0 * mirostat_tau
-        //                let mirostat_m = 100
-        //                gptneox_sample_temperature(ctx, &candidates_p, temp)
-        //                return gptneox_sample_token_mirostat(ctx, &candidates_p, mirostat_tau, mirostat_eta, Int32(mirostat_m), &mirostat_mu);
-        //            } else if(mirostat == 2) {
-        //                var mirostat_mu: Float = 2.0 * mirostat_tau
-        //                gptneox_sample_temperature(ctx, &candidates_p, temp)
-        //                return gptneox_sample_token_mirostat_v2(ctx, &candidates_p, mirostat_tau, mirostat_eta, &mirostat_mu)
-        //            } else {
-        //                // Temperature sampling
-        //                gptneox_sample_top_k(ctx, &candidates_p, top_k, 1)
-        //                gptneox_sample_tail_free(ctx, &candidates_p, tfs_z, 1)
-        //                gptneox_sample_typical(ctx, &candidates_p, typical_p, 1)
-        //                gptneox_sample_top_p(ctx, &candidates_p, top_p, 1)
-        //                gptneox_sample_temperature(ctx, &candidates_p, temp)
-        //                return gptneox_sample_token(ctx, &candidates_p)
-        //            }
-        //        }
-        
+        if(temp <= 0) {
+            // Greedy sampling
+            return llama_sample_token_greedy(ctx, &candidates_p)
+        } else {
+            if(mirostat == 1) {
+                var mirostat_mu: Float = 2.0 * mirostat_tau
+                let mirostat_m = 100
+                llama_sample_temperature(ctx, &candidates_p, temp)
+                return llama_sample_token_mirostat(ctx, &candidates_p, mirostat_tau, mirostat_eta, Int32(mirostat_m), &mirostat_mu);
+            } else if(mirostat == 2) {
+                var mirostat_mu: Float = 2.0 * mirostat_tau
+                llama_sample_temperature(ctx, &candidates_p, temp)
+                return llama_sample_token_mirostat_v2(ctx, &candidates_p, mirostat_tau, mirostat_eta, &mirostat_mu)
+            } else {
+                // Temperature sampling
+                llama_sample_top_k(ctx, &candidates_p, top_k, 1)
+                llama_sample_tail_free(ctx, &candidates_p, tfs_z, 1)
+                llama_sample_typical(ctx, &candidates_p, typical_p, 1)
+                llama_sample_top_p(ctx, &candidates_p, top_p, 1)
+                llama_sample_temperature(ctx, &candidates_p, temp)
+                return llama_sample_token(ctx, &candidates_p)
+            }
+        }
+//        if (last_n_tokens.count>0){
+//            let sampl = gpt_base_sample_repeat(ctx,
+//                                               last_n_tokens,
+//                                               last_n_tokens.count,
+//                                               top_k, top_p, temp,
+//                                               repeat_last_n,repeat_penalty);
+//            return sampl
+//        }else{
+//            let sampl = gpt_base_sample(ctx, top_k, top_p, temp)
+//            return sampl
+//        }
+
     }
     
     // Used to keep old context until it needs to be rotated or purge out for new tokens
@@ -179,6 +181,14 @@ public class GPTBase: Model {
             return String(cString: cStr)
         }
         return nil
+    }
+    
+    public func gpt_token_bos() -> ModelToken{
+        return gpt_base_token_bos()
+    }
+    
+    public func gpt_token_eos() -> ModelToken{
+        return gpt_base_token_eos()
     }
     
     public override func predict(_ input: String, _ callback: ((String, Double) -> Bool) ) throws -> String {
@@ -265,14 +275,14 @@ public class GPTBase: Model {
                 outputRepeatTokens.removeFirst()
             }
             // Check for eos - end early - check eos before bos in case they are the same
-            if outputToken == gpt_base_token_eos() {
+            if outputToken == gpt_token_eos() {
                 outputEnabled = false
                 print("🤖 [EOS]")
                 break
             }
             // Check for bos, skip callback if so, bos = eos for most gptneox so this should typically never occur
             var skipCallback = false
-            if outputToken == gpt_base_token_bos() {
+            if outputToken == gpt_token_bos()  {
                 print("🤖 [BOS]")
                 skipCallback = true
             }
@@ -283,18 +293,13 @@ public class GPTBase: Model {
                 let (output, time) = Utils.time {
                     return str
                 }
-//                For replit
-                
-                //                print("🤖 \(output) \(outputToken)",terminator: "") //" \(tokenProb)")
-                print("\(output)",terminator: "") //" \(tokenProb)")
                 if callback(output, time) {
                     // Early exit if requested by callback
-                    print("💀 Early exit")
+                    print("exit if requested by callback")
                     //generating = false
                     outputEnabled = false //outputRemaining = 0
                     break
                 }
-                
             }
             // Check if we need to run another response eval
             if outputEnabled {
@@ -326,11 +331,9 @@ public class GPTBase: Model {
         }
         // Update past with most recent response
         past.append(outputTokens)
-        // Total tokens used
         print("Total tokens: \(inputTokensCount + outputTokens.count) (\(inputTokensCount) -> \(outputTokens.count))")
-        // Print past after output
         print("Past token count: \(nPast)/\(contextLength) (\(past.count))")
-        // Return full string (for cases where callback is not used)
+        // Return full string for case without callback
         return output.joined()
     }
     

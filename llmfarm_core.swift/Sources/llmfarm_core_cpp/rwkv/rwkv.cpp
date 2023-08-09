@@ -1,11 +1,17 @@
 #include "../spm-headers/rwkv.h"
 #include "../ggml_old.h"
+#include "../gpt_helpers.h"
+#include "../spm-headers/gpt_spm.h"
 
 #ifdef GGML_OLD_USE_CUBLAS
 #include "ggml_old/src/ggml_old-cuda.h"
 #elif defined(GGML_OLD_USE_CLBLAST)
 #include "ggml_old/src/ggml_old-opencl.h"
 #endif
+
+//#ifdef GGML_USE_METAL
+//#include "../ggml-metal.h"
+//#endif
 
 #include <string>
 #include <vector>
@@ -694,7 +700,7 @@ struct rwkv_graph {
 
 // RWKV context for a specific instance.
 // Contains computation graphs and is used for inference.
-struct rwkv_context {
+struct rwkv_context:gpt_base_context {
     std::shared_ptr<struct rwkv_instance> instance;
 
     // Reused by all graphs.
@@ -719,6 +725,10 @@ struct rwkv_context {
     bool print_errors;
 
     size_t gpu_layers;
+//#ifdef GGML_USE_METAL
+//    ggml_metal_context * ctx_metal = NULL;
+//#endif
+   
 };
 
 // https://stackoverflow.com/a/6458689
@@ -1546,7 +1556,7 @@ struct rwkv_context * rwkv_clone_context(struct rwkv_context * ctx, const uint32
 }
 
 bool rwkv_gpu_offload_layers(struct rwkv_context * ctx, const uint32_t n_layers) {
-#if defined(GGML_OLD_USE_CUBLAS) || defined(GGML_OLD_USE_CLBLAST)
+#if defined(GGML_OLD_USE_CUBLAS) || defined(GGML_OLD_USE_CLBLAST) 
     const auto offload = [&](struct ggml_old_tensor * tensor) {
         // TODO support multi-GPU
         tensor->backend = GGML_OLD_BACKEND_GPU;
@@ -1555,6 +1565,10 @@ bool rwkv_gpu_offload_layers(struct rwkv_context * ctx, const uint32_t n_layers)
 #elif defined(GGML_OLD_USE_CLBLAST)
         ggml_old_cl_transform_tensor(tensor->data, tensor);
 #endif
+//#ifdef GGML_USE_METAL
+//        ggml_old_metal
+//    return true;
+//#endif
     };
 
     const size_t n_gpu = std::min(n_layers, ctx->instance->model.header.n_layer);
@@ -1577,6 +1591,7 @@ bool rwkv_gpu_offload_layers(struct rwkv_context * ctx, const uint32_t n_layers)
         return true;
     }
 #endif
+
     return false;
 }
 

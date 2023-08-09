@@ -44,16 +44,12 @@ public class RWKV: GPTBase {
             if self.contextParams.warm_prompt.count<1{
                 self.contextParams.warm_prompt = "\n\n\n"
             }
-//            self.contextParams.warm_prompt = "who am i"
             let n_vocab = rwkv_get_logits_len(self.context);
             let n_state = rwkv_get_state_len(self.context);
             self.pointerToLogits = UnsafeMutablePointer<Float>.allocate(capacity: n_vocab)
             self.pointerToStateIn = UnsafeMutablePointer<Float>.allocate(capacity: n_state)
 //            self.pointerToStateOut = UnsafeMutablePointer<Float>.allocate(capacity: n_state)
             rwkv_init_state(self.context, pointerToStateIn);
-//            rwkv_init_state(self.context, pointerToStateOut);
-//            rwkv_init_logits(self.context)
-//            rwkv_init_state(self.context, pointerToState);
             let inputs = llm_tokenize(self.contextParams.warm_prompt)
             if try gpt_eval(inputBatch: inputs) == false {
                 throw ModelError.failedToEval
@@ -67,55 +63,57 @@ public class RWKV: GPTBase {
     }
     
     public override func gpt_eval(inputBatch:[ModelToken]) throws -> Bool{
-//        var tmp_pointer = self.pointerToStateOut
-//        self.pointerToStateOut = self.pointerToStateIn
-//        self.pointerToStateIn = tmp_pointer
-//        let uint32_input:[UInt32] = inputBatch.map {UInt32($0)}
-//        if rwkv_eval_sequence(self.context, uint32_input, uint32_input.count, self.pointerToStateIn, self.pointerToStateIn, self.pointerToLogits) != true {
-//            throw ModelError.failedToEval
-//        }
         for token in inputBatch{
             rwkv_eval(self.context, UInt32(token), self.pointerToStateIn,self.pointerToStateIn, self.pointerToLogits)
         }
         return true
     }
     
-    public override func sample(ctx: OpaquePointer!,
-                last_n_tokens: inout [ModelToken],
-                temp: Float32,
-                top_k: Int32,
-                top_p: Float32,
-                tfs_z: Float32,
-                typical_p: Float32,
-                repeat_last_n: Int32,
-                repeat_penalty: Float32,
-                alpha_presence: Float32,
-                alpha_frequency: Float32,
-                mirostat: Int32,
-                mirostat_tau: Float32,
-                mirostat_eta: Float32,
-                penalize_nl: Bool) -> ModelToken {
-        // Model input context size
-        let n_ctx = Int32(4096)
-        
-        // Auto params
-        let n_logits = Int32(rwkv_get_logits_len(self.context))
-        let top_k = top_k <= 0 ? n_logits : top_k
-        let repeat_last_n = repeat_last_n < 0 ? n_ctx : repeat_last_n
-        
-        if (last_n_tokens.count>0){
-            let sampl = rwkv_sample_repeat(n_logits,self.pointerToLogits,
-                                               last_n_tokens,
-                                               last_n_tokens.count,
-                                               top_k, top_p, temp,
-                                               repeat_last_n,repeat_penalty);
-            return sampl
-        }else{
-            let sampl = rwkv_sample(n_logits,self.pointerToLogits, top_k, top_p, temp)
-            return sampl
-        }
-        
+    
+    override func gpt_n_vocab(_ ctx: OpaquePointer!) -> Int32{
+        return Int32(rwkv_get_logits_len(self.context))
     }
+    
+    override func gpt_get_logits(_ ctx: OpaquePointer!) -> UnsafeMutablePointer<Float>?{
+        return self.pointerToLogits;
+    }
+    
+//    public override func sample(ctx: OpaquePointer!,
+//                last_n_tokens: inout [ModelToken],
+//                temp: Float32,
+//                top_k: Int32,
+//                top_p: Float32,
+//                tfs_z: Float32,
+//                typical_p: Float32,
+//                repeat_last_n: Int32,
+//                repeat_penalty: Float32,
+//                alpha_presence: Float32,
+//                alpha_frequency: Float32,
+//                mirostat: Int32,
+//                mirostat_tau: Float32,
+//                mirostat_eta: Float32,
+//                penalize_nl: Bool) -> ModelToken {
+//        // Model input context size
+//        let n_ctx = Int32(4096)
+//        
+//        // Auto params
+//        let n_logits = Int32(rwkv_get_logits_len(self.context))
+//        let top_k = top_k <= 0 ? n_logits : top_k
+//        let repeat_last_n = repeat_last_n < 0 ? n_ctx : repeat_last_n
+//        
+//        if (last_n_tokens.count>0){
+//            let sampl = rwkv_sample_repeat(n_logits,self.pointerToLogits,
+//                                               last_n_tokens,
+//                                               last_n_tokens.count,
+//                                               top_k, top_p, temp,
+//                                               repeat_last_n,repeat_penalty);
+//            return sampl
+//        }else{
+//            let sampl = rwkv_sample(n_logits,self.pointerToLogits, top_k, top_p, temp)
+//            return sampl
+//        }
+//        
+//    }
     
     
     public override func gpt_token_to_str(outputToken:Int32) -> String? {

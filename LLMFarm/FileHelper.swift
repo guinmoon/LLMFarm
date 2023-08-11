@@ -141,6 +141,7 @@ public func get_chat_list() -> [Dictionary<String, String>]?{
                 var title = chatfile
                 var icon = "ava0"
                 var model = ""
+                var message = ""
                 if (info["title"] != nil){
                     title = info["title"] as! String
                 }
@@ -150,7 +151,13 @@ public func get_chat_list() -> [Dictionary<String, String>]?{
                 if (info["model"] != nil){
                     model = info["model"] as! String
                 }
-                let tmp_chat_info = ["title":title,"icon":icon, "message":"Hi there", "time": "10:30 AM","model":model,"chat":chatfile]
+                if (info["context"] != nil){
+                    message = "ctx:" + (info["context"] as! Int32).description
+                }
+                if (info["temp"] != nil){
+                    message = message + ", temp:" + Float(info["temp"] as! Double).description
+                }
+                let tmp_chat_info = ["title":title,"icon":icon, "message":message, "time": "10:30 AM","model":model,"chat":chatfile]
                 res.append(tmp_chat_info)
             }
         }

@@ -38,8 +38,10 @@ struct MessageView: View {
             case .error:
                 Text(message.text)
                     .foregroundColor(Color.red)
+                    .textSelection(.enabled)
             case .typed:
                 Text(message.text)
+                .textSelection(.enabled)
             case .predicting:
                 HStack {
                     Text(message.text).textSelection(.enabled)

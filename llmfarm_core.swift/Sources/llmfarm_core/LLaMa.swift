@@ -32,83 +32,13 @@ public class LLaMa: GPTBase {
         llama_free(context)
     }
     
-    // Simple topK, topP, temp sampling, with repeat penalty
-    override func sample(ctx: OpaquePointer!,
-                last_n_tokens: inout [ModelToken],
-                temp: Float32,
-                top_k: Int32,
-                top_p: Float32,
-                tfs_z: Float32,
-                typical_p: Float32,
-                repeat_last_n: Int32,
-                repeat_penalty: Float32,
-                alpha_presence: Float32,
-                alpha_frequency: Float32,
-                mirostat: Int32,
-                mirostat_tau: Float32,
-                mirostat_eta: Float32,
-                penalize_nl: Bool) -> ModelToken {
-        // Model input context size
-        let n_ctx = llama_n_ctx(ctx)
-        
-        // Auto params
-        let top_k = top_k <= 0 ? llama_n_vocab(ctx) : top_k
-        let repeat_last_n = repeat_last_n < 0 ? n_ctx : repeat_last_n
-        
-        // Get logits and vocab size
-        let vocabSize = llama_n_vocab(ctx)
-        guard let logits = llama_get_logits(ctx) else {
-            print("LLaMa sample error logits nil")
-            return 0
-        }
-        
-        // Create candidates
-        var candidates = Array<llama_token_data>()
-        for i in 0 ..< vocabSize {
-            candidates.append(llama_token_data(id: i, logit: logits[Int(i)], p: 0.0))
-        }
-        var candidates_p = llama_token_data_array(data: candidates.mutPtr, size: candidates.count, sorted: false)
-        
-        // Apply penalties
-        let nl_token = Int(llama_token_nl())
-        let nl_logit = logits[nl_token]
-        let last_n_repeat = min(min(Int32(last_n_tokens.count), repeat_last_n), n_ctx)
-        llama_sample_repetition_penalty(context, &candidates_p,
-                    last_n_tokens.mutPtr.advanced(by: last_n_tokens.count - Int(repeat_last_n)),
-                    Int(repeat_last_n), repeat_penalty)
-        llama_sample_frequency_and_presence_penalties(ctx, &candidates_p,
-                    last_n_tokens.mutPtr.advanced(by: last_n_tokens.count - Int(repeat_last_n)),
-                    Int(last_n_repeat), alpha_frequency, alpha_presence)
-        if(!penalize_nl) {
-            logits[nl_token] = nl_logit
-        }
-        
-        if(temp <= 0) {
-            // Greedy sampling
-            return llama_sample_token_greedy(ctx, &candidates_p)
-        } else {
-            if(mirostat == 1) {
-                var mirostat_mu: Float = 2.0 * mirostat_tau
-                let mirostat_m = 100
-                llama_sample_temperature(ctx, &candidates_p, temp)
-                return llama_sample_token_mirostat(ctx, &candidates_p, mirostat_tau, mirostat_eta, Int32(mirostat_m), &mirostat_mu);
-            } else if(mirostat == 2) {
-                var mirostat_mu: Float = 2.0 * mirostat_tau
-                llama_sample_temperature(ctx, &candidates_p, temp)
-                return llama_sample_token_mirostat_v2(ctx, &candidates_p, mirostat_tau, mirostat_eta, &mirostat_mu)
-            } else {
-                // Temperature sampling
-                llama_sample_top_k(ctx, &candidates_p, top_k, 1)
-                llama_sample_tail_free(ctx, &candidates_p, tfs_z, 1)
-                llama_sample_typical(ctx, &candidates_p, typical_p, 1)
-                llama_sample_top_p(ctx, &candidates_p, top_p, 1)
-                llama_sample_temperature(ctx, &candidates_p, temp)
-                return llama_sample_token(ctx, &candidates_p)
-            }
-        }
+    override func gpt_n_vocab(_ ctx: OpaquePointer!) -> Int32{
+        return llama_n_vocab(ctx)
     }
     
-
+    override func gpt_get_logits(_ ctx: OpaquePointer!) -> UnsafeMutablePointer<Float>?{
+        return llama_get_logits(ctx);
+    }
 
     public override func gpt_eval(inputBatch:[ModelToken]) throws -> Bool{
         if llama_eval(context, inputBatch, Int32(inputBatch.count), nPast, contextParams.numberOfThreads) != 0 {

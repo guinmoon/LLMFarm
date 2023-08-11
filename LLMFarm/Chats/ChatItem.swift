@@ -40,7 +40,9 @@ struct ChatItem: View {
                     HStack{
                         Text(chatTitle)
                             .fontWeight(.semibold)
+//                            .font(.title3)
                             .padding(.top, 3)
+                            .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
                         Spacer()
                         //                        Text(time)
                         //                            .foregroundColor(Color("color_primary"))
@@ -50,6 +52,8 @@ struct ChatItem: View {
                     
                     Text(message)
                         .foregroundColor(Color("color_bg_inverted").opacity(0.5))
+                        .font(.footnote)
+                        .opacity(0.4)
                         .lineLimit(/*@START_MENU_TOKEN@*/2/*@END_MENU_TOKEN@*/)
                     
                 }

@@ -23,7 +23,8 @@ Also used sources from:
 - [x] Various inferences
 - [x] Metal for llama inference (MacOS and iOS)
 - [x] Model setting templates
-- [ ] Sampling from llama.cpp for other inference
+- [x] Sampling from llama.cpp for other inference
+- [ ] classifier-free guidance sampling from llama.cpp 
 - [ ] Other tokenizers support
 - [ ] Restore context state (now only chat history) 
 - [ ] Metal for other inference

@@ -83,7 +83,7 @@ public class GPTBase: Model {
         
         // Auto params
         
-        let top_k = top_k <= 0 ? gpt_base_n_vocab(ctx) : top_k
+        let top_k = top_k <= 0 ? gpt_n_vocab(ctx) : top_k
         let repeat_last_n = repeat_last_n < 0 ? n_ctx : repeat_last_n
         
         //
@@ -103,7 +103,7 @@ public class GPTBase: Model {
         let nl_logit = logits[nl_token]
         let last_n_repeat = min(min(Int32(last_n_tokens.count), repeat_last_n), n_ctx)
         
-        llama_sample_repetition_penalty(context, &candidates_p,
+        llama_sample_repetition_penalty(ctx, &candidates_p,
                     last_n_tokens.mutPtr.advanced(by: last_n_tokens.count - Int(repeat_last_n)),
                     Int(repeat_last_n), repeat_penalty)
         llama_sample_frequency_and_presence_penalties(ctx, &candidates_p,
@@ -338,16 +338,13 @@ public class GPTBase: Model {
     }
     
     public func embeddings(_ input: String) throws -> [Float] {
-        // Tokenize the prompt, does not include prompt style special tokens
+        // Tokenize the prompt
         let inputs = llm_tokenize(input)
         
         guard inputs.count > 0 else {
             return []
         }
         
-        //        if gpt_neox_eval(context, inputs, Int32(inputs.count), Int32(0), contextParams.numberOfThreads) != 0 {
-        //            throw ModelError.failedToEval
-        //        }
         try gpt_eval(inputBatch: inputs)
         
         let embeddingsCount = Int(gpt_base_n_embd(context))

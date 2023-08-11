@@ -232,47 +232,23 @@ public class Model {
             return llm_tokenize("<human>: " + input + "\n<bot>:")
         case .OpenAssistant:
             let inputTokens = llm_tokenize("<|prompter|>" + input + "<|endoftext|>" + "<|assistant|>")
-//            var inputTokens = tokenize(input)
-//            inputTokens.insert(gptneox_str_to_token(context, "<|prompter|>"), at: 0)
-//            inputTokens.append(gptneox_str_to_token(context, "<|endoftext|>"))
-//            inputTokens.append(gptneox_str_to_token(context, "<|assistant|>"))
             return inputTokens
         case .RedPajama_chat:            
             return llm_tokenize("<human>:\n" + input + "\n<bot>:")
         case .Dolly_b3:
             let  INSTRUCTION_KEY = "### Instruction:";
             let  RESPONSE_KEY    = "### Response:";
-//            let  END_KEY         = "### End";
             let  INTRO_BLURB     = "Below is an instruction that describes a task. Write a response that appropriately completes the request.";
             let inputTokens = llm_tokenize(INTRO_BLURB + INSTRUCTION_KEY + input + RESPONSE_KEY)
-//            var inputTokens = tokenize(input)
-//            inputTokens.insert(gptneox_str_to_token(context, INSTRUCTION_KEY), at: 0)
-//            inputTokens.insert(gptneox_str_to_token(context, INTRO_BLURB), at: 0)
-//            inputTokens.append(gptneox_str_to_token(context, RESPONSE_KEY))
-//            inputTokens.append(gptneox_str_to_token(context, END_KEY))
             return inputTokens
-        case .StableLM_Tuned:            
-            
-            //let systemTokens = tokenize("# StableLM Tuned (Alpha version)\n- StableLM is a helpful and harmless open-source AI language model developed by StabilityAI.\n- StableLM is excited to be able to help the user, but will refuse to do anything that could be considered harmful to the user.\n- StableLM is more than just an information source, StableLM is also able to write poetry, short stories, and make jokes.\n- StableLM will refuse to participate in anything that could harm a human.")
-//            var inputTokens = tokenize(input)
-//            inputTokens.insert(gptneox_str_to_token(context, "<|USER|>"), at: 0)
-//            //inputTokens.insert(contentsOf: systemTokens, at: 0)
-//            //inputTokens.insert(gptneox_str_to_token(context, "<|SYSTEM|>"), at: 0)
-//            inputTokens.append(gptneox_str_to_token(context, "<|ASSISTANT|>"))
+        case .StableLM_Tuned:
             let inputTokens = llm_tokenize("<|USER|>" + input + "<|ASSISTANT|>")
             return inputTokens
         case .LLaMa:
-//            let bos = llama_token_bos()
-            // Add a space in front of the first character to match OG llama tokenizer behavior
             let input = " " + input
-            // Tokenize
             return llm_tokenize(input, bos: true)
         case .LLaMa_QA:
-            // Add a space in front of the first character to match OG llama tokenizer behavior
-            // Question answering prompt
-            // Is the space in front of Question needed for Stack LLaMa?
             let input = " Question: " + input + "\n\nAnswer: "
-            // Tokenize
             return llm_tokenize(input, bos: true)
         }
     }

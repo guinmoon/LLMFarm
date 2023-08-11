@@ -77,43 +77,7 @@ public class RWKV: GPTBase {
     override func gpt_get_logits(_ ctx: OpaquePointer!) -> UnsafeMutablePointer<Float>?{
         return self.pointerToLogits;
     }
-    
-//    public override func sample(ctx: OpaquePointer!,
-//                last_n_tokens: inout [ModelToken],
-//                temp: Float32,
-//                top_k: Int32,
-//                top_p: Float32,
-//                tfs_z: Float32,
-//                typical_p: Float32,
-//                repeat_last_n: Int32,
-//                repeat_penalty: Float32,
-//                alpha_presence: Float32,
-//                alpha_frequency: Float32,
-//                mirostat: Int32,
-//                mirostat_tau: Float32,
-//                mirostat_eta: Float32,
-//                penalize_nl: Bool) -> ModelToken {
-//        // Model input context size
-//        let n_ctx = Int32(4096)
-//        
-//        // Auto params
-//        let n_logits = Int32(rwkv_get_logits_len(self.context))
-//        let top_k = top_k <= 0 ? n_logits : top_k
-//        let repeat_last_n = repeat_last_n < 0 ? n_ctx : repeat_last_n
-//        
-//        if (last_n_tokens.count>0){
-//            let sampl = rwkv_sample_repeat(n_logits,self.pointerToLogits,
-//                                               last_n_tokens,
-//                                               last_n_tokens.count,
-//                                               top_k, top_p, temp,
-//                                               repeat_last_n,repeat_penalty);
-//            return sampl
-//        }else{
-//            let sampl = rwkv_sample(n_logits,self.pointerToLogits, top_k, top_p, temp)
-//            return sampl
-//        }
-//        
-//    }
+   
     
     
     public override func gpt_token_to_str(outputToken:Int32) -> String? {

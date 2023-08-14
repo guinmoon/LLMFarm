@@ -2,7 +2,13 @@
 
 <p align="center">
   <img width="178px" alt="Icon" src="dist/LLMFarm0.1.2_256.png">
+  <a href="https://testflight.apple.com/join/6SpPLIVM"><img width="178px" alt="Icon" src="dist/testflight.png"></a>
 </p>
+
+<p align="center">
+<a href="https://testflight.apple.com/join/6SpPLIVM"><strong>Install with TestFlight<strong></a>
+</p>
+
 
 <p align="center">
   <img alt="Icon" height="400px"  src="dist/screen1.png">

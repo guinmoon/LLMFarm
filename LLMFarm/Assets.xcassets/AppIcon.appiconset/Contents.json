@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "LLMFarm_1024.png",
+      "filename" : "LLMFarm_1024_non_alpha.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"

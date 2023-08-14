@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-<a href="https://testflight.apple.com/join/6SpPLIVM"><strong>Install with TestFlight<strong></a>
+<a href="https://testflight.apple.com/join/6SpPLIVM"><strong>Install with TestFlight</strong></a>
 </p>
 
 

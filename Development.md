@@ -51,23 +51,15 @@ dependencies: [
 
 ### Swift library
 
-To generate output from a prompt, first instantiate a `LlamaRunner` instance with the URL to your LLaMA model file:
+To generate output from a prompt:
 
 ```swift
 
 ```
 
-Generating output is as simple as calling `run()` with your prompt on the `LlamaRunner` instance. Since tokens are generated asynchronously this returns an `AsyncThrowingStream` which you can enumerate over to process tokens as they are returned:
-
-```swift
-
-```
-
-Note that tokens don't necessarily correspond to a single word, and also include any whitespace and newlines.
 
 #### Configuration
 
-`LlamaRunner.run()` takes an optional `LlamaRunner.Config` instance which lets you control the number of threads inference is run on (default: `8`), the maximum number of tokens returned (default: `512`) and an optional reverse/negative prompt:
 
 ```swift
 

@@ -59,14 +59,16 @@ struct ChatView: View {
                 
                 HStack {
                     switch aiChatModel.state {
-                    case .none, .loading:
+                    case .none:
+                        Text("")
+                    case .loading:
                         ProgressView {
                             Text("Loading...")
                         }
                     case .completed:
                         TextField("Type your message...", text: $inputText)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .focused($isInputFieldFocused)
+//                            .focused($isInputFieldFocused)
                             
                         Button {
                             Task {
@@ -129,7 +131,7 @@ struct ChatView: View {
                     close_chat()
                 }
                 else{
-                    isInputFieldFocused = true
+//                    isInputFieldFocused = true
                     await self.reload()
                 }
             }

@@ -21,6 +21,7 @@ struct LLMFarmApp: App {
     @State var isLandscape:Bool = false
     @State private var chat_selection: String?
     @State var renew_chat_list: () -> Void = {}
+    @State var tabIndex: Int = 0
     
     func close_chat() -> Void{
         aiChatModel.stop_predict()
@@ -32,16 +33,28 @@ struct LLMFarmApp: App {
             
             NavigationSplitView()  {
                 if !add_chat_dialog{
-                    ChatListView(tabSelection: .constant(1),
-                                 model_name:$model_name,
-                                 title: $title,
-                                 add_chat_dialog:$add_chat_dialog,
-                                 close_chat:close_chat,
-                                 edit_chat_dialog:$edit_chat_dialog,
-                                 chat_selection:$chat_selection,
-                                 renew_chat_list: $renew_chat_list)
-                    .disabled(edit_chat_dialog)
-                    .frame(minWidth: 250, maxHeight: .infinity)
+                    if (tabIndex==0){
+                        ChatListView(tabSelection: .constant(1),
+                                     model_name:$model_name,
+                                     title: $title,
+                                     add_chat_dialog:$add_chat_dialog,
+                                     close_chat:close_chat,
+                                     edit_chat_dialog:$edit_chat_dialog,
+                                     chat_selection:$chat_selection,
+                                     renew_chat_list: $renew_chat_list)
+                        .disabled(edit_chat_dialog)
+                        .frame(minWidth: 250, maxHeight: .infinity)
+                        
+//                        .border(/*@START_MENU_TOKEN@*/Color.black/*@END_MENU_TOKEN@*/)
+                        BottomPanelView(tabIndex: $tabIndex)
+//                            .border(/*@START_MENU_TOKEN@*/Color.black/*@END_MENU_TOKEN@*/)
+                            
+                    }
+                    if (tabIndex==1){
+                        ModelsView()
+                        BottomPanelView(tabIndex: $tabIndex)
+                            .ignoresSafeArea(.keyboard)
+                    }
                 }else{
                     AddChatView(add_chat_dialog: $add_chat_dialog,
                                 edit_chat_dialog: $edit_chat_dialog,

@@ -53,7 +53,7 @@ struct ChatItem: View {
                     Text(message)
                         .foregroundColor(Color("color_bg_inverted").opacity(0.5))
                         .font(.footnote)
-                        .opacity(0.4)
+                        .opacity(0.6)
                         .lineLimit(/*@START_MENU_TOKEN@*/2/*@END_MENU_TOKEN@*/)
                     
                 }

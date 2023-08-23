@@ -20,10 +20,10 @@ struct ChatListView: View {
     @Binding var edit_chat_dialog: Bool
     @Binding var chat_selection: String?
     @Binding var renew_chat_list: () -> Void
-    @State var chats_previews = get_chat_list()!
+    @State var chats_previews = get_chats_list()!
     
     func refresh_chat_list(){
-        self.chats_previews = get_chat_list()!
+        self.chats_previews = get_chats_list()!
     }
     
     func delete(at offsets: IndexSet) {
@@ -47,7 +47,7 @@ struct ChatListView: View {
                 HStack{
                     Text("Chats")
                         .fontWeight(.semibold)
-                        .font(.largeTitle)
+                        .font(.title)
                     Spacer()
                     
                     Button {
@@ -57,7 +57,7 @@ struct ChatListView: View {
                         }
                     } label: {
                         Image(systemName: "plus.app")
-                            .foregroundColor(Color("color_primary"))
+//                            .foregroundColor(Color("color_primary"))
                             .font(.title2)
                     }
                     .buttonStyle(.borderless)

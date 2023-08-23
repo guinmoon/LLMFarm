@@ -128,7 +128,27 @@ public func delete_chats(_ chats:[Dictionary<String, String>]) -> Bool{
     return false
 }
 
-public func get_chat_list() -> [Dictionary<String, String>]?{
+public func delete_models(_ models:[Dictionary<String, String>]) -> Bool{
+    do{
+        let fileManager = FileManager.default
+        let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+        let destinationURL = documentsPath!.appendingPathComponent("models")
+        
+        for model in models {
+            if model["file_name"] != nil{
+                let path = destinationURL.appendingPathComponent(model["file_name"]!)
+                try fileManager.removeItem(at: path)
+            }
+        }
+        return true
+    }
+    catch{
+        print(error)
+    }
+    return false
+}
+
+public func get_chats_list() -> [Dictionary<String, String>]?{
     var res: [Dictionary<String, String>] = []
     do {
         let fileManager = FileManager.default
@@ -151,13 +171,40 @@ public func get_chat_list() -> [Dictionary<String, String>]?{
                 if (info["model"] != nil){
                     model = info["model"] as! String
                 }
-                if (info["context"] != nil){
-                    message = "ctx:" + (info["context"] as! Int32).description
+                //                if (info["context"] != nil){
+                //                    message = "ctx:" + (info["context"] as! Int32).description
+                //                }
+                //                if (info["temp"] != nil){
+                //                    message = message + ", temp:" + Float(info["temp"] as! Double).description
+                //                }
+                if (info["model_inference"] != nil){
+                    message = info["model_inference"] as! String
                 }
-                if (info["temp"] != nil){
-                    message = message + ", temp:" + Float(info["temp"] as! Double).description
+                if (info["context"] != nil){
+                    message += " ctx:" + (info["context"] as! Int32).description
                 }
                 let tmp_chat_info = ["title":title,"icon":icon, "message":message, "time": "10:30 AM","model":model,"chat":chatfile]
+                res.append(tmp_chat_info)
+            }
+        }
+        return res
+    } catch {
+        // failed to read directory – bad permissions, perhaps?
+    }
+    return res
+}
+
+public func get_models_list() -> [Dictionary<String, String>]?{
+    var res: [Dictionary<String, String>] = []
+    do {
+        let fileManager = FileManager.default
+        let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+        let destinationURL = documentsPath!.appendingPathComponent("models")
+        let files = try fileManager.contentsOfDirectory(atPath: destinationURL.path)
+        for modelfile in files {
+            if modelfile.contains(".bin"){
+//                let info = get_chat_info(modelfile)!
+                let tmp_chat_info = ["icon":"square.stack.3d.up.fill","file_name":modelfile,"description":""]
                 res.append(tmp_chat_info)
             }
         }
@@ -204,7 +251,7 @@ func create_chat(_ options:Dictionary<String, Any>,edit_chat_dialog:Bool = false
             fname = chat_name
         }else{
             fname = options["title"]! as! String + salt + ".json"
-        }        
+        }
         let path = destinationURL.appendingPathComponent(fname)
         try jsonData.write(to: path)
         return true
@@ -219,15 +266,15 @@ func create_chat(_ options:Dictionary<String, Any>,edit_chat_dialog:Bool = false
 func get_file_name_without_ext(fileName:String) -> String{
     var components = fileName.components(separatedBy: ".")
     if components.count > 1 { // If there is a file extension
-      components.removeLast()
-      return components.joined(separator: ".")
+        components.removeLast()
+        return components.joined(separator: ".")
     } else {
-      return fileName
+        return fileName
     }
 }
 
 func get_path_by_model_name(_ model_name:String) -> String? {
-//#if os(iOS) || os(watchOS) || os(tvOS)
+    //#if os(iOS) || os(watchOS) || os(tvOS)
     do {
         let fileManager = FileManager.default
         let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
@@ -244,12 +291,12 @@ func get_path_by_model_name(_ model_name:String) -> String? {
         print(error)
     }
     return nil
-//#elseif os(macOS)
-//                                return model_name
-//#else
-//    println("Unknown OS version")
-//#endif
-   
+    //#elseif os(macOS)
+    //                                return model_name
+    //#else
+    //    println("Unknown OS version")
+    //#endif
+    
 }
 
 func load_chat_history(_ fname:String) -> [Message]?{
@@ -296,7 +343,7 @@ func load_chat_history(_ fname:String) -> [Message]?{
 //func saveBookmark(url: URL){
 //    do {
 //        let res = url.startAccessingSecurityScopedResource()
-//        
+//
 //        let bookmarkData = try url.bookmarkData(
 //            options: .withSecurityScope,
 //            includingResourceValuesForKeys: nil,
@@ -315,7 +362,7 @@ func copyModelToSandbox (url: URL) -> String?{
     do{
         if (CFURLStartAccessingSecurityScopedResource(url as CFURL)) { // <- here
             
-//            let fileData = try? Data.init(contentsOf: url)
+            //            let fileData = try? Data.init(contentsOf: url)
             let fileName = url.lastPathComponent
             
             let fileManager = FileManager.default
@@ -326,27 +373,27 @@ func copyModelToSandbox (url: URL) -> String?{
             if fileManager.fileExists(atPath: actualPath.path){
                 return actualPath.lastPathComponent
             }
-//#if os(macOS)
-//            try fileManager.createSymbolicLink(atPath: actualPath.path, withDestinationPath: url.path)
-//            saveBookmark(url:url)
-//            return actualPath.lastPathComponent
-//#else
+            //#if os(macOS)
+            //            try fileManager.createSymbolicLink(atPath: actualPath.path, withDestinationPath: url.path)
+            //            saveBookmark(url:url)
+            //            return actualPath.lastPathComponent
+            //#else
             
             do {
                 try FileManager.default.copyItem(at: url, to: actualPath)
-//                try fileData?.write(to: actualPath)
-//                if(fileData == nil){
-//                    print("Permission error!")
-//                }
-//                else {
-//                    print("Success.")
-//                }
+                //                try fileData?.write(to: actualPath)
+                //                if(fileData == nil){
+                //                    print("Permission error!")
+                //                }
+                //                else {
+                //                    print("Success.")
+                //                }
             } catch {
                 print(error.localizedDescription)
             }
             CFURLStopAccessingSecurityScopedResource(url as CFURL) // <- and here
             return actualPath.lastPathComponent
-//#endif
+            //#endif
         }
         else {
             print("Permission error!")

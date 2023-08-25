@@ -22,16 +22,17 @@ let package = Package(
               path: "Sources/llmfarm_core"),
         .target(
             name: "llmfarm_core_cpp",
-            sources: ["ggml.c","ggml_old.c","ggml-metal.m","k_quants.c","common.cpp","gpt_helpers.cpp","gpt_spm.cpp","package_helper.m",
+            sources: ["ggml.c","ggml_old.c","k_quants.c","ggml-alloc.c","ggml-metal.m","common.cpp","gpt_helpers.cpp","gpt_spm.cpp","package_helper.m",
                       "gptneox/gptneox.cpp","gpt2/gpt2.cpp","replit/replit.cpp","starcoder/starcoder.cpp", "llama/llama.cpp","rwkv/rwkv.cpp",
                       ],
             resources: [
-                .copy("tokenizers")
+                .copy("tokenizers"),
+                .copy("metal")
             ],
             publicHeadersPath: "spm-headers",
             //            I'm not sure about some of the flags, please correct it's wrong.
             cSettings: [
-                .unsafeFlags(["-Ofast"]), //comment this if you need to Debug llama_cpp
+//                .unsafeFlags(["-Ofast"]), //comment this if you need to Debug llama_cpp
                 .unsafeFlags(["-DNDEBUG"]),
                 .unsafeFlags(["-mfma","-mfma","-mavx","-mavx2","-mf16c","-msse3"]), //for Intel CPU
                 .unsafeFlags(["-DGGML_METAL_NDEBUG"]),

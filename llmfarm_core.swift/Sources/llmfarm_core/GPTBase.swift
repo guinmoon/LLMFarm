@@ -99,7 +99,7 @@ public class GPTBase: Model {
         var candidates_p = llama_token_data_array(data: candidates.mutPtr, size: candidates.count, sorted: false)
         
         // Apply penalties
-        let nl_token = Int(llama_token_nl())
+        let nl_token = Int(gpt_token_nl())
         let nl_logit = logits[nl_token]
         let last_n_repeat = min(min(Int32(last_n_tokens.count), repeat_last_n), n_ctx)
         
@@ -181,6 +181,10 @@ public class GPTBase: Model {
             return String(cString: cStr)
         }
         return nil
+    }
+    
+    public func gpt_token_nl() -> ModelToken{
+        return 13
     }
     
     public func gpt_token_bos() -> ModelToken{

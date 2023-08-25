@@ -113,6 +113,7 @@ int32_t rwkv_sample_repeat(int n_logits, float * logits,
 
 bool llama_save_state(struct llama_context * ctx,  const char * fname);
 
+
 #ifdef __cplusplus
 }
 #endif

@@ -243,6 +243,8 @@ bool llama_save_state(struct llama_context * ctx, const char * fname){
     return  true;
 }
 
+
+
 //bool llama_load_state(struct llama_context * ctx, const char * fname)
 //{
 //    FILE *fp_read = fopen(fname, "rb");

@@ -7,3 +7,4 @@ LLMFarm.xcodeproj/project.xcworkspace/xcuserdata/guinmoon.xcuserdatad
 llmfarm_core.swift/Sources/llmfarm_core/backup/
 xcuserdata/
 site/*
+backup/*

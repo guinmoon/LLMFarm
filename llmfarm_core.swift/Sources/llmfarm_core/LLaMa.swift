@@ -48,18 +48,30 @@ public class LLaMa: GPTBase {
     }
     
     public override func gpt_token_to_str(outputToken:Int32) -> String? {
+//        var cStringPtr: UnsafeMutablePointer<CChar>? = nil
+//        var cStr_len: Int32 = 0;
+//        llama_token_to_str(context, outputToken,cStringPtr,cStr_len)
+//        if cStr_len>0{
+//            return String(cString: cStringPtr!)
+//        }
         if let cStr = llama_token_to_str(context, outputToken){
             return String(cString: cStr)
         }
         return nil
     }
-
+    
+    public override func gpt_token_nl() -> ModelToken{
+//        return llama_token_nl(self.context)
+        return llama_token_nl()
+    }
 
     public override func gpt_token_bos() -> ModelToken{
+//        return llama_token_bos(self.context)
         return llama_token_bos()
     }
     
     public override func gpt_token_eos() -> ModelToken{
+//        return llama_token_eos(self.context)
         return llama_token_eos()
     }
     
@@ -96,6 +108,7 @@ public class LLaMa: GPTBase {
         embeddings.removeSubrange(Int(n)..<embeddings.count)
         
         if eos {
+//            embeddings.append(llama_token_eos(self.context))
             embeddings.append(llama_token_eos())
         }
         

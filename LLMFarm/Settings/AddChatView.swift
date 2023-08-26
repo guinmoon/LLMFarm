@@ -190,6 +190,7 @@ struct AddChatView: View {
         model_repeat_last_n = template.repeat_last_n
         warm_prompt = template.warm_prompt
         reverse_prompt = template.reverse_prompt
+        use_metal = template.use_metal
     }
     
     var body: some View {

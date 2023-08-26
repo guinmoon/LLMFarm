@@ -1,4 +1,5 @@
 # LLMFarm
+[***!!! LLMFamr_core moved to a separate repository !!!***](https://github.com/guinmoon/llmfarm_core.swift)
 
 <p align="center">
   <img width="178px" alt="Icon" src="dist/LLMFarm0.1.2_256.png">

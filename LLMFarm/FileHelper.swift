@@ -51,6 +51,12 @@ func parse_model_setting_template(template_path:String) -> ModelSettingsTemplate
         if (jsonResult_dict!["reverse_prompt"] != nil){
             tmp_template.reverse_prompt = jsonResult_dict!["reverse_prompt"] as! String
         }
+        if (jsonResult_dict!["context"] != nil){
+            tmp_template.context = jsonResult_dict!["context"] as! Int32
+        }
+        if (jsonResult_dict!["use_metal"] != nil){
+            tmp_template.use_metal = jsonResult_dict!["use_metal"] as! Bool
+        }
         if (jsonResult_dict!["n_batch"] != nil){
             tmp_template.n_batch = jsonResult_dict!["n_batch"] as! Int32
         }

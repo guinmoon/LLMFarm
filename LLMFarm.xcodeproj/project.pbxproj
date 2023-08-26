@@ -17,6 +17,7 @@
 		159650F12A49F8400007BE5C /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 159650EE2A49F8400007BE5C /* MetalKit.framework */; };
 		159650F22A49F8400007BE5C /* MetalPerformanceShaders.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 159650EF2A49F8400007BE5C /* MetalPerformanceShaders.framework */; };
 		159650F32A49F8400007BE5C /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 159650F02A49F8400007BE5C /* Metal.framework */; };
+		159C699B2A9A52D200F74913 /* llama chat 2 7B iphone 12.json in Resources */ = {isa = PBXBuildFile; fileRef = 159C699A2A9A52D200F74913 /* llama chat 2 7B iphone 12.json */; };
 		15A3EDCA2A2121D90030AF5A /* SettingsHeaderItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A3EDC02A2121D90030AF5A /* SettingsHeaderItem.swift */; };
 		15A3EDCB2A2121D90030AF5A /* ModelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A3EDC22A2121D90030AF5A /* ModelsView.swift */; };
 		15A3EDCC2A2121D90030AF5A /* ModelinfoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A3EDC32A2121D90030AF5A /* ModelinfoItem.swift */; };
@@ -85,6 +86,7 @@
 		159650EE2A49F8400007BE5C /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
 		159650EF2A49F8400007BE5C /* MetalPerformanceShaders.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalPerformanceShaders.framework; path = System/Library/Frameworks/MetalPerformanceShaders.framework; sourceTree = SDKROOT; };
 		159650F02A49F8400007BE5C /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
+		159C699A2A9A52D200F74913 /* llama chat 2 7B iphone 12.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "llama chat 2 7B iphone 12.json"; sourceTree = "<group>"; };
 		15A3EDBB2A2121C70030AF5A /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		15A3EDC02A2121D90030AF5A /* SettingsHeaderItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsHeaderItem.swift; sourceTree = "<group>"; };
 		15A3EDC22A2121D90030AF5A /* ModelsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelsView.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 		15141E332A64875F0060E767 /* model_setting_templates */ = {
 			isa = PBXGroup;
 			children = (
+				159C699A2A9A52D200F74913 /* llama chat 2 7B iphone 12.json */,
 				15141E402A6488A70060E767 /* AI Dungeon 2 Classic.json */,
 				15141E3D2A6488A60060E767 /* cerebras 2.7b.json */,
 				15141E372A6488A60060E767 /* dolly v2 3b.json */,
@@ -364,6 +367,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				15141E5C2A651F8C0060E767 /* model_setting_templates in Resources */,
+				159C699B2A9A52D200F74913 /* llama chat 2 7B iphone 12.json in Resources */,
 				15F210892A191B1B0021F414 /* Preview Assets.xcassets in Resources */,
 				15F210852A191B1B0021F414 /* Assets.xcassets in Resources */,
 			);

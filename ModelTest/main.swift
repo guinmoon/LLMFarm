@@ -7,7 +7,7 @@
 
 import Foundation
 import llmfarm_core
-import llmfarm_core_cpp
+//import llmfarm_core_cpp
 
 let maxOutputLength = 256
 var total_output = 0
@@ -49,7 +49,7 @@ func main(){
     
             let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-3b.ggmlv3.q4_1.bin",_chatName: "chat")
     //        let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/openllama-3b-v2-q4_0.gguf",_chatName: "chat")
-    //    //    let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-7b.ggmlv3.q3_K_M.bin",_chatName: "chat")
+    //    //    let ai = AI(_modelPath: "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/llama-2-7b.ggmlv3.q4_K_M.bin",_chatName: "chat")
             var params:ModelContextParams = .default
 //            params.use_metal = true
             try? ai.loadModel(ModelInference.LLamaInference,contextParams: params)
@@ -65,7 +65,7 @@ func main(){
     //    ai.model.promptFormat = .None
     ////    input_text = "who are you?"
     
-    ai.model.contextParams.seed = 0;
+//    ai.model.contextParams.seed = 0;
     //    ai.model.promptStyle = .StableLM_Tuned
     
     

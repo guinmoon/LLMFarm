@@ -16,10 +16,11 @@ struct ModelSettingsTemplate: Hashable {
     var top_k: Int32 = 40
     var top_p: Float = 0.95
     var repeat_last_n: Int32 = 64
-    var repeat_penalty: Float = 1.174
+    var repeat_penalty: Float = 1.1
     var prompt_format: String = "{{prompt}}"
     var warm_prompt: String = "\\n\\n\\n"
     var reverse_prompt:String = ""
+    var use_metal:Bool = false
     
     
     func hash(into hasher: inout Hasher) {

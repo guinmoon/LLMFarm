@@ -37,24 +37,23 @@ func main(){
     //        try? ai.loadModel(ModelInference.GPTNeoxInference)
     //        ai.model.promptFormat = .None
     
-    let ai = AI(_modelPath: "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/magicprompt-stable-diffusion-q5_1.bin",_chatName: "chat")
-//    let ai = AI(_modelPath: "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/cerebras-2.7b-ggjtv3-q4_0.bin",_chatName: "chat")
-    
-    try? ai.loadModel(ModelInference.GPT2)
-    ai.model.promptFormat = .None
+//    let ai = AI(_modelPath: "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/magicprompt-stable-diffusion-q5_1.bin",_chatName: "chat")
+////    let ai = AI(_modelPath: "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/cerebras-2.7b-ggjtv3-q4_0.bin",_chatName: "chat")
+//
+//    try? ai.loadModel(ModelInference.GPT2)
+//    ai.model.promptFormat = .None
     //    //
     //        let ai = AI(_modelPath: "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/replit-code-v1-3b-ggml-q5_1.bin",_chatName: "chat")
     //        try? ai.loadModel(ModelInference.Replit)
     //        ai.model.promptFormat = .None
     
-    //        let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-3b.ggmlv3.q4_1.bin",_chatName: "chat")
-    ////        let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/openllama-3b-v2-q4_0.gguf",_chatName: "chat")
-    //
-    ////    //    let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-7b.ggmlv3.q3_K_M.bin",_chatName: "chat")
-    //        var params:ModelContextParams = .default
-    //        params.use_metal = true
-    //        try? ai.loadModel(ModelInference.LLamaInference,contextParams: params)
-    //        ai.model.promptFormat = .LLaMa
+            let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-3b.ggmlv3.q4_1.bin",_chatName: "chat")
+    //        let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/openllama-3b-v2-q4_0.gguf",_chatName: "chat")
+    //    //    let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-7b.ggmlv3.q3_K_M.bin",_chatName: "chat")
+            var params:ModelContextParams = .default
+//            params.use_metal = true
+            try? ai.loadModel(ModelInference.LLamaInference,contextParams: params)
+            ai.model.promptFormat = .LLaMa
     ////
     //        let ai = AI(_modelPath: "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/santacoder-q5_1.bin",_chatName: "chat")
     //        try? ai.loadModel(ModelInference.Starcoder)
@@ -77,7 +76,7 @@ func main(){
     //    var tokens_count:Int = 1
     //    llama_load_session_file(ai.model.context,"/Users/guinmoon/dev/alpaca_llama_etc/dump_state.bin",tokens.mutPtr, 0,&tokens_count)
     let prompt = input_text
-    let output = try?ai.model.predict(prompt, mainCallback)
+    let output = try? ai.model.predict(prompt, mainCallback)
     //    llama_save_session_file(ai.model.context,"/Users/guinmoon/dev/alpaca_llama_etc/dump_state.bin",[], 0)
     //    llama_save_state(ai.model.context,"/Users/guinmoon/dev/alpaca_llama_etc/dump_state.bin")
     //

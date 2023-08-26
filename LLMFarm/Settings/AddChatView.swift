@@ -94,6 +94,8 @@ struct AddChatView: View {
     @State private var model_icon: String = "ava0"
     let model_icons = ["ava0","ava1","ava2","ava3","ava4","ava5","ava6","ava7"]
     
+    @State var models_previews = get_models_list()!
+    
     init(add_chat_dialog: Binding<Bool>,edit_chat_dialog:Binding<Bool>,
          renew_chat_list: Binding<() -> Void>) {
         self._add_chat_dialog = add_chat_dialog
@@ -213,9 +215,13 @@ struct AddChatView: View {
                     Button {
                         Task {
                             if !edit_chat_dialog {
-                                let sandbox_path = copyModelToSandbox(url: model_file_url)
+                                if model_file_url.path != "/"{
+                                    print(model_file_url.path)
+                                    let sandbox_path = copyModelToSandbox(url: model_file_url)
+                                    model_file_path = sandbox_path!
+                                }
                                 //#if os(macOS)
-                                model_file_path = sandbox_path!
+                                
                                 //#endif
                             }
                             let options:Dictionary<String, Any> = ["model":model_file_path,
@@ -237,7 +243,7 @@ struct AddChatView: View {
                                                                    "mirostat":mirostat,
                                                                    "mirostat_eta":mirostat_eta,
                                                                    "mirostat_tau":mirostat_tau
-                                                                   ]
+                            ]
                             let res = create_chat(options,edit_chat_dialog:self.edit_chat_dialog,chat_name:self.chat_name)
                             if add_chat_dialog {
                                 add_chat_dialog = false
@@ -256,58 +262,64 @@ struct AddChatView: View {
                 
                 ScrollView(showsIndicators: false){
                     VStack(alignment: .leading, spacing: 5){
-                        
                         HStack {
-                            //                            Text(model_file.input)
+                            Menu {
+                                Button {
+                                    Task {
+                                        isImporting = true
+                                    }
+                                } label: {
+                                    Label("Improt from file...", systemImage: "plus.app")
+                                }
+                                
+                                Divider()
+                                
+                                Section("Primary Actions") {
+                                    ForEach(models_previews, id: \.self) { model in
+                                        Button(model["file_name"]!){
+                                            model_file_name = model["file_name"]!
+                                            model_file_path = model["file_name"]!
+                                            model_title = get_file_name_without_ext(fileName:model_file_path)
+                                        }
+                                    }
+                                }
+                            } label: {
+                                Label(model_file_path == "" ?"Select Model...":model_file_path, systemImage: "ellipsis.circle")
+                            }.padding()
+                        }
+                        .fileImporter(
+                            isPresented: $isImporting,
+                            allowedContentTypes: [bin_type!],
+                            allowsMultipleSelection: false
+                        ) { result in
+                            do {
+                                guard let selectedFile: URL = try result.get().first else { return }
+                                //                                model_file.input = selectedFile.lastPathComponent
+                                model_file_name = selectedFile.lastPathComponent
+                                model_file_url = selectedFile
+                                //                                    saveBookmark(url: selectedFile)
+                                //#if os(iOS) || os(watchOS) || os(tvOS)
+                                model_file_path = selectedFile.lastPathComponent
+                                //#else
+                                //                                    model_file_path = selectedFile.path
+                                //#endif
+                                model_title = get_file_name_without_ext(fileName:selectedFile.lastPathComponent)
+                            } catch {
+                                // Handle failure.
+                                print("Unable to read file contents")
+                                print(error.localizedDescription)
+                            }
+                        }
+
+                        HStack {
+
                             TextField("Title...", text: $model_title)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .textFieldStyle(.plain)
                             
                         }
                         .padding()
-                        
-                        
-                        if !edit_chat_dialog{
-                            HStack {
-                                //                            Text(model_file.input)
-                                TextField("Model file...", text: $model_file_name)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .textFieldStyle(.plain)
-                                Button {
-                                    Task {
-                                        isImporting = true
-                                    }
-                                } label: {
-                                    Text("Select")
-                                }
-                                .frame(maxWidth: .infinity, alignment: .trailing)
-                                
-                            }
-                            .padding()
-                            .fileImporter(
-                                isPresented: $isImporting,
-                                allowedContentTypes: [bin_type!],
-                                allowsMultipleSelection: false
-                            ) { result in
-                                do {
-                                    guard let selectedFile: URL = try result.get().first else { return }
-                                    //                                model_file.input = selectedFile.lastPathComponent
-                                    model_file_name = selectedFile.lastPathComponent
-                                    model_file_url = selectedFile
-                                    //                                    saveBookmark(url: selectedFile)
-                                    //#if os(iOS) || os(watchOS) || os(tvOS)
-                                    model_file_path = selectedFile.lastPathComponent
-                                    //#else
-                                    //                                    model_file_path = selectedFile.path
-                                    //#endif
-                                    model_title = get_file_name_without_ext(fileName:selectedFile.lastPathComponent)
-                                } catch {
-                                    // Handle failure.
-                                    print("Unable to read file contents")
-                                    print(error.localizedDescription)
-                                }
-                            }
-                        }
+
                         HStack{
                             Text("Icon:")
                                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -361,18 +373,18 @@ struct AddChatView: View {
                         .padding()
                         
                         Group {
-//                            VStack {
-//                                Text("Warm prompt:")
-//                                    .frame(maxWidth: .infinity, alignment: .leading)
-//                                TextField("prompt..", text: $warm_prompt, axis: .vertical)
-//                                    .lineLimit(2)
-//                                
-//                                    .textFieldStyle(.roundedBorder)
-//                                    .frame( alignment: .leading)
-//                                //                                .multilineTextAlignment(.trailing)
-//                                //                                .textFieldStyle(.plain)
-//                            }
-//                            .padding(.horizontal)
+                            //                            VStack {
+                            //                                Text("Warm prompt:")
+                            //                                    .frame(maxWidth: .infinity, alignment: .leading)
+                            //                                TextField("prompt..", text: $warm_prompt, axis: .vertical)
+                            //                                    .lineLimit(2)
+                            //
+                            //                                    .textFieldStyle(.roundedBorder)
+                            //                                    .frame( alignment: .leading)
+                            //                                //                                .multilineTextAlignment(.trailing)
+                            //                                //                                .textFieldStyle(.plain)
+                            //                            }
+                            //                            .padding(.horizontal)
                             
                             VStack {
                                 Text("Prompt format:")
@@ -582,7 +594,7 @@ struct AddChatView: View {
             .padding(.top)
             .padding(.horizontal)
         }
-        .navigationTitle($model_title)
+        //        .navigationTitle($model_title)
     }
     
 }

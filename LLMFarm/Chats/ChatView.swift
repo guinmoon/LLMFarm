@@ -122,6 +122,7 @@ struct ChatView: View {
                 }
 //                .font(.title2)
             }
+            .disabled(self.aiChatModel.chat == nil)
             .task {// fix autoscroll
                 if aiChatModel.messages.last != nil{
                     scrollView.scrollTo(aiChatModel.messages.last?.id, anchor: .bottom)

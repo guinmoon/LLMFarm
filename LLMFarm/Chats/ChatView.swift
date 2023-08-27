@@ -45,7 +45,14 @@ struct ChatView: View {
     }
     
     var body: some View {
+        
         ScrollViewReader { scrollView in
+            if (chat_selection == nil){
+                Text("Chat not selected.")
+                    .font(.system(size: 48))
+    //                .padding(50)
+                    .opacity(0.1)
+            }
             VStack {
                 List {
                     ForEach(0..<aiChatModel.messages.count, id: \.self) { index in
@@ -122,7 +129,7 @@ struct ChatView: View {
                 }
 //                .font(.title2)
             }
-            .disabled(self.aiChatModel.chat == nil)
+            .disabled(chat_selection == nil)
             .task {// fix autoscroll
                 if aiChatModel.messages.last != nil{
                     scrollView.scrollTo(aiChatModel.messages.last?.id, anchor: .bottom)

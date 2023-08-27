@@ -72,6 +72,15 @@ struct ChatListView: View {
                 
                 
                 VStack(){
+//                    if (chats_previews.count==0){
+//                        Text("To start new chat")
+//                            .font(.system(size: 48))
+//                            .padding(50)
+//                            .background(
+//                                Image(systemName: "plus.app")
+//                                   
+//                            ).opacity(0.1)
+//                    }
                     List(selection: $chat_selection){
                         ForEach(chats_previews, id: \.self) { chat_preview in
                             NavigationLink(value: chat_preview["chat"]!){

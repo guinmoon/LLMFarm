@@ -53,7 +53,9 @@ struct ChatView: View {
                     }
                     .listRowSeparator(.hidden)
                 }.onChange(of: aiChatModel.AI_typing){ ai_typing in
-                    scrollView.scrollTo(aiChatModel.messages.last?.id, anchor: .bottom)
+                    if aiChatModel.messages.last != nil{
+                        scrollView.scrollTo(aiChatModel.messages.last?.id, anchor: .bottom)
+                    }
                 }
                 .listStyle(PlainListStyle())
                 
@@ -121,7 +123,9 @@ struct ChatView: View {
 //                .font(.title2)
             }
             .task {// fix autoscroll
-                scrollView.scrollTo(aiChatModel.messages.last?.id, anchor: .bottom)
+                if aiChatModel.messages.last != nil{
+                    scrollView.scrollTo(aiChatModel.messages.last?.id, anchor: .bottom)
+                }
             }
         }
         .onChange(of: chat_selection) { chat_name in

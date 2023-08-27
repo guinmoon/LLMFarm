@@ -36,7 +36,7 @@ final class AIChatModel: ObservableObject {
     //    public var model_name = "stablelm-tuned-alpha-3b-ggml-model-q5_1.bin"
     public var model_name = ""
     public var chat_name = ""
-    public var avalible_models: [String]
+//    public var avalible_models: [String]
     public var start_predicting_time = DispatchTime.now()
     //    public var title:String = ""
     
@@ -49,12 +49,12 @@ final class AIChatModel: ObservableObject {
     public init(){
         chat = nil
         modelURL = ""
-        avalible_models = []
+//        avalible_models = []
     }
     
-    func _get_avalible_models(){
-        self.avalible_models = get_avalible_models()!
-    }
+//    func _get_avalible_models(){
+//        self.avalible_models = get_avalible_models()!
+//    }
     
     public func load_model_by_chat_name(chat_name: String) -> Bool?{
         do{

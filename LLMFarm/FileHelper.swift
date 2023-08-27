@@ -8,25 +8,25 @@
 import Foundation
 //import SwiftUI
 
-func get_avalible_models() -> [String]?{
-    var res: [String] = []
-    do {
-        let fileManager = FileManager.default
-        let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
-        let destinationURL = documentsPath!.appendingPathComponent("models")
-        let items = try fileManager.contentsOfDirectory(atPath: destinationURL.path)
-        for item in items {
-            if item.contains(".bin"){
-                res.append(item)
-            }
-        }
-        return res
-    } catch {
-        // failed to read directory – bad permissions, perhaps?
-        print(error)
-    }
-    return res
-}
+//func get_avalible_models() -> [String]?{
+//    var res: [String] = []
+//    do {
+//        let fileManager = FileManager.default
+//        let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+//        let destinationURL = documentsPath!.appendingPathComponent("models")
+//        let items = try fileManager.contentsOfDirectory(atPath: destinationURL.path)
+//        for item in items {
+//            if item.contains(".bin"){
+//                res.append(item)
+//            }
+//        }
+//        return res
+//    } catch {
+//        // failed to read directory – bad permissions, perhaps?
+//        print(error)
+//    }
+//    return res
+//}
 
 func parse_model_setting_template(template_path:String) -> ModelSettingsTemplate{
     var tmp_template:ModelSettingsTemplate = ModelSettingsTemplate()
@@ -206,6 +206,7 @@ public func get_models_list() -> [Dictionary<String, String>]?{
         let fileManager = FileManager.default
         let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
         let destinationURL = documentsPath!.appendingPathComponent("models")
+        try fileManager.createDirectory (at: destinationURL, withIntermediateDirectories: true, attributes: nil)
         let files = try fileManager.contentsOfDirectory(atPath: destinationURL.path)
         for modelfile in files {
             if modelfile.contains(".bin"){

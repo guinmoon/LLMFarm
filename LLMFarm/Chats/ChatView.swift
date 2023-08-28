@@ -47,12 +47,12 @@ struct ChatView: View {
     var body: some View {
         
         ScrollViewReader { scrollView in
-            if (chat_selection == nil){
-                Text("Chat not selected.")
-                    .font(.system(size: 48))
-    //                .padding(50)
-                    .opacity(0.1)
-            }
+//            if (chat_selection == nil){
+//                Text("Chat not selected.")
+//                    .font(.system(size: 48))
+//    //                .padding(50)
+//                    .opacity(0.3)
+//            }
             VStack {
                 List {
                     ForEach(0..<aiChatModel.messages.count, id: \.self) { index in

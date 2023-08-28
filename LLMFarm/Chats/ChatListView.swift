@@ -72,15 +72,6 @@ struct ChatListView: View {
                 
                 
                 VStack(){
-//                    if (chats_previews.count==0){
-//                        Text("To start new chat")
-//                            .font(.system(size: 48))
-//                            .padding(50)
-//                            .background(
-//                                Image(systemName: "plus.app")
-//                                   
-//                            ).opacity(0.1)
-//                    }
                     List(selection: $chat_selection){
                         ForEach(chats_previews, id: \.self) { chat_preview in
                             NavigationLink(value: chat_preview["chat"]!){
@@ -108,7 +99,38 @@ struct ChatListView: View {
                             }
                         }
                         .onDelete(perform: delete)
+
+                        VStack{
+                            
+                            Button {
+                                Task {
+                                    add_chat_dialog = true
+                                    edit_chat_dialog = false
+                                }
+                            } label: {
+                                Image(systemName: "plus.square.dashed")
+                                    .foregroundColor(.secondary)
+                                    .font(.system(size: 40))
+                            }
+                            .buttonStyle(.borderless)
+                            .controlSize(.large)
+                            Text("Start new chat")
+                                .font(.title3)
+//                                .padding(30)
+                                .frame(maxWidth: .infinity)
+//                            Image(systemName: "plus.square.dashed")
+//                                .font(.system(size: 40))
+//                            Text("Start new chat")
+//                                .font(.title3)
+////                                .padding(30)
+//                                .frame(maxWidth: .infinity)
+                            
+                        }.opacity(0.4)
+                            .frame(maxWidth: .infinity)
+                            
+
                     }
+                    
 //                    .border(Color.red, width: 1)
 //                    .listStyle(PlainListStyle())
                     #if os(macOS)

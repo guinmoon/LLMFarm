@@ -110,6 +110,9 @@ struct AddChatView: View {
         self._renew_chat_list = renew_chat_list
         self.chat_name = chat_name
         let chat_config = get_chat_info(chat_name)
+        if chat_config == nil{ //in Swift runtime failure: Unexpectedly found nil while unwrapping an Optional value ()
+            return
+        }
         if (chat_config!["title"] != nil){
             self._model_title = State(initialValue: chat_config!["title"]! as! String)
         }

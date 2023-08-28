@@ -102,6 +102,33 @@ struct ModelsView: View {
                                 }
                             }
                         }.onDelete(perform: delete)
+                        
+                        VStack{
+                            
+                            Button {
+                                Task {
+                                    isImporting.toggle()
+                                }
+                            } label: {
+                                Image(systemName: "plus.square.dashed")
+                                    .foregroundColor(.secondary)
+                                    .font(.system(size: 40))
+                            }
+                            .buttonStyle(.borderless)
+                            .controlSize(.large)
+                            Text("Add model")
+                                .font(.title3)
+//                                .padding(30)
+                                .frame(maxWidth: .infinity)
+//                            Image(systemName: "plus.square.dashed")
+//                                .font(.system(size: 40))
+//                            Text("Start new chat")
+//                                .font(.title3)
+////                                .padding(30)
+//                                .frame(maxWidth: .infinity)
+                            
+                        }.opacity(0.4)
+                            .frame(maxWidth: .infinity)
                     }
 #if os(macOS)
                     .listStyle(.sidebar)

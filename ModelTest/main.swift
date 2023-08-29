@@ -47,22 +47,22 @@ func main(){
     //        try? ai.loadModel(ModelInference.Replit)
     //        ai.model.promptFormat = .None
     
-            let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-3b.ggmlv3.q4_1.bin",_chatName: "chat")
-    //        let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/openllama-3b-v2-q4_0.gguf",_chatName: "chat")
-    //    //    let ai = AI(_modelPath: "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/llama-2-7b.ggmlv3.q4_K_M.bin",_chatName: "chat")
-            var params:ModelContextParams = .default
-//            params.use_metal = true
-            try? ai.loadModel(ModelInference.LLamaInference,contextParams: params)
-            ai.model.promptFormat = .LLaMa
+//            let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-3b.ggmlv3.q4_1.bin",_chatName: "chat")
+//    //        let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/openllama-3b-v2-q4_0.gguf",_chatName: "chat")
+//    //    //    let ai = AI(_modelPath: "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/llama-2-7b.ggmlv3.q4_K_M.bin",_chatName: "chat")
+//            var params:ModelContextParams = .default
+////            params.use_metal = true
+//            try? ai.loadModel(ModelInference.LLamaInference,contextParams: params)
+//            ai.model.promptFormat = .LLaMa
     ////
     //        let ai = AI(_modelPath: "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/santacoder-q5_1.bin",_chatName: "chat")
     //        try? ai.loadModel(ModelInference.Starcoder)
     //        ai.model.promptFormat = .None
     //        input_text = "def quicksort"
     
-    //    let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/q4_1-RWKV-4-Raven-1B5-v12-Eng98%-Other2%-20230520-ctx4096.bin",_chatName: "chat")
-    //    try? ai.loadModel(ModelInference.RWKV)
-    //    ai.model.promptFormat = .None
+        let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/q4_1-RWKV-4-Raven-1B5-v12-Eng98%-Other2%-20230520-ctx4096.bin",_chatName: "chat")
+        try? ai.loadModel(ModelInference.RWKV)
+        ai.model.promptFormat = .None
     ////    input_text = "who are you?"
     
 //    ai.model.contextParams.seed = 0;

@@ -367,7 +367,7 @@ func load_chat_history(_ fname:String) -> [Message]?{
 
 func copyModelToSandbox (url: URL) -> String?{
     do{
-        if (CFURLStartAccessingSecurityScopedResource(url as CFURL)) { // <- here
+//        if (CFURLStartAccessingSecurityScopedResource(url as CFURL)) { // <- here
             
             //            let fileData = try? Data.init(contentsOf: url)
             let fileName = url.lastPathComponent
@@ -398,14 +398,14 @@ func copyModelToSandbox (url: URL) -> String?{
             } catch {
                 print(error.localizedDescription)
             }
-            CFURLStopAccessingSecurityScopedResource(url as CFURL) // <- and here
+//            CFURLStopAccessingSecurityScopedResource(url as CFURL) // <- and here
             return actualPath.lastPathComponent
             //#endif
-        }
-        else {
-            print("Permission error!")
-            return nil
-        }
+//        }
+//        else {
+//            print("Permission error!")
+//            return nil
+//        }
     }catch {
         // handle error
         print(error)

@@ -57,7 +57,7 @@ struct AddChatView: View {
     @Binding var add_chat_dialog: Bool
     @Binding var edit_chat_dialog: Bool
     //    @State private var model_file: InputDoument = InputDoument(input: "")
-    @State private var model_file_url: URL = URL(filePath: "")
+    @State private var model_file_url: URL = URL(filePath: "/")
     @State private var model_file_name: String = ""
     @State private var model_file_path: String = "select model"
     @State private var model_title: String = ""
@@ -222,7 +222,9 @@ struct AddChatView: View {
                                 if model_file_url.path != "/"{
                                     print(model_file_url.path)
                                     let sandbox_path = copyModelToSandbox(url: model_file_url)
-                                    model_file_path = sandbox_path!
+                                    if sandbox_path != nil{
+                                        model_file_path = sandbox_path!
+                                    }
                                 }
                                 //#if os(macOS)
                                 
@@ -248,7 +250,7 @@ struct AddChatView: View {
                                                                    "mirostat_eta":mirostat_eta,
                                                                    "mirostat_tau":mirostat_tau
                             ]
-                            let res = create_chat(options,edit_chat_dialog:self.edit_chat_dialog,chat_name:self.chat_name)
+                            _ = create_chat(options,edit_chat_dialog:self.edit_chat_dialog,chat_name:self.chat_name)
                             if add_chat_dialog {
                                 add_chat_dialog = false
                                 

@@ -28,12 +28,12 @@ struct ChatListView: View {
     
     func delete(at offsets: IndexSet) {
         let chatsToDelete = offsets.map { self.chats_previews[$0] }
-        let res = delete_chats(chatsToDelete)
+        _ = delete_chats(chatsToDelete)
         
     }
     
     func delete(at elem:Dictionary<String, String>){
-        let res = delete_chats([elem])
+        _ = delete_chats([elem])
         self.chats_previews.removeAll(where: { $0 == elem })
     }
 

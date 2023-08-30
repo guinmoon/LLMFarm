@@ -94,9 +94,9 @@ final class AIChatModel: ObservableObject {
                     model_context_param.use_metal = chat_config!["use_metal"] as! Bool
                 }
                 if chat_config!["model_inference"] as! String == "llama"{
-                    self.chat?.loadModel(ModelInference.LLamaInference,contextParams: model_context_param)
+                    self.chat?.loadModel(ModelInference.LLama,contextParams: model_context_param)
                 }else if chat_config!["model_inference"] as! String == "gptneox" {
-                    self.chat?.loadModel(ModelInference.GPTNeoxInference,contextParams: model_context_param)
+                    self.chat?.loadModel(ModelInference.GPTNeox,contextParams: model_context_param)
                 }else if chat_config!["model_inference"] as! String == "rwkv" {
                     self.chat?.loadModel(ModelInference.RWKV,contextParams: model_context_param)
                 }else if chat_config!["model_inference"] as! String == "gpt2" {
@@ -115,9 +115,9 @@ final class AIChatModel: ObservableObject {
                     model_lowercase.contains("alpaca") ||
                     model_lowercase.contains("vic") ||
                     model_lowercase.contains("orca")){
-                    self.chat?.loadModel(ModelInference.LLamaInference)
+                    self.chat?.loadModel(ModelInference.LLama)
                 }else{
-                    self.chat?.loadModel(ModelInference.GPTNeoxInference)
+                    self.chat?.loadModel(ModelInference.GPTNeox)
                 }
             }
             if self.chat?.model.context == nil{
@@ -214,9 +214,10 @@ final class AIChatModel: ObservableObject {
     {
         var check = true
         for stop_word in self.chat?.model.reverse_prompt ?? [] {
-            if str == stop_word || message.text.contains(stop_word) {
+            if str == stop_word || message.text.hasSuffix(stop_word) {
                 self.stop_predict()
                 check = false
+//                message.text.removeLast(stop_word.count)
                 break
             }
         }

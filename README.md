@@ -1,5 +1,4 @@
 # LLMFarm
-[***!!! LLMFamr_core moved to a separate repository !!!***](https://github.com/guinmoon/llmfarm_core.swift)
 
 <p align="center">
   <img width="178px" alt="Icon" src="dist/LLMFarm0.1.2_256.png">
@@ -59,7 +58,7 @@ You can download some of the supported [models here](/models.md).
 
 
 ## Development
-llmfarm_core has been moved to a [separate repository](https://github.com/guinmoon/llmfarm_core.swift). To build llmfarm, you need to clone this repository recursively:
+`llmfarm_core` has been moved to a [separate repository](https://github.com/guinmoon/llmfarm_core.swift). To build llmfarm, you need to clone this repository recursively:
 ```bash
 git clone --recurse-submodules https://github.com/guinmoon/LLMFarm
 ```

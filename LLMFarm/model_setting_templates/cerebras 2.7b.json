@@ -9,6 +9,5 @@
   "repeat_penalty" : 1.1000000238418579,
   "temp" : 0.89999997615814209,
   "model_inference" : "gpt2",
-  "use_metal" : false,
   "template_name" : "cerebras 2.7B"
 }

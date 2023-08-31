@@ -1,6 +1,5 @@
 {
   "use_metal" : false,
-  "icon" : "ava2",
   "n_batch" : 512,
   "prompt_format" : "user\\n{{prompt}}\\n",
   "warm_prompt":"Ты — Сайга, русскоязычный автоматический ассистент. Ты разговариваешь с людьми и помогаешь им.",

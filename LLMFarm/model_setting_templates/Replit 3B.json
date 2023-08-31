@@ -8,6 +8,5 @@
   "top_p" : 0.80000001192092896,
   "prompt_format" : "{{prompt}}",
   "repeat_last_n" : 128,
-  "repeat_penalty" : 1.174,
-  "use_metal" : false
+  "repeat_penalty" : 1.174
 }

@@ -10,6 +10,8 @@
 		15141E5C2A651F8C0060E767 /* model_setting_templates in Resources */ = {isa = PBXBuildFile; fileRef = 15141E5B2A651F8C0060E767 /* model_setting_templates */; };
 		15141E712A65799D0060E767 /* ModelSettingsTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15141E702A65799D0060E767 /* ModelSettingsTemplate.swift */; };
 		1532BF7A2A9FA885006DC514 /* GetDeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1532BF792A9FA885006DC514 /* GetDeviceInfo.swift */; };
+		1532BF7C2AA113AD006DC514 /* RWKV-4 Raven Eng.json in Resources */ = {isa = PBXBuildFile; fileRef = 1532BF7B2AA113AD006DC514 /* RWKV-4 Raven Eng.json */; };
+		1532BF7E2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json in Resources */ = {isa = PBXBuildFile; fileRef = 1532BF7D2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json */; };
 		1560D6172A2D1A3D00918330 /* AddChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1560D6162A2D1A3D00918330 /* AddChatView.swift */; };
 		1568E3CE2A8BF86200930CC9 /* BottomPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1568E3CD2A8BF86200930CC9 /* BottomPanel.swift */; };
 		156A48D02A52B55B007DF519 /* SplitViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156A48CF2A52B55B007DF519 /* SplitViews.swift */; };
@@ -77,10 +79,11 @@
 		15141E3C2A6488A60060E767 /* saiga 7B.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "saiga 7B.json"; sourceTree = "<group>"; };
 		15141E3D2A6488A60060E767 /* cerebras 2.7b.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "cerebras 2.7b.json"; sourceTree = "<group>"; };
 		15141E3F2A6488A70060E767 /* stablelm-tuned-alpha-3b.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stablelm-tuned-alpha-3b.json"; sourceTree = "<group>"; };
-		15141E402A6488A70060E767 /* AI Dungeon 2 Classic.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "AI Dungeon 2 Classic.json"; sourceTree = "<group>"; };
 		15141E5B2A651F8C0060E767 /* model_setting_templates */ = {isa = PBXFileReference; lastKnownFileType = folder; name = model_setting_templates; path = LLMFarm/model_setting_templates; sourceTree = "<group>"; };
 		15141E702A65799D0060E767 /* ModelSettingsTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelSettingsTemplate.swift; sourceTree = "<group>"; };
 		1532BF792A9FA885006DC514 /* GetDeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDeviceInfo.swift; sourceTree = "<group>"; };
+		1532BF7B2AA113AD006DC514 /* RWKV-4 Raven Eng.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "RWKV-4 Raven Eng.json"; sourceTree = "<group>"; };
+		1532BF7D2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "MagicPrompt-Stable-Diffusion.json"; sourceTree = "<group>"; };
 		1560D6162A2D1A3D00918330 /* AddChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChatView.swift; sourceTree = "<group>"; };
 		1568E3CD2A8BF86200930CC9 /* BottomPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomPanel.swift; sourceTree = "<group>"; };
 		156A48CF2A52B55B007DF519 /* SplitViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViews.swift; sourceTree = "<group>"; };
@@ -154,7 +157,8 @@
 			isa = PBXGroup;
 			children = (
 				159C699A2A9A52D200F74913 /* llama chat 2 7B iphone 12.json */,
-				15141E402A6488A70060E767 /* AI Dungeon 2 Classic.json */,
+				1532BF7D2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json */,
+				1532BF7B2AA113AD006DC514 /* RWKV-4 Raven Eng.json */,
 				15141E3D2A6488A60060E767 /* cerebras 2.7b.json */,
 				15141E372A6488A60060E767 /* dolly v2 3b.json */,
 				15141E392A6488A60060E767 /* openllama 3b.json */,
@@ -373,6 +377,8 @@
 				159C699B2A9A52D200F74913 /* llama chat 2 7B iphone 12.json in Resources */,
 				15F210892A191B1B0021F414 /* Preview Assets.xcassets in Resources */,
 				15F210852A191B1B0021F414 /* Assets.xcassets in Resources */,
+				1532BF7E2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json in Resources */,
+				1532BF7C2AA113AD006DC514 /* RWKV-4 Raven Eng.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

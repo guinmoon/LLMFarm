@@ -126,15 +126,19 @@ final class AIChatModel: ObservableObject {
             if (chat_config!["reverse_prompt"] != nil){
                 let splited_revrse_prompt = String(chat_config!["reverse_prompt"]! as! String).components(separatedBy: [";"])
                 for word in splited_revrse_prompt{
+                    let trimed_word = word.trimmingCharacters(in: .whitespacesAndNewlines)
+                    if trimed_word==""{
+                        continue
+                    }
                     var exist = false
                     for r_word in self.chat!.model.reverse_prompt{
-                        if r_word == word{
+                        if r_word == trimed_word{
                             exist = true
                             break
                         }
                     }
                     if !exist{
-                        self.chat?.model.reverse_prompt.append(word)
+                        self.chat?.model.reverse_prompt.append(trimed_word)
                     }
                 }
             }
@@ -215,6 +219,7 @@ final class AIChatModel: ObservableObject {
         var check = true
         for stop_word in self.chat?.model.reverse_prompt ?? [] {
             if str == stop_word || message.text.hasSuffix(stop_word) {
+//                print("\(message.text) + \(str)")
                 self.stop_predict()
                 check = false
 //                message.text.removeLast(stop_word.count)
@@ -281,7 +286,8 @@ final class AIChatModel: ObservableObject {
             self.chat?.conversation(text, { str, time in
                 check = self.process_predicted_str(str, time, &message, messageIndex)
             }, {
-                str in
+                final_str in
+                print(final_str)
                 self.AI_typing = 0
                 self.total_sec = Double((DispatchTime.now().uptimeNanoseconds - self.start_predicting_time.uptimeNanoseconds)) / 1_000_000_000
                 if (self.chat_name == self.chat?.chatName && self.chat?.flagExit != true){

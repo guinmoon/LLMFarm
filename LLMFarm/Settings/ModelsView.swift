@@ -95,6 +95,7 @@ struct ModelsView: View {
                             ModelInfoItem(
                                 modelIcon: String(describing: model["icon"]!),
                                 file_name:  String(describing: model["file_name"]!),
+                                orig_file_name:String(describing: model["file_name"]!),
                                 description: String(describing: model["description"]!)
                             ).contextMenu {
                                 Button(action: {
@@ -105,25 +106,7 @@ struct ModelsView: View {
                             }
                         }.onDelete(perform: delete)
                         
-                        VStack{
-                            
-                            Button {
-                                Task {
-                                    isImporting.toggle()
-                                }
-                            } label: {
-                                Image(systemName: "plus.square.dashed")
-                                    .foregroundColor(.secondary)
-                                    .font(.system(size: 40))
-                            }
-                            .buttonStyle(.borderless)
-                            .controlSize(.large)
-                            Text("Add model")
-                                .font(.title3)
-                                .frame(maxWidth: .infinity)
-                            
-                        }.opacity(0.4)
-                            .frame(maxWidth: .infinity)
+                        
                     }
 #if os(macOS)
                     .listStyle(.sidebar)
@@ -131,7 +114,27 @@ struct ModelsView: View {
                     .listStyle(InsetListStyle())
 #endif
                 }
-                
+                if  models_previews.count <= 0 {
+                    VStack{
+                        
+                        Button {
+                            Task {
+                                isImporting.toggle()
+                            }
+                        } label: {
+                            Image(systemName: "plus.square.dashed")
+                                .foregroundColor(.secondary)
+                                .font(.system(size: 40))
+                        }
+                        .buttonStyle(.borderless)
+                        .controlSize(.large)
+                        Text("Add model")
+                            .font(.title3)
+                            .frame(maxWidth: .infinity)
+                        
+                    }.opacity(0.4)
+                        .frame(maxWidth: .infinity,alignment: .center)
+                }
                 
             }
             .padding(.top)

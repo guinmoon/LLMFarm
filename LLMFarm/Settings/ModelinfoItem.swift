@@ -11,10 +11,16 @@ struct ModelInfoItem: View {
     
     var modelIcon: String = ""
     @State var file_name: String = ""
+    @State var orig_file_name: String = ""
     var description: String = ""
     
-    func model_name_canged(_ new_name:String){
-        let a = 1
+    func model_name_canged(){
+        let res = rename_file(orig_file_name,file_name,"models")
+        if res {
+            orig_file_name = file_name
+        }else{
+            print("Rename error!")
+        }
     }
     
     var body: some View {
@@ -28,20 +34,19 @@ struct ModelInfoItem: View {
             VStack(alignment: .leading, spacing: 6){
                 HStack
                 {
-#if os(macOS)
                     TextField("", text: $file_name)
-//                    MacEditorTextView(text: $file_name, isEditable: true, onTextChange: model_name_canged)
-//                        .frame(minWidth: 300,
-//                                       maxWidth: .infinity,
-//                                       minHeight: 20,
-//                                       maxHeight: .infinity)
-//                        .padding(.top)
-#else
-                    TextField("", text: $file_name)
-#endif
-                    //                        .onSubmit {
-                    //                            let a = 1
-                    //                        }
+                        .onSubmit {
+                            model_name_canged()
+                        }
+                    //                    MacEditorTextView(text: $file_name, isEditable: true, onTextChange: model_name_canged)
+                    //                        .frame(minWidth: 300,
+                    //                                       maxWidth: .infinity,
+                    //                                       minHeight: 20,
+                    //                                       maxHeight: .infinity)
+                    //                        .padding(.top)
+                    
+                    
+                    //
                     //                    Text(file_name)
                     //                        .fontWeight(.none)
                     //                        .padding(.top, 3)

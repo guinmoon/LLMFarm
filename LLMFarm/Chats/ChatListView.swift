@@ -99,38 +99,8 @@ struct ChatListView: View {
                             }
                         }
                         .onDelete(perform: delete)
-
-                        VStack{
-                            
-                            Button {
-                                Task {
-                                    add_chat_dialog = true
-                                    edit_chat_dialog = false
-                                }
-                            } label: {
-                                Image(systemName: "plus.square.dashed")
-                                    .foregroundColor(.secondary)
-                                    .font(.system(size: 40))
-                            }
-                            .buttonStyle(.borderless)
-                            .controlSize(.large)
-                            Text("Start new chat")
-                                .font(.title3)
-//                                .padding(30)
-                                .frame(maxWidth: .infinity)
-//                            Image(systemName: "plus.square.dashed")
-//                                .font(.system(size: 40))
-//                            Text("Start new chat")
-//                                .font(.title3)
-////                                .padding(30)
-//                                .frame(maxWidth: .infinity)
-                            
-                        }.opacity(0.4)
-                            .frame(maxWidth: .infinity)
-                            
-
                     }
-                    
+                    .frame(maxHeight: .infinity)
 //                    .border(Color.red, width: 1)
 //                    .listStyle(PlainListStyle())
                     #if os(macOS)
@@ -140,6 +110,29 @@ struct ChatListView: View {
                     #endif
                 }
                 .background(.opacity(0))
+                
+                if chats_previews.count<=0{
+                    VStack{
+                        Button {
+                            Task {
+                                add_chat_dialog = true
+                                edit_chat_dialog = false
+                            }
+                        } label: {
+                            Image(systemName: "plus.square.dashed")
+                                .foregroundColor(.secondary)
+                                .font(.system(size: 40))
+                        }
+                        .buttonStyle(.borderless)
+                        .controlSize(.large)
+                        Text("Start new chat")
+                            .font(.title3)
+                            .frame(maxWidth: .infinity)
+                        
+                        
+                    }.opacity(0.4)
+                        .frame(maxWidth: .infinity,alignment: .center)
+                }
             }.task {
                 renew_chat_list = refresh_chat_list
                 refresh_chat_list()

@@ -200,6 +200,23 @@ public func get_chats_list() -> [Dictionary<String, String>]?{
     return res
 }
 
+public func rename_file(_ old_fname:String, _ new_fname: String, _ dir: String) -> Bool{
+    var result = false
+    do{
+        let fileManager = FileManager.default
+        let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+        let destinationURL = documentsPath!.appendingPathComponent(dir)
+        let old_path = destinationURL.appendingPathComponent(old_fname)
+        let new_path = destinationURL.appendingPathComponent(new_fname)
+        try fileManager.moveItem(at: old_path, to: new_path)
+        return true
+    }
+    catch{
+        print(error)
+    }
+    return result
+}
+
 public func get_models_list() -> [Dictionary<String, String>]?{
     var res: [Dictionary<String, String>] = []
     do {

@@ -58,132 +58,124 @@ final class AIChatModel: ObservableObject {
 //    }
     
     public func load_model_by_chat_name(chat_name: String) -> Bool?{
-        do{
-            let chat_config = get_chat_info(chat_name)
-            var model_sample_param = ModelSampleParams.default
-            var model_context_param = ModelContextParams.default
-            if (chat_config != nil){
-                model_sample_param = get_model_sample_param_by_config(chat_config!)
-                model_context_param = get_model_context_param_by_config(chat_config!)
-            }else{
-                return nil
-            }
-            let model_name = chat_config!["model"] as! String
-            self.model_name = model_name
-            if let m_name = get_path_by_model_name(model_name) {
-                self.modelURL = m_name
-            }else{
-                return nil
-            }
-            self.model_loading = true
-            self.chat = nil
-            //            let a: URL = URL(filePath: modelURL)
-            //            let res = a.startAccessingSecurityScopedResource()
-            self.chat = AI(_modelPath: modelURL,_chatName: chat_name);
-            if (self.modelURL==""){
-                return nil
-            }
-            let model_url = URL(fileURLWithPath: model_name)
-            let model_lowercase=model_url.lastPathComponent.lowercased()
-//            if (chat_config!["warm_prompt"] != nil){
-//                model_context_param.warm_prompt = chat_config!["warm_prompt"]! as! String
-//            }
-            
-            //Set mode linference and try to load model
-            if (chat_config!["model_inference"] != nil && chat_config!["model_inference"]! as! String != "auto"){
-                if (chat_config!["use_metal"] != nil){
-                    model_context_param.use_metal = chat_config!["use_metal"] as! Bool
-                }
-                if chat_config!["model_inference"] as! String == "llama"{
-                    if modelURL.hasSuffix(".gguf"){
-                        self.chat?.loadModel(ModelInference.LLama_gguf,contextParams: model_context_param)
-                    }else{
-                        self.chat?.loadModel(ModelInference.LLama_bin,contextParams: model_context_param)
-                    }
-                }else if chat_config!["model_inference"] as! String == "gptneox" {
-                    self.chat?.loadModel(ModelInference.GPTNeox,contextParams: model_context_param)
-                }else if chat_config!["model_inference"] as! String == "rwkv" {
-                    self.chat?.loadModel(ModelInference.RWKV,contextParams: model_context_param)
-                }else if chat_config!["model_inference"] as! String == "gpt2" {
-                    self.chat?.loadModel(ModelInference.GPT2,contextParams: model_context_param)
-                    self.chat?.model.reverse_prompt.append("<|endoftext|>")
-                }else if chat_config!["model_inference"] as! String == "replit" {
-                    self.chat?.loadModel(ModelInference.Replit,contextParams: model_context_param)
-                    self.chat?.model.reverse_prompt.append("<|endoftext|>")
-                }else if chat_config!["model_inference"] as! String == "starcoder" {
-                    self.chat?.loadModel(ModelInference.Starcoder,contextParams: model_context_param)
-                    self.chat?.model.reverse_prompt.append("<|endoftext|>")
-                }
-            }
-            else{
-                if (model_lowercase.contains("llama") ||
-                    model_lowercase.contains("alpaca") ||
-                    model_lowercase.contains("vic") ||
-                    model_lowercase.contains("orca")){
-                    self.chat?.loadModel(ModelInference.LLama_bin)
-                }else{
-                    self.chat?.loadModel(ModelInference.GPTNeox)
-                }
-            }
-            if self.chat?.model.context == nil{
-                return nil
-            }
-            if (chat_config!["reverse_prompt"] != nil){
-                let splited_revrse_prompt = String(chat_config!["reverse_prompt"]! as! String).components(separatedBy: [";"])
-                for word in splited_revrse_prompt{
-                    let trimed_word = word.trimmingCharacters(in: .whitespacesAndNewlines)
-                    if trimed_word==""{
-                        continue
-                    }
-                    var exist = false
-                    for r_word in self.chat!.model.reverse_prompt{
-                        if r_word == trimed_word{
-                            exist = true
-                            break
-                        }
-                    }
-                    if !exist{
-                        self.chat?.model.reverse_prompt.append(trimed_word)
-                    }
-                }
-            }
-            self.chat?.model.sampleParams = model_sample_param
-            self.chat?.model.contextParams = model_context_param
-            print(model_sample_param)
-            print(model_context_param)
-            //Set prompt model if in config or try to set promt format by filename
-            if (chat_config!["prompt_format"] != nil && chat_config!["prompt_format"]! as! String != "auto"
-                && chat_config!["prompt_format"]! as! String != "{{prompt}}"){
-                self.chat?.model.custom_prompt_format = chat_config!["prompt_format"]! as! String
-                self.chat?.model.promptFormat = .Custom
-            }
-            else{
-                if (model_lowercase.contains("dolly")){
-                    self.chat?.model.promptFormat = .Dolly_b3;
-                }else if (model_lowercase.contains("stable")){
-                    self.chat?.model.promptFormat = .StableLM_Tuned
-                    self.chat?.model.reverse_prompt.append("<|USER|>")
-                }else if ((chat_config!["model_inference"] != nil && chat_config!["model_inference"]! as! String == "llama") ||
-                          model_lowercase.contains("llama") ||
-                          model_lowercase.contains("alpaca") ||
-                          model_lowercase.contains("vic") ){
-                    //            self.chat?.model.promptStyle = .LLaMa
-                    self.chat?.model.promptFormat = .LLaMa
-                }else if (model_lowercase.contains("rp-")&&model_lowercase.contains("chat")){
-                    self.chat?.model.promptFormat = .RedPajama_chat
-                }else{
-                    self.chat?.model.promptFormat = .None
-                }
-            }
-            
-            
-            self.model_loading = false
-            return true
+        let chat_config = get_chat_info(chat_name)
+        var model_sample_param = ModelSampleParams.default
+        var model_context_param = ModelContextParams.default
+        if (chat_config != nil){
+            model_sample_param = get_model_sample_param_by_config(chat_config!)
+            model_context_param = get_model_context_param_by_config(chat_config!)
+        }else{
+            return nil
         }
-        catch {
-            print(error)
+        let model_name = chat_config!["model"] as! String
+        self.model_name = model_name
+        if let m_name = get_path_by_model_name(model_name) {
+            self.modelURL = m_name
+        }else{
+            return nil
         }
-        return nil
+        self.model_loading = true
+        self.chat = nil
+        //            let a: URL = URL(filePath: modelURL)
+        //            let res = a.startAccessingSecurityScopedResource()
+        self.chat = AI(_modelPath: modelURL,_chatName: chat_name);
+        if (self.modelURL==""){
+            return nil
+        }
+        let model_url = URL(fileURLWithPath: model_name)
+        let model_lowercase=model_url.lastPathComponent.lowercased()
+        //            if (chat_config!["warm_prompt"] != nil){
+        //                model_context_param.warm_prompt = chat_config!["warm_prompt"]! as! String
+        //            }
+        
+        //Set mode linference and try to load model
+        if (chat_config!["model_inference"] != nil && chat_config!["model_inference"]! as! String != "auto"){
+            if (chat_config!["use_metal"] != nil){
+                model_context_param.use_metal = chat_config!["use_metal"] as! Bool
+            }
+            if chat_config!["model_inference"] as! String == "llama"{
+                if modelURL.hasSuffix(".gguf"){
+                    self.chat?.loadModel(ModelInference.LLama_gguf,contextParams: model_context_param)
+                }else{
+                    self.chat?.loadModel(ModelInference.LLama_bin,contextParams: model_context_param)
+                }
+            }else if chat_config!["model_inference"] as! String == "gptneox" {
+                self.chat?.loadModel(ModelInference.GPTNeox,contextParams: model_context_param)
+            }else if chat_config!["model_inference"] as! String == "rwkv" {
+                self.chat?.loadModel(ModelInference.RWKV,contextParams: model_context_param)
+            }else if chat_config!["model_inference"] as! String == "gpt2" {
+                self.chat?.loadModel(ModelInference.GPT2,contextParams: model_context_param)
+                self.chat?.model.reverse_prompt.append("<|endoftext|>")
+            }else if chat_config!["model_inference"] as! String == "replit" {
+                self.chat?.loadModel(ModelInference.Replit,contextParams: model_context_param)
+                self.chat?.model.reverse_prompt.append("<|endoftext|>")
+            }else if chat_config!["model_inference"] as! String == "starcoder" {
+                self.chat?.loadModel(ModelInference.Starcoder,contextParams: model_context_param)
+                self.chat?.model.reverse_prompt.append("<|endoftext|>")
+            }
+        }
+        else{
+            if (model_lowercase.contains("llama") ||
+                model_lowercase.contains("alpaca") ||
+                model_lowercase.contains("vic") ||
+                model_lowercase.contains("orca")){
+                self.chat?.loadModel(ModelInference.LLama_bin)
+            }else{
+                self.chat?.loadModel(ModelInference.GPTNeox)
+            }
+        }
+        if self.chat?.model.context == nil{
+            return nil
+        }
+        if (chat_config!["reverse_prompt"] != nil){
+            let splited_revrse_prompt = String(chat_config!["reverse_prompt"]! as! String).components(separatedBy: [";"])
+            for word in splited_revrse_prompt{
+                let trimed_word = word.trimmingCharacters(in: .whitespacesAndNewlines)
+                if trimed_word==""{
+                    continue
+                }
+                var exist = false
+                for r_word in self.chat!.model.reverse_prompt{
+                    if r_word == trimed_word{
+                        exist = true
+                        break
+                    }
+                }
+                if !exist{
+                    self.chat?.model.reverse_prompt.append(trimed_word)
+                }
+            }
+        }
+        self.chat?.model.sampleParams = model_sample_param
+        self.chat?.model.contextParams = model_context_param
+        print(model_sample_param)
+        print(model_context_param)
+        //Set prompt model if in config or try to set promt format by filename
+        if (chat_config!["prompt_format"] != nil && chat_config!["prompt_format"]! as! String != "auto"
+            && chat_config!["prompt_format"]! as! String != "{{prompt}}"){
+            self.chat?.model.custom_prompt_format = chat_config!["prompt_format"]! as! String
+            self.chat?.model.promptFormat = .Custom
+        }
+        else{
+            if (model_lowercase.contains("dolly")){
+                self.chat?.model.promptFormat = .Dolly_b3;
+            }else if (model_lowercase.contains("stable")){
+                self.chat?.model.promptFormat = .StableLM_Tuned
+                self.chat?.model.reverse_prompt.append("<|USER|>")
+            }else if ((chat_config!["model_inference"] != nil && chat_config!["model_inference"]! as! String == "llama") ||
+                      model_lowercase.contains("llama") ||
+                      model_lowercase.contains("alpaca") ||
+                      model_lowercase.contains("vic") ){
+                //            self.chat?.model.promptStyle = .LLaMa
+                self.chat?.model.promptFormat = .LLaMa
+            }else if (model_lowercase.contains("rp-")&&model_lowercase.contains("chat")){
+                self.chat?.model.promptFormat = .RedPajama_chat
+            }else{
+                self.chat?.model.promptFormat = .None
+            }
+        }
+        self.model_loading = false
+        return true
     }
     
     func prepare(_ model_name:String, _ chat_name:String) async {

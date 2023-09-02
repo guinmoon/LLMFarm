@@ -46,12 +46,12 @@ func main(){
     //        try? ai.loadModel(ModelInference.Replit)
     //        ai.model.promptFormat = .None
     
-                let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-3b.ggmlv3.q4_1.bin",_chatName: "chat")
-        //        let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/openllama-3b-v2-q4_0.gguf",_chatName: "chat")
+//                let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-3b.ggmlv3.q4_1.bin",_chatName: "chat")
+                let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-3b-q4_1.gguf",_chatName: "chat")
         //    let ai = AI(_modelPath: "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/llama-2-7b.ggmlv3.q4_K_M.bin",_chatName: "chat")
                 var params:ModelContextParams = .default
-    //            params.use_metal = true
-                try? ai.loadModel(ModelInference.LLama,contextParams: params)
+                params.use_metal = true
+                try? ai.loadModel(ModelInference.LLama_gguf,contextParams: params)
                 ai.model.promptFormat = .LLaMa
     ////
 //            let ai = AI(_modelPath: "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/santacoder-q5_1.bin",_chatName: "chat")

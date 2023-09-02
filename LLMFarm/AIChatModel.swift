@@ -38,6 +38,7 @@ final class AIChatModel: ObservableObject {
     public var chat_name = ""
 //    public var avalible_models: [String]
     public var start_predicting_time = DispatchTime.now()
+
     //    public var title:String = ""
     
     @Published
@@ -84,9 +85,9 @@ final class AIChatModel: ObservableObject {
             }
             let model_url = URL(fileURLWithPath: model_name)
             let model_lowercase=model_url.lastPathComponent.lowercased()
-            if (chat_config!["warm_prompt"] != nil){
-                model_context_param.warm_prompt = chat_config!["warm_prompt"]! as! String
-            }
+//            if (chat_config!["warm_prompt"] != nil){
+//                model_context_param.warm_prompt = chat_config!["warm_prompt"]! as! String
+//            }
             
             //Set mode linference and try to load model
             if (chat_config!["model_inference"] != nil && chat_config!["model_inference"]! as! String != "auto"){
@@ -94,7 +95,11 @@ final class AIChatModel: ObservableObject {
                     model_context_param.use_metal = chat_config!["use_metal"] as! Bool
                 }
                 if chat_config!["model_inference"] as! String == "llama"{
-                    self.chat?.loadModel(ModelInference.LLama,contextParams: model_context_param)
+                    if modelURL.hasSuffix(".gguf"){
+                        self.chat?.loadModel(ModelInference.LLama_gguf,contextParams: model_context_param)
+                    }else{
+                        self.chat?.loadModel(ModelInference.LLama_bin,contextParams: model_context_param)
+                    }
                 }else if chat_config!["model_inference"] as! String == "gptneox" {
                     self.chat?.loadModel(ModelInference.GPTNeox,contextParams: model_context_param)
                 }else if chat_config!["model_inference"] as! String == "rwkv" {
@@ -115,7 +120,7 @@ final class AIChatModel: ObservableObject {
                     model_lowercase.contains("alpaca") ||
                     model_lowercase.contains("vic") ||
                     model_lowercase.contains("orca")){
-                    self.chat?.loadModel(ModelInference.LLama)
+                    self.chat?.loadModel(ModelInference.LLama_bin)
                 }else{
                     self.chat?.loadModel(ModelInference.GPTNeox)
                 }

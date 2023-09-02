@@ -2,6 +2,9 @@
     "files.associations": {
         "ggml_old.h": "c",
         "ggml_a1d0ea7.h": "c",
-        "utility": "cpp"
+        "utility": "cpp",
+        "fstream": "cpp",
+        "string": "cpp",
+        "k_quants_dadbed9.h": "c"
     }
 }

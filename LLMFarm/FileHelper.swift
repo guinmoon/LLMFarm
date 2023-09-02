@@ -209,7 +209,7 @@ public func get_models_list() -> [Dictionary<String, String>]?{
         try fileManager.createDirectory (at: destinationURL, withIntermediateDirectories: true, attributes: nil)
         let files = try fileManager.contentsOfDirectory(atPath: destinationURL.path)
         for modelfile in files {
-            if modelfile.contains(".bin"){
+            if modelfile.hasSuffix(".bin") || modelfile.hasSuffix(".gguf"){
 //                let info = get_chat_info(modelfile)!
                 let tmp_chat_info = ["icon":"square.stack.3d.up.fill","file_name":modelfile,"description":""]
                 res.append(tmp_chat_info)

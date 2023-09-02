@@ -7,6 +7,7 @@
 
 import SwiftUI
 import UniformTypeIdentifiers
+import llmfarm_core_cpp
 
 struct InputDoument: FileDocument {
     
@@ -77,10 +78,12 @@ struct AddChatView: View {
     @State private var mirostat_eta: Float = 0.1
     @State private var use_metal: Bool = false
     @State private var isImporting: Bool = false
+    var hardware_arch = Get_Machine_Hardware_Name()
     @Binding var renew_chat_list: () -> Void
     
     private var chat_name: String = ""
     let bin_type = UTType(tag: "bin", tagClass: .filenameExtension, conformingTo: nil)
+    let gguf_type = UTType(tag: "gguf", tagClass: .filenameExtension, conformingTo: nil)
     
     @State private var model_settings_template:ModelSettingsTemplate = ModelSettingsTemplate()
     let model_setting_templates = get_model_setting_templates()
@@ -194,6 +197,9 @@ struct AddChatView: View {
         warm_prompt = template.warm_prompt
         reverse_prompt = template.reverse_prompt
         use_metal = template.use_metal
+        if hardware_arch=="x86_64"{
+            use_metal = false
+        }
     }
     
     var body: some View {
@@ -295,7 +301,7 @@ struct AddChatView: View {
                         }
                         .fileImporter(
                             isPresented: $isImporting,
-                            allowedContentTypes: [bin_type!],
+                            allowedContentTypes: [.data],
                             allowsMultipleSelection: false
                         ) { result in
                             do {
@@ -375,7 +381,7 @@ struct AddChatView: View {
                         HStack {
                             Toggle("Use Metal", isOn: $use_metal)
                         }
-                        .disabled(self.model_inference != "llama")
+                        .disabled(self.model_inference != "llama" || hardware_arch=="x86_64")
                         .padding()
                         
                         Group {

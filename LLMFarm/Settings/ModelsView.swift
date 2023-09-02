@@ -16,6 +16,7 @@ struct ModelsView: View {
     @State private var isImporting: Bool = false
     @State private var modelImported: Bool = false
     let bin_type = UTType(tag: "bin", tagClass: .filenameExtension, conformingTo: nil)
+    let gguf_type = UTType(tag: "gguf", tagClass: .filenameExtension, conformingTo: nil)
     @State private var model_file_url: URL = URL(filePath: "")
     @State private var model_file_name: String = ""
     @State private var model_file_path: String = "select model"
@@ -64,7 +65,8 @@ struct ModelsView: View {
                         .controlSize(.large)
                         .fileImporter(
                             isPresented: $isImporting,
-                            allowedContentTypes: [bin_type!],
+//                            allowedContentTypes: [bin_type!,gguf_type!],
+                            allowedContentTypes: [.data],
                             allowsMultipleSelection: false
                         ) { result in
                             do {

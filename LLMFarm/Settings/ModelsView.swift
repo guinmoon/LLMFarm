@@ -49,7 +49,7 @@ struct ModelsView: View {
                 HStack{
                     Text("Models")
                         .fontWeight(.semibold)
-                        .font(.title)
+                        .font(.title2)
                     Spacer()
                     Button {
                         Task {

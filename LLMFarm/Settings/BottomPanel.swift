@@ -10,8 +10,8 @@ import SwiftUI
 struct BottomPanelView: View {
     @Binding var tabIndex: Int
     var body: some View {
-        Splitter(orientation: .Horizontal,inset:  10, visibleThickness:  1, invisibleThickness: 0)
-            .opacity(0.5)
+//        Splitter(orientation: .Horizontal,inset:  10, visibleThickness:  1, invisibleThickness: 0)
+//            .opacity(0.5)
         HStack(){
             VStack{
                 Button {
@@ -28,7 +28,7 @@ struct BottomPanelView: View {
                     .font(.footnote)
                     .opacity(0.5)
             }.frame(maxWidth: .infinity, alignment: .center)
-                .ignoresSafeArea(.keyboard, edges: .bottom)
+//                .ignoresSafeArea(.keyboard, edges: .bottom)
             
             VStack{
                 Button {
@@ -45,9 +45,10 @@ struct BottomPanelView: View {
                     .font(.footnote)
                     .opacity(0.5)
             }.frame(maxWidth: .infinity, alignment: .center)
-                .ignoresSafeArea(.keyboard, edges: .bottom)
-        }.frame(height: 60)
-            .ignoresSafeArea(.keyboard, edges: .bottom)
+//                .ignoresSafeArea(.keyboard, edges: .bottom)
+        }.frame(height: 55)
+            .background(.regularMaterial)
+//            .ignoresSafeArea(.keyboard, edges: .bottom)
             
     }
 }

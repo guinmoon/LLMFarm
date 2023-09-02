@@ -47,7 +47,7 @@ struct ChatListView: View {
                 HStack{
                     Text("Chats")
                         .fontWeight(.semibold)
-                        .font(.title)
+                        .font(.title2)
                     Spacer()
                     
                     Button {

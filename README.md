@@ -12,7 +12,7 @@
 
 <p align="center">
   <img alt="Icon" height="400px"  src="dist/screen1.png">
-  <img alt="Icon" width="535px"  src="dist/screen2.png">
+  <img alt="Icon" width="525px"  src="dist/screen2.png">
 </p>
 
 LLMFarm is an iOS and MacOS app to work with large language models (LLM). It allows you to load different LLMs with certain parameters.<br>
@@ -43,7 +43,7 @@ Also used sources from:
 - [x] [GPT2](https://huggingface.co/docs/transformers/model_doc/gpt2) + [Cerebras](https://arxiv.org/abs/2304.03208)
 - [x] [Starcoder(Santacoder)](https://huggingface.co/bigcode/santacoder)
 - [x] [RWKV](https://huggingface.co/docs/transformers/model_doc/rwkv) (20B tokenizer)
-- [ ] [Falcon](https://github.com/cmp-nct/ggllm.cpp)
+- [x] [Falcon](https://github.com/cmp-nct/ggllm.cpp)
 
 ## Getting Started
 

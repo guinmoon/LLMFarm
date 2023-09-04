@@ -8,3 +8,4 @@ llmfarm_core.swift/Sources/llmfarm_core/backup/
 xcuserdata/
 site/*
 backup/*
+*autosave.kra

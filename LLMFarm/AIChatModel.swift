@@ -212,12 +212,17 @@ final class AIChatModel: ObservableObject {
     {
         var check = true
         for stop_word in self.chat?.model.reverse_prompt ?? [] {
-            if str == stop_word || message.text.hasSuffix(stop_word) {
-//                print("\(message.text) + \(str)")
+            if str == stop_word {
                 self.stop_predict()
                 check = false
-//                message.text.removeLast(stop_word.count)
                 break
+            }
+            if message.text.hasSuffix(stop_word) {
+                self.stop_predict()
+                check = false
+                if stop_word.count>0 && message.text.count>stop_word.count{
+                    message.text.removeLast(stop_word.count)
+                }
             }
         }
         if (check &&

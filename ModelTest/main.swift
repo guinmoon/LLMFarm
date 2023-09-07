@@ -7,7 +7,7 @@
 
 import Foundation
 import llmfarm_core
-//import llmfarm_core_cpp
+import llmfarm_core_cpp
 
 let maxOutputLength = 256
 var total_output = 0
@@ -22,47 +22,75 @@ func mainCallback(_ str: String, _ time: Double) -> Bool {
     return false
 }
 
+func set_promt_format(ai: inout AI) throws -> Bool{
+    do{
+        ai.model.promptFormat = .LLaMa
+    }
+    catch{
+        print(error)
+    }
+    return true
+}
+
 func main(){
     print("Hello.")
     var input_text = "State the meaning of life."
+    var modelInference:ModelInference
+    var ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-3b-q4_1.ggu",_chatName: "chat")
     
-    //        let ai = AI(_modelPath: "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/dolly-v2-3b-q5_1.bin",_chatName: "chat")
-    //    /Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/rp-incite-base-v1-3b-ggmlv3-q5_1.bin
-    //        try? ai.loadModel(ModelInference.GPTNeox)
-    //        ai.model.custom_prompt_format = "Below is an instruction that describes a task. Write a response that appropriately completes the request.### Instruction:{{prompt}}### Response:"
-    //        ai.model.promptFormat = .Custom
+//    ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/dolly-v2-3b-q5_1.bin"
+//    modelInference = ModelInference.GPTNeox
+//
+//
+//    ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/rp-incite-base-v1-3b-ggmlv3-q5_1.bin"
+//    modelInference = ModelInference.GPTNeox
+//
+//    ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/magicprompt-stable-diffusion-q5_1.bin"
+//    //ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/cerebras-2.7b-ggjtv3-q4_0.bin
+//    modelInference = ModelInference.GPT2
+//
+//    ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/replit-code-v1-3b-ggml-q5_1.bin"
+//    modelInference = ModelInference.Replit
+//
+//    ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/santacoder-q5_1.bin"
+//    modelInference = ModelInference.Starcoder
+//    input_text = "def quicksort"
+//
+    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/q4_1-RWKV-4-Raven-1B5-v12-Eng.bin"
+//    input_text = "who are you?"
     
+    //ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-3b.ggmlv3.q4_1.bin
+//    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-3b-q4_1.gguf"
+    //ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/llama-2-7b.ggmlv3.q4_K_M.bin"
+    modelInference = ModelInference.LLama_gguf
+    var params:ModelContextParams = .default
+    params.use_metal = true
     
-    //        let ai = AI(_modelPath: "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/rp-incite-base-v1-3b-ggmlv3-q5_1.bin",_chatName: "chat")
-    //        try? ai.loadModel(ModelInference.GPTNeox)
-    //        ai.model.promptFormat = .None
+    do{
+        try ai.loadModel(modelInference,contextParams: params)
+    }catch {
+        print (error)
+        return
+    }
     
-//    let ai = AI(_modelPath: "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/magicprompt-stable-diffusion-q5_1.bin",_chatName: "chat")
-//    //    let ai = AI(_modelPath: "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/cerebras-2.7b-ggjtv3-q4_0.bin",_chatName: "chat")
-//    try? ai.loadModel(ModelInference.GPT2)
-//    ai.model.promptFormat = .None
-    //    //
-    //        let ai = AI(_modelPath: "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/replit-code-v1-3b-ggml-q5_1.bin",_chatName: "chat")
-    //        try? ai.loadModel(ModelInference.Replit)
-    //        ai.model.promptFormat = .None
+////    try? set_promt_format(ai: &ai)
+//    let exception = tryBlock {
+//
+////        try? ai.model.promptFormat = .LLaMa
+//
+//    }
+//
+//    if exception != nil {
+//        print(exception)
+//        exit(1)
+//    }
+//
+//
     
-//                let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-3b.ggmlv3.q4_1.bin",_chatName: "chat")
-                let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-3b-q4_1.gguf",_chatName: "chat")
-        //    let ai = AI(_modelPath: "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/llama-2-7b.ggmlv3.q4_K_M.bin",_chatName: "chat")
-                var params:ModelContextParams = .default
-                params.use_metal = true
-                try? ai.loadModel(ModelInference.LLama_gguf,contextParams: params)
-                ai.model.promptFormat = .LLaMa
+//    ai.model.promptFormat = .Custom
+//    ai.model.custom_prompt_format = "Below is an instruction that describes a task. Write a response that appropriately completes the request.### Instruction:{{prompt}}### Response:"
     ////
-//            let ai = AI(_modelPath: "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/santacoder-q5_1.bin",_chatName: "chat")
-//            try? ai.loadModel(ModelInference.Starcoder)
-//            ai.model.promptFormat = .None
-//            input_text = "def quicksort"
     
-//            let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/q4_1-RWKV-4-Raven-1B5-v12-Eng98%-Other2%-20230520-ctx4096.bin",_chatName: "chat")
-//            try? ai.loadModel(ModelInference.RWKV)
-//            ai.model.promptFormat = .None
-//            input_text = "who are you?"
     
     //    ai.model.contextParams.seed = 0;
     //    ai.model.promptStyle = .StableLM_Tuned

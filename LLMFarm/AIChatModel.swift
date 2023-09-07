@@ -89,42 +89,39 @@ final class AIChatModel: ObservableObject {
         //            }
         
         //Set mode linference and try to load model
-        if (chat_config!["model_inference"] != nil && chat_config!["model_inference"]! as! String != "auto"){
+        if (chat_config!["model_inference"] != nil){
+            var model_load_res:Bool? = false
             if (chat_config!["use_metal"] != nil){
                 model_context_param.use_metal = chat_config!["use_metal"] as! Bool
             }
-            if chat_config!["model_inference"] as! String == "llama"{
-                if modelURL.hasSuffix(".gguf"){
-                    self.chat?.loadModel(ModelInference.LLama_gguf,contextParams: model_context_param)
-                }else{
-                    self.chat?.loadModel(ModelInference.LLama_bin,contextParams: model_context_param)
+            do{
+                if chat_config!["model_inference"] as! String == "llama"{
+                    if modelURL.hasSuffix(".gguf"){
+                        try model_load_res = self.chat?.loadModel(ModelInference.LLama_gguf,contextParams: model_context_param)
+                    }else{
+                        try model_load_res = self.chat?.loadModel(ModelInference.LLama_bin,contextParams: model_context_param)
+                    }
+                }else if chat_config!["model_inference"] as! String == "gptneox" {
+                    try model_load_res = self.chat?.loadModel(ModelInference.GPTNeox,contextParams: model_context_param)
+                }else if chat_config!["model_inference"] as! String == "rwkv" {
+                    try model_load_res = self.chat?.loadModel(ModelInference.RWKV,contextParams: model_context_param)
+                }else if chat_config!["model_inference"] as! String == "gpt2" {
+                    try model_load_res = self.chat?.loadModel(ModelInference.GPT2,contextParams: model_context_param)
+                    self.chat?.model.reverse_prompt.append("<|endoftext|>")
+                }else if chat_config!["model_inference"] as! String == "replit" {
+                    try model_load_res = self.chat?.loadModel(ModelInference.Replit,contextParams: model_context_param)
+                    self.chat?.model.reverse_prompt.append("<|endoftext|>")
+                }else if chat_config!["model_inference"] as! String == "starcoder" {
+                    try model_load_res = self.chat?.loadModel(ModelInference.Starcoder,contextParams: model_context_param)
+                    self.chat?.model.reverse_prompt.append("<|endoftext|>")
                 }
-            }else if chat_config!["model_inference"] as! String == "gptneox" {
-                self.chat?.loadModel(ModelInference.GPTNeox,contextParams: model_context_param)
-            }else if chat_config!["model_inference"] as! String == "rwkv" {
-                self.chat?.loadModel(ModelInference.RWKV,contextParams: model_context_param)
-            }else if chat_config!["model_inference"] as! String == "gpt2" {
-                self.chat?.loadModel(ModelInference.GPT2,contextParams: model_context_param)
-                self.chat?.model.reverse_prompt.append("<|endoftext|>")
-            }else if chat_config!["model_inference"] as! String == "replit" {
-                self.chat?.loadModel(ModelInference.Replit,contextParams: model_context_param)
-                self.chat?.model.reverse_prompt.append("<|endoftext|>")
-            }else if chat_config!["model_inference"] as! String == "starcoder" {
-                self.chat?.loadModel(ModelInference.Starcoder,contextParams: model_context_param)
-                self.chat?.model.reverse_prompt.append("<|endoftext|>")
+            }
+            catch {
+                print(error)
+                
             }
         }
-        else{
-            if (model_lowercase.contains("llama") ||
-                model_lowercase.contains("alpaca") ||
-                model_lowercase.contains("vic") ||
-                model_lowercase.contains("orca")){
-                self.chat?.loadModel(ModelInference.LLama_bin)
-            }else{
-                self.chat?.loadModel(ModelInference.GPTNeox)
-            }
-        }
-        if self.chat?.model.context == nil{
+        if self.chat?.model == nil || self.chat?.model.context == nil{
             return nil
         }
         if (chat_config!["reverse_prompt"] != nil){

@@ -324,10 +324,14 @@ struct AddChatView: View {
                         }
 
                         HStack {
-
+#if os(macOS)
+                            DidEndEditingTextField(text: $model_title, didEndEditing: { newName in})
+                                .frame(maxWidth: .infinity, alignment: .leading)
+#else
                             TextField("Title...", text: $model_title)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .textFieldStyle(.plain)
+#endif
                             
                         }
                         .padding()
@@ -401,11 +405,11 @@ struct AddChatView: View {
                             VStack {
                                 Text("Prompt format:")
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                TextField("prompt..", text: $prompt_format, axis: .vertical)
-                                    .lineLimit(2)
-                                
-                                    .textFieldStyle(.roundedBorder)
-                                    .frame( alignment: .leading)
+                                TextEditor(text: $prompt_format)
+//                                TextField("prompt..", text: $prompt_format, axis: .vertical)
+//                                    .lineLimit(2)
+//                                    .textFieldStyle(.roundedBorder)
+//                                    .frame( alignment: .leading)
                                 //                                .multilineTextAlignment(.trailing)
                                 //                                .textFieldStyle(.plain)
                             }
@@ -415,11 +419,15 @@ struct AddChatView: View {
                             VStack {
                                 Text("Reverse prompt:")
                                     .frame(maxWidth: .infinity, alignment: .leading)
+#if os(macOS)
+                                DidEndEditingTextField(text: $reverse_prompt, didEndEditing: { newName in})
+                                    .frame( alignment: .leading)
+#else
                                 TextField("prompt..", text: $reverse_prompt, axis: .vertical)
                                     .lineLimit(2)
-                                
                                     .textFieldStyle(.roundedBorder)
                                     .frame( alignment: .leading)
+#endif
                                 //                                .multilineTextAlignment(.trailing)
                                 //                                .textFieldStyle(.plain)
                             }

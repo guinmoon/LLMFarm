@@ -1,6 +1,6 @@
 {
   "context" : 512,
-  "prompt_format" : "SYSTEM: You are a helpful, respectful and honest assistant.\\nUSER: {{prompt}}\\nASSISTANT:",
+  "prompt_format" : "SYSTEM: You are a helpful, respectful and honest assistant.\nUSER: {{prompt}}\nASSISTANT:",
   "reverse_prompt": "USER:",
   "template_name" : "LLaMA 2 Chat 7B iPhone 12",
   "temp" : 0.89999997615814209,

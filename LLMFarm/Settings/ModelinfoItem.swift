@@ -34,10 +34,16 @@ struct ModelInfoItem: View {
             VStack(alignment: .leading, spacing: 6){
                 HStack
                 {
+#if os(macOS)
+                    DidEndEditingTextField(text: $file_name, didEndEditing: { newName in
+                        model_name_canged()
+                    })
+#else
                     TextField("", text: $file_name)
                         .onSubmit {
                             model_name_canged()
                         }
+#endif
                     //                    MacEditorTextView(text: $file_name, isEditable: true, onTextChange: model_name_canged)
                     //                        .frame(minWidth: 300,
                     //                                       maxWidth: .infinity,

@@ -32,10 +32,14 @@ struct ChatView: View {
     @FocusState
     private var isInputFieldFocused: Bool
     
-    func scrollToBottom() {
-        withAnimation {
-            let last_msg = aiChatModel.messages.last // try to fixscrolling and  specialized Array._checkSubscript(_:wasNativeTypeChecked:)
-            if last_msg != nil && last_msg?.id != nil{
+    func scrollToBottom(with_animation:Bool = false) {
+        let last_msg = aiChatModel.messages.last // try to fixscrolling and  specialized Array._checkSubscript(_:wasNativeTypeChecked:)
+        if last_msg != nil && last_msg?.id != nil{
+            if with_animation{
+                withAnimation {
+                    scrollProxy?.scrollTo(last_msg?.id, anchor: .bottom)
+                }
+            }else{
                 scrollProxy?.scrollTo(last_msg?.id, anchor: .bottom)
             }
         }
@@ -62,7 +66,7 @@ struct ChatView: View {
                     }
                     .listRowSeparator(.hidden)
                 }.onChange(of: aiChatModel.AI_typing){ ai_typing in
-                    scrollToBottom()
+                    scrollToBottom(with_animation: true)
                 }
                 .listStyle(PlainListStyle())
                 
@@ -75,9 +79,14 @@ struct ChatView: View {
                             Text("Loading...")
                         }
                     case .completed:
+#if os(macOS)
+                                DidEndEditingTextField(text: $inputText, didEndEditing: { input in})
+//                                    .frame( alignment: .leading)
+#else
                         TextField("Type your message...", text: $inputText)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                         //                            .focused($isInputFieldFocused)
+#endif
                         
                         Button {
                             Task {

@@ -12,6 +12,8 @@
 		1532BF7A2A9FA885006DC514 /* GetDeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1532BF792A9FA885006DC514 /* GetDeviceInfo.swift */; };
 		1532BF7C2AA113AD006DC514 /* RWKV-4 Raven Eng.json in Resources */ = {isa = PBXBuildFile; fileRef = 1532BF7B2AA113AD006DC514 /* RWKV-4 Raven Eng.json */; };
 		1532BF7E2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json in Resources */ = {isa = PBXBuildFile; fileRef = 1532BF7D2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json */; };
+		15584A5C2AAB994100EC9C9C /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15584A5B2AAB994100EC9C9C /* DownloadManager.swift */; };
+		15584A5E2AABA09300EC9C9C /* DidEndEditingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15584A5D2AABA09300EC9C9C /* DidEndEditingTextField.swift */; };
 		1560D6172A2D1A3D00918330 /* AddChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1560D6162A2D1A3D00918330 /* AddChatView.swift */; };
 		1568E3CE2A8BF86200930CC9 /* BottomPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1568E3CD2A8BF86200930CC9 /* BottomPanel.swift */; };
 		156A48D02A52B55B007DF519 /* SplitViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156A48CF2A52B55B007DF519 /* SplitViews.swift */; };
@@ -85,6 +87,8 @@
 		1532BF792A9FA885006DC514 /* GetDeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDeviceInfo.swift; sourceTree = "<group>"; };
 		1532BF7B2AA113AD006DC514 /* RWKV-4 Raven Eng.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "RWKV-4 Raven Eng.json"; sourceTree = "<group>"; };
 		1532BF7D2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "MagicPrompt-Stable-Diffusion.json"; sourceTree = "<group>"; };
+		15584A5B2AAB994100EC9C9C /* DownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
+		15584A5D2AABA09300EC9C9C /* DidEndEditingTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DidEndEditingTextField.swift; sourceTree = "<group>"; };
 		1560D6162A2D1A3D00918330 /* AddChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChatView.swift; sourceTree = "<group>"; };
 		1568E3CD2A8BF86200930CC9 /* BottomPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomPanel.swift; sourceTree = "<group>"; };
 		156A48CF2A52B55B007DF519 /* SplitViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViews.swift; sourceTree = "<group>"; };
@@ -174,9 +178,22 @@
 			path = model_setting_templates;
 			sourceTree = "<group>";
 		};
+		15584A5A2AAB98E100EC9C9C /* Lib */ = {
+			isa = PBXGroup;
+			children = (
+				15F210A92A1A659B0021F414 /* FileHelper.swift */,
+				156A48D12A52B65C007DF519 /* Orientation_helper.swift */,
+				15141E702A65799D0060E767 /* ModelSettingsTemplate.swift */,
+				158FC6DA2AA3457A00A181B4 /* log_helper.swift */,
+				15584A5B2AAB994100EC9C9C /* DownloadManager.swift */,
+			);
+			path = Lib;
+			sourceTree = "<group>";
+		};
 		15A3EDBD2A2121D90030AF5A /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				15584A5D2AABA09300EC9C9C /* DidEndEditingTextField.swift */,
 				15A3EDC32A2121D90030AF5A /* ModelinfoItem.swift */,
 				15B7BE9C2A968399006624BD /* MacEditorTextView.swift */,
 				15A3EDC22A2121D90030AF5A /* ModelsView.swift */,
@@ -211,6 +228,7 @@
 		15F2107F2A191B190021F414 /* LLMFarm */ = {
 			isa = PBXGroup;
 			children = (
+				15584A5A2AAB98E100EC9C9C /* Lib */,
 				15141E332A64875F0060E767 /* model_setting_templates */,
 				15A3EDC42A2121D90030AF5A /* Chats */,
 				15A3EDBD2A2121D90030AF5A /* Settings */,
@@ -223,12 +241,8 @@
 				15F210842A191B1B0021F414 /* Assets.xcassets */,
 				15F210862A191B1B0021F414 /* LLMFarm.entitlements */,
 				15F210872A191B1B0021F414 /* Preview Content */,
-				15F210A92A1A659B0021F414 /* FileHelper.swift */,
 				15A3EDBB2A2121C70030AF5A /* ContentView.swift */,
 				15A3EDD02A21266D0030AF5A /* SearchView.swift */,
-				156A48D12A52B65C007DF519 /* Orientation_helper.swift */,
-				15141E702A65799D0060E767 /* ModelSettingsTemplate.swift */,
-				158FC6DA2AA3457A00A181B4 /* log_helper.swift */,
 			);
 			path = LLMFarm;
 			sourceTree = "<group>";
@@ -419,6 +433,8 @@
 				15F2108E2A191EE60021F414 /* ChatView.swift in Sources */,
 				15F210812A191B190021F414 /* LLMFarmApp.swift in Sources */,
 				1532BF7A2A9FA885006DC514 /* GetDeviceInfo.swift in Sources */,
+				15584A5C2AAB994100EC9C9C /* DownloadManager.swift in Sources */,
+				15584A5E2AABA09300EC9C9C /* DidEndEditingTextField.swift in Sources */,
 				15A3EDCE2A2121D90030AF5A /* OnlineUserView.swift in Sources */,
 				15A3EDCA2A2121D90030AF5A /* SettingsHeaderItem.swift in Sources */,
 				1568E3CE2A8BF86200930CC9 /* BottomPanel.swift in Sources */,

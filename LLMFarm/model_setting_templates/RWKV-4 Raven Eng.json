@@ -1,7 +1,7 @@
 {
   "model_inference" : "rwkv",
   "temp" : 0.80000001192092896,
-  "prompt_format" : "User: {{prompt}}\\n\\nAssistant:",
+  "prompt_format" : "User: {{prompt}}\n\nAssistant:",
   "reverse_prompt": "User:",
   "context" : 4096,
   "top_p" : 0.94999998807907104,

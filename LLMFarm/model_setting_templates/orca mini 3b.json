@@ -1,6 +1,6 @@
 {
   "context" : 1024,
-  "prompt_format" : "### User:\\n{{prompt}}\\n\\n### Response:\\n",
+  "prompt_format" : "### User:\n{{prompt}}\n\n### Response:\n",
   "template_name" : "ORCA mini 3B",
   "temp" : 0.89999997615814209,
   "model_inference" : "llama",

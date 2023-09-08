@@ -19,8 +19,9 @@ LLMFarm is an iOS and MacOS app to work with large language models (LLM). It all
 Based on [ggml](https://github.com/ggerganov/ggml) and [llama.cpp](https://github.com/ggerganov/llama.cpp) by [Georgi Gerganov](https://github.com/ggerganov).
 
 Also used sources from:
-* [rwkv.cpp](https://github.com/saharNooby/rwkv.cpp) by [saharNooby](https://github.com/saharNooby).
-* [Mia](https://github.com/byroneverson/Mia) by [byroneverson](https://github.com/byroneverson).
+* [rwkv.cpp](https://github.com/saharNooby/rwkv.cpp) by [saharNooby](https://github.com/saharNooby)
+* [Mia](https://github.com/byroneverson/Mia) by [byroneverson](https://github.com/byroneverson)
+* [LlamaChat](https://github.com/alexrozanski/LlamaChat) by [alexrozanski](https://github.com/alexrozanski)
 
 ## Features
 

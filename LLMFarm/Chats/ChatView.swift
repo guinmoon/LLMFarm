@@ -12,11 +12,11 @@ struct ChatView: View {
     
     @EnvironmentObject var aiChatModel: AIChatModel
     @EnvironmentObject var orientationInfo: OrientationInfo
-        
+    
     @State
     private var inputText: String = ""
-        
-        
+    
+    
     
     @Binding var model_name: String
     @Binding var chat_selection: String?
@@ -25,12 +25,21 @@ struct ChatView: View {
     @Binding var add_chat_dialog:Bool
     @Binding var edit_chat_dialog:Bool
     
+    @State private var scrollProxy: ScrollViewProxy? = nil
+    
     @Namespace var bottomID
     
     @FocusState
     private var isInputFieldFocused: Bool
     
-
+    func scrollToBottom() {
+        withAnimation {
+            let last_msg = aiChatModel.messages.last // try to fixscrolling and  specialized Array._checkSubscript(_:wasNativeTypeChecked:)
+            if last_msg != nil && last_msg?.id != nil{
+                scrollProxy?.scrollTo(last_msg?.id, anchor: .bottom)
+            }
+        }
+    }
     
     func reload() async{
         if chat_selection == nil {
@@ -45,19 +54,15 @@ struct ChatView: View {
     }
     
     var body: some View {
-        
         ScrollViewReader { scrollView in
             VStack {
                 List {
-                    ForEach(0..<aiChatModel.messages.count, id: \.self) { index in
-                        MessageView(message: aiChatModel.messages[index]).id(aiChatModel.messages[index].id)
+                    ForEach(aiChatModel.messages, id: \.id) { message in
+                        MessageView(message: message).id(message.id)
                     }
                     .listRowSeparator(.hidden)
                 }.onChange(of: aiChatModel.AI_typing){ ai_typing in
-                    let last_msg = aiChatModel.messages.last // try to fix specialized Array._checkSubscript(_:wasNativeTypeChecked:)
-                    if last_msg != nil && last_msg?.id != nil{
-                        scrollView.scrollTo(last_msg?.id, anchor: .bottom)
-                    }
+                    scrollToBottom()
                 }
                 .listStyle(PlainListStyle())
                 
@@ -72,8 +77,8 @@ struct ChatView: View {
                     case .completed:
                         TextField("Type your message...", text: $inputText)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
-//                            .focused($isInputFieldFocused)
-                            
+                        //                            .focused($isInputFieldFocused)
+                        
                         Button {
                             Task {
                                 let text = inputText
@@ -111,40 +116,36 @@ struct ChatView: View {
                     Image(systemName: "arrow.counterclockwise.circle")
                 }
                 .disabled(aiChatModel.predicting)
-//                .font(.title2)
+                //                .font(.title2)
                 
                 Button {
                     Task {
-//                        add_chat_dialog = true
+                        //                        add_chat_dialog = true
                         edit_chat_dialog = true
-//                        chat_selection = nil
+                        //                        chat_selection = nil
                     }
                 } label: {
                     Image(systemName: "slider.horizontal.3")
                 }
-//                .font(.title2)
+                //                .font(.title2)
             }
             .disabled(chat_selection == nil)
-            .task {// fix autoscroll
-                let last_msg = aiChatModel.messages.last // try to fix specialized Array._checkSubscript(_:wasNativeTypeChecked:)
-                if last_msg != nil && last_msg?.id != nil{
-                    scrollView.scrollTo(last_msg?.id, anchor: .bottom)
-                }
+            .onAppear(){
+                scrollProxy = scrollView
+                scrollToBottom()
             }
         }
         .onChange(of: chat_selection) { chat_name in
             Task {
-                
                 if chat_name == nil{
                     close_chat()
                 }
                 else{
-//                    isInputFieldFocused = true
+                    //                    isInputFieldFocused = true
                     await self.reload()
                 }
             }
         }
-        
     }
 }
 

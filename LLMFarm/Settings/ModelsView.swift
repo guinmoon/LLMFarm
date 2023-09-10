@@ -33,12 +33,12 @@ struct ModelsView: View {
         self.models_previews.removeAll(where: { $0 == elem })
     }
     
-    private func delayText() {
-            // Delay of 7.5 seconds
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+    private func delayIconChange() {
+        // Delay of 7.5 seconds
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             add_button_icon = "plus.app"
-            }
         }
+    }
     
     
     
@@ -77,7 +77,7 @@ struct ModelsView: View {
                                 copyModelToSandbox(url: model_file_url)
                                 modelImported = true
                                 add_button_icon = "checkmark"
-                                delayText()
+                                delayIconChange()
                                 models_previews = get_models_list()!
                                 
                             } catch {

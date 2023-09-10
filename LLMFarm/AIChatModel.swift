@@ -94,6 +94,12 @@ final class AIChatModel: ObservableObject {
             if (chat_config!["use_metal"] != nil){
                 model_context_param.use_metal = chat_config!["use_metal"] as! Bool
             }
+            if (chat_config!["mlock"] != nil){
+                model_context_param.useMlock = chat_config!["mlock"] as! Bool
+            }
+            if (chat_config!["mmap"] != nil){
+                model_context_param.useMMap = chat_config!["mmap"] as! Bool
+            }
             do{
                 if chat_config!["model_inference"] as! String == "llama"{
                     if modelURL.hasSuffix(".gguf"){

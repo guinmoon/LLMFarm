@@ -58,6 +58,9 @@ struct AddChatView: View {
     @Binding var add_chat_dialog: Bool
     @Binding var edit_chat_dialog: Bool
     //    @State private var model_file: InputDoument = InputDoument(input: "")
+    @State private var isPredictionAccordionExpanded: Bool = false
+    @State private var isSamplingAccordionExpanded: Bool = false
+    @State private var isPromptAccordionExpanded: Bool = false
     @State private var model_file_url: URL = URL(filePath: "/")
     @State private var model_file_name: String = ""
     @State private var model_file_path: String = "select model"
@@ -77,7 +80,11 @@ struct AddChatView: View {
     @State private var mirostat_tau: Float = 5.0
     @State private var mirostat_eta: Float = 0.1
     @State private var use_metal: Bool = false
+    @State private var mlock: Bool = false
+    @State private var mmap: Bool = true
     @State private var isImporting: Bool = false
+    @State private var tfs_z: Float = 1.0
+    @State private var typical_p: Float = 1.0
     var hardware_arch = Get_Machine_Hardware_Name()
     @Binding var renew_chat_list: () -> Void
     
@@ -131,6 +138,12 @@ struct AddChatView: View {
         if (chat_config!["use_metal"] != nil){
             self._use_metal = State(initialValue: chat_config!["use_metal"]! as! Bool)
         }
+        if (chat_config!["mlock"] != nil){
+            self._mlock = State(initialValue: chat_config!["mlock"]! as! Bool)
+        }
+        if (chat_config!["mmap"] != nil){
+            self._mmap = State(initialValue: chat_config!["mmap"]! as! Bool)
+        }
         if (chat_config!["prompt_format"] != nil){
             self._prompt_format = State(initialValue: chat_config!["prompt_format"]! as! String)
         }
@@ -181,6 +194,12 @@ struct AddChatView: View {
         }
         if (chat_config!["mirostat_eta"] != nil){
             self._mirostat_eta = State(initialValue: chat_config!["mirostat_eta"] as! Float)
+        }
+        if (chat_config!["tfs_z"] != nil){
+            self._tfs_z = State(initialValue: chat_config!["tfs_z"] as! Float)
+        }
+        if (chat_config!["typical_p"] != nil){
+            self._typical_p = State(initialValue: chat_config!["typical_p"] as! Float)
         }
     }
     
@@ -241,6 +260,8 @@ struct AddChatView: View {
                                                                    "icon":model_icon,
                                                                    "model_inference":model_inference,
                                                                    "use_metal":use_metal,
+                                                                   "mlock":mlock,
+                                                                   "mmap":mmap,
                                                                    "prompt_format":prompt_format,
                                                                    "warm_prompt":warm_prompt,
                                                                    "reverse_prompt":reverse_prompt,
@@ -254,7 +275,9 @@ struct AddChatView: View {
                                                                    "top_p":Float(model_top_p),
                                                                    "mirostat":mirostat,
                                                                    "mirostat_eta":mirostat_eta,
-                                                                   "mirostat_tau":mirostat_tau
+                                                                   "mirostat_tau":mirostat_tau,
+                                                                   "tfs_z":tfs_z,
+                                                                   "typical_p":typical_p
                             ]
                             _ = create_chat(options,edit_chat_dialog:self.edit_chat_dialog,chat_name:self.chat_name)
                             if add_chat_dialog {
@@ -342,12 +365,19 @@ struct AddChatView: View {
                             VStack {
                                 Picker("", selection: $model_icon) {
                                     ForEach(model_icons, id: \.self) {
-                                        Text($0)
+//                                        Text($0)
+                                        Image($0+"_48")
+                                            .resizable()
+                                            .background( Color("color_bg_inverted").opacity(0.05))
+                                            .padding(EdgeInsets(top: 7, leading: 5, bottom: 7, trailing: 5))
+                                            .frame(width: 48, height: 48)
+                                            .clipShape(Circle())
                                     }
                                 }
                                 .pickerStyle(.menu)
                             }
-                            .frame(maxWidth: .infinity, alignment: .trailing)
+                            .frame(maxWidth: 80, alignment: .trailing)
+                            .frame(height: 48)
                         }.padding()
                         Divider()
                             .padding(.top, 8)
@@ -382,232 +412,283 @@ struct AddChatView: View {
                         .padding(.horizontal)
                         .padding(.top, 8)
                         
-                        HStack {
-                            Toggle("Use Metal", isOn: $use_metal)
-                        }
-                        .disabled(self.model_inference != "llama" || hardware_arch=="x86_64")
-                        .padding()
                         
-                        Group {
-                            //                            VStack {
-                            //                                Text("Warm prompt:")
-                            //                                    .frame(maxWidth: .infinity, alignment: .leading)
-                            //                                TextField("prompt..", text: $warm_prompt, axis: .vertical)
-                            //                                    .lineLimit(2)
-                            //
-                            //                                    .textFieldStyle(.roundedBorder)
-                            //                                    .frame( alignment: .leading)
-                            //                                //                                .multilineTextAlignment(.trailing)
-                            //                                //                                .textFieldStyle(.plain)
-                            //                            }
-                            //                            .padding(.horizontal)
-                            
-                            VStack {
-                                Text("Prompt format:")
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                TextEditor(text: $prompt_format)
-//                                TextField("prompt..", text: $prompt_format, axis: .vertical)
-//                                    .lineLimit(2)
-//                                    .textFieldStyle(.roundedBorder)
-//                                    .frame( alignment: .leading)
-                                //                                .multilineTextAlignment(.trailing)
-                                //                                .textFieldStyle(.plain)
-                            }
-                            .padding(.top, 8)
-                            .padding(.horizontal)
-                            
-                            VStack {
-                                Text("Reverse prompt:")
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-#if os(macOS)
-                                DidEndEditingTextField(text: $reverse_prompt, didEndEditing: { newName in})
-                                    .frame( alignment: .leading)
-#else
-                                TextField("prompt..", text: $reverse_prompt, axis: .vertical)
-                                    .lineLimit(2)
-                                    .textFieldStyle(.roundedBorder)
-                                    .frame( alignment: .leading)
-#endif
-                                //                                .multilineTextAlignment(.trailing)
-                                //                                .textFieldStyle(.plain)
-                            }
-                            .padding(.top, 8)
-                            .padding(.horizontal)
-                            
-                            Divider()
-                                .padding(.top, 8)
-                        }
-                        Group {
-                            HStack {
-                                Text("Threads:")
-                                    .frame(maxWidth: 75, alignment: .leading)
-                                TextField("count..", value: $numberOfThreads, format:.number)
-                                    .frame( alignment: .leading)
-                                    .multilineTextAlignment(.trailing)
-                                    .textFieldStyle(.plain)
-#if os(iOS)
-                                    .keyboardType(.numberPad)
-#endif
-                            }
-                            .padding()
-                            
-                            HStack {
-                                Text("Context:")
-                                    .frame(maxWidth: 75, alignment: .leading)
-                                TextField("size..", value: $model_context, format:.number)
-                                    .frame( alignment: .leading)
-                                    .multilineTextAlignment(.trailing)
-                                    .textFieldStyle(.plain)
-#if os(iOS)
-                                    .keyboardType(.numberPad)
-#endif
-                            }
-                            .padding(.horizontal)
-                            
-                            HStack {
-                                Text("N_Batch:")
-                                    .frame(maxWidth: 75, alignment: .leading)
-                                TextField("size..", value: $model_n_batch, format:.number)
-                                    .frame( alignment: .leading)
-                                    .multilineTextAlignment(.trailing)
-                                    .textFieldStyle(.plain)
-#if os(iOS)
-                                    .keyboardType(.numberPad)
-#endif
-                            }
-                            .padding(.horizontal)
-                            
-                            HStack{
-                                Text("Sampling:")
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                Picker("", selection: $model_sampling) {
-                                    ForEach(model_samplings, id: \.self) {
-                                        Text($0)
-                                    }
-                                }
-                                .pickerStyle(.menu)
-                                .onChange(of: model_sampling) { sampling in
-                                    if sampling == "temperature" {
-                                        mirostat = 0
-                                    }
-                                    if sampling == "greedy" {
-                                        mirostat = 0
-                                        model_temp = 0
-                                    }
-                                    if sampling == "mirostat" {
-                                        mirostat = 1
-                                    }
-                                    if sampling == "mirostat_v2" {
-                                        mirostat = 2
-                                    }
-                                }
+                        DisclosureGroup("Prompt format:", isExpanded: $isPromptAccordionExpanded) {
+                            Group {
+                                //                            VStack {
+                                //                                Text("Warm prompt:")
+                                //                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                //                                TextField("prompt..", text: $warm_prompt, axis: .vertical)
+                                //                                    .lineLimit(2)
                                 //
+                                //                                    .textFieldStyle(.roundedBorder)
+                                //                                    .frame( alignment: .leading)
+                                //                                //                                .multilineTextAlignment(.trailing)
+                                //                                //                                .textFieldStyle(.plain)
+                                //                            }
+                                //                            .padding(.horizontal)
+                                
+                                VStack {
+                                    Text("Format:")
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                    TextEditor(text: $prompt_format)
+                                        .frame(minHeight: 30)
+                                    //                                TextField("prompt..", text: $prompt_format, axis: .vertical)
+                                    //                                    .lineLimit(2)
+                                    //                                    .textFieldStyle(.roundedBorder)
+                                    //                                    .frame( alignment: .leading)
+                                    //                                .multilineTextAlignment(.trailing)
+                                    //                                .textFieldStyle(.plain)
+                                }
+                                .padding(.top, 8)
+                                .padding(.horizontal)
+                                
+                                VStack {
+                                    Text("Reverse prompt:")
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+#if os(macOS)
+                                    DidEndEditingTextField(text: $reverse_prompt, didEndEditing: { newName in})
+                                        .frame( alignment: .leading)
+#else
+                                    TextField("prompt..", text: $reverse_prompt, axis: .vertical)
+                                        .lineLimit(2)
+                                        .textFieldStyle(.roundedBorder)
+                                        .frame( alignment: .leading)
+#endif
+                                    //                                .multilineTextAlignment(.trailing)
+                                    //                                .textFieldStyle(.plain)
+                                }
+                                .padding(.top, 8)
+                                .padding(.horizontal)
+                                
+                                Divider()
+                                    .padding(.top, 8)
                             }
-                            .padding(.horizontal)
-                            .padding(.top, 8)
-                        }
-                        Group {
-                            if model_sampling == "temperature" {
-                                Group {
-                                    HStack {
-                                        Text("Temp:")
-                                            .frame(maxWidth: 75, alignment: .leading)
-                                        TextField("size..", value: $model_temp, format:.number)
-                                            .frame( alignment: .leading)
-                                            .multilineTextAlignment(.trailing)
-                                            .textFieldStyle(.plain)
-#if os(iOS)
-                                            .keyboardType(.numbersAndPunctuation)
-#endif
+                        }.padding()
+                        
+                        DisclosureGroup("Prediction options:", isExpanded: $isPredictionAccordionExpanded) {
+                            Group {
+                                HStack {
+                                    Text("Threads:")
+                                        .frame(maxWidth: 75, alignment: .leading)
+                                    TextField("count..", value: $numberOfThreads, format:.number)
+                                        .frame( alignment: .leading)
+                                        .multilineTextAlignment(.trailing)
+                                        .textFieldStyle(.plain)
+    #if os(iOS)
+                                        .keyboardType(.numberPad)
+    #endif
+                                }
+                                .padding(.horizontal)
+                                .padding(.top, 5)
+                                
+                                HStack {
+                                    Toggle("Metal", isOn: $use_metal)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .disabled(self.model_inference != "llama" || hardware_arch=="x86_64")
+                                }
+                                .padding(.horizontal)
+                                .padding(.bottom, 4)
+                                
+                                HStack {
+                                    Toggle("MLock", isOn: $mlock)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .disabled(self.model_inference != "llama")
+                                    Toggle("MMap", isOn: $mmap)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .disabled(self.model_inference != "llama")
+                                }
+                                .padding(.horizontal)
+                                .padding(.bottom, 4)
+                                
+                                HStack {
+                                    Text("Context:")
+                                        .frame(maxWidth: 75, alignment: .leading)
+                                    TextField("size..", value: $model_context, format:.number)
+                                        .frame( alignment: .leading)
+                                        .multilineTextAlignment(.trailing)
+                                        .textFieldStyle(.plain)
+    #if os(iOS)
+                                        .keyboardType(.numberPad)
+    #endif
+                                }
+                                .padding(.horizontal)
+                                
+                                HStack {
+                                    Text("N_Batch:")
+                                        .frame(maxWidth: 75, alignment: .leading)
+                                    TextField("size..", value: $model_n_batch, format:.number)
+                                        .frame( alignment: .leading)
+                                        .multilineTextAlignment(.trailing)
+                                        .textFieldStyle(.plain)
+    #if os(iOS)
+                                        .keyboardType(.numberPad)
+    #endif
+                                }
+                                .padding(.horizontal)
+                            }
+                        }.padding()
+                        
+                        DisclosureGroup("Sampling options:", isExpanded: $isSamplingAccordionExpanded) {
+                            Group {
+                                HStack{
+                                    Text("Sampling:")
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                    Picker("", selection: $model_sampling) {
+                                        ForEach(model_samplings, id: \.self) {
+                                            Text($0)
+                                        }
                                     }
-                                    .padding(.horizontal)
-                                    
-                                    HStack {
-                                        Text("Top_k:")
-                                            .frame(maxWidth: 75, alignment: .leading)
-                                        TextField("size..", value: $model_top_k, format:.number)
-                                            .frame( alignment: .leading)
-                                            .multilineTextAlignment(.trailing)
-                                            .textFieldStyle(.plain)
-#if os(iOS)
-                                            .keyboardType(.numberPad)
-#endif
+                                    .pickerStyle(.menu)
+                                    .onChange(of: model_sampling) { sampling in
+                                        if sampling == "temperature" {
+                                            mirostat = 0
+                                        }
+                                        if sampling == "greedy" {
+                                            mirostat = 0
+                                            model_temp = 0
+                                        }
+                                        if sampling == "mirostat" {
+                                            mirostat = 1
+                                        }
+                                        if sampling == "mirostat_v2" {
+                                            mirostat = 2
+                                        }
                                     }
-                                    .padding(.horizontal)
-                                    
-                                    HStack {
-                                        Text("Top_p:")
-                                            .frame(maxWidth: 75, alignment: .leading)
-                                        TextField("size..", value: $model_top_p, format:.number)
-                                            .frame( alignment: .leading)
-                                            .multilineTextAlignment(.trailing)
-                                            .textFieldStyle(.plain)
+                                    //
+                                }
+                                .padding(.horizontal)
+                                .padding(.top, 8)
+                                
+                                if model_sampling == "temperature" {
+                                    Group {
+                                        
+                                        HStack {
+                                            Text("Repeat last N:")
+                                                .frame(maxWidth: 100, alignment: .leading)
+                                            TextField("count..", value: $model_repeat_last_n, format:.number)
+                                                .frame( alignment: .leading)
+                                                .multilineTextAlignment(.trailing)
+                                                .textFieldStyle(.plain)
 #if os(iOS)
-                                            .keyboardType(.numbersAndPunctuation)
+                                                .keyboardType(.numberPad)
 #endif
-                                    }
-                                    .padding(.horizontal)
-                                    
-                                    HStack {
-                                        Text("Repeat last N:")
-                                            .frame(maxWidth: 75, alignment: .leading)
-                                        TextField("count..", value: $model_repeat_last_n, format:.number)
-                                            .frame( alignment: .leading)
-                                            .multilineTextAlignment(.trailing)
-                                            .textFieldStyle(.plain)
+                                        }
+                                        .padding(.horizontal)
+                                        
+                                        HStack {
+                                            Text("Repeat Penalty:")
+                                                .frame(maxWidth: 100, alignment: .leading)
+                                            TextField("size..", value: $model_repeat_penalty, format:.number)
+                                                .frame( alignment: .leading)
+                                                .multilineTextAlignment(.trailing)
+                                                .textFieldStyle(.plain)
 #if os(iOS)
-                                            .keyboardType(.numberPad)
+                                                .keyboardType(.numbersAndPunctuation)
 #endif
-                                    }
-                                    .padding(.horizontal)
-                                    
-                                    HStack {
-                                        Text("Repeat Penalty:")
-                                            .frame(maxWidth: 75, alignment: .leading)
-                                        TextField("size..", value: $model_repeat_penalty, format:.number)
-                                            .frame( alignment: .leading)
-                                            .multilineTextAlignment(.trailing)
-                                            .textFieldStyle(.plain)
+                                        }
+                                        .padding(.horizontal)
+                                        
+                                        HStack {
+                                            Text("Temp:")
+                                                .frame(maxWidth: 75, alignment: .leading)
+                                            TextField("size..", value: $model_temp, format:.number)
+                                                .frame( alignment: .leading)
+                                                .multilineTextAlignment(.trailing)
+                                                .textFieldStyle(.plain)
 #if os(iOS)
-                                            .keyboardType(.numbersAndPunctuation)
+                                                .keyboardType(.numbersAndPunctuation)
 #endif
+                                        }
+                                        .padding(.horizontal)
+                                        
+                                        HStack {
+                                            Text("Top_k:")
+                                                .frame(maxWidth: 75, alignment: .leading)
+                                            TextField("val..", value: $model_top_k, format:.number)
+                                                .frame( alignment: .leading)
+                                                .multilineTextAlignment(.trailing)
+                                                .textFieldStyle(.plain)
+#if os(iOS)
+                                                .keyboardType(.numberPad)
+#endif
+                                        }
+                                        .padding(.horizontal)
+                                        
+                                        HStack {
+                                            Text("Top_p:")
+                                                .frame(maxWidth: 95, alignment: .leading)
+                                            TextField("val..", value: $model_top_p, format:.number)
+                                                .frame( alignment: .leading)
+                                                .multilineTextAlignment(.trailing)
+                                                .textFieldStyle(.plain)
+#if os(iOS)
+                                                .keyboardType(.numbersAndPunctuation)
+#endif
+                                        }
+                                        .padding(.horizontal)
+                                        
+                                        
+                                        HStack {
+                                            Text("Tail Free Z:")
+                                                .frame(maxWidth: 100, alignment: .leading)
+                                            TextField("val..", value: $tfs_z, format:.number)
+                                                .frame( alignment: .leading)
+                                                .multilineTextAlignment(.trailing)
+                                                .textFieldStyle(.plain)
+#if os(iOS)
+                                                .keyboardType(.numbersAndPunctuation)
+#endif
+                                        }
+                                        .padding(.horizontal)
+                                        
+                                        HStack {
+                                            Text("Locally Typical N:")
+                                                .frame(maxWidth: 140, alignment: .leading)
+                                            TextField("val..", value: $typical_p, format:.number)
+                                                .frame( alignment: .leading)
+                                                .multilineTextAlignment(.trailing)
+                                                .textFieldStyle(.plain)
+#if os(iOS)
+                                                .keyboardType(.numbersAndPunctuation)
+#endif
+                                        }
+                                        .padding(.horizontal)
+                                        
                                     }
-                                    .padding(.horizontal)
-                                    
-                                    
+                                }
+                                
+                                if model_sampling == "mirostat" || model_sampling == "mirostat_v2" {
+                                    Group {
+                                        HStack {
+                                            Text("Mirostat_eta:")
+                                                .frame(maxWidth: 100, alignment: .leading)
+                                            TextField("val..", value: $mirostat_eta, format:.number)
+                                                .frame( alignment: .leading)
+                                                .multilineTextAlignment(.trailing)
+                                                .textFieldStyle(.plain)
+#if os(iOS)
+                                                .keyboardType(.numbersAndPunctuation)
+#endif
+                                        }
+                                        .padding(.horizontal)
+                                        
+                                        HStack {
+                                            Text("Mirostat_tau:")
+                                                .frame(maxWidth: 100, alignment: .leading)
+                                            TextField("val..", value: $mirostat_tau, format:.number)
+                                                .frame( alignment: .leading)
+                                                .multilineTextAlignment(.trailing)
+                                                .textFieldStyle(.plain)
+#if os(iOS)
+                                                .keyboardType(.numbersAndPunctuation)
+#endif
+                                        }
+                                        .padding(.horizontal)
+                                    }
                                 }
                             }
-                            
-                            if model_sampling == "mirostat" || model_sampling == "mirostat_v2" {
-                                Group {
-                                    HStack {
-                                        Text("Mirostat_eta:")
-                                            .frame(maxWidth: 84, alignment: .leading)
-                                        TextField("val..", value: $mirostat_eta, format:.number)
-                                            .frame( alignment: .leading)
-                                            .multilineTextAlignment(.trailing)
-                                            .textFieldStyle(.plain)
-#if os(iOS)
-                                            .keyboardType(.numbersAndPunctuation)
-#endif
-                                    }
-                                    .padding(.horizontal)
-                                    
-                                    HStack {
-                                        Text("Mirostat_tau:")
-                                            .frame(maxWidth: 85, alignment: .leading)
-                                        TextField("val..", value: $mirostat_tau, format:.number)
-                                            .frame( alignment: .leading)
-                                            .multilineTextAlignment(.trailing)
-                                            .textFieldStyle(.plain)
-#if os(iOS)
-                                            .keyboardType(.numbersAndPunctuation)
-#endif
-                                    }
-                                    .padding(.horizontal)
-                                }
-                            }
-                        }
+                        }.padding()
                     }
                 }
             }

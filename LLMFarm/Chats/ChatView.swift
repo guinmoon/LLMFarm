@@ -24,6 +24,7 @@ struct ChatView: View {
     var close_chat: () -> Void
     @Binding var add_chat_dialog:Bool
     @Binding var edit_chat_dialog:Bool
+    @State private var reload_button_icon: String = "arrow.counterclockwise.circle"
     
     @State private var scrollProxy: ScrollViewProxy? = nil
     
@@ -57,6 +58,13 @@ struct ChatView: View {
         aiChatModel.AI_typing = -Int.random(in: 0..<100000)
     }
     
+    private func delayIconChange() {
+        // Delay of 7.5 seconds
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            reload_button_icon = "arrow.counterclockwise.circle"
+        }
+    }
+    
     var body: some View {
         ScrollViewReader { scrollView in
             VStack {
@@ -66,10 +74,14 @@ struct ChatView: View {
                     }
                     .listRowSeparator(.hidden)
                 }.onChange(of: aiChatModel.AI_typing){ ai_typing in
-                    scrollToBottom(with_animation: true)
+                    if (aiChatModel.predicting){
+                        scrollToBottom(with_animation: true)
+                    }else{
+                        scrollToBottom(with_animation: false)
+                    }
                 }
                 .listStyle(PlainListStyle())
-                
+                                                
                 HStack {
                     switch aiChatModel.state {
                     case .none:
@@ -79,50 +91,59 @@ struct ChatView: View {
                             Text("Loading...")
                         }
                     case .completed:
+                        HStack{
 #if os(macOS)
-                                DidEndEditingTextField(text: $inputText, didEndEditing: { input in})
-//                                    .frame( alignment: .leading)
+                            DidEndEditingTextField(text: $inputText, didEndEditing: { input in})
+                            //                                    .frame( alignment: .leading)
 #else
-                        TextField("Type your message...", text: $inputText)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                        //                            .focused($isInputFieldFocused)
+                            TextField("Type your message...", text: $inputText)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                            //                            .focused($isInputFieldFocused)
 #endif
-                        
-                        Button {
-                            Task {
-                                let text = inputText
-                                inputText = ""
-                                if (aiChatModel.predicting){
-                                    aiChatModel.stop_predict()
-                                }else
-                                {
-                                    await aiChatModel.send(message: text)
+                            
+                            Button {
+                                Task {
+                                    let text = inputText
+                                    inputText = ""
+                                    if (aiChatModel.predicting){
+                                        aiChatModel.stop_predict()
+                                    }else
+                                    {
+                                        await aiChatModel.send(message: text)
+                                    }
                                 }
+                            } label: {
+                                Image(systemName: aiChatModel.action_button_icon)
                             }
-                        } label: {
-                            Image(systemName: aiChatModel.action_button_icon)
-                        }
-                        .padding(.horizontal, 6.0)
-                        .disabled((inputText.isEmpty && !aiChatModel.predicting))
-                        .keyboardShortcut(.defaultAction)
+                            .padding(.horizontal, 6.0)
+                            .disabled((inputText.isEmpty && !aiChatModel.predicting))
+                            .keyboardShortcut(.defaultAction)
 #if os(macOS)
-                        .buttonStyle(.borderedProminent)
-                        .controlSize(.large)
+                            .buttonStyle(.borderedProminent)
+                            .controlSize(.large)
 #endif
+                        }
+                        .padding(.leading, 10)
+                        .padding(.trailing, 5)
+                        .padding(.bottom, 5)
                     }
                 }
-                .padding(.bottom)
-                .padding(.leading)
-                .padding(.trailing)
+                .frame(height:50)
+                .background(.regularMaterial)
+//                .padding(.bottom)
+//                .padding(.leading)
+//                .padding(.trailing)
             }
             .navigationTitle($title)
             .toolbar {
                 Button {
                     Task {
                         self.aiChatModel.chat = nil
+                        reload_button_icon = "checkmark"
+                        delayIconChange()
                     }
                 } label: {
-                    Image(systemName: "arrow.counterclockwise.circle")
+                    Image(systemName: reload_button_icon)
                 }
                 .disabled(aiChatModel.predicting)
                 //                .font(.title2)
@@ -141,7 +162,7 @@ struct ChatView: View {
             .disabled(chat_selection == nil)
             .onAppear(){
                 scrollProxy = scrollView
-                scrollToBottom()
+                scrollToBottom(with_animation: false)
             }
         }
         .onChange(of: chat_selection) { chat_name in

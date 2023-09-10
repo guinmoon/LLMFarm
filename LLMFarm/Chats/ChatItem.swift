@@ -60,7 +60,7 @@ struct ChatItem: View {
             }
             .buttonStyle(.borderless)
             #if os(macOS)
-            .padding(.vertical, 8)
+            .padding(.vertical, 4)
             #else
             .padding(.horizontal, 0)
             #endif

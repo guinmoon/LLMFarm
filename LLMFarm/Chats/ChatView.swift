@@ -127,13 +127,13 @@ struct ChatView: View {
                 .onChange(of: aiChatModel.AI_typing){ ai_typing in
 //                .onChange(of: aiChatModel.messages.count){ count in
                     // Fix for theese https://developer.apple.com/forums/thread/712510
-                    if #available(macOS 13.0, *){
+#if os(macOS)
                         if (aiChatModel.predicting){
                             scrollToBottom(with_animation: true)
                         }else{
                             scrollToBottom(with_animation: false)
                         }
-                    }
+#endif
                     if #available(iOS 16.4, *){
                         if (aiChatModel.predicting){
                             scrollToBottom(with_animation: true)
@@ -176,9 +176,9 @@ struct ChatView: View {
             .disabled(chat_selection == nil)
             .onAppear(){
                 scrollProxy = scrollView
-                if #available(macOS 13.0, *){
+                #if os(macOS)
                     scrollToBottom(with_animation: false)
-                }
+                #endif
                 if #available(iOS 16.4, *) {
                     scrollToBottom(with_animation: false)
                 }

@@ -359,7 +359,7 @@ func load_chat_history(_ fname:String) -> [Message]?{
     }
     catch {
         // handle error
-        var a=1
+        print(error)
     }
     return res
 }

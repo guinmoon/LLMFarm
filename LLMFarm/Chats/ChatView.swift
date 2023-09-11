@@ -28,6 +28,8 @@ struct ChatView: View {
     
     @State private var scrollProxy: ScrollViewProxy? = nil
     
+    @State private var scrollTarget: Int?
+    
     @Namespace var bottomID
     
     @FocusState
@@ -35,7 +37,7 @@ struct ChatView: View {
     
     func scrollToBottom(with_animation:Bool = false) {
         let last_msg = aiChatModel.messages.last // try to fixscrolling and  specialized Array._checkSubscript(_:wasNativeTypeChecked:)
-        if last_msg != nil && last_msg?.id != nil{
+        if last_msg != nil && last_msg?.id != nil && scrollProxy != nil{
             if with_animation{
                 withAnimation {
                     scrollProxy?.scrollTo(last_msg?.id, anchor: .bottom)
@@ -73,12 +75,6 @@ struct ChatView: View {
                         MessageView(message: message).id(message.id)
                     }
                     .listRowSeparator(.hidden)
-                }.onChange(of: aiChatModel.AI_typing){ ai_typing in
-                    if (aiChatModel.predicting){
-                        scrollToBottom(with_animation: true)
-                    }else{
-                        scrollToBottom(with_animation: false)
-                    }
                 }
                 .listStyle(PlainListStyle())
                                                 
@@ -128,6 +124,17 @@ struct ChatView: View {
                         .padding(.bottom, 5)
                     }
                 }
+                .onChange(of: aiChatModel.AI_typing){ ai_typing in
+//                .onChange(of: aiChatModel.messages.count){ count in
+                    // Fix for theese https://developer.apple.com/forums/thread/712510
+                    if #available(iOS 16.4, *) {
+                        if (aiChatModel.predicting){
+                            scrollToBottom(with_animation: true)
+                        }else{
+                            scrollToBottom(with_animation: false)
+                        }
+                    }
+                }
                 .frame(height:50)
                 .background(.regularMaterial)
 //                .padding(.bottom)
@@ -162,7 +169,9 @@ struct ChatView: View {
             .disabled(chat_selection == nil)
             .onAppear(){
                 scrollProxy = scrollView
-                scrollToBottom(with_animation: false)
+                if #available(iOS 16.4, *) {
+                    scrollToBottom(with_animation: false)
+                }
             }
         }
         .onChange(of: chat_selection) { chat_name in

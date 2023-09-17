@@ -41,9 +41,11 @@ struct ChatView: View {
             if with_animation{
                 withAnimation {
                     scrollProxy?.scrollTo(last_msg?.id, anchor: .bottom)
+//                    scrollProxy?.scrollTo("latest", anchor: .bottom)
                 }
             }else{
                 scrollProxy?.scrollTo(last_msg?.id, anchor: .bottom)
+//                scrollProxy?.scrollTo("latest", anchor: .bottom)
             }
         }
     }
@@ -75,6 +77,7 @@ struct ChatView: View {
                         MessageView(message: message).id(message.id)
                     }
                     .listRowSeparator(.hidden)
+                    Text("").id("latest")
                 }
                 .listStyle(PlainListStyle())
                                                 

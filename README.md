@@ -28,7 +28,7 @@ Also used sources from:
 - [x] MacOS (13+)
 - [x] iOS (16+)
 - [x] Various inferences
-- [x] Metal for llama inference (MacOS and iOS) ([dont work](https://github.com/ggerganov/llama.cpp/issues/2407#issuecomment-1699544808) on intel Mac)
+- [x] Metal for llama inference ([dont work](https://github.com/ggerganov/llama.cpp/issues/2407#issuecomment-1699544808) on intel Mac)
 - [x] Model setting templates
 - [x] Sampling from llama.cpp for other inference
 - [ ] classifier-free guidance sampling from llama.cpp 

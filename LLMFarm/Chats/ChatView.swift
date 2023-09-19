@@ -40,12 +40,12 @@ struct ChatView: View {
         if last_msg != nil && last_msg?.id != nil && scrollProxy != nil{
             if with_animation{
                 withAnimation {
-                    scrollProxy?.scrollTo(last_msg?.id, anchor: .bottom)
-//                    scrollProxy?.scrollTo("latest", anchor: .bottom)
+//                    scrollProxy?.scrollTo(last_msg?.id, anchor: .bottom)
+                    scrollProxy?.scrollTo("latest", anchor: .bottom)
                 }
             }else{
-                scrollProxy?.scrollTo(last_msg?.id, anchor: .bottom)
-//                scrollProxy?.scrollTo("latest", anchor: .bottom)
+//                scrollProxy?.scrollTo(last_msg?.id, anchor: .bottom)
+                scrollProxy?.scrollTo("latest", anchor: .bottom)
             }
         }
     }

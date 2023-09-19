@@ -6,7 +6,8 @@
 //
 
 import SwiftUI
-
+import Darwin
+//import llmfarm_core_cpp
 
 
 
@@ -22,11 +23,11 @@ struct LLMFarmApp: App {
     @State private var chat_selection: String?
     @State var renew_chat_list: () -> Void = {}
     @State var tabIndex: Int = 0
+//    var set_res = setSignalHandler()
     
     func close_chat() -> Void{
         aiChatModel.stop_predict()
     }
-    
     
     var body: some Scene {
         WindowGroup {

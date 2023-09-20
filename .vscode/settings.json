@@ -5,6 +5,12 @@
         "utility": "cpp",
         "fstream": "cpp",
         "string": "cpp",
-        "k_quants_dadbed9.h": "c"
+        "k_quants_dadbed9.h": "c",
+        "ggml.h": "c",
+        "stdarg.h": "c",
+        "ggml-alloc.h": "c",
+        "ggml_d925ed-alloc.h": "c",
+        "ggml_d925ed.h": "c",
+        "assert.h": "c"
     }
 }

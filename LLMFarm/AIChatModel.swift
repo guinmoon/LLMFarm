@@ -304,6 +304,10 @@ final class AIChatModel: ObservableObject {
                 self.predicting = false
                 self.numberOfTokens = 0
                 self.action_button_icon = "paperplane"
+                if final_str == "/[Error]/"{
+                    let message = Message(sender: .system, state: .error, text: "Eval Error")
+                    self.messages.append(message)
+                }
                 save_chat_history(self.messages,self.chat_name+".json")
             })
             

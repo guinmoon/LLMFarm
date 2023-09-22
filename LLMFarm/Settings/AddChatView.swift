@@ -309,7 +309,7 @@ struct AddChatView: View {
                                 
                                 Divider()
                                 
-                                Section("Primary Actions") {
+                                Section("Avalible models") {
                                     ForEach(models_previews, id: \.self) { model in
                                         Button(model["file_name"]!){
                                             model_file_name = model["file_name"]!
@@ -485,7 +485,7 @@ struct AddChatView: View {
                                 HStack {
                                     Toggle("Metal", isOn: $use_metal)
                                         .frame(maxWidth: .infinity, alignment: .leading)
-                                        .disabled(self.model_inference != "llama" || hardware_arch=="x86_64")
+                                        .disabled((self.model_inference != "llama" /*&& self.model_inference != "rwkv"*/) || hardware_arch=="x86_64")
                                 }
                                 .padding(.horizontal)
                                 .padding(.bottom, 4)

@@ -56,15 +56,15 @@ func main(){
 //    modelInference = ModelInference.Starcoder
 //    input_text = "def qsort"
 //
-    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/q4_1-RWKV-4-Raven-1B5-v12-Eng.bin"
-//    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/RWKV-4-MIDI-120M-v1-20230714-ctx4096-FP16.bin"
-//    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/Sources/rwkv.cpp-master-8db73b1/tests/tiny-rwkv-660K-FP16.bin"
-    modelInference = ModelInference.RWKV
-    input_text = "song about love"
+//    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/q4_1-RWKV-4-Raven-1B5-v12-Eng.bin"
+////    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/RWKV-4-MIDI-120M-v1-20230714-ctx4096-FP16.bin"
+////    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/Sources/rwkv.cpp-master-8db73b1/tests/tiny-rwkv-660K-FP16.bin"
+//    modelInference = ModelInference.RWKV
+//    input_text = "song about love"
     
-    //ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-3b.ggmlv3.q4_1.bin
-//    ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/orca-mini-3b-q4_1.gguf"
-//    modelInference = ModelInference.LLama_gguf
+//    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-3b.ggmlv3.q4_1.bin"
+    ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/orca-mini-3b-q4_1.gguf"
+    modelInference = ModelInference.LLama_gguf
     
     
     var params:ModelContextParams = .default

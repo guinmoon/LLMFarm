@@ -18,6 +18,7 @@
 		1568E3CE2A8BF86200930CC9 /* BottomPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1568E3CD2A8BF86200930CC9 /* BottomPanel.swift */; };
 		156A48D02A52B55B007DF519 /* SplitViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156A48CF2A52B55B007DF519 /* SplitViews.swift */; };
 		156A48D22A52B65C007DF519 /* Orientation_helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156A48D12A52B65C007DF519 /* Orientation_helper.swift */; };
+		157EFB062ABF3209001E0C7A /* llama chat 2 7B new.json in Resources */ = {isa = PBXBuildFile; fileRef = 157EFB052ABF3209001E0C7A /* llama chat 2 7B new.json */; };
 		158FC6DB2AA3457A00A181B4 /* log_helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158FC6DA2AA3457A00A181B4 /* log_helper.swift */; };
 		159650ED2A49F8280007BE5C /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61E38F329B1F0BA00114C15 /* Accelerate.framework */; };
 		159650F12A49F8400007BE5C /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 159650EE2A49F8400007BE5C /* MetalKit.framework */; };
@@ -93,6 +94,7 @@
 		1568E3CD2A8BF86200930CC9 /* BottomPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomPanel.swift; sourceTree = "<group>"; };
 		156A48CF2A52B55B007DF519 /* SplitViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViews.swift; sourceTree = "<group>"; };
 		156A48D12A52B65C007DF519 /* Orientation_helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Orientation_helper.swift; sourceTree = "<group>"; };
+		157EFB052ABF3209001E0C7A /* llama chat 2 7B new.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "llama chat 2 7B new.json"; sourceTree = "<group>"; };
 		158FC6DA2AA3457A00A181B4 /* log_helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = log_helper.swift; sourceTree = "<group>"; };
 		159650EE2A49F8400007BE5C /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
 		159650EF2A49F8400007BE5C /* MetalPerformanceShaders.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalPerformanceShaders.framework; path = System/Library/Frameworks/MetalPerformanceShaders.framework; sourceTree = SDKROOT; };
@@ -163,6 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				159C699A2A9A52D200F74913 /* llama chat 2 7B iphone 12.json */,
+				157EFB052ABF3209001E0C7A /* llama chat 2 7B new.json */,
 				1532BF7D2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json */,
 				1532BF7B2AA113AD006DC514 /* RWKV-4 Raven Eng.json */,
 				15141E3D2A6488A60060E767 /* cerebras 2.7b.json */,
@@ -396,6 +399,7 @@
 				15F210852A191B1B0021F414 /* Assets.xcassets in Resources */,
 				1532BF7E2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json in Resources */,
 				1532BF7C2AA113AD006DC514 /* RWKV-4 Raven Eng.json in Resources */,
+				157EFB062ABF3209001E0C7A /* llama chat 2 7B new.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

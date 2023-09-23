@@ -1,0 +1,12 @@
+{
+  "context" : 512,
+  "prompt_format" : "[INST] <<SYS>>\nYou are a helpful, respectful and honest assistant. Always answer as helpfully as possible.  If you don't know the answer to a question, please don't share false information.\n<</SYS>>\n{{prompt}}[/INST]",
+  "reverse_prompt": "",
+  "template_name" : "LLaMA 2 Chat 7B NEW",
+  "temp" : 0.89999997615814209,
+  "model_inference" : "llama",
+  "top_p" : 0.94999998807907104,
+  "n_batch" : 512,
+  "top_k" : 40,
+  "use_metal" : true
+}

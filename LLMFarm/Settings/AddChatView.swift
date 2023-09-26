@@ -85,6 +85,7 @@ struct AddChatView: View {
     @State private var isImporting: Bool = false
     @State private var tfs_z: Float = 1.0
     @State private var typical_p: Float = 1.0
+    @State private var grammar: String = "<None>"
     var hardware_arch = Get_Machine_Hardware_Name()
     @Binding var renew_chat_list: () -> Void
     
@@ -105,6 +106,9 @@ struct AddChatView: View {
     let model_icons = ["ava0","ava1","ava2","ava3","ava4","ava5","ava6","ava7"]
     
     @State var models_previews = get_models_list()!
+    
+    @State var grammars_previews = get_grammars_list()!
+    
     
     init(add_chat_dialog: Binding<Bool>,edit_chat_dialog:Binding<Bool>,
          renew_chat_list: Binding<() -> Void>) {
@@ -201,6 +205,9 @@ struct AddChatView: View {
         if (chat_config!["typical_p"] != nil){
             self._typical_p = State(initialValue: chat_config!["typical_p"] as! Float)
         }
+        if (chat_config!["grammar"] != nil){
+            self._grammar = State(initialValue: chat_config!["grammar"]! as! String)
+        }
     }
     
     func apply_setting_template(template:ModelSettingsTemplate){
@@ -277,7 +284,8 @@ struct AddChatView: View {
                                                                    "mirostat_eta":mirostat_eta,
                                                                    "mirostat_tau":mirostat_tau,
                                                                    "tfs_z":tfs_z,
-                                                                   "typical_p":typical_p
+                                                                   "typical_p":typical_p,
+                                                                   "grammar":grammar
                             ]
                             _ = create_chat(options,edit_chat_dialog:self.edit_chat_dialog,chat_name:self.chat_name)
                             if add_chat_dialog {
@@ -412,6 +420,21 @@ struct AddChatView: View {
                         .padding(.horizontal)
                         .padding(.top, 8)
                         
+                        if model_inference == "llama"{
+                            HStack{
+                                Text("Grammar sampling:")
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                Picker("", selection: $grammar) {
+                                    ForEach(grammars_previews, id: \.self) {
+                                        Text($0)
+                                    }
+                                }
+                                .pickerStyle(.menu)
+                                
+                            }
+                            .padding(.horizontal)
+                            .padding(.top, 8)
+                        }
                         
                         DisclosureGroup("Prompt format:", isExpanded: $isPromptAccordionExpanded) {
                             Group {
@@ -531,6 +554,7 @@ struct AddChatView: View {
                         
                         DisclosureGroup("Sampling options:", isExpanded: $isSamplingAccordionExpanded) {
                             Group {
+
                                 HStack{
                                     Text("Sampling:")
                                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -559,7 +583,7 @@ struct AddChatView: View {
                                 }
                                 .padding(.horizontal)
                                 .padding(.top, 8)
-                                
+
                                 if model_sampling == "temperature" {
                                     Group {
                                         

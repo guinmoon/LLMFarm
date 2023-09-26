@@ -239,6 +239,53 @@ public func get_models_list() -> [Dictionary<String, String>]?{
     return res
 }
 
+public func get_grammar_path_by_name(_ grammar_name:String) -> String?{
+    do {
+        let fileManager = FileManager.default
+        let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+        let destinationURL = documentsPath!.appendingPathComponent("grammars")
+        try fileManager.createDirectory (at: destinationURL, withIntermediateDirectories: true, attributes: nil)
+        let path = destinationURL.appendingPathComponent(grammar_name).path
+        if fileManager.fileExists(atPath: path){
+            return path
+        }else{
+            return nil
+        }
+        
+    } catch {
+        print(error)
+    }
+    return nil
+}
+
+public func get_grammars_list() -> [String]?{
+    var res: [String] = []
+    res.append("<None>")
+    do {
+//        var gbnf_path=Bundle.main.resourcePath!.appending("/grammars")
+//        let gbnf_files = try FileManager.default.contentsOfDirectory(atPath: gbnf_path)
+//        for gbnf_file in gbnf_files {
+//            let tmp_chat_info = ["file_name":gbnf_file,"location":"res"]
+//            res.append(tmp_chat_info)
+//        }
+        let fileManager = FileManager.default
+        let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+        let destinationURL = documentsPath!.appendingPathComponent("grammars")
+        try fileManager.createDirectory (at: destinationURL, withIntermediateDirectories: true, attributes: nil)
+        let files = try fileManager.contentsOfDirectory(atPath: destinationURL.path)
+        for gbnf_file in files {
+            if gbnf_file.hasSuffix(".gbnf"){
+//                let tmp_chat_info = ["file_name":gbnf_file,"location":"doc"]
+                res.append(gbnf_file)
+            }
+        }
+        return res
+    } catch {
+        // failed to read directory – bad permissions, perhaps?
+    }
+    return res
+}
+
 //func get_config_by_model_name(_ model_name:String) -> Dictionary<String, AnyObject>?{
 //    do {
 ////        let index = model_name.index(model_name.startIndex, offsetBy:model_name.count-4)

@@ -43,8 +43,8 @@ func main(){
     //    modelInference = ModelInference.GPTNeox
     ////
     //
-    //    ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/rp-incite-base-v1-3b-ggmlv3-q5_1.bin"
-    //    modelInference = ModelInference.GPTNeox
+//        ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/rp-incite-base-v1-3b-ggmlv3-q5_1.bin"
+//        modelInference = ModelInference.GPTNeox
     //
     //    ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/magicprompt-stable-diffusion-q5_1.bin"
     //    ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/cerebras-2.7b-ggjtv3-q4_0.bin"
@@ -57,21 +57,24 @@ func main(){
     //    modelInference = ModelInference.Starcoder
     //    input_text = "def qsort"
     //
-    //    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/q4_1-RWKV-4-Raven-1B5-v12-Eng.bin"
-    //    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/RWKV-4-MIDI-120M-v1-20230714-ctx4096-FP16.bin"
-    //    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/Sources/rwkv.cpp-master-8db73b1/tests/tiny-rwkv-660K-FP16.bin"
-    //    modelInference = ModelInference.RWKV
-    //    input_text = "song about love"
+        ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/q4_1-RWKV-4-Raven-1B5-v12-Eng.bin"
+//    //    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/RWKV-4-MIDI-120M-v1-20230714-ctx4096-FP16.bin"
+//    //    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/Sources/rwkv.cpp-master-8db73b1/tests/tiny-rwkv-660K-FP16.bin"
+        modelInference = ModelInference.RWKV
+//        input_text = "song about love"
     
     //    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-3b.ggmlv3.q4_1.bin"
     //    ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/llama-2-7b-chat-q4_K_M.gguf"
     //    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/openllama-3b-v2-q8_0.gguf"
-    ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/orca-mini-3b-q4_1.gguf"
-    modelInference = ModelInference.LLama_gguf
-    
-    
+//    ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/orca-mini-3b-q4_1.gguf"
+//    modelInference = ModelInference.LLama_gguf
+//
     var params:ModelContextParams = .default
-    params.use_metal = true
+//
+//    params.use_metal = true
+    
+//    params.grammar_path = "/Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/LLMFarm/grammars/list.gbnf"
+    input_text = "write to do list"
     
     do{
         try ai.loadModel(modelInference,contextParams: params)
@@ -80,27 +83,7 @@ func main(){
         return
     }
     
-    ////    try? set_promt_format(ai: &ai)
-    //    let exception = tryBlock {
-    //
-    ////        try? ai.model.promptFormat = .LLaMa
-    //
-    //    }
-    //
-    //    if exception != nil {
-    //        print(exception)
-    //        exit(1)
-    //    }
-    //
-    //
     
-    //    ai.model.promptFormat = .Custom
-    //    ai.model.custom_prompt_format = "Below is an instruction that describes a task. Write a response that appropriately completes the request.### Instruction:{{prompt}}### Response:"
-    ////
-    
-    
-    //    ai.model.contextParams.seed = 0;
-    //    ai.model.promptStyle = .StableLM_Tuned
     
     
     //    if (!params.lora_adapter.empty()) {
@@ -126,20 +109,20 @@ func main(){
 //### Response:
 //"""
 //    
-    input_text = """
-### User:
-Tell more
-
-### Response:
-"""
+//    input_text = """
+//### User:
+//Tell more
+//
+//### Response:
+//"""
 //    var tokens: [llama_token] = [Int32](repeating: 0, count: 256)
 //    var tokens_count:Int = 1
-    llama_load_state(ai.model.context,"/Users/guinmoon/dev/alpaca_llama_etc/dump_state_.bin")
+//    llama_load_state(ai.model.context,"/Users/guinmoon/dev/alpaca_llama_etc/dump_state_.bin")
 //    llama_load_session_file(ai.model.context,"/Users/guinmoon/dev/alpaca_llama_etc/dump_state.bin",tokens.mutPtr, 256,&tokens_count)
-    let prompt = input_text
-    let output = try? ai.model.predict(prompt, mainCallback)
+    
+    let output = try? ai.model.predict(input_text, mainCallback)
 //    llama_save_session_file(ai.model.context,"/Users/guinmoon/dev/alpaca_llama_etc/dump_state.bin",ai.model.session_tokens, ai.model.session_tokens.count)
-    llama_save_state(ai.model.context,"/Users/guinmoon/dev/alpaca_llama_etc/dump_state_.bin")
+//    llama_save_state(ai.model.context,"/Users/guinmoon/dev/alpaca_llama_etc/dump_state_.bin")
     //
     print(output!)
 }

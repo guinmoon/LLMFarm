@@ -102,6 +102,10 @@ final class AIChatModel: ObservableObject {
             }
             do{
                 if chat_config!["model_inference"] as! String == "llama"{
+                    if (chat_config!["grammar"] != nil && chat_config!["grammar"] as! String != "<None>" && chat_config!["grammar"] as! String != ""){
+                        let grammar_path = get_grammar_path_by_name(chat_config!["grammar"] as! String)
+                        model_context_param.grammar_path = grammar_path
+                    }
                     if modelURL.hasSuffix(".gguf"){
                         try model_load_res = self.chat?.loadModel(ModelInference.LLama_gguf,contextParams: model_context_param)
                     }else{

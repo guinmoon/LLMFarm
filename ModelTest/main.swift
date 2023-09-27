@@ -57,17 +57,17 @@ func main(){
     //    modelInference = ModelInference.Starcoder
     //    input_text = "def qsort"
     //
-        ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/q4_1-RWKV-4-Raven-1B5-v12-Eng.bin"
+//        ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/q4_1-RWKV-4-Raven-1B5-v12-Eng.bin"
 //    //    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/RWKV-4-MIDI-120M-v1-20230714-ctx4096-FP16.bin"
 //    //    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/Sources/rwkv.cpp-master-8db73b1/tests/tiny-rwkv-660K-FP16.bin"
-        modelInference = ModelInference.RWKV
+//        modelInference = ModelInference.RWKV
 //        input_text = "song about love"
     
     //    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-3b.ggmlv3.q4_1.bin"
     //    ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/llama-2-7b-chat-q4_K_M.gguf"
-    //    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/openllama-3b-v2-q8_0.gguf"
+        ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/openllama-3b-v2-q8_0.gguf"
 //    ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/orca-mini-3b-q4_1.gguf"
-//    modelInference = ModelInference.LLama_gguf
+    modelInference = ModelInference.LLama_gguf
 //
     var params:ModelContextParams = .default
 //
@@ -86,18 +86,6 @@ func main(){
     
     
     
-    //    if (!params.lora_adapter.empty()) {
-    //        int err = llama_model_apply_lora_from_file(model,
-    //                                             params.lora_adapter.c_str(),
-    //                                             params.lora_base.empty() ? NULL : params.lora_base.c_str(),
-    //                                             params.n_threads);
-    //        if (err != 0) {
-    //            fprintf(stderr, "%s: error: failed to apply lora adapter\n", __func__);
-    //            llama_free(lctx);
-    //            llama_free_model(model);
-    //            return std::make_tuple(nullptr, nullptr);
-    //        }
-    //    }
     
     
     //    input_text = "[INST] <<SYS>>\nYou are a helpful, respectful and honest assistant. Always answer as helpfully as possible.\n<</SYS>>\nTell about Stavropol in one sentence.[/INST]"

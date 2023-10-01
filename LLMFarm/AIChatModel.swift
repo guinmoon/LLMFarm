@@ -112,7 +112,11 @@ final class AIChatModel: ObservableObject {
                         try model_load_res = self.chat?.loadModel(ModelInference.LLama_bin,contextParams: model_context_param)
                     }
                 }else if chat_config!["model_inference"] as! String == "gptneox" {
-                    try model_load_res = self.chat?.loadModel(ModelInference.GPTNeox,contextParams: model_context_param)
+                    if modelURL.hasSuffix(".gguf"){
+                        try model_load_res = self.chat?.loadModel(ModelInference.LLama_gguf,contextParams: model_context_param)
+                    }else{
+                        try model_load_res = self.chat?.loadModel(ModelInference.GPTNeox,contextParams: model_context_param)
+                    }
                 }else if chat_config!["model_inference"] as! String == "rwkv" {
                     try model_load_res = self.chat?.loadModel(ModelInference.RWKV,contextParams: model_context_param)
                 }else if chat_config!["model_inference"] as! String == "gpt2" {

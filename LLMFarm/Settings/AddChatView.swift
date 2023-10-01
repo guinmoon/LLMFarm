@@ -516,10 +516,10 @@ struct AddChatView: View {
                                 HStack {
                                     Toggle("MLock", isOn: $mlock)
                                         .frame(maxWidth: .infinity, alignment: .leading)
-                                        .disabled(self.model_inference != "llama")
+                                        .disabled(self.model_inference != "llama" && self.model_inference != "starcoder" )
                                     Toggle("MMap", isOn: $mmap)
                                         .frame(maxWidth: .infinity, alignment: .leading)
-                                        .disabled(self.model_inference != "llama")
+                                        .disabled(self.model_inference != "llama" && self.model_inference != "starcoder")
                                 }
                                 .padding(.horizontal)
                                 .padding(.bottom, 4)

@@ -122,7 +122,11 @@ final class AIChatModel: ObservableObject {
                     try model_load_res = self.chat?.loadModel(ModelInference.Replit,contextParams: model_context_param)
                     self.chat?.model.reverse_prompt.append("<|endoftext|>")
                 }else if chat_config!["model_inference"] as! String == "starcoder" {
-                    try model_load_res = self.chat?.loadModel(ModelInference.Starcoder,contextParams: model_context_param)
+                    if modelURL.hasSuffix(".gguf"){
+                        try model_load_res = self.chat?.loadModel(ModelInference.LLama_gguf,contextParams: model_context_param)
+                    }else{
+                        try model_load_res = self.chat?.loadModel(ModelInference.Starcoder,contextParams: model_context_param)
+                    }
                     self.chat?.model.reverse_prompt.append("<|endoftext|>")
                 }
             }

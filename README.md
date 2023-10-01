@@ -23,7 +23,7 @@ Also used sources from:
 * [Mia](https://github.com/byroneverson/Mia) by [byroneverson](https://github.com/byroneverson)
 * [LlamaChat](https://github.com/alexrozanski/LlamaChat) by [alexrozanski](https://github.com/alexrozanski)
 
-## Features
+# Features
 
 - [x] MacOS (13+)
 - [x] iOS (16+)
@@ -31,12 +31,11 @@ Also used sources from:
 - [x] Metal for llama inference ([dont work](https://github.com/ggerganov/llama.cpp/issues/2407#issuecomment-1699544808) on intel Mac)
 - [x] Model setting templates
 - [x] Sampling from llama.cpp for other inference
-- [ ] classifier-free guidance sampling from llama.cpp 
 - [ ] Other tokenizers support
 - [ ] Restore context state (now only chat history) 
 - [ ] Metal for other inference
 
-## Inferences
+# Inferences
 
 - [x] [LLaMA](https://arxiv.org/abs/2302.13971)
 - [x] [GPTNeoX](https://huggingface.co/docs/transformers/model_doc/gpt_neox)
@@ -46,26 +45,35 @@ Also used sources from:
 - [x] [RWKV](https://huggingface.co/docs/transformers/model_doc/rwkv) (20B tokenizer)
 - [x] [Falcon](https://github.com/cmp-nct/ggllm.cpp)
 
-## Getting Started
+# Sampling methods
+- [x] Temperature (temp, tok-k, top-p)
+- [x] [Tail Free Sampling (TFS)](https://www.trentonbricken.com/Tail-Free-Sampling/)
+- [x] [Locally Typical Sampling](https://arxiv.org/abs/2202.00666)
+- [x] [Mirostat](https://arxiv.org/abs/2007.14966)
+- [x] Greedy
+- [x] Grammar (llama and falcon models)
+- [ ] Classifier-Free Guidance
+
+# Getting Started
 
 Models must be quantized by [ggml](https://github.com/ggerganov/ggml) after [#154](https://github.com/ggerganov/ggml/pull/154).
 LLMFarm work in sandbox mode and put added models to the "models" directory. 
 
-### Inference options
+## Inference options
 When creating a chat, a JSON file is generated in which you can specify additional inference options. The chat files are located in the "chats" directory. You can see all inference options [here](/inference_options.md).
 
-### Models
+## Models
 You can download some of the supported [models here](/models.md).
 
 
-## Development
+# Development
 `llmfarm_core` has been moved to a [separate repository](https://github.com/guinmoon/llmfarm_core.swift). To build llmfarm, you need to clone this repository recursively:
 ```bash
 git clone --recurse-submodules https://github.com/guinmoon/LLMFarm
 ```
 
 
-## P.S.
+# P.S.
 The number of open models is continuously growing. One of the advantages of using such models is the possibility of preserving their original content without censorship. However, the disadvantage may be the irrelevance of the information contained in them. You can also get answers to questions from various industries, for example, there are models that specialize in medical terms or programming.
 In addition, with the help of these models, you can create stories, songs, music and play quests etc...
 

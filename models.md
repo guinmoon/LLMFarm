@@ -14,4 +14,4 @@
 | [Cerebras](https://huggingface.co/cerebras/Cerebras-GPT-2.7B)                            | GPT-2     | 6.7B | [huggingface](https://huggingface.co/guinmoon/cerebras-6.7b-ggml/tree/main)                                  |
 | [MagicPrompt SDiffusion](https://huggingface.co/Gustavosta/MagicPrompt-Stable-Diffusion) | GPT-2     |      | [huggingface](https://huggingface.co/guinmoon/MagicPrompt-Stable-Diffusion-ggml/tree/main)                   |
 | [Replit](https://huggingface.co/replit/replit-code-v1-3b)                                | Replit    | 3B   | [huggingface](https://huggingface.co/guinmoon/LLMFarm_Models/tree/main)                                      |
-| [Santacoder](https://huggingface.co/bigcode/gpt_bigcode-santacoder)                      | Starcoder |      | [huggingface](https://huggingface.co/mike-ravkine/gpt_bigcode-santacoder-GGML/tree/main)                     |
+| [Santacoder](https://huggingface.co/bigcode/santacoder)                                  | Starcoder | 1B   | [huggingface](https://huggingface.co/guinmoon/SantaCoder-1B-GGUF/tree/main)                                  |

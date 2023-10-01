@@ -6,6 +6,7 @@
   "top_k" : 1,
   "reverse_prompt":"<|endoftext|>",
   "prompt_format" : "{{prompt}}",
+  "use_metal" : true,
   "temp" : 0.89999997615814209,
   "top_p" : 0.94999998807907104,
   "use_metal" : false,

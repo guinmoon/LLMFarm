@@ -312,7 +312,7 @@ struct AddChatView: View {
                                         isImporting = true
                                     }
                                 } label: {
-                                    Label("Improt from file...", systemImage: "plus.app")
+                                    Label("Import from file...", systemImage: "plus.app")
                                 }
                                 
                                 Divider()

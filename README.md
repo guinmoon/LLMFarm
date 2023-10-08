@@ -58,6 +58,7 @@ Also used sources from:
 
 Models must be quantized by [ggml](https://github.com/ggerganov/ggml) after [#154](https://github.com/ggerganov/ggml/pull/154).
 LLMFarm work in sandbox mode and put added models to the "models" directory. 
+You can find answers to some questions in the [FAQ section](https://github.com/guinmoon/LLMFarm/wiki/FAQ).
 
 ## Inference options
 When creating a chat, a JSON file is generated in which you can specify additional inference options. The chat files are located in the "chats" directory. You can see all inference options [here](/inference_options.md).

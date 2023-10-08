@@ -57,7 +57,7 @@ final class AIChatModel: ObservableObject {
 //        self.avalible_models = get_avalible_models()!
 //    }
     
-    public func load_model_by_chat_name(chat_name: String) -> Bool?{
+    public func load_model_by_chat_name(chat_name: String) throws -> Bool?{
         let chat_config = get_chat_info(chat_name)
         var model_sample_param = ModelSampleParams.default
         var model_context_param = ModelContextParams.default
@@ -136,7 +136,7 @@ final class AIChatModel: ObservableObject {
             }
             catch {
                 print(error)
-                
+                throw error
             }
         }
         if self.chat?.model == nil || self.chat?.model.context == nil{
@@ -276,15 +276,23 @@ final class AIChatModel: ObservableObject {
         }
         if self.chat == nil{
             state = .loading
-            let res=self.load_model_by_chat_name(chat_name:self.chat_name)
-            if (res == nil){
-                let message = Message(sender: .system, text: "Failed to load model.")
+            do{
+                let res=try self.load_model_by_chat_name(chat_name:self.chat_name)
+                if (res == nil){
+                    let message = Message(sender: .system, text: "Failed to load model.")
+                    messages.append(message)
+                    state = .completed
+                    stop_predict(is_error: true)
+                    return
+                }
+                state = .completed
+            }catch{
+                let message = Message(sender: .system, text: "\(error)")
                 messages.append(message)
                 state = .completed
                 stop_predict(is_error: true)
                 return
             }
-            state = .completed
         }else{
             self.chat?.chatName = self.chat_name
         }
@@ -298,10 +306,9 @@ final class AIChatModel: ObservableObject {
             self.total_sec = 0.0
             self.predicting = true
             self.action_button_icon = "stop.circle"
-            var check = true
             self.start_predicting_time = DispatchTime.now()
             self.chat?.conversation(text, { str, time in
-                check = self.process_predicted_str(str, time, &message, messageIndex)
+                _ = self.process_predicted_str(str, time, &message, messageIndex)
             }, {
                 final_str in
                 print(final_str)
@@ -316,8 +323,8 @@ final class AIChatModel: ObservableObject {
                 self.predicting = false
                 self.numberOfTokens = 0
                 self.action_button_icon = "paperplane"
-                if final_str == "/[Error]/"{
-                    let message = Message(sender: .system, state: .error, text: "Eval Error")
+                if final_str.hasPrefix("[Error]"){
+                    let message = Message(sender: .system, state: .error, text: "Eval \(final_str)")
                     self.messages.append(message)
                 }
                 save_chat_history(self.messages,self.chat_name+".json")

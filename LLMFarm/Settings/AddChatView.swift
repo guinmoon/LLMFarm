@@ -709,6 +709,19 @@ struct AddChatView: View {
 #endif
                                         }
                                         .padding(.horizontal)
+                                        
+                                        HStack {
+                                            Text("Temp:")
+                                                .frame(maxWidth: 75, alignment: .leading)
+                                            TextField("size..", value: $model_temp, format:.number)
+                                                .frame( alignment: .leading)
+                                                .multilineTextAlignment(.trailing)
+                                                .textFieldStyle(.plain)
+#if os(iOS)
+                                                .keyboardType(.numbersAndPunctuation)
+#endif
+                                        }
+                                        .padding(.horizontal)
                                     }
                                 }
                             }

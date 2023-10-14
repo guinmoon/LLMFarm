@@ -71,7 +71,7 @@ func main(){
 //
     var params:ModelContextParams = .default
 //
-//    params.use_metal = true
+    params.use_metal = true
     
 //    params.grammar_path = "/Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/LLMFarm/grammars/list.gbnf"
     input_text = "write to do list"

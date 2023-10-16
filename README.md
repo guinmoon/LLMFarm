@@ -28,22 +28,22 @@ Also used sources from:
 - [x] MacOS (13+)
 - [x] iOS (16+)
 - [x] Various inferences
-- [x] Metal for llama inference ([dont work](https://github.com/ggerganov/llama.cpp/issues/2407#issuecomment-1699544808) on intel Mac)
+- [x] Metal ([dont work](https://github.com/ggerganov/llama.cpp/issues/2407#issuecomment-1699544808) on intel Mac)
 - [x] Model setting templates
 - [x] Sampling from llama.cpp for other inference
 - [ ] Other tokenizers support
 - [ ] Restore context state (now only chat history) 
-- [ ] Metal for other inference
 
 # Inferences
 
-- [x] [LLaMA](https://arxiv.org/abs/2302.13971)
+- [x] [LLaMA](https://arxiv.org/abs/2302.13971) <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px">
 - [x] [GPTNeoX](https://huggingface.co/docs/transformers/model_doc/gpt_neox)
 - [x] [Replit](https://huggingface.co/replit/replit-code-v1-3b)
-- [x] [GPT2](https://huggingface.co/docs/transformers/model_doc/gpt2) + [Cerebras](https://arxiv.org/abs/2304.03208)
-- [x] [Starcoder(Santacoder)](https://huggingface.co/bigcode/santacoder)
+- [x] [GPT2](https://huggingface.co/docs/transformers/model_doc/gpt2) + [Cerebras](https://arxiv.org/abs/2304.03208) <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px">
+- [x] [Starcoder(Santacoder)](https://huggingface.co/bigcode/santacoder) <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px">
 - [x] [RWKV](https://huggingface.co/docs/transformers/model_doc/rwkv) (20B tokenizer)
-- [x] [Falcon](https://github.com/cmp-nct/ggllm.cpp)
+- [x] [Falcon](https://github.com/cmp-nct/ggllm.cpp) <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px">
+- [x] [MTP](https://huggingface.co/guinmoon/mpt-7b-storywriter-GGUF) <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px">
 
 # Sampling methods
 - [x] Temperature (temp, tok-k, top-p)
@@ -51,7 +51,7 @@ Also used sources from:
 - [x] [Locally Typical Sampling](https://arxiv.org/abs/2202.00666)
 - [x] [Mirostat](https://arxiv.org/abs/2007.14966)
 - [x] Greedy
-- [x] Grammar (llama and falcon models)
+- [x] Grammar (dont work for GPTNeoX, GPT-2, RWKV)
 - [ ] Classifier-Free Guidance
 
 # Getting Started

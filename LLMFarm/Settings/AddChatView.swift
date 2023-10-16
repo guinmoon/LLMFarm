@@ -508,7 +508,7 @@ struct AddChatView: View {
                                 HStack {
                                     Toggle("Metal", isOn: $use_metal)
                                         .frame(maxWidth: .infinity, alignment: .leading)
-                                        .disabled((self.model_inference != "llama" && self.model_inference != "starcoder"  && self.model_inference != "gptneox") || hardware_arch=="x86_64")
+                                        .disabled((self.model_inference != "llama" && self.model_inference != "starcoder"  && self.model_inference != "gpt2") || hardware_arch=="x86_64")
                                 }
                                 .padding(.horizontal)
                                 .padding(.bottom, 4)
@@ -516,10 +516,10 @@ struct AddChatView: View {
                                 HStack {
                                     Toggle("MLock", isOn: $mlock)
                                         .frame(maxWidth: .infinity, alignment: .leading)
-                                        .disabled(self.model_inference != "llama" && self.model_inference != "starcoder" )
+                                        .disabled(self.model_inference != "llama" && self.model_inference != "starcoder"  )
                                     Toggle("MMap", isOn: $mmap)
                                         .frame(maxWidth: .infinity, alignment: .leading)
-                                        .disabled(self.model_inference != "llama" && self.model_inference != "starcoder")
+                                        .disabled(self.model_inference != "llama" && self.model_inference != "starcoder" )
                                 }
                                 .padding(.horizontal)
                                 .padding(.bottom, 4)

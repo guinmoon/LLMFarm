@@ -256,9 +256,9 @@ final class AIChatModel: ObservableObject {
             self.messages = updatedMessages
             self.numberOfTokens += 1
             self.total_sec += time
-            if (self.numberOfTokens>self.maxToken){
-                self.stop_predict()
-            }
+//            if (self.numberOfTokens>self.maxToken){
+//                self.stop_predict()
+//            }
         }else{
             print("chat ended.")
         }

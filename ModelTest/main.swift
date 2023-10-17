@@ -9,7 +9,7 @@ import Foundation
 import llmfarm_core
 import llmfarm_core_cpp
 
-let maxOutputLength = 500
+let maxOutputLength = 50000
 var total_output = 0
 var session_tokens: [Int32] = []
 
@@ -17,6 +17,7 @@ func mainCallback(_ str: String, _ time: Double) -> Bool {
     print("\(str)",terminator: "")
     total_output += str.count
     if(total_output>maxOutputLength){
+	print("Maximum output len achieved")
         return true
     }
     
@@ -66,24 +67,23 @@ func main(){
     //    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-3b.ggmlv3.q4_1.bin"
     //    ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/llama-2-7b-chat-q4_K_M.gguf"
 //        ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/openllama-3b-v2-q8_0.gguf"
-    ai.modelPath = "/Users/guinmoon/Downloads/mpt-7b-storywriter-Q4_1.gguf"
-//    ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/orca-mini-3b-q4_1.gguf"
+    ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/mpt-7b-storywriter-Q4_K.gguf"
+ //   ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/orca-mini-3b-q4_1.gguf"
     modelInference = ModelInference.LLama_gguf
 //
     var params:ModelContextParams = .default
+	params.context = 4095
+	params.n_threads = 14
 //
     params.use_metal = true
     
 //    params.grammar_path = "/Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/LLMFarm/grammars/list.gbnf"
-    input_text = "write to do list"
+    input_text = "write long story about Artem and Dasha"
     
     do{
         try ai.loadModel(modelInference,contextParams: params)
-    }catch {
-        print (error)
-        return
-    }
     
+                
     
     
     
@@ -108,12 +108,18 @@ func main(){
 //    var tokens_count:Int = 1
 //    llama_load_state(ai.model.context,"/Users/guinmoon/dev/alpaca_llama_etc/dump_state_.bin")
 //    llama_load_session_file(ai.model.context,"/Users/guinmoon/dev/alpaca_llama_etc/dump_state.bin",tokens.mutPtr, 256,&tokens_count)
-    
-    let output = try? ai.model.predict(input_text, mainCallback)
+	var output=""
+	try ExceptionCather.catchException {    
+    		output = try! ai.model.predict(input_text, mainCallback)
+	}
 //    llama_save_session_file(ai.model.context,"/Users/guinmoon/dev/alpaca_llama_etc/dump_state.bin",ai.model.session_tokens, ai.model.session_tokens.count)
 //    llama_save_state(ai.model.context,"/Users/guinmoon/dev/alpaca_llama_etc/dump_state_.bin")
     //
-    print(output!)
+    	print(output)
+    }catch {
+        print (error)
+        return
+    }
 }
 
 main()

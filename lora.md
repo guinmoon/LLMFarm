@@ -1,4 +1,5 @@
 # Connecting LoRA adapters
+Put the adapter files in the `lora_adapters` directory.
 
 **You `cannot use mmap` when connecting an adapter, so `memory` consumption will be `high`. In order to use mmap with lora do export.**
 To add one LoRA adapter, you can use the LLMFarm chat settings interface.

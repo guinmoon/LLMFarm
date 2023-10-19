@@ -239,6 +239,29 @@ public func get_models_list() -> [Dictionary<String, String>]?{
     return res
 }
 
+
+public func get_loras_list() -> [Dictionary<String, String>]?{
+    var res: [Dictionary<String, String>] = []
+    do {
+        let fileManager = FileManager.default
+        let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+        let destinationURL = documentsPath!.appendingPathComponent("lora_adapters")
+        try fileManager.createDirectory (at: destinationURL, withIntermediateDirectories: true, attributes: nil)
+        let files = try fileManager.contentsOfDirectory(atPath: destinationURL.path)
+        for modelfile in files {
+            if modelfile.hasSuffix(".bin"){
+//                let info = get_chat_info(modelfile)!
+                let tmp_chat_info = ["icon":"square.stack.3d.up.fill","file_name":modelfile,"description":""]
+                res.append(tmp_chat_info)
+            }
+        }
+        return res
+    } catch {
+        // failed to read directory – bad permissions, perhaps?
+    }
+    return res
+}
+
 public func get_grammar_path_by_name(_ grammar_name:String) -> String?{
     do {
         let fileManager = FileManager.default
@@ -344,12 +367,12 @@ func get_file_name_without_ext(fileName:String) -> String{
     }
 }
 
-func get_path_by_model_name(_ model_name:String) -> String? {
+func get_path_by_model_name(_ model_name:String, dest:String = "models") -> String? {
     //#if os(iOS) || os(watchOS) || os(tvOS)
     do {
         let fileManager = FileManager.default
         let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
-        let destinationURL = documentsPath!.appendingPathComponent("models")
+        let destinationURL = documentsPath!.appendingPathComponent(dest)
         try fileManager.createDirectory (at: destinationURL, withIntermediateDirectories: true, attributes: nil)
         let path = destinationURL.appendingPathComponent(model_name).path
         if fileManager.fileExists(atPath: path){
@@ -362,12 +385,6 @@ func get_path_by_model_name(_ model_name:String) -> String? {
         print(error)
     }
     return nil
-    //#elseif os(macOS)
-    //                                return model_name
-    //#else
-    //    println("Unknown OS version")
-    //#endif
-    
 }
 
 func load_chat_history(_ fname:String) -> [Message]?{
@@ -429,7 +446,7 @@ func load_chat_history(_ fname:String) -> [Message]?{
 //}
 
 
-func copyModelToSandbox (url: URL) -> String?{
+func copyModelToSandbox (url: URL, dest:String = "models") -> String?{
     do{
         if (CFURLStartAccessingSecurityScopedResource(url as CFURL)) { // <- here
             
@@ -438,7 +455,7 @@ func copyModelToSandbox (url: URL) -> String?{
             
             let fileManager = FileManager.default
             let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
-            let destinationURL = documentsPath!.appendingPathComponent("models")
+            let destinationURL = documentsPath!.appendingPathComponent(dest)
             try fileManager.createDirectory (at: destinationURL, withIntermediateDirectories: true, attributes: nil)
             let actualPath = destinationURL.appendingPathComponent(fileName)
             if fileManager.fileExists(atPath: actualPath.path){

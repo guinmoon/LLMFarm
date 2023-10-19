@@ -62,9 +62,13 @@ struct AddChatView: View {
     @State private var isSamplingAccordionExpanded: Bool = false
     @State private var isPromptAccordionExpanded: Bool = false
     @State private var model_file_url: URL = URL(filePath: "/")
-    @State private var model_file_name: String = ""
-    @State private var model_file_path: String = "select model"
+    @State private var model_file_path: String = "Select model"
+    //    @State private var model_file_name: String = ""
+    @State private var lora_file_url: URL = URL(filePath: "/")    
+    @State private var lora_file_path: String = "Add LoRA adapter"
+    @State private var lora_file_scale: Float = 1.0
     @State private var model_title: String = ""
+    @State private var lora_title: String = ""
     @State private var model_context: Int32 = 1024
     @State private var model_n_batch: Int32 = 512
     @State private var model_temp: Float = 0.9
@@ -82,10 +86,14 @@ struct AddChatView: View {
     @State private var use_metal: Bool = false
     @State private var mlock: Bool = false
     @State private var mmap: Bool = true
-    @State private var isImporting: Bool = false
+    @State private var isModelImporting: Bool = false
+    @State private var isLoraImporting: Bool = false
     @State private var tfs_z: Float = 1.0
     @State private var typical_p: Float = 1.0
     @State private var grammar: String = "<None>"
+    
+    @State private var lora_adapters: [Dictionary<String, Any>] = []
+    
     var hardware_arch = Get_Machine_Hardware_Name()
     @Binding var renew_chat_list: () -> Void
     
@@ -106,6 +114,8 @@ struct AddChatView: View {
     let model_icons = ["ava0","ava1","ava2","ava3","ava4","ava5","ava6","ava7"]
     
     @State var models_previews = get_models_list()!
+    
+    @State var loras_previews = get_loras_list()!
     
     @State var grammars_previews = get_grammars_list()!
     
@@ -133,7 +143,14 @@ struct AddChatView: View {
         if (chat_config!["model"] != nil){
             self._model_file_path = State(initialValue: chat_config!["model"]! as! String)
         }
-        if (chat_config!["icon"] != nil){
+        if chat_config!["lora_adapters"] != nil{
+            let adapters = chat_config!["lora_adapters"]! as?  [Dictionary<String, Any>]
+            if adapters != nil && adapters!.count>0{
+                self._lora_file_path = State(initialValue: adapters![0]["adapter"]! as! String)
+                self._lora_file_scale = State(initialValue: adapters![0]["scale"]! as! Float)
+            }
+        }
+        if chat_config!["icon"] != nil{
             self._model_icon = State(initialValue: chat_config!["icon"]! as! String)
         }
         if (chat_config!["model_inference"] != nil){
@@ -250,19 +267,28 @@ struct AddChatView: View {
                     Spacer()
                     Button {
                         Task {
-                            if !edit_chat_dialog {
+//                            if !edit_chat_dialog {
                                 if model_file_url.path != "/"{
                                     print(model_file_url.path)
-                                    let sandbox_path = copyModelToSandbox(url: model_file_url)
+                                    let sandbox_path = copyModelToSandbox(url: model_file_url,dest: "models")
                                     if sandbox_path != nil{
                                         model_file_path = sandbox_path!
+                                    }
+                                }
+                                if lora_file_url.path != "/"{
+                                    print(lora_file_url.path)
+                                    let sandbox_path = copyModelToSandbox(url: lora_file_url,dest: "lora_adapters")
+                                    if sandbox_path != nil{
+                                        lora_file_path = sandbox_path!
                                     }
                                 }
                                 //#if os(macOS)
                                 
                                 //#endif
-                            }
+//                            }
+                            lora_adapters.append(["adapter":lora_file_path,"scale":lora_file_scale])
                             let options:Dictionary<String, Any> = ["model":model_file_path,
+                                                                   "lora_adapters":lora_adapters,
                                                                    "title":model_title,
                                                                    "icon":model_icon,
                                                                    "model_inference":model_inference,
@@ -309,7 +335,7 @@ struct AddChatView: View {
                             Menu {
                                 Button {
                                     Task {
-                                        isImporting = true
+                                        isModelImporting = true
                                     }
                                 } label: {
                                     Label("Import from file...", systemImage: "plus.app")
@@ -320,7 +346,7 @@ struct AddChatView: View {
                                 Section("Avalible models") {
                                     ForEach(models_previews, id: \.self) { model in
                                         Button(model["file_name"]!){
-                                            model_file_name = model["file_name"]!
+//                                            model_file_name = model["file_name"]!
                                             model_file_path = model["file_name"]!
                                             model_title = get_file_name_without_ext(fileName:model_file_path)
                                         }
@@ -331,14 +357,14 @@ struct AddChatView: View {
                             }.padding()
                         }
                         .fileImporter(
-                            isPresented: $isImporting,
+                            isPresented: $isModelImporting,
                             allowedContentTypes: [.data],
                             allowsMultipleSelection: false
                         ) { result in
                             do {
                                 guard let selectedFile: URL = try result.get().first else { return }
                                 //                                model_file.input = selectedFile.lastPathComponent
-                                model_file_name = selectedFile.lastPathComponent
+//                                model_file_name = selectedFile.lastPathComponent
                                 model_file_url = selectedFile
                                 //                                    saveBookmark(url: selectedFile)
                                 //#if os(iOS) || os(watchOS) || os(tvOS)
@@ -353,10 +379,63 @@ struct AddChatView: View {
                                 print(error.localizedDescription)
                             }
                         }
+                        
+                        HStack {
+
+                            Menu {
+                                Button {
+                                    Task {
+                                        isLoraImporting = true
+                                    }
+                                } label: {
+                                    Label("Import from file...", systemImage: "plus.app")
+                                }
+                                
+                                Divider()
+                                
+                                Section("Avalible adapters") {
+                                    ForEach(loras_previews, id: \.self) { model in
+                                        Button(model["file_name"]!){
+//                                            model_file_name = model["file_name"]!
+                                            lora_file_path = model["file_name"]!
+                                            lora_title = get_file_name_without_ext(fileName:lora_file_path)
+                                        }
+                                    }
+                                }
+                            } label: {
+                                Label(lora_file_path == "" ?"Select File...":lora_file_path, systemImage: "ellipsis.circle")
+                            }.padding(.leading)
+                                .padding(.bottom)
+                            
+                            TextField("Scale..", value: $lora_file_scale, format:.number)
+                                .frame( maxWidth: 50, alignment: .leading)
+                                .multilineTextAlignment(.trailing)
+                                .textFieldStyle(.plain)
+                                .padding(.trailing)
+                                .padding(.bottom)
+#if os(iOS)
+                                .keyboardType(.numbersAndPunctuation)
+#endif
+                        }
+                        .fileImporter(
+                            isPresented: $isLoraImporting,
+                            allowedContentTypes: [.data],
+                            allowsMultipleSelection: false
+                        ) { result in
+                            do {
+                                guard let selectedFile: URL = try result.get().first else { return }
+                                lora_file_url = selectedFile
+                                lora_file_path = selectedFile.lastPathComponent
+                                lora_title = get_file_name_without_ext(fileName:selectedFile.lastPathComponent)
+                            } catch {
+                                print("Unable to add file")
+                                print(error.localizedDescription)
+                            }
+                        }
 
                         HStack {
 #if os(macOS)
-                            DidEndEditingTextField(text: $model_title, didEndEditing: { newName in})
+                            DidEndEditingTextField(text: $model_title,didEndEditing: { newName in})
                                 .frame(maxWidth: .infinity, alignment: .leading)
 #else
                             TextField("Title...", text: $model_title)

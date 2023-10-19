@@ -57,10 +57,14 @@ final class AIChatModel: ObservableObject {
 //        self.avalible_models = get_avalible_models()!
 //    }
     
+    
     public func load_model_by_chat_name(chat_name: String) throws -> Bool?{
+        self.model_loading = true
+        
         let chat_config = get_chat_info(chat_name)
         var model_sample_param = ModelSampleParams.default
-        var model_context_param = ModelContextParams.default
+        var model_context_param = ModelAndContextParams.default
+        
         if (chat_config != nil){
             model_sample_param = get_model_sample_param_by_config(chat_config!)
             model_context_param = get_model_context_param_by_config(chat_config!)
@@ -73,8 +77,10 @@ final class AIChatModel: ObservableObject {
             self.modelURL = m_name
         }else{
             return nil
-        }
-        self.model_loading = true
+        }                        
+        
+                
+                
         self.chat = nil
         //            let a: URL = URL(filePath: modelURL)
         //            let res = a.startAccessingSecurityScopedResource()

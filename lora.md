@@ -19,6 +19,7 @@ To add several LoRA adapters, manually write them in the configuration file like
             "scale" : 1.0
         }
     ],
+...
 }
 ```
 

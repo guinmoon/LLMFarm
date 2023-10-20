@@ -2,8 +2,8 @@
 
 | model                                                                                    | inference | size | quantized link                                                                                               |
 |------------------------------------------------------------------------------------------|-----------|------|--------------------------------------------------------------------------------------------------------------|
-| [Llama2](https://huggingface.co/meta-llama/Llama-2-7b-chat-hf)                           | LLaMA     | 7B   | [huggingface](https://huggingface.co/guinmoon/LLMFarm_Models/tree/main)                                      |
-| [OpenLLaMa v2](https://github.com/openlm-research/open_llama)                            | LLaMA     | 3B   | [huggingface](https://huggingface.co/guinmoon/open_llama_3b_v2_ggml/tree/main)                               |
+| [Llama2](https://huggingface.co/meta-llama/Llama-2-7b-chat-hf)                           | LLaMA     | 7B   | [huggingface](https://huggingface.co/TheBloke/Llama-2-7b-Chat-GGUF/tree/main)                                      |
+| [OpenLLaMa v2](https://github.com/openlm-research/open_llama)                            | LLaMA     | 3B   | [huggingface](https://huggingface.co/guinmoon/LLMFarm_Models/tree/main)                               |
 | [ORCA](https://huggingface.co/psmathur/orca_mini_3b)                                     | LLaMA     | 3B   | [huggingface](https://huggingface.co/guinmoon/LLMFarm_Models/tree/main)                                      |
 | [ORCA](https://huggingface.co/TheBloke/orca_mini_v3_7B-GGUF)                             | LLaMA     | 7B   | [huggingface](https://huggingface.co/TheBloke/orca_mini_v3_7B-GGUF/tree/main)                                |
 | [RWKV 4 Raven](https://huggingface.co/BlinkDL/rwkv-4-raven)                              | RWKV      | 3B   | [huggingface](https://huggingface.co/xzuyn/RWKV-4-Raven-3B-v11-Eng99-Other1-20230425-ctx4096-GGML/tree/main) |

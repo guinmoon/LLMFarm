@@ -34,7 +34,6 @@ Also used sources from:
 - [x] LoRA adapters support ([read more](./lora.md))
 - [ ] LoRA train support
 - [ ] LoRA export as model support
-- [ ] Other tokenizers support
 - [ ] Restore context state (now only chat history) 
 
 # Inferences

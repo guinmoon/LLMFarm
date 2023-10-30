@@ -41,11 +41,11 @@ struct ChatView: View {
             if with_animation{
                 withAnimation {
 //                    scrollProxy?.scrollTo(last_msg?.id, anchor: .bottom)
-                    scrollProxy?.scrollTo("latest", anchor: .bottom)
+                    scrollProxy?.scrollTo(last_msg!.id, anchor: .bottom)
                 }
             }else{
 //                scrollProxy?.scrollTo(last_msg?.id, anchor: .bottom)
-                scrollProxy?.scrollTo("latest", anchor: .bottom)
+                scrollProxy?.scrollTo(last_msg!.id, anchor: .bottom)
             }
         }
     }

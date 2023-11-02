@@ -20,6 +20,20 @@
                ReferencedContainer = "container:LLMFarm.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "llmfarm_core"
+               BuildableName = "llmfarm_core"
+               BlueprintName = "llmfarm_core"
+               ReferencedContainer = "container:llmfarm_core.swift">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction

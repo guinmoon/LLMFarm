@@ -42,6 +42,7 @@
 		15B1B9D32AF025E80058F275 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 159650EE2A49F8400007BE5C /* MetalKit.framework */; };
 		15B1B9D42AF025E80058F275 /* MetalPerformanceShaders.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 159650EF2A49F8400007BE5C /* MetalPerformanceShaders.framework */; };
 		15B1B9D62AF025FC0058F275 /* MetalPerformanceShadersGraph.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B1B9D52AF025FC0058F275 /* MetalPerformanceShadersGraph.framework */; };
+		15B1B9D82AF2C9A70058F275 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B1B9D72AF2C9A70058F275 /* SettingsView.swift */; };
 		15B7BE9D2A968399006624BD /* MacEditorTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B7BE9C2A968399006624BD /* MacEditorTextView.swift */; };
 		15B9D7422A4B55EA00276782 /* MetalPerformanceShaders.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B9D73F2A4B55E800276782 /* MetalPerformanceShaders.framework */; };
 		15B9D7432A4B55EA00276782 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B9D7402A4B55E900276782 /* Metal.framework */; };
@@ -130,6 +131,7 @@
 		15B1B9C82AF023080058F275 /* FineTune_Test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FineTune_Test; sourceTree = BUILT_PRODUCTS_DIR; };
 		15B1B9CA2AF023080058F275 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		15B1B9D52AF025FC0058F275 /* MetalPerformanceShadersGraph.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalPerformanceShadersGraph.framework; path = System/Library/Frameworks/MetalPerformanceShadersGraph.framework; sourceTree = SDKROOT; };
+		15B1B9D72AF2C9A70058F275 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		15B7BE9C2A968399006624BD /* MacEditorTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MacEditorTextView.swift; sourceTree = "<group>"; };
 		15B9D73F2A4B55E800276782 /* MetalPerformanceShaders.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalPerformanceShaders.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.4.sdk/System/Library/Frameworks/MetalPerformanceShaders.framework; sourceTree = DEVELOPER_DIR; };
 		15B9D7402A4B55E900276782 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.4.sdk/System/Library/Frameworks/Metal.framework; sourceTree = DEVELOPER_DIR; };
@@ -238,6 +240,7 @@
 				1560D6162A2D1A3D00918330 /* AddChatView.swift */,
 				1568E3CD2A8BF86200930CC9 /* BottomPanel.swift */,
 				1532BF792A9FA885006DC514 /* GetDeviceInfo.swift */,
+				15B1B9D72AF2C9A70058F275 /* SettingsView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -529,6 +532,7 @@
 				15A3EDCE2A2121D90030AF5A /* OnlineUserView.swift in Sources */,
 				15A3EDCA2A2121D90030AF5A /* SettingsHeaderItem.swift in Sources */,
 				1568E3CE2A8BF86200930CC9 /* BottomPanel.swift in Sources */,
+				15B1B9D82AF2C9A70058F275 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

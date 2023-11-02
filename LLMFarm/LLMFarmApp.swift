@@ -53,6 +53,7 @@ struct LLMFarmApp: App {
                     }
                     if (tabIndex==1){
                         ModelsView()
+//                        SettingsView()
                         BottomPanelView(tabIndex: $tabIndex)
                             .ignoresSafeArea(.keyboard)
                     }

@@ -134,11 +134,11 @@ public func delete_chats(_ chats:[Dictionary<String, String>]) -> Bool{
     return false
 }
 
-public func delete_models(_ models:[Dictionary<String, String>]) -> Bool{
+public func delete_models(_ models:[Dictionary<String, String>], dest: String = "models") -> Bool{
     do{
         let fileManager = FileManager.default
         let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
-        let destinationURL = documentsPath!.appendingPathComponent("models")
+        let destinationURL = documentsPath!.appendingPathComponent(dest)
         
         for model in models {
             if model["file_name"] != nil{
@@ -217,12 +217,12 @@ public func rename_file(_ old_fname:String, _ new_fname: String, _ dir: String) 
     return result
 }
 
-public func get_models_list() -> [Dictionary<String, String>]?{
+public func get_models_list(dir:String = "models") -> [Dictionary<String, String>]?{
     var res: [Dictionary<String, String>] = []
     do {
         let fileManager = FileManager.default
         let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
-        let destinationURL = documentsPath!.appendingPathComponent("models")
+        let destinationURL = documentsPath!.appendingPathComponent(dir)
         try fileManager.createDirectory (at: destinationURL, withIntermediateDirectories: true, attributes: nil)
         let files = try fileManager.contentsOfDirectory(atPath: destinationURL.path)
         for modelfile in files {
@@ -239,6 +239,28 @@ public func get_models_list() -> [Dictionary<String, String>]?{
     return res
 }
 
+
+public func get_datasets_list() -> [Dictionary<String, String>]?{
+    var res: [Dictionary<String, String>] = []
+    do {
+        let fileManager = FileManager.default
+        let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+        let destinationURL = documentsPath!.appendingPathComponent("datasets")
+        try fileManager.createDirectory (at: destinationURL, withIntermediateDirectories: true, attributes: nil)
+        let files = try fileManager.contentsOfDirectory(atPath: destinationURL.path)
+        for modelfile in files {
+            if modelfile.hasSuffix(".txt"){
+//                let info = get_chat_info(modelfile)!
+                let tmp_chat_info = ["icon":"square.stack.3d.up.fill","file_name":modelfile,"description":""]
+                res.append(tmp_chat_info)
+            }
+        }
+        return res
+    } catch {
+        // failed to read directory – bad permissions, perhaps?
+    }
+    return res
+}
 
 public func get_loras_list() -> [Dictionary<String, String>]?{
     var res: [Dictionary<String, String>] = []

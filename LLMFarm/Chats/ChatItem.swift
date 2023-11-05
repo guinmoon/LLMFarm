@@ -19,7 +19,7 @@ struct ChatItem: View {
     var chat: String = ""
     @Binding var chat_selection: String?
     @Binding var model_name: String
-    @Binding var title: String
+    @Binding var title: String    
     var close_chat: () -> Void
     
     var body: some View {

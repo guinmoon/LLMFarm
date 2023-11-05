@@ -23,7 +23,7 @@ final class AIChatModel: ObservableObject {
         case loading
         case completed
     }
-    @Published var AI_typing = 0
+    
     public var chat: AI?
     public var modelURL: String
     public var maxToken = 512
@@ -41,11 +41,9 @@ final class AIChatModel: ObservableObject {
 
     //    public var title:String = ""
     
-    @Published
-    var state: State = .none
-    
-    @Published
-    var messages: [Message] = []
+    @Published var AI_typing = 0
+    @Published var state: State = .none
+    @Published var messages: [Message] = []
     
     public init(){
         chat = nil
@@ -58,7 +56,7 @@ final class AIChatModel: ObservableObject {
 //    }
     
     
-    public func load_model_by_chat_name(chat_name: String) throws -> Bool?{
+    public func load_model_by_chat_name(chat_name: String) async throws -> Bool?{
         self.model_loading = true
         
         let chat_config = get_chat_info(chat_name)
@@ -281,9 +279,9 @@ final class AIChatModel: ObservableObject {
             }
         }
         if self.chat == nil{
-            state = .loading
+            self.state = .loading
             do{
-                let res=try self.load_model_by_chat_name(chat_name:self.chat_name)
+                let res=try await self.load_model_by_chat_name(chat_name:self.chat_name)
                 if (res == nil){
                     let message = Message(sender: .system, text: "Failed to load model.")
                     messages.append(message)

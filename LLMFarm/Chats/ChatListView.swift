@@ -19,7 +19,7 @@ struct ChatListView: View {
     var close_chat: () -> Void
     @Binding var edit_chat_dialog: Bool
     @Binding var chat_selection: String?
-    @Binding var renew_chat_list: () -> Void
+    @Binding var renew_chat_list: () -> Void    
     @State var chats_previews = get_chats_list()!
     
     func refresh_chat_list(){

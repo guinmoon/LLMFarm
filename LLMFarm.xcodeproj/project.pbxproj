@@ -43,10 +43,12 @@
 		15B1B9D42AF025E80058F275 /* MetalPerformanceShaders.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 159650EF2A49F8400007BE5C /* MetalPerformanceShaders.framework */; };
 		15B1B9D62AF025FC0058F275 /* MetalPerformanceShadersGraph.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B1B9D52AF025FC0058F275 /* MetalPerformanceShadersGraph.framework */; };
 		15B1B9D82AF2C9A70058F275 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B1B9D72AF2C9A70058F275 /* SettingsView.swift */; };
+		15B1B9DA2AF588FD0058F275 /* SettingsMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B1B9D92AF588FD0058F275 /* SettingsMenuItem.swift */; };
 		15B7BE9D2A968399006624BD /* MacEditorTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B7BE9C2A968399006624BD /* MacEditorTextView.swift */; };
 		15B9D7422A4B55EA00276782 /* MetalPerformanceShaders.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B9D73F2A4B55E800276782 /* MetalPerformanceShaders.framework */; };
 		15B9D7432A4B55EA00276782 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B9D7402A4B55E900276782 /* Metal.framework */; };
 		15B9D7442A4B55EA00276782 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B9D7412A4B55E900276782 /* MetalKit.framework */; };
+		15D8FE902AF80D7600B5C90D /* FineTuneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D8FE8F2AF80D7600B5C90D /* FineTuneView.swift */; };
 		15E086C42AEAC69B006459DE /* FineTune.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E086C32AEAC69B006459DE /* FineTune.swift */; };
 		15E415D42A18A2980057A15E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E415D32A18A2980057A15E /* main.swift */; };
 		15F210812A191B190021F414 /* LLMFarmApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F210802A191B190021F414 /* LLMFarmApp.swift */; };
@@ -132,10 +134,12 @@
 		15B1B9CA2AF023080058F275 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		15B1B9D52AF025FC0058F275 /* MetalPerformanceShadersGraph.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalPerformanceShadersGraph.framework; path = System/Library/Frameworks/MetalPerformanceShadersGraph.framework; sourceTree = SDKROOT; };
 		15B1B9D72AF2C9A70058F275 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		15B1B9D92AF588FD0058F275 /* SettingsMenuItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsMenuItem.swift; sourceTree = "<group>"; };
 		15B7BE9C2A968399006624BD /* MacEditorTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MacEditorTextView.swift; sourceTree = "<group>"; };
 		15B9D73F2A4B55E800276782 /* MetalPerformanceShaders.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalPerformanceShaders.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.4.sdk/System/Library/Frameworks/MetalPerformanceShaders.framework; sourceTree = DEVELOPER_DIR; };
 		15B9D7402A4B55E900276782 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.4.sdk/System/Library/Frameworks/Metal.framework; sourceTree = DEVELOPER_DIR; };
 		15B9D7412A4B55E900276782 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.4.sdk/System/Library/Frameworks/MetalKit.framework; sourceTree = DEVELOPER_DIR; };
+		15D8FE8F2AF80D7600B5C90D /* FineTuneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FineTuneView.swift; sourceTree = "<group>"; };
 		15E086C32AEAC69B006459DE /* FineTune.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FineTune.swift; sourceTree = "<group>"; };
 		15E415D12A18A2970057A15E /* ModelTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ModelTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		15E415D32A18A2980057A15E /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -236,11 +240,13 @@
 				15A3EDC32A2121D90030AF5A /* ModelinfoItem.swift */,
 				15B7BE9C2A968399006624BD /* MacEditorTextView.swift */,
 				15A3EDC22A2121D90030AF5A /* ModelsView.swift */,
+				15B1B9D92AF588FD0058F275 /* SettingsMenuItem.swift */,
 				15A3EDC02A2121D90030AF5A /* SettingsHeaderItem.swift */,
 				1560D6162A2D1A3D00918330 /* AddChatView.swift */,
 				1568E3CD2A8BF86200930CC9 /* BottomPanel.swift */,
 				1532BF792A9FA885006DC514 /* GetDeviceInfo.swift */,
 				15B1B9D72AF2C9A70058F275 /* SettingsView.swift */,
+				15D8FE8F2AF80D7600B5C90D /* FineTuneView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -517,6 +523,7 @@
 				15A3EDCB2A2121D90030AF5A /* ModelsView.swift in Sources */,
 				15141E712A65799D0060E767 /* ModelSettingsTemplate.swift in Sources */,
 				1560D6172A2D1A3D00918330 /* AddChatView.swift in Sources */,
+				15B1B9DA2AF588FD0058F275 /* SettingsMenuItem.swift in Sources */,
 				15F210962A1920AA0021F414 /* AIChatModel.swift in Sources */,
 				15B7BE9D2A968399006624BD /* MacEditorTextView.swift in Sources */,
 				15F210AA2A1A659B0021F414 /* FileHelper.swift in Sources */,
@@ -524,6 +531,7 @@
 				15A3EDD12A21266E0030AF5A /* SearchView.swift in Sources */,
 				15F210942A1920AA0021F414 /* Message.swift in Sources */,
 				15F2108E2A191EE60021F414 /* ChatView.swift in Sources */,
+				15D8FE902AF80D7600B5C90D /* FineTuneView.swift in Sources */,
 				15E086C42AEAC69B006459DE /* FineTune.swift in Sources */,
 				15F210812A191B190021F414 /* LLMFarmApp.swift in Sources */,
 				1532BF7A2A9FA885006DC514 /* GetDeviceInfo.swift in Sources */,

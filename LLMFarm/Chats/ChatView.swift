@@ -71,6 +71,7 @@ struct ChatView: View {
     
     var body: some View {
         ScrollViewReader { scrollView in
+//            Text(String("load")).id("header")
             VStack {
                 List {
                     ForEach(aiChatModel.messages, id: \.id) { message in
@@ -145,7 +146,7 @@ struct ChatView: View {
                         }
                     }
                 }
-                .frame(height:50)
+                .frame(height:47)
                 .background(.regularMaterial)
 //                .padding(.bottom)
 //                .padding(.leading)

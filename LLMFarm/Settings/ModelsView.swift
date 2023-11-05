@@ -10,8 +10,9 @@ import UniformTypeIdentifiers
 
 struct ModelsView: View {
     
+    public var dir:String
     @State var searchText: String = ""
-    @State var models_previews = get_models_list()!
+    @State var models_previews: [Dictionary<String, String>]
     @State var model_selection: String?
     @State private var isImporting: Bool = false
     @State private var modelImported: Bool = false
@@ -22,14 +23,20 @@ struct ModelsView: View {
     @State private var model_file_path: String = "select model"
     @State private var add_button_icon: String = "plus.app"
     
+    
+    init (_ dir:String){
+        self.dir = dir
+        self._models_previews = State(initialValue: get_models_list(dir:dir)!)
+    }
+    
     func delete(at offsets: IndexSet) {
         let chatsToDelete = offsets.map { self.models_previews[$0] }
-        let res = delete_models(chatsToDelete)
+        _ = delete_models(chatsToDelete,dest:dir)
         
     }
     
     func delete(at elem:Dictionary<String, String>){
-        let res = delete_models([elem])
+        _  = delete_models([elem],dest:dir)
         self.models_previews.removeAll(where: { $0 == elem })
     }
     
@@ -46,48 +53,6 @@ struct ModelsView: View {
         ZStack{
             //            Color("color_bg").edgesIgnoringSafeArea(.all)
             VStack{
-                HStack{
-                    Text("Models")
-                        .fontWeight(.semibold)
-                        .font(.title2)
-                    Spacer()
-                    Button {
-                        Task {
-                            isImporting.toggle()
-                        }
-                        
-                    } label: {
-                        Image(systemName: add_button_icon)
-                        //                            .foregroundColor(Color("color_primary"))
-                            .font(.title2)
-                    }
-                    .buttonStyle(.borderless)
-                        .controlSize(.large)
-                        .fileImporter(
-                            isPresented: $isImporting,
-//                            allowedContentTypes: [bin_type!,gguf_type!],
-                            allowedContentTypes: [.data],
-                            allowsMultipleSelection: false
-                        ) { result in
-                            do {
-                                guard let selectedFile: URL = try result.get().first else { return }
-                                model_file_name = selectedFile.lastPathComponent
-                                model_file_url = selectedFile
-                                model_file_path = selectedFile.lastPathComponent
-                                copyModelToSandbox(url: model_file_url)
-                                modelImported = true
-                                add_button_icon = "checkmark"
-                                delayIconChange()
-                                models_previews = get_models_list()!
-                                
-                            } catch {
-                                // Handle failure.
-                                print("Unable to read file contents")
-                                print(error.localizedDescription)
-                            }
-                        }
-                    
-                }
                 VStack(spacing: 5){
                     List(selection: $model_selection){
                         ForEach(models_previews, id: \.self) { model in
@@ -105,8 +70,6 @@ struct ModelsView: View {
                                 }
                             }
                         }.onDelete(perform: delete)
-                        
-                        
                     }
 #if os(macOS)
                     .listStyle(.sidebar)
@@ -140,6 +103,47 @@ struct ModelsView: View {
             .padding(.top)
             .padding(.horizontal)
         }
+        .toolbar{
+            Button {
+                Task {
+                    isImporting.toggle()
+                }
+                
+            } label: {
+                Image(systemName: add_button_icon)
+                //                            .foregroundColor(Color("color_primary"))
+                    .font(.title2)
+            }
+            .buttonStyle(.borderless)
+//                .controlSize(.large)
+                .fileImporter(
+                    isPresented: $isImporting,
+//                            allowedContentTypes: [bin_type!,gguf_type!],
+                    allowedContentTypes: [.data],
+                    allowsMultipleSelection: false
+                ) { result in
+                    do {
+                        guard let selectedFile: URL = try result.get().first else { return }
+                        model_file_name = selectedFile.lastPathComponent
+                        model_file_url = selectedFile
+                        model_file_path = selectedFile.lastPathComponent
+                        _ = copyModelToSandbox(url: model_file_url,dest:dir)
+                        modelImported = true
+                        add_button_icon = "checkmark"
+                        delayIconChange()
+                        models_previews = get_models_list(dir:dir)!
+                        
+                    } catch {
+                        // Handle failure.
+                        print("Unable to read file contents")
+                        print(error.localizedDescription)
+                    }
+                }
+        }
+        .navigationTitle(dir)
+        .onChange(of:dir){ dir in
+            models_previews = get_models_list(dir:dir)!
+        }        
     }
 }
 

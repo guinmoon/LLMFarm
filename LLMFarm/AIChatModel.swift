@@ -71,7 +71,7 @@ final class AIChatModel: ObservableObject {
         }
         let model_name = chat_config!["model"] as! String
         self.model_name = model_name
-        if let m_name = get_path_by_model_name(model_name) {
+        if let m_name = get_path_by_short_name(model_name) {
             self.modelURL = m_name
         }else{
             return nil

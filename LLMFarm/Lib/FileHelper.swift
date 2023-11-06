@@ -389,14 +389,14 @@ func get_file_name_without_ext(fileName:String) -> String{
     }
 }
 
-func get_path_by_model_name(_ model_name:String, dest:String = "models") -> String? {
+func get_path_by_short_name(_ short_name:String, dest:String = "models") -> String? {
     //#if os(iOS) || os(watchOS) || os(tvOS)
     do {
         let fileManager = FileManager.default
         let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
         let destinationURL = documentsPath!.appendingPathComponent(dest)
         try fileManager.createDirectory (at: destinationURL, withIntermediateDirectories: true, attributes: nil)
-        let path = destinationURL.appendingPathComponent(model_name).path
+        let path = destinationURL.appendingPathComponent(short_name).path
         if fileManager.fileExists(atPath: path){
             return path
         }else{

@@ -19,6 +19,7 @@ struct LLMFarmApp: App {
     @State var model_name = ""
     @State var title = ""
     @StateObject var aiChatModel = AIChatModel()
+    @StateObject var fineTuneModel = FineTuneModel()
     @StateObject var orientationInfo = OrientationInfo()
     @State var isLandscape:Bool = false
     @State private var chat_selection: String?
@@ -53,7 +54,7 @@ struct LLMFarmApp: App {
                     }
                     if (tabIndex==1){
                         // ModelsView()
-                        SettingsView(current_detail_view_name:$current_detail_view_name)
+                        SettingsView(current_detail_view_name:$current_detail_view_name).environmentObject(fineTuneModel)
                         BottomPanelView(tabIndex: $tabIndex, current_detail_view_name:$current_detail_view_name)
                             .ignoresSafeArea(.keyboard)
                     }

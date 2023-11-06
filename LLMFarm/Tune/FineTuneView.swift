@@ -9,23 +9,11 @@ import SwiftUI
 
 
 struct FineTuneView: View {
-    @EnvironmentObject var aiChatModel: AIChatModel
+    @EnvironmentObject var fineTuneModel: FineTuneModel
     @State private var isModelImporting: Bool = false
     @State private var isDataSetImporting: Bool = false
     @State var models_previews = get_models_list()!
     @State var datasets_preview = get_datasets_list()!
-    @State private var model_file_url: URL = URL(filePath: "/")
-    @State private var model_file_path: String = "Select model"
-    @State private var dataset_file_url: URL = URL(filePath: "/")
-    @State private var dataset_file_path: String = "Select dataset"
-    @State private var lora_name: String = ""
-    @State private var n_ctx: Int32 = 64
-    @State private var n_batch: Int32 = 4
-    @State private var adam_iter: Int32 = 30
-    @State private var n_threads: Int32 = 0
-    @State private var use_metal: Bool = false
-    @State private var use_checkpointing: Bool = false
-    @State private var tune_log: String = ""
     
     
     var body: some View {
@@ -46,13 +34,13 @@ struct FineTuneView: View {
                         ForEach(models_previews, id: \.self) { model in
                             Button(model["file_name"]!){
                                 //                                            model_file_name = model["file_name"]!
-                                model_file_path = model["file_name"]!
-                                lora_name = get_file_name_without_ext(fileName:model_file_path) + "_" + get_file_name_without_ext(fileName:dataset_file_path) + ".bin"
+                                fineTuneModel.model_file_path = model["file_name"]!
+                                fineTuneModel.lora_name = get_file_name_without_ext(fileName:fineTuneModel.model_file_path) + "_" + get_file_name_without_ext(fileName:fineTuneModel.dataset_file_path) + ".bin"
                             }
                         }
                     }
                 } label: {
-                    Label(model_file_path == "" ?"Select Model...":model_file_path, systemImage: "ellipsis.circle")
+                    Label(fineTuneModel.model_file_path == "" ?"Select Model...":fineTuneModel.model_file_path, systemImage: "ellipsis.circle")
                 }.padding()
             }
             .fileImporter(
@@ -64,14 +52,14 @@ struct FineTuneView: View {
                     guard let selectedFile: URL = try result.get().first else { return }
                     //                                model_file.input = selectedFile.lastPathComponent
                     //                                model_file_name = selectedFile.lastPathComponent
-                    model_file_url = selectedFile
+                    fineTuneModel.model_file_url = selectedFile
                     //                                    saveBookmark(url: selectedFile)
                     //#if os(iOS) || os(watchOS) || os(tvOS)
-                    model_file_path = selectedFile.lastPathComponent
+                    fineTuneModel.model_file_path = selectedFile.lastPathComponent
                     //#else
                     //                                    model_file_path = selectedFile.path
                     //#endif
-                    lora_name = get_file_name_without_ext(fileName:model_file_path) + "_" + get_file_name_without_ext(fileName:dataset_file_path) + ".bin"
+                    fineTuneModel.lora_name = get_file_name_without_ext(fileName:fineTuneModel.model_file_path) + "_" + get_file_name_without_ext(fileName:fineTuneModel.dataset_file_path) + ".bin"
                 } catch {
                     // Handle failure.
                     print("Unable to read file contents")
@@ -97,13 +85,13 @@ struct FineTuneView: View {
                         ForEach(datasets_preview, id: \.self) { model in
                             Button(model["file_name"]!){
                                 //                                            model_file_name = model["file_name"]!
-                                dataset_file_path = model["file_name"]!
-                                lora_name = get_file_name_without_ext(fileName:model_file_path) + "_" + get_file_name_without_ext(fileName:dataset_file_path) + ".bin"
+                                fineTuneModel.dataset_file_path = model["file_name"]!
+                                fineTuneModel.lora_name = get_file_name_without_ext(fileName:fineTuneModel.model_file_path) + "_" + get_file_name_without_ext(fileName:fineTuneModel.dataset_file_path) + ".bin"
                             }
                         }
                     }
                 } label: {
-                    Label(dataset_file_path == "" ?"Select File...":dataset_file_path, systemImage: "ellipsis.circle")
+                    Label(fineTuneModel.dataset_file_path == "" ?"Select File...":fineTuneModel.dataset_file_path, systemImage: "ellipsis.circle")
                 }.padding()
             }
             .fileImporter(
@@ -113,9 +101,9 @@ struct FineTuneView: View {
             ) { result in
                 do {
                     guard let selectedFile: URL = try result.get().first else { return }
-                    dataset_file_url = selectedFile
-                    dataset_file_path = selectedFile.lastPathComponent
-                    lora_name = get_file_name_without_ext(fileName:model_file_path) + "_" + get_file_name_without_ext(fileName:dataset_file_path) + ".bin"
+                    fineTuneModel.dataset_file_url = selectedFile
+                    fineTuneModel.dataset_file_path = selectedFile.lastPathComponent
+                    fineTuneModel.lora_name = get_file_name_without_ext(fileName:fineTuneModel.model_file_path) + "_" + get_file_name_without_ext(fileName:fineTuneModel.dataset_file_path) + ".bin"
                 } catch {
                     print("Unable to add file")
                     print(error.localizedDescription)
@@ -125,10 +113,10 @@ struct FineTuneView: View {
             HStack {
 #if os(macOS)
                 Text("LoRA Name:")
-                DidEndEditingTextField(text: $lora_name,didEndEditing: { newName in})
+                DidEndEditingTextField(text: $fineTuneModel.lora_name,didEndEditing: { newName in})
                     .frame(maxWidth: .infinity, alignment: .leading)
 #else
-                TextField("LoRA file name...", text: $lora_name)
+                TextField("LoRA file name...", text: $fineTuneModel.lora_name)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .textFieldStyle(.plain)
 #endif
@@ -140,7 +128,7 @@ struct FineTuneView: View {
             HStack {
                 Text("Threads:")
                     .frame(maxWidth: 75, alignment: .leading)
-                TextField("count..", value: $n_threads, format:.number)
+                TextField("count..", value: $fineTuneModel.n_threads, format:.number)
                     .frame( alignment: .leading)
                     .multilineTextAlignment(.trailing)
                     .textFieldStyle(.plain)
@@ -151,15 +139,15 @@ struct FineTuneView: View {
             .padding(.horizontal)
             .padding(.top, 5)
             
-            HStack {
-                Toggle("Metal", isOn: $use_metal)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-            }
-            .padding(.horizontal)
-            .padding(.bottom, 4)
+//            HStack {
+//                Toggle("Metal", isOn: $fineTuneModel.use_metal)
+//                    .frame(maxWidth: .infinity, alignment: .leading)
+//            }
+//            .padding(.horizontal)
+//            .padding(.bottom, 4)
             
             HStack {
-                Toggle("Use Checkpointing", isOn: $use_checkpointing)
+                Toggle("Use Checkpointing", isOn: $fineTuneModel.use_checkpointing)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding(.horizontal)
@@ -168,7 +156,7 @@ struct FineTuneView: View {
             HStack {
                 Text("Adam Iter:")
                     .frame(maxWidth: 95, alignment: .leading)
-                TextField("count..", value: $adam_iter, format:.number)
+                TextField("count..", value: $fineTuneModel.adam_iter, format:.number)
                     .frame( alignment: .leading)
                     .multilineTextAlignment(.trailing)
                     .textFieldStyle(.plain)
@@ -181,7 +169,7 @@ struct FineTuneView: View {
             HStack {
                 Text("Context:")
                     .frame(maxWidth: 75, alignment: .leading)
-                TextField("size..", value: $n_ctx, format:.number)
+                TextField("size..", value: $fineTuneModel.n_ctx, format:.number)
                     .frame( alignment: .leading)
                     .multilineTextAlignment(.trailing)
                     .textFieldStyle(.plain)
@@ -194,7 +182,7 @@ struct FineTuneView: View {
             HStack {
                 Text("N_Batch:")
                     .frame(maxWidth: 75, alignment: .leading)
-                TextField("size..", value: $n_batch, format:.number)
+                TextField("size..", value: $fineTuneModel.n_batch, format:.number)
                     .frame( alignment: .leading)
                     .multilineTextAlignment(.trailing)
                     .textFieldStyle(.plain)
@@ -207,18 +195,20 @@ struct FineTuneView: View {
             VStack {
                 Text("Log:")
                     .frame(maxWidth: 75, alignment: .leading)
-                TextEditor(text:$tune_log).frame(minHeight: 5)
+                TextEditor(text:$fineTuneModel.tune_log).frame(minHeight: 5)
             }
             .padding(.horizontal)
+//            .onChange(of: fineTuneModel.llama_finetune.tune_log)
             
             HStack{
                 Button {
                     Task {
-                        
+                        await fineTuneModel.finetune()
                     }
                 } label: {
                     Text("Run finetune")
                 }
+                .disabled(fineTuneModel.state == .tune)
             }
             .padding()
             .frame(maxWidth: .infinity,alignment: .trailing)

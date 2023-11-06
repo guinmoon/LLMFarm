@@ -9,6 +9,7 @@ import SwiftUI
 
 
 struct SettingsView: View {
+    @EnvironmentObject var fineTuneModel: FineTuneModel
     let app_version = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
     @Binding var current_detail_view_name:String?
     @State var settings_menu_items = [
@@ -38,7 +39,7 @@ struct SettingsView: View {
                             ModelsView("lora_adapters")
                         }
                         NavigationLink("Fine Tune"){
-                            FineTuneView()
+                            FineTuneView().environmentObject(fineTuneModel)
                         }
 //                        ForEach(settings_menu_items, id: \.self) { settings_menu_item in
 //                            NavigationLink(settings_menu_item["value"]!){

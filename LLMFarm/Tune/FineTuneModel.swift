@@ -31,10 +31,10 @@ final class FineTuneModel: ObservableObject {
     @Published  var lora_name: String = ""
     @Published  var n_ctx: Int32 = 64
     @Published  var n_batch: Int32 = 4
-    @Published  var adam_iter: Int32 = 3
+    @Published  var adam_iter: Int32 = 1
     @Published  var n_threads: Int32 = 0
     @Published  var use_metal: Bool = false
-    @Published  var use_checkpointing: Bool = false
+    @Published  var use_checkpointing: Bool = true
     @Published  var tune_log: String = ""
     public  var llama_finetune:LLaMa_FineTune? = nil
     
@@ -49,7 +49,9 @@ final class FineTuneModel: ObservableObject {
                 return
             }
             _ = get_path_by_short_name(lora_name,dest:"lora_adapters")
-            let lora_path = documents_path!.path() + "/lora_adapters/" + lora_name
+            let lora_path:String = String(documents_path!.appendingPathComponent("lora_adapters").path(percentEncoded: true) + lora_name)
+//            try! lora_path.write(to: URL(fileURLWithPath: lora_path), atomically: true, encoding: String.Encoding.utf8)
+            print("Lora_path: \(lora_path)")
             let dataset_path = get_path_by_short_name(dataset_file_path,dest:"datasets")
             if dataset_path == nil{
                 return
@@ -57,12 +59,21 @@ final class FineTuneModel: ObservableObject {
             llama_finetune = LLaMa_FineTune(model_path!,lora_path,dataset_path!,threads: n_threads, adam_iter: adam_iter,batch: n_batch,ctx: n_ctx, use_checkpointing: use_checkpointing)
             self.state = .tune
             tuneQueue.async{
-                try? self.llama_finetune!.finetune(
+                do{
+                    try self.llama_finetune!.finetune(
                     { progress_str in
                         DispatchQueue.main.async {
                             self.tune_log += "\n\(progress_str)"
                         }
                     })
+                }
+                catch{
+                    DispatchQueue.main.async {
+                        self.tune_log += "\nERROR: \(error)"
+                        self.state = .completed
+                    }
+                    return
+                }
                 DispatchQueue.main.async {
                     self.state = .completed
                 }

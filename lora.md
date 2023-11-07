@@ -24,8 +24,9 @@ To add several LoRA adapters, manually write them in the configuration file like
 ```
 
 # Fine Tune
-You can read about [FineTune here.](https://github.com/ggerganov/llama.cpp/tree/master/examples/finetune).
+Now you can perform FineTune directly in LLMFarm. To do this, go to settings -> FineTune
+*FineTune consumes quite a lot of RAM, so on iOS it is possible to train only 3B models with minimum settings n_ctx, n_batch*.
+You can read [more about FineTune here.](https://github.com/ggerganov/llama.cpp/tree/master/examples/finetune).
 
 # Export LoRA as a model
-
-You can read about how to apply an adapter to a model and export the resulting model [read here.](https://github.com/ggerganov/llama.cpp/tree/master/examples/export-lora).
+You can read about how to apply an adapter to a model and export the resulting model [here.](https://github.com/ggerganov/llama.cpp/tree/master/examples/export-lora).

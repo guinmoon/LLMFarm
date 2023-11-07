@@ -15,7 +15,7 @@
   <img alt="Icon" width="525px"  src="dist/screen2.png">
 </p>
 
-LLMFarm is an iOS and MacOS app to work with large language models (LLM). It allows you to load different LLMs with certain parameters.<br>
+LLMFarm is an iOS and MacOS app to work with large language models (LLM). It allows you to load different LLMs with certain parameters.With LLMFarm, you can test the performance of different LLMs on iOS and macOS and find the most suitable model for your project.<br>
 Based on [ggml](https://github.com/ggerganov/ggml) and [llama.cpp](https://github.com/ggerganov/llama.cpp) by [Georgi Gerganov](https://github.com/ggerganov).
 
 Also used sources from:
@@ -32,7 +32,7 @@ Also used sources from:
 - [x] Metal ([dont work](https://github.com/ggerganov/llama.cpp/issues/2407#issuecomment-1699544808) on intel Mac)
 - [x] Model setting templates
 - [x] LoRA adapters support ([read more](./lora.md))
-- [ ] LoRA train support
+- [ ] LoRA finetune support
 - [ ] LoRA export as model support
 - [ ] Restore context state (now only chat history) 
 
@@ -61,8 +61,6 @@ Note: For *Falcon, Alpaca, GPT4All, Chinese LLaMA / Alpaca and Chinese LLaMA-2 /
 
 # Getting Started
 
-Models must be quantized by [ggml](https://github.com/ggerganov/ggml) after [#154](https://github.com/ggerganov/ggml/pull/154).
-LLMFarm work in sandbox mode and put added models to the "models" directory. 
 You can find answers to some questions in the [FAQ section](https://github.com/guinmoon/LLMFarm/wiki/FAQ).
 
 ## Inference options
@@ -80,7 +78,6 @@ git clone --recurse-submodules https://github.com/guinmoon/LLMFarm
 
 
 # P.S.
-The number of open models is continuously growing. One of the advantages of using such models is the possibility of preserving their original content without censorship. However, the disadvantage may be the irrelevance of the information contained in them. You can also get answers to questions from various industries, for example, there are models that specialize in medical terms or programming.
-In addition, with the help of these models, you can create stories, songs, music and play quests etc...
-
+The number of open source models is constantly growing. One of the advantages of using such models is the possibility of preserving their original content without censorship. However, a disadvantage may be the irrelevance of the information they contain. It is also possible to get answers to questions from different industries, for example, there are models that specialize in medical terms or programming.
+In addition, you can use these models to create stories, songs, music, play quests, and so on...
 

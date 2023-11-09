@@ -163,19 +163,22 @@ public func get_chats_list() -> [Dictionary<String, String>]?{
         let files = try fileManager.contentsOfDirectory(atPath: destinationURL.path)
         for chatfile in files {
             if chatfile.contains(".json"){
-                let info = get_chat_info(chatfile)!
+                let info = get_chat_info(chatfile)
+                if info == nil{
+                    return res
+                }
                 var title = chatfile
                 var icon = "ava0"
                 var model = ""
                 var message = ""
-                if (info["title"] != nil){
-                    title = info["title"] as! String
+                if (info!["title"] != nil){
+                    title = info!["title"] as! String
                 }
-                if (info["icon"] != nil){
-                    icon = info["icon"] as! String
+                if (info!["icon"] != nil){
+                    icon = info!["icon"] as! String
                 }
-                if (info["model"] != nil){
-                    model = info["model"] as! String
+                if (info!["model"] != nil){
+                    model = info!["model"] as! String
                 }
                 //                if (info["context"] != nil){
                 //                    message = "ctx:" + (info["context"] as! Int32).description
@@ -183,11 +186,11 @@ public func get_chats_list() -> [Dictionary<String, String>]?{
                 //                if (info["temp"] != nil){
                 //                    message = message + ", temp:" + Float(info["temp"] as! Double).description
                 //                }
-                if (info["model_inference"] != nil){
-                    message = info["model_inference"] as! String
+                if (info!["model_inference"] != nil){
+                    message = info!["model_inference"] as! String
                 }
-                if (info["context"] != nil){
-                    message += " ctx:" + (info["context"] as! Int32).description
+                if (info!["context"] != nil){
+                    message += " ctx:" + (info!["context"] as! Int32).description
                 }
                 let tmp_chat_info = ["title":title,"icon":icon, "message":message, "time": "10:30 AM","model":model,"chat":chatfile]
                 res.append(tmp_chat_info)

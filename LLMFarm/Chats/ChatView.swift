@@ -40,12 +40,12 @@ struct ChatView: View {
         if last_msg != nil && last_msg?.id != nil && scrollProxy != nil{
             if with_animation{
                 withAnimation {
-//                    scrollProxy?.scrollTo(last_msg?.id, anchor: .bottom)
-                    scrollProxy?.scrollTo(last_msg!.id, anchor: .bottom)
+                    //                    scrollProxy?.scrollTo(last_msg?.id, anchor: .bottom)
+                    scrollProxy?.scrollTo("latest")
                 }
             }else{
-//                scrollProxy?.scrollTo(last_msg?.id, anchor: .bottom)
-                scrollProxy?.scrollTo(last_msg!.id, anchor: .bottom)
+                //                scrollProxy?.scrollTo(last_msg?.id, anchor: .bottom)
+                scrollProxy?.scrollTo("latest")
             }
         }
     }
@@ -70,67 +70,61 @@ struct ChatView: View {
     }
     
     var body: some View {
-        ScrollViewReader { scrollView in
-//            Text(String("load")).id("header")
-            VStack {
-                List {
-                    ForEach(aiChatModel.messages, id: \.id) { message in
-                        MessageView(message: message).id(message.id)
-                    }
-                    .listRowSeparator(.hidden)
-                    Text("").id("latest")
-                }
-                .listStyle(PlainListStyle())
-                                                
-                HStack {
-                    switch aiChatModel.state {
-                    case .none:
-                        Text("")
-                    case .loading:
-                        ProgressView {
-                            Text("Loading...")
+        VStack{
+            if aiChatModel.state == .loading{
+                Text("Model loading...")
+                    .padding(.top, 5)
+            }
+            ScrollViewReader { scrollView in
+                VStack {
+                    List {
+                        ForEach(aiChatModel.messages, id: \.id) { message in
+                            MessageView(message: message).id(message.id)
                         }
-                    case .completed:
-                        HStack{
+                        .listRowSeparator(.hidden)
+                        Text("").id("latest")
+                    }
+                    .listStyle(PlainListStyle())
+                    
+                    HStack{
 #if os(macOS)
-                            DidEndEditingTextField(text: $inputText, didEndEditing: { input in})
-                            //                                    .frame( alignment: .leading)
+                        DidEndEditingTextField(text: $inputText, didEndEditing: { input in})
+                        //                                    .frame( alignment: .leading)
 #else
-                            TextField("Type your message...", text: $inputText)
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                            //                            .focused($isInputFieldFocused)
+                        TextField("Type your message...", text: $inputText)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                        //                            .focused($isInputFieldFocused)
 #endif
-                            
-                            Button {
-                                Task {
-                                    let text = inputText
-                                    inputText = ""
-                                    if (aiChatModel.predicting){
-                                        aiChatModel.stop_predict()
-                                    }else
-                                    {
-                                        await aiChatModel.send(message: text)
+                        Button {
+                            Task {
+                                let text = inputText
+                                inputText = ""
+                                if (aiChatModel.predicting){
+                                    aiChatModel.stop_predict()
+                                }else
+                                {    
+                                    DispatchQueue.main.async {
+                                        aiChatModel.send(message: text)
                                     }
                                 }
-                            } label: {
-                                Image(systemName: aiChatModel.action_button_icon)
                             }
-                            .padding(.horizontal, 6.0)
-                            .disabled((inputText.isEmpty && !aiChatModel.predicting))
-                            .keyboardShortcut(.defaultAction)
-#if os(macOS)
-                            .buttonStyle(.borderedProminent)
-                            .controlSize(.large)
-#endif
+                        } label: {
+                            Image(systemName: aiChatModel.action_button_icon)
                         }
-                        .padding(.leading, 10)
-                        .padding(.trailing, 5)
-                        .padding(.bottom, 5)
+                        .padding(.horizontal, 6.0)
+                        .disabled((inputText.isEmpty && !aiChatModel.predicting))
+                        .keyboardShortcut(.defaultAction)
+#if os(macOS)
+                        .buttonStyle(.borderedProminent)
+                        .controlSize(.large)
+#endif
                     }
-                }
-                .onChange(of: aiChatModel.AI_typing){ ai_typing in
-//                .onChange(of: aiChatModel.messages.count){ count in
-                    // Fix for theese https://developer.apple.com/forums/thread/712510
+                    .padding(.leading, 10)
+                    .padding(.trailing, 5)
+                    .padding(.bottom, 5)
+                    .onChange(of: aiChatModel.AI_typing){ ai_typing in
+                        //                .onChange(of: aiChatModel.messages.count){ count in
+                        // Fix for theese https://developer.apple.com/forums/thread/712510
 #if os(macOS)
                         if (aiChatModel.predicting){
                             scrollToBottom(with_animation: true)
@@ -138,64 +132,67 @@ struct ChatView: View {
                             scrollToBottom(with_animation: false)
                         }
 #endif
-                    if #available(iOS 16.4, *){
-                        if (aiChatModel.predicting){
-                            scrollToBottom(with_animation: true)
-                        }else{
-                            scrollToBottom(with_animation: false)
+                        if #available(iOS 16.4, *){
+                            if (aiChatModel.predicting){
+                                scrollToBottom(with_animation: true)
+                            }else{
+                                scrollToBottom(with_animation: false)
+                            }
                         }
                     }
+                    .frame(height:47)
+                    .background(.regularMaterial)
+                    //                .padding(.bottom)
+                    //                .padding(.leading)
+                    //                .padding(.trailing)
                 }
-                .frame(height:47)
-                .background(.regularMaterial)
-//                .padding(.bottom)
-//                .padding(.leading)
-//                .padding(.trailing)
-            }
-            .navigationTitle($title)
-            .toolbar {
-                Button {
-                    Task {
-                        self.aiChatModel.chat = nil
-                        reload_button_icon = "checkmark"
-                        delayIconChange()
+                .navigationTitle($title)
+                .toolbar {
+                    Button {
+                        Task {
+                            self.aiChatModel.chat = nil
+                            reload_button_icon = "checkmark"
+                            delayIconChange()
+                        }
+                    } label: {
+                        Image(systemName: reload_button_icon)
                     }
-                } label: {
-                    Image(systemName: reload_button_icon)
-                }
-                .disabled(aiChatModel.predicting)
-                //                .font(.title2)
-                
-                Button {
-                    Task {
-                        //                        add_chat_dialog = true
-                        edit_chat_dialog = true
-                        //                        chat_selection = nil
+                    .disabled(aiChatModel.predicting)
+                    //                .font(.title2)
+                    
+                    Button {
+                        Task {
+                            //                        add_chat_dialog = true
+                            edit_chat_dialog = true
+                            //                        chat_selection = nil
+                        }
+                    } label: {
+                        Image(systemName: "slider.horizontal.3")
                     }
-                } label: {
-                    Image(systemName: "slider.horizontal.3")
+                    //                .font(.title2)
                 }
-                //                .font(.title2)
-            }
-            .disabled(chat_selection == nil)
-            .onAppear(){
-                scrollProxy = scrollView
-                #if os(macOS)
+                .disabled(chat_selection == nil)
+                .onAppear(){
+                    scrollProxy = scrollView
+#if os(macOS)
                     scrollToBottom(with_animation: false)
-                #endif
-                if #available(iOS 16.4, *) {
-                    scrollToBottom(with_animation: false)
+#endif
+                    if #available(iOS 16.4, *) {
+                        scrollToBottom(with_animation: false)
+                    }
                 }
             }
-        }
-        .onChange(of: chat_selection) { chat_name in
-            Task {
-                if chat_name == nil{
-                    close_chat()
-                }
-                else{
-                    //                    isInputFieldFocused = true
-                    await self.reload()
+            .frame(maxHeight: .infinity)
+            .disabled(aiChatModel.state == .loading)
+            .onChange(of: chat_selection) { chat_name in
+                Task {
+                    if chat_name == nil{
+                        close_chat()
+                    }
+                    else{
+                        //                    isInputFieldFocused = true
+                        await self.reload()
+                    }
                 }
             }
         }

@@ -36,9 +36,9 @@ final class AIChatModel: ObservableObject {
     //    public var model_name = "stablelm-tuned-alpha-3b-ggml-model-q5_1.bin"
     public var model_name = ""
     public var chat_name = ""
-//    public var avalible_models: [String]
+    //    public var avalible_models: [String]
     public var start_predicting_time = DispatchTime.now()
-
+    
     //    public var title:String = ""
     
     @Published var AI_typing = 0
@@ -48,15 +48,15 @@ final class AIChatModel: ObservableObject {
     public init(){
         chat = nil
         modelURL = ""
-//        avalible_models = []
+        //        avalible_models = []
     }
     
-//    func _get_avalible_models(){
-//        self.avalible_models = get_avalible_models()!
-//    }
+    //    func _get_avalible_models(){
+    //        self.avalible_models = get_avalible_models()!
+    //    }
     
     
-    public func load_model_by_chat_name(chat_name: String) async throws -> Bool?{
+    public func load_model_by_chat_name(chat_name: String) throws -> Bool?{
         self.model_loading = true
         
         let chat_config = get_chat_info(chat_name)
@@ -75,10 +75,10 @@ final class AIChatModel: ObservableObject {
             self.modelURL = m_name
         }else{
             return nil
-        }                        
+        }
         
-                
-                
+        
+        
         self.chat = nil
         //            let a: URL = URL(filePath: modelURL)
         //            let res = a.startAccessingSecurityScopedResource()
@@ -105,6 +105,7 @@ final class AIChatModel: ObservableObject {
                 model_context_param.useMMap = chat_config!["mmap"] as! Bool
             }
             do{
+                //                try await MainActor.run {
                 if chat_config!["model_inference"] as! String == "llama"{
                     if (chat_config!["grammar"] != nil && chat_config!["grammar"] as! String != "<None>" && chat_config!["grammar"] as! String != ""){
                         let grammar_path = get_grammar_path_by_name(chat_config!["grammar"] as! String)
@@ -137,6 +138,7 @@ final class AIChatModel: ObservableObject {
                     }
                     self.chat?.model.reverse_prompt.append("<|endoftext|>")
                 }
+                //                }
             }
             catch {
                 print(error)
@@ -260,84 +262,102 @@ final class AIChatModel: ObservableObject {
             self.messages = updatedMessages
             self.numberOfTokens += 1
             self.total_sec += time
-//            if (self.numberOfTokens>self.maxToken){
-//                self.stop_predict()
-//            }
+            //            if (self.numberOfTokens>self.maxToken){
+            //                self.stop_predict()
+            //            }
         }else{
             print("chat ended.")
         }
         return check
     }
     
-    public func send(message text: String) async {
+    public func send(message text: String)  {
+        let aiQueue = DispatchQueue(label: "LLMFarm-model-load", qos: .userInitiated, attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
+        
         let requestMessage = Message(sender: .user, state: .typed, text: text)
-        messages.append(requestMessage)
+        self.messages.append(requestMessage)
         self.AI_typing += 1
         if self.chat != nil{
             if self.chat_name != self.chat?.chatName{
                 self.chat = nil
             }
         }
-        if self.chat == nil{
-            self.state = .loading
-            do{
-                let res=try await self.load_model_by_chat_name(chat_name:self.chat_name)
-                if (res == nil){
-                    let message = Message(sender: .system, text: "Failed to load model.")
-                    messages.append(message)
-                    state = .completed
-                    stop_predict(is_error: true)
+        aiQueue.async {
+            if self.chat == nil{
+                DispatchQueue.main.async{
+                    self.state = .loading
+                }
+                
+                do{
+                    let res=try self.load_model_by_chat_name(chat_name:self.chat_name)
+                    if (res == nil){
+                        let message = Message(sender: .system, text: "Failed to load model.")
+                        DispatchQueue.main.async{
+                            self.messages.append(message)
+                            self.state = .completed
+                            self.stop_predict(is_error: true)
+                        }
+                        return
+                    }
+                }catch{
+                    let message = Message(sender: .system, text: "\(error)")
+                    DispatchQueue.main.async{
+                        self.messages.append(message)
+                        self.state = .completed
+                        self.stop_predict(is_error: true)
+                    }
                     return
                 }
-                state = .completed
-            }catch{
-                let message = Message(sender: .system, text: "\(error)")
-                messages.append(message)
-                state = .completed
-                stop_predict(is_error: true)
-                return
-            }
-        }else{
-            self.chat?.chatName = self.chat_name
-        }
-        self.chat?.flagExit = false
-        do {
-            var message = Message(sender: .system, text: "")
-            messages.append(message)
-            let messageIndex = messages.endIndex - 1
-            
-            self.numberOfTokens = 0
-            self.total_sec = 0.0
-            self.predicting = true
-            self.action_button_icon = "stop.circle"
-            self.start_predicting_time = DispatchTime.now()
-            self.chat?.conversation(text, { str, time in
-                _ = self.process_predicted_str(str, time, &message, messageIndex)
-            }, {
-                final_str in
-                print(final_str)
-                self.AI_typing = 0
-                self.total_sec = Double((DispatchTime.now().uptimeNanoseconds - self.start_predicting_time.uptimeNanoseconds)) / 1_000_000_000
-                if (self.chat_name == self.chat?.chatName && self.chat?.flagExit != true){
-                    message.state = .predicted(totalSecond: self.total_sec)
-                    self.messages[messageIndex] = message
-                }else{
-                    print("chat ended.")
+                DispatchQueue.main.async{
+                    self.state = .completed
                 }
-                self.predicting = false
-                self.numberOfTokens = 0
-                self.action_button_icon = "paperplane"
-                if final_str.hasPrefix("[Error]"){
-                    let message = Message(sender: .system, state: .error, text: "Eval \(final_str)")
+                
+            }else{
+                DispatchQueue.main.async{
+                    self.chat?.chatName = self.chat_name
+                }
+            }
+            DispatchQueue.main.async{
+                self.chat?.flagExit = false
+                do {
+                    var message = Message(sender: .system, text: "")
+                    self.messages.append(message)
+                    let messageIndex = self.messages.endIndex - 1
+                    
+                    self.numberOfTokens = 0
+                    self.total_sec = 0.0
+                    self.predicting = true
+                    self.action_button_icon = "stop.circle"
+                    self.start_predicting_time = DispatchTime.now()
+                    self.chat?.conversation(text, { str, time in
+                        _ = self.process_predicted_str(str, time, &message, messageIndex)
+                    }, {
+                        final_str in
+                        print(final_str)
+                        self.AI_typing = 0
+                        self.total_sec = Double((DispatchTime.now().uptimeNanoseconds - self.start_predicting_time.uptimeNanoseconds)) / 1_000_000_000
+                        if (self.chat_name == self.chat?.chatName && self.chat?.flagExit != true){
+                            message.state = .predicted(totalSecond: self.total_sec)
+                            self.messages[messageIndex] = message
+                        }else{
+                            print("chat ended.")
+                        }
+                        self.predicting = false
+                        self.numberOfTokens = 0
+                        self.action_button_icon = "paperplane"
+                        if final_str.hasPrefix("[Error]"){
+                            let message = Message(sender: .system, state: .error, text: "Eval \(final_str)")
+                            self.messages.append(message)
+                        }
+                        save_chat_history(self.messages,self.chat_name+".json")
+                    })
+                    
+                    
+                } catch {
+                    let message = Message(sender: .system, state: .error, text: error.localizedDescription)
                     self.messages.append(message)
                 }
-                save_chat_history(self.messages,self.chat_name+".json")
-            })
-            
-            
-        } catch {
-            let message = Message(sender: .system, state: .error, text: error.localizedDescription)
-            messages.append(message)
+            }
         }
     }
 }

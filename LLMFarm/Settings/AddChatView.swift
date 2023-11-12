@@ -821,7 +821,19 @@ struct AddChatView: View {
 #endif
                                 Button {
                                     Task {
-                                        
+                                        save_template(model_settings_template.template_name + ".json",
+                                                      template_name: model_settings_template.template_name,
+                                                      inference: model_inference,
+                                                      context: model_context,
+                                                      n_batch: model_n_batch,
+                                                      temp: model_temp,
+                                                      top_k: model_top_k,
+                                                      top_p: model_top_p,
+                                                      repeat_last_n: model_repeat_last_n,
+                                                      repeat_penalty: model_repeat_penalty,
+                                                      prompt_format: prompt_format,
+                                                      reverse_prompt: reverse_prompt,
+                                                      use_metal: use_metal)
                                     }
                                 } label: {
                                     Image(systemName: "doc.badge.plus")

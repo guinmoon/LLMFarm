@@ -86,10 +86,18 @@ func get_model_setting_templates() -> [ModelSettingsTemplate]{
     var model_setting_templates: [ModelSettingsTemplate] = []
     model_setting_templates.append(ModelSettingsTemplate())
     do{
-        var templates_path=Bundle.main.resourcePath!.appending("/model_setting_templates")
-        let tenplate_files = try FileManager.default.contentsOfDirectory(atPath: templates_path)
+        let fileManager = FileManager.default
+        let templates_path=Bundle.main.resourcePath!.appending("/model_setting_templates")
+        let tenplate_files = try fileManager.contentsOfDirectory(atPath: templates_path)
         for tenplate_file in tenplate_files {
             model_setting_templates.append(parse_model_setting_template(template_path: templates_path+"/"+tenplate_file))
+        }
+        let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+        let user_templates_path = documentsPath!.appendingPathComponent("model_setting_templates")
+        try fileManager.createDirectory (at: user_templates_path, withIntermediateDirectories: true, attributes: nil)
+        let user_tenplate_files = try fileManager.contentsOfDirectory(atPath: user_templates_path.path(percentEncoded: true))
+        for template_file in user_tenplate_files {
+            model_setting_templates.append(parse_model_setting_template(template_path: user_templates_path.path(percentEncoded: true)+"/"+template_file))
         }
     }
     catch {
@@ -220,15 +228,39 @@ public func rename_file(_ old_fname:String, _ new_fname: String, _ dir: String) 
     return result
 }
 
-public func save_template(_ f_name:String, _ dir: String = "model_setting_templates") -> Bool{
+public func save_template(_ f_name:String,
+                             template_name: String ,
+                             inference: String ,
+                             context: Int32 ,
+                             n_batch: Int32 ,
+                             temp: Float ,
+                             top_k: Int32 ,
+                             top_p: Float ,
+                             repeat_last_n: Int32,
+                             repeat_penalty: Float ,
+                             prompt_format: String ,
+                             reverse_prompt:String ,
+                             use_metal:Bool,
+                             dir: String = "model_setting_templates") -> Bool{
     var result = false
     do{
+        let tmp_template = ModelSettingsTemplate( template_name: template_name,
+                                                  inference: inference,
+                                                  context: context,
+                                                  n_batch: n_batch,
+                                                  temp: temp,
+                                                  top_k: top_k,
+                                                  top_p: top_p,
+                                                  repeat_last_n: repeat_last_n,
+                                                  repeat_penalty: repeat_penalty,
+                                                  prompt_format: prompt_format,
+                                                  reverse_prompt:reverse_prompt)
         let fileManager = FileManager.default
         let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
         let destinationURL = documentsPath!.appendingPathComponent(dir)
+        try fileManager.createDirectory (at: destinationURL, withIntermediateDirectories: true, attributes: nil)
         let new_template_path = destinationURL.appendingPathComponent(f_name)
-        
-        return true
+        return tmp_template.save_template(new_template_path)
     }
     catch{
         print(error)

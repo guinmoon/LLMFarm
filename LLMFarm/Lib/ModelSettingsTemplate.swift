@@ -9,7 +9,7 @@ import Foundation
 
 struct ModelSettingsTemplate: Hashable {
     var template_name: String = "Custom"
-    var inference = "llama"
+    var inference: String = "llama"
     var context: Int32 = 2048
     var n_batch: Int32 = 512
     var temp: Float = 0.9
@@ -32,7 +32,14 @@ struct ModelSettingsTemplate: Hashable {
             let new_template:[String: Any] = ["template_name":self.template_name,
                                               "inference":self.inference,
                                               "context":self.context,
-                                              "temp":self.n_batch]
+                                              "temp":self.n_batch,
+                                              "top_k":self.top_k,
+                                              "top_p":self.top_p,
+                                              "repeat_last_n":self.repeat_last_n,
+                                              "repeat_penalty":self.repeat_penalty,
+                                              "prompt_format":self.prompt_format,
+                                              "reverse_prompt":self.reverse_prompt,
+                                              "use_metal":self.use_metal]
             let jsonData = try JSONSerialization.data(withJSONObject: new_template, options: .prettyPrinted)
             try jsonData.write(to: fname)
             return true

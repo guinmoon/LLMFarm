@@ -154,6 +154,13 @@ struct FineTuneView: View {
             .padding(.bottom, 4)
             
             HStack {
+                Toggle("Use Metal", isOn: $fineTuneModel.use_metal)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .padding(.horizontal)
+            .padding(.bottom, 4)
+            
+            HStack {
                 Text("Adam Iter:")
                     .frame(maxWidth: 95, alignment: .leading)
                 TextField("count..", value: $fineTuneModel.adam_iter, format:.number)

@@ -27,6 +27,22 @@ struct ModelSettingsTemplate: Hashable {
         hasher.combine(template_name)
     }
     
+    func save_template(_ fname:URL) -> Bool{
+        do{
+            let new_template:[String: Any] = ["template_name":self.template_name,
+                                              "inference":self.inference,
+                                              "context":self.context,
+                                              "temp":self.n_batch]
+            let jsonData = try JSONSerialization.data(withJSONObject: new_template, options: .prettyPrinted)
+            try jsonData.write(to: fname)
+            return true
+        }
+        catch{
+            print(error)
+        }
+        return false
+    }
+    
     static func == (lhs: ModelSettingsTemplate, rhs: ModelSettingsTemplate) -> Bool {
         return lhs.template_name == rhs.template_name 
     }

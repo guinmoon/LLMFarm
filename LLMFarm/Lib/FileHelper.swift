@@ -220,6 +220,22 @@ public func rename_file(_ old_fname:String, _ new_fname: String, _ dir: String) 
     return result
 }
 
+public func save_template(_ f_name:String, _ dir: String = "model_setting_templates") -> Bool{
+    var result = false
+    do{
+        let fileManager = FileManager.default
+        let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+        let destinationURL = documentsPath!.appendingPathComponent(dir)
+        let new_template_path = destinationURL.appendingPathComponent(f_name)
+        
+        return true
+    }
+    catch{
+        print(error)
+    }
+    return result
+}
+
 public func get_models_list(dir:String = "models") -> [Dictionary<String, String>]?{
     var res: [Dictionary<String, String>] = []
     do {

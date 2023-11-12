@@ -805,6 +805,30 @@ struct AddChatView: View {
                                 }
                             }
                         }.padding()
+                        
+                        VStack{
+                            Text("Save as new template:")
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.horizontal)
+                            HStack {
+#if os(macOS)
+                                DidEndEditingTextField(text: $model_settings_template.template_name,didEndEditing: { newName in})
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+#else
+                                TextField("New template name...", text: $model_settings_template.template_name)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .textFieldStyle(.plain)
+#endif
+                                Button {
+                                    Task {
+                                        
+                                    }
+                                } label: {
+                                    Image(systemName: "doc.badge.plus")
+                                }
+                            }
+                            .padding(.horizontal)
+                        }
                     }
                 }
             }

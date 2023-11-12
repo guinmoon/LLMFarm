@@ -16,6 +16,8 @@ private extension Duration {
     }
 }
 
+var AIChatModel_obj_ptr:UnsafeMutableRawPointer? = nil
+
 @MainActor
 final class AIChatModel: ObservableObject {
     enum State {
@@ -54,6 +56,7 @@ final class AIChatModel: ObservableObject {
     //    func _get_avalible_models(){
     //        self.avalible_models = get_avalible_models()!
     //    }
+    
     
     
     public func load_model_by_chat_name(chat_name: String) throws -> Bool?{

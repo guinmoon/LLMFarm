@@ -56,7 +56,9 @@ final class FineTuneModel: ObservableObject {
             if dataset_path == nil{
                 return
             }
-            llama_finetune = LLaMa_FineTune(model_path!,lora_path,dataset_path!,threads: n_threads, adam_iter: adam_iter,batch: n_batch,ctx: n_ctx, use_checkpointing: use_checkpointing)
+            llama_finetune = LLaMa_FineTune(model_path!,lora_path,dataset_path!,threads: 
+                                                n_threads, adam_iter: adam_iter,batch: n_batch,ctx: n_ctx,
+                                            use_checkpointing: use_checkpointing, use_metal: use_metal)
             self.state = .tune
             tuneQueue.async{
                 do{

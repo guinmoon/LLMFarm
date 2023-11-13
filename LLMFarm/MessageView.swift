@@ -52,7 +52,7 @@ struct MessageView: View {
             case .predicted(totalSecond: let totalSecond):
                 VStack(alignment: .leading) {
                     Text(message.text).textSelection(.enabled)
-                    Text(String(format: "%.2f sec", totalSecond))
+                    Text(String(format: "%.2f ses, %.2f t/s", totalSecond,message.tok_sec))
                         .font(.footnote)
                         .foregroundColor(Color.gray)
                 }.textSelection(.enabled)
@@ -84,10 +84,10 @@ struct MessageView: View {
 struct MessageView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            MessageView(message: Message(sender: .user, state: .none, text: "none"))
-            MessageView(message: Message(sender: .user, state: .error, text: "error"))
-            MessageView(message: Message(sender: .user, state: .predicting, text: "predicting"))
-            MessageView(message: Message(sender: .user, state: .predicted(totalSecond: 3.1415), text: "predicted"))
+            MessageView(message: Message(sender: .user, state: .none, text: "none", tok_sec: 0))
+            MessageView(message: Message(sender: .user, state: .error, text: "error", tok_sec: 0))
+            MessageView(message: Message(sender: .user, state: .predicting, text: "predicting", tok_sec: 0))
+            MessageView(message: Message(sender: .user, state: .predicted(totalSecond: 3.1415), text: "predicted", tok_sec: 0))
         }
     }
 }

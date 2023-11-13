@@ -40,6 +40,8 @@ final class AIChatModel: ObservableObject {
     public var chat_name = ""
     //    public var avalible_models: [String]
     public var start_predicting_time = DispatchTime.now()
+    public var first_predicted_token_time = DispatchTime.now()
+    public var tok_sec:Double = 0.0
     
     //    public var title:String = ""
     
@@ -223,12 +225,14 @@ final class AIChatModel: ObservableObject {
             if self.messages[messages.endIndex-1].state == .predicting ||
                 self.messages[messages.endIndex-1].state == .none{
                 self.messages[messages.endIndex-1].state = .predicted(totalSecond: self.total_sec)
+                self.messages[messages.endIndex-1].tok_sec = Double(self.numberOfTokens)/self.total_sec
             }
             if is_error{
                 self.messages[messages.endIndex-1].state = .error
             }
         }
         self.predicting = false
+        self.tok_sec = Double(self.numberOfTokens)/self.total_sec
         self.numberOfTokens = 0
         self.action_button_icon = "paperplane"
         self.AI_typing = 0
@@ -277,7 +281,7 @@ final class AIChatModel: ObservableObject {
     public func send(message text: String)  {
         let aiQueue = DispatchQueue(label: "LLMFarm-model-load", qos: .userInitiated, attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
         
-        let requestMessage = Message(sender: .user, state: .typed, text: text)
+        let requestMessage = Message(sender: .user, state: .typed, text: text, tok_sec: 0)
         self.messages.append(requestMessage)
         self.AI_typing += 1
         if self.chat != nil{
@@ -294,7 +298,7 @@ final class AIChatModel: ObservableObject {
                 do{
                     let res=try self.load_model_by_chat_name(chat_name:self.chat_name)
                     if (res == nil){
-                        let message = Message(sender: .system, text: "Failed to load model.")
+                        let message = Message(sender: .system, text: "Failed to load model.", tok_sec: 0)
                         DispatchQueue.main.async{
                             self.messages.append(message)
                             self.state = .completed
@@ -303,7 +307,7 @@ final class AIChatModel: ObservableObject {
                         return
                     }
                 }catch{
-                    let message = Message(sender: .system, text: "\(error)")
+                    let message = Message(sender: .system, text: "\(error)", tok_sec: 0)
                     DispatchQueue.main.async{
                         self.messages.append(message)
                         self.state = .completed
@@ -323,7 +327,7 @@ final class AIChatModel: ObservableObject {
             DispatchQueue.main.async{
                 self.chat?.flagExit = false
                 do {
-                    var message = Message(sender: .system, text: "")
+                    var message = Message(sender: .system, text: "",tok_sec: 0)
                     self.messages.append(message)
                     let messageIndex = self.messages.endIndex - 1
                     
@@ -341,6 +345,12 @@ final class AIChatModel: ObservableObject {
                         self.total_sec = Double((DispatchTime.now().uptimeNanoseconds - self.start_predicting_time.uptimeNanoseconds)) / 1_000_000_000
                         if (self.chat_name == self.chat?.chatName && self.chat?.flagExit != true){
                             message.state = .predicted(totalSecond: self.total_sec)
+                            if self.tok_sec != 0{
+                                message.tok_sec = self.tok_sec
+                            }
+                            else{
+                                message.tok_sec = Double(self.numberOfTokens)/self.total_sec
+                            }
                             self.messages[messageIndex] = message
                         }else{
                             print("chat ended.")
@@ -349,7 +359,7 @@ final class AIChatModel: ObservableObject {
                         self.numberOfTokens = 0
                         self.action_button_icon = "paperplane"
                         if final_str.hasPrefix("[Error]"){
-                            let message = Message(sender: .system, state: .error, text: "Eval \(final_str)")
+                            let message = Message(sender: .system, state: .error, text: "Eval \(final_str)", tok_sec: 0)
                             self.messages.append(message)
                         }
                         save_chat_history(self.messages,self.chat_name+".json")
@@ -357,7 +367,7 @@ final class AIChatModel: ObservableObject {
                     
                     
                 } catch {
-                    let message = Message(sender: .system, state: .error, text: error.localizedDescription)
+                    let message = Message(sender: .system, state: .error, text: error.localizedDescription, tok_sec: 0)
                     self.messages.append(message)
                 }
             }

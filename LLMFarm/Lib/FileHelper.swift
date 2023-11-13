@@ -471,13 +471,13 @@ func load_chat_history(_ fname:String) -> [Message]?{
         let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
         let jsonResult = try JSONSerialization.jsonObject(with: data, options: .mutableLeaves)
         let jsonResult_dict = jsonResult as? [Dictionary<String, String>]
+        if jsonResult_dict == nil {
+            return []
+        }
         for row in jsonResult_dict! {
-            var tmp_msg = Message(sender: .system, text: "")
+            var tmp_msg = Message(sender: .system, text: "", tok_sec: 0)
             if (row["id"] != nil){
                 tmp_msg.id = UUID.init(uuidString: row["id"]!)!
-            }
-            if (row["sender"] == "user"){
-                tmp_msg.sender = .user
             }
             if (row["text"] != nil){
                 tmp_msg.text = row["text"]!
@@ -487,9 +487,16 @@ func load_chat_history(_ fname:String) -> [Message]?{
                 let b_ind=str.index(str.firstIndex(of: ":")!, offsetBy: 2)
                 let e_ind=str.firstIndex(of: ")")
                 let val=str[b_ind..<e_ind!]
-                tmp_msg.state = .predicted(totalSecond: Double(val)!)
+                tmp_msg.state = .predicted(totalSecond: Double(val) ?? 0)
             }else{
-                tmp_msg.state = .predicted(totalSecond: 0)
+                tmp_msg.state = .typed
+            }
+            if (row["sender"] == "user"){
+                tmp_msg.sender = .user
+                tmp_msg.state = .typed
+            }
+            if (row["tok_sec"] != nil){
+                tmp_msg.tok_sec = Double(row["tok_sec"]!) ?? 0
             }
             res.append(tmp_msg)
         }
@@ -575,7 +582,8 @@ func save_chat_history(_ messages_raw: [Message],_ fname:String){
             let tmp_msg = ["id":message.id.uuidString as AnyObject,
                            "sender":String(describing: message.sender) as AnyObject,
                            "state":String(describing: message.state) as AnyObject,
-                           "text":message.text as AnyObject]
+                           "text":message.text as AnyObject,
+                           "tok_sec":String(message.tok_sec) as AnyObject]
             messages.append(tmp_msg)
         }
         let jsonData = try JSONSerialization.data(withJSONObject: messages, options: .prettyPrinted)

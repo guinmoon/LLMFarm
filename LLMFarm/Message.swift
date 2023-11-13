@@ -25,4 +25,5 @@ struct Message: Identifiable {
     var sender: Sender
     var state: State = .none
     var text: String
+    var tok_sec: Double
 }

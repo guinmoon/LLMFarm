@@ -28,7 +28,10 @@ final class AIChatModel: ObservableObject {
     
     public var chat: AI?
     public var modelURL: String
-    public var maxToken = 512
+    public var model_sample_param: ModelSampleParams = ModelSampleParams.default
+    public var model_context_param:ModelAndContextParams = ModelAndContextParams.default
+    
+//    public var maxToken = 512
     public var numberOfTokens = 0
     public var total_sec = 0.0
     public var predicting = false
@@ -64,142 +67,62 @@ final class AIChatModel: ObservableObject {
     public func load_model_by_chat_name(chat_name: String) throws -> Bool?{
         self.model_loading = true
         
-        let chat_config = get_chat_info(chat_name)
-        var model_sample_param = ModelSampleParams.default
-        var model_context_param = ModelAndContextParams.default
-        
-        if (chat_config != nil){
-            model_sample_param = get_model_sample_param_by_config(chat_config!)
-            model_context_param = get_model_context_param_by_config(chat_config!)
+        let chat_config = get_chat_info(chat_name)  
+        if (chat_config == nil){
+            return nil
+        }
+        if (chat_config!["model_inference"] == nil || chat_config!["model"] == nil){
+            return nil
+        }
+
+        self.model_name = chat_config!["model"] as! String
+        if let m_url = get_path_by_short_name(self.model_name) {
+            self.modelURL = m_url
         }else{
             return nil
         }
-        let model_name = chat_config!["model"] as! String
-        self.model_name = model_name
-        if let m_name = get_path_by_short_name(model_name) {
-            self.modelURL = m_name
-        }else{
-            return nil
-        }
         
-        
-        
-        self.chat = nil
-        //            let a: URL = URL(filePath: modelURL)
-        //            let res = a.startAccessingSecurityScopedResource()
-        self.chat = AI(_modelPath: modelURL,_chatName: chat_name);
         if (self.modelURL==""){
             return nil
         }
-        let model_url = URL(fileURLWithPath: model_name)
-        let model_lowercase=model_url.lastPathComponent.lowercased()
-        //            if (chat_config!["warm_prompt"] != nil){
-        //                model_context_param.warm_prompt = chat_config!["warm_prompt"]! as! String
-        //            }
+
+        model_sample_param = ModelSampleParams.default
+        model_context_param = ModelAndContextParams.default
+        model_sample_param = get_model_sample_param_by_config(chat_config!)
+        model_context_param = get_model_context_param_by_config(chat_config!)
+
+        // let model_lowercase=URL(fileURLWithPath: model_name).lastPathComponent.lowercased()
+//         if (chat_config!["warm_prompt"] != nil){
+//             model_context_param.warm_prompt = chat_config!["warm_prompt"]! as! String
+//         }
+
+        if (chat_config!["grammar"] != nil && chat_config!["grammar"] as! String != "<None>" && chat_config!["grammar"] as! String != ""){
+            let grammar_path = get_grammar_path_by_name(chat_config!["grammar"] as! String)
+            model_context_param.grammar_path = grammar_path
+        }        
         
-        //Set mode linference and try to load model
-        if (chat_config!["model_inference"] != nil){
-            var model_load_res:Bool? = false
-            if (chat_config!["use_metal"] != nil){
-                model_context_param.use_metal = chat_config!["use_metal"] as! Bool
-            }
-            if (chat_config!["mlock"] != nil){
-                model_context_param.useMlock = chat_config!["mlock"] as! Bool
-            }
-            if (chat_config!["mmap"] != nil){
-                model_context_param.useMMap = chat_config!["mmap"] as! Bool
-            }
-            do{
-                //                try await MainActor.run {
-                if chat_config!["model_inference"] as! String == "llama"{
-                    if (chat_config!["grammar"] != nil && chat_config!["grammar"] as! String != "<None>" && chat_config!["grammar"] as! String != ""){
-                        let grammar_path = get_grammar_path_by_name(chat_config!["grammar"] as! String)
-                        model_context_param.grammar_path = grammar_path
-                    }
-                    if modelURL.hasSuffix(".gguf"){
-                        try model_load_res = self.chat?.loadModel(ModelInference.LLama_gguf,contextParams: model_context_param)
-                    }else{
-                        try model_load_res = self.chat?.loadModel(ModelInference.LLama_bin,contextParams: model_context_param)
-                    }
-                }else if chat_config!["model_inference"] as! String == "gptneox" {
-                    if modelURL.hasSuffix(".gguf"){
-                        try model_load_res = self.chat?.loadModel(ModelInference.LLama_gguf,contextParams: model_context_param)
-                    }else{
-                        try model_load_res = self.chat?.loadModel(ModelInference.GPTNeox,contextParams: model_context_param)
-                    }
-                }else if chat_config!["model_inference"] as! String == "rwkv" {
-                    try model_load_res = self.chat?.loadModel(ModelInference.RWKV,contextParams: model_context_param)
-                }else if chat_config!["model_inference"] as! String == "gpt2" {
-                    try model_load_res = self.chat?.loadModel(ModelInference.GPT2,contextParams: model_context_param)
-                    self.chat?.model.reverse_prompt.append("<|endoftext|>")
-                }else if chat_config!["model_inference"] as! String == "replit" {
-                    try model_load_res = self.chat?.loadModel(ModelInference.Replit,contextParams: model_context_param)
-                    self.chat?.model.reverse_prompt.append("<|endoftext|>")
-                }else if chat_config!["model_inference"] as! String == "starcoder" {
-                    if modelURL.hasSuffix(".gguf"){
-                        try model_load_res = self.chat?.loadModel(ModelInference.LLama_gguf,contextParams: model_context_param)
-                    }else{
-                        try model_load_res = self.chat?.loadModel(ModelInference.Starcoder,contextParams: model_context_param)
-                    }
-                    self.chat?.model.reverse_prompt.append("<|endoftext|>")
-                }
-                //                }
-            }
-            catch {
-                print(error)
-                throw error
-            }
+        var model_load_res:Bool? = false
+        self.chat = nil
+        self.chat = AI(_modelPath: modelURL,_chatName: chat_name);
+        
+        do{
+            try model_load_res = self.chat?.loadModel(model_context_param.model_inference,contextParams: model_context_param)
         }
+        catch {
+            print(error)
+            throw error
+        }
+        
         if self.chat?.model == nil || self.chat?.model.context == nil{
             return nil
         }
-        if (chat_config!["reverse_prompt"] != nil){
-            let splited_revrse_prompt = String(chat_config!["reverse_prompt"]! as! String).components(separatedBy: [";"])
-            for word in splited_revrse_prompt{
-                let trimed_word = word.trimmingCharacters(in: .whitespacesAndNewlines)
-                if trimed_word==""{
-                    continue
-                }
-                var exist = false
-                for r_word in self.chat!.model.reverse_prompt{
-                    if r_word == trimed_word{
-                        exist = true
-                        break
-                    }
-                }
-                if !exist{
-                    self.chat?.model.reverse_prompt.append(trimed_word)
-                }
-            }
-        }
+        
         self.chat?.model.sampleParams = model_sample_param
-        self.chat?.model.contextParams = model_context_param
+        self.chat?.model.contextParams = model_context_param        
+        //Set prompt model if in config or try to set promt format by filename
+        
         print(model_sample_param)
         print(model_context_param)
-        //Set prompt model if in config or try to set promt format by filename
-        if (chat_config!["prompt_format"] != nil && chat_config!["prompt_format"]! as! String != "auto"
-            && chat_config!["prompt_format"]! as! String != "{{prompt}}"){
-            self.chat?.model.custom_prompt_format = chat_config!["prompt_format"]! as! String
-            self.chat?.model.promptFormat = .Custom
-        }
-        else{
-            if (model_lowercase.contains("dolly")){
-                self.chat?.model.promptFormat = .Dolly_b3;
-            }else if (model_lowercase.contains("stable")){
-                self.chat?.model.promptFormat = .StableLM_Tuned
-                self.chat?.model.reverse_prompt.append("<|USER|>")
-            }else if ((chat_config!["model_inference"] != nil && chat_config!["model_inference"]! as! String == "llama") ||
-                      model_lowercase.contains("llama") ||
-                      model_lowercase.contains("alpaca") ||
-                      model_lowercase.contains("vic") ){
-                //            self.chat?.model.promptStyle = .LLaMa
-                self.chat?.model.promptFormat = .LLaMa
-            }else if (model_lowercase.contains("rp-")&&model_lowercase.contains("chat")){
-                self.chat?.model.promptFormat = .RedPajama_chat
-            }else{
-                self.chat?.model.promptFormat = .None
-            }
-        }
         self.model_loading = false
         return true
     }
@@ -208,13 +131,6 @@ final class AIChatModel: ObservableObject {
         state = .loading
         self.model_name = model_name
         self.chat_name = chat_name
-        //        if self.chat == nil{
-        //            let res=self.load_model_by_name(model_name:model_name)
-        //            if (res == nil){
-        //                let message = Message(sender: .system, text: "Failed to load model.")
-        //                messages.append(message)
-        //            }
-        //        }
         state = .completed
     }
     
@@ -242,7 +158,7 @@ final class AIChatModel: ObservableObject {
     public func process_predicted_str(_ str: String, _ time: Double,_ message: inout Message, _ messageIndex: Int) -> Bool
     {
         var check = true
-        for stop_word in self.chat?.model.reverse_prompt ?? [] {
+        for stop_word in self.model_context_param.reverse_prompt ?? [] {
             if str == stop_word {
                 self.stop_predict()
                 check = false

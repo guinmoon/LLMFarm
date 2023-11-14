@@ -208,14 +208,24 @@ struct FineTuneView: View {
 //            .onChange(of: fineTuneModel.llama_finetune.tune_log)
             
             HStack{
-                Button {
-                    Task {
-                        await fineTuneModel.finetune()
+                if fineTuneModel.state == .tune{
+                    Button {
+                        Task {
+                            await fineTuneModel.cancel_finetune()
+                        }
+                    } label: {
+                        Text("Cancel")
                     }
-                } label: {
-                    Text("Run finetune")
+                }else{
+                    Button {
+                        Task {
+                            await fineTuneModel.finetune()
+                        }
+                    } label: {
+                        Text("Run finetune")
+                    }
                 }
-                .disabled(fineTuneModel.state == .tune)
+                
             }
             .padding()
             .frame(maxWidth: .infinity,alignment: .trailing)
@@ -223,6 +233,7 @@ struct FineTuneView: View {
         }
         .frame(maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment:.topLeading)
         .navigationTitle("FineTune")
+        .disabled(fineTuneModel.state == .cancel)
     }
 }
 

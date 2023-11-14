@@ -91,6 +91,9 @@ struct AddChatView: View {
     @State private var tfs_z: Float = 1.0
     @State private var typical_p: Float = 1.0
     @State private var grammar: String = "<None>"
+    @State private var add_bos_token: Bool = true
+    @State private var add_eos_token: Bool = false
+    @State private var parse_special_tokens: Bool = true
     
     @State private var lora_adapters: [Dictionary<String, Any>] = []
     
@@ -225,6 +228,15 @@ struct AddChatView: View {
         if (chat_config!["grammar"] != nil){
             self._grammar = State(initialValue: chat_config!["grammar"]! as! String)
         }
+        if (chat_config!["add_bos_token"] != nil){
+            self._add_bos_token = State(initialValue: chat_config!["add_bos_token"] as! Bool)
+        }
+        if (chat_config!["add_eos_token"] != nil){
+            self._add_eos_token = State(initialValue: chat_config!["add_eos_token"] as! Bool)
+        }
+        if (chat_config!["parse_special_tokens"] != nil){
+            self._parse_special_tokens = State(initialValue: chat_config!["parse_special_tokens"] as! Bool)
+        }
     }
     
     func apply_setting_template(template:ModelSettingsTemplate){
@@ -311,7 +323,10 @@ struct AddChatView: View {
                                                                    "mirostat_tau":mirostat_tau,
                                                                    "tfs_z":tfs_z,
                                                                    "typical_p":typical_p,
-                                                                   "grammar":grammar
+                                                                   "grammar":grammar,
+                                                                   "add_bos_token":add_bos_token,
+                                                                   "add_eos_token":add_eos_token,
+                                                                   "parse_special_tokens":parse_special_tokens
                             ]
                             _ = create_chat(options,edit_chat_dialog:self.edit_chat_dialog,chat_name:self.chat_name)
                             if add_chat_dialog {
@@ -563,6 +578,25 @@ struct AddChatView: View {
                                 .padding(.top, 8)
                                 .padding(.horizontal)
                                 
+                                HStack {
+                                    Spacer()
+                                    Toggle("Special", isOn: $parse_special_tokens)
+                                        .frame(maxWidth: 120, alignment: .trailing)
+                                        .disabled(self.model_inference != "llama" && self.model_inference != "starcoder")
+                                }
+                                .padding(.horizontal)
+                                .padding(.bottom, 4)
+                                
+                                HStack {
+                                    Spacer()
+                                    Toggle("BOS", isOn: $add_bos_token)
+                                        .frame(maxWidth: 120, alignment: .trailing)
+                                    Toggle("EOS", isOn: $add_eos_token)
+                                        .frame(maxWidth: 120, alignment: .trailing)
+                                }
+                                .padding(.horizontal)
+                                .padding(.bottom, 4)
+
                                 Divider()
                                     .padding(.top, 8)
                             }
@@ -585,19 +619,21 @@ struct AddChatView: View {
                                 .padding(.top, 5)
                                 
                                 HStack {
+                                    Spacer()
                                     Toggle("Metal", isOn: $use_metal)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .frame(maxWidth: 120, alignment: .trailing)
                                         .disabled((self.model_inference != "llama" && self.model_inference != "starcoder"  && self.model_inference != "gpt2") || hardware_arch=="x86_64")
                                 }
                                 .padding(.horizontal)
                                 .padding(.bottom, 4)
                                 
                                 HStack {
+                                    Spacer()
                                     Toggle("MLock", isOn: $mlock)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .frame(maxWidth: .infinity, alignment: .trailing)
                                         .disabled(self.model_inference != "llama" && self.model_inference != "starcoder"  )
                                     Toggle("MMap", isOn: $mmap)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .frame(maxWidth: .infinity, alignment: .trailing)
                                         .disabled(self.model_inference != "llama" && self.model_inference != "starcoder" )
                                 }
                                 .padding(.horizontal)

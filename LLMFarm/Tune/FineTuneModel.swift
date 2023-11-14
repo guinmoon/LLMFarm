@@ -21,6 +21,7 @@ final class FineTuneModel: ObservableObject {
         case none
         case loading
         case tune
+        case cancel
         case completed
     }
     @Published var state: State = .none
@@ -42,6 +43,7 @@ final class FineTuneModel: ObservableObject {
     
     public func finetune() async {
         Task{
+            self.tune_log = ""
             self.state = .loading
             let documents_path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
             let model_path = get_path_by_short_name(model_file_path,dest:"models")
@@ -66,6 +68,11 @@ final class FineTuneModel: ObservableObject {
                     { progress_str in
                         DispatchQueue.main.async {
                             self.tune_log += "\n\(progress_str)"
+                            if self.llama_finetune?.cancel == true
+                            {
+                                self.state = .completed
+                                self.llama_finetune = nil
+                            }
                         }
                     })
                 }
@@ -82,5 +89,10 @@ final class FineTuneModel: ObservableObject {
             }
             
         }
+    }
+    
+    public func cancel_finetune() async {
+        self.llama_finetune?.cancel = true        
+        self.state = .cancel
     }
 }

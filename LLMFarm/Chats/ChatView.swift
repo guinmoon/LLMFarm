@@ -6,7 +6,36 @@
 //
 
 import SwiftUI
+#if os(macOS)
+struct TextView: NSViewRepresentable {
+    
+    typealias NSViewType = NSTextView
+    var configuration = { (view: NSViewType) in }
+    
+    func makeNSView(context: NSViewRepresentableContext<Self>) -> NSViewType {
+        NSViewType()
+    }
+    
+    func updateNSView(_ uiView: NSViewType, context: NSViewRepresentableContext<Self>) {
+        configuration(uiView)
+    }
+}
+#else
 
+struct TextView: UIViewRepresentable {
+    
+    typealias UIViewType = UITextView
+    var configuration = { (view: UIViewType) in }
+    
+    func makeUIView(context: UIViewRepresentableContext<Self>) -> UIViewType {
+        UIViewType()
+    }
+    
+    func updateUIView(_ uiView: UIViewType, context: UIViewRepresentableContext<Self>) {
+        configuration(uiView)
+    }
+}
+#endif
 
 struct ChatView: View {
     
@@ -89,10 +118,12 @@ struct ChatView: View {
                     HStack{
 #if os(macOS)
                         DidEndEditingTextField(text: $inputText, didEndEditing: { input in})
-                        //                                    .frame( alignment: .leading)
+                                                           .frame( alignment: .leading)
 #else
-                        TextField("Type your message...", text: $inputText)
+                        TextField("Type your message...", text: $inputText,  axis: .vertical)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .lineLimit(1...10)
+                        
                         //                            .focused($isInputFieldFocused)
 #endif
                         Button {
@@ -113,7 +144,7 @@ struct ChatView: View {
                         }
                         .padding(.horizontal, 6.0)
                         .disabled((inputText.isEmpty && !aiChatModel.predicting))
-                        .keyboardShortcut(.defaultAction)
+//                        .keyboardShortcut(.defaultAction)
 #if os(macOS)
                         .buttonStyle(.borderedProminent)
                         .controlSize(.large)

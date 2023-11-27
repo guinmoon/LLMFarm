@@ -167,6 +167,7 @@ public func get_chats_list() -> [Dictionary<String, String>]?{
     do {
         let fileManager = FileManager.default
         let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+        print(documentsPath)
         let destinationURL = documentsPath!.appendingPathComponent("chats")
         let files = try fileManager.contentsOfDirectory(atPath: destinationURL.path)
         for chatfile in files {

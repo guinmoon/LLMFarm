@@ -50,4 +50,21 @@ struct DidEndEditingTextField: NSViewRepresentable {
     nsView.stringValue = text
   }
 }
+#else
+struct DidEndEditingTextField: UIViewRepresentable {
+    @Binding var text: String
+    typealias UIViewType = UITextView
+    var didEndEditing: (String) -> Void
+    
+    var configuration = { (view: UIViewType) in }
+    
+    func makeUIView(context: UIViewRepresentableContext<Self>) -> UIViewType {
+        UIViewType()
+    }
+    
+    func updateUIView(_ uiView: UIViewType, context: UIViewRepresentableContext<Self>) {
+        configuration(uiView)
+    }
+}
 #endif
+

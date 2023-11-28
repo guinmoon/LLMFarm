@@ -116,16 +116,23 @@ struct ChatView: View {
                     .listStyle(PlainListStyle())
                     
                     HStack{
-#if os(macOS)
-                        DidEndEditingTextField(text: $inputText, didEndEditing: { input in})
-                                                           .frame( alignment: .leading)
-#else
-                        TextField("Type your message...", text: $inputText,  axis: .vertical)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .lineLimit(1...10)
+//#if os(macOS)
+//                        DidEndEditingTextField(text: $inputText, didEndEditing: { input in})
+//                                                           .frame( alignment: .leading)
+////#else
+//                        TextField("Type your message...", text: $inputText,  axis: .vertical)
+//                            .textFieldStyle(RoundedBorderTextFieldStyle())
+//                            .lineLimit(1...10)
+                        TextEditor(text: $inputText)
+//                            .textFieldStyle(.roundedBorder)
+                            .padding(.vertical, 6)
+                            .padding(.leading, 5)
+                            .lineSpacing(8)
+                            .font(.system(.body))
+//                            .lineLimit(5, reservesSpace: true)
                         
                         //                            .focused($isInputFieldFocused)
-#endif
+//#endif
                         Button {
                             Task {
                                 let text = inputText

@@ -1,50 +1,23 @@
 //
 //  ChatView.swift
-//  AlpacaChatApp
 //
-//  Created by Yoshimasa Niwa on 3/18/23.
+//  Created by Guinmoon
 //
 
 import SwiftUI
-#if os(macOS)
-struct TextView: NSViewRepresentable {
-    
-    typealias NSViewType = NSTextView
-    var configuration = { (view: NSViewType) in }
-    
-    func makeNSView(context: NSViewRepresentableContext<Self>) -> NSViewType {
-        NSViewType()
-    }
-    
-    func updateNSView(_ uiView: NSViewType, context: NSViewRepresentableContext<Self>) {
-        configuration(uiView)
-    }
-}
-#else
-
-struct TextView: UIViewRepresentable {
-    
-    typealias UIViewType = UITextView
-    var configuration = { (view: UIViewType) in }
-    
-    func makeUIView(context: UIViewRepresentableContext<Self>) -> UIViewType {
-        UIViewType()
-    }
-    
-    func updateUIView(_ uiView: UIViewType, context: UIViewRepresentableContext<Self>) {
-        configuration(uiView)
-    }
-}
-#endif
 
 struct ChatView: View {
     
     @EnvironmentObject var aiChatModel: AIChatModel
     @EnvironmentObject var orientationInfo: OrientationInfo
-    
-    @State
-    private var inputText: String = ""
-    
+        
+    #if os(iOS)
+    var placeholderString: String = "Type your message..."
+    @State private var inputText: String = "Type your message..."
+    #else
+    var placeholderString: String = ""
+    @State private var inputText: String = ""
+    #endif
     
     
     @Binding var model_name: String
@@ -60,6 +33,8 @@ struct ChatView: View {
     @State private var scrollTarget: Int?
     
     @Namespace var bottomID
+    
+    
     
     @FocusState
     private var isInputFieldFocused: Bool
@@ -116,31 +91,34 @@ struct ChatView: View {
                     .listStyle(PlainListStyle())
                     
                     HStack{
-//#if os(macOS)
-//                        DidEndEditingTextField(text: $inputText, didEndEditing: { input in})
-//                                                           .frame( alignment: .leading)
-////#else
-//                        TextField("Type your message...", text: $inputText,  axis: .vertical)
-//                            .textFieldStyle(RoundedBorderTextFieldStyle())
-//                            .lineLimit(1...10)
+                        //#if os(macOS)
+                        //                        DidEndEditingTextField(text: $inputText, didEndEditing: { input in})
+                        //                                                           .frame( alignment: .leading)
+                        ////#else
+                        //                        TextField(placeholderString, text: $inputText,  axis: .vertical)
+                        //                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                        //                            .lineLimit(1...10)
                         TextEditor(text: $inputText)
-//                            .textFieldStyle(.roundedBorder)
                             .padding(.vertical, 6)
                             .padding(.leading, 5)
                             .lineSpacing(8)
                             .font(.system(.body))
-//                            .lineLimit(5, reservesSpace: true)
+                            .foregroundColor(inputText == placeholderString ? .gray : .primary)
+                            .onTapGesture {
+                                if inputText == placeholderString {
+                                    inputText = ""
+                                }
+                            }
                         
-                        //                            .focused($isInputFieldFocused)
-//#endif
+                        //#endif
                         Button {
                             Task {
                                 let text = inputText
-                                inputText = ""
+                                inputText = placeholderString
                                 if (aiChatModel.predicting){
                                     aiChatModel.stop_predict()
                                 }else
-                                {    
+                                {
                                     DispatchQueue.main.async {
                                         aiChatModel.send(message: text)
                                     }
@@ -151,7 +129,7 @@ struct ChatView: View {
                         }
                         .padding(.horizontal, 6.0)
                         .disabled((inputText.isEmpty && !aiChatModel.predicting))
-//                        .keyboardShortcut(.defaultAction)
+                        //                        .keyboardShortcut(.defaultAction)
 #if os(macOS)
                         .buttonStyle(.borderedProminent)
                         .controlSize(.large)

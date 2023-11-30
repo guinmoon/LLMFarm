@@ -101,7 +101,7 @@ struct ChatView: View {
                         TextEditor(text: $inputText)
                             .padding(.vertical, 6)
                             .padding(.leading, 5)
-                            .lineSpacing(8)
+                            .lineSpacing(1)
                             .font(.system(.body))
                             .foregroundColor(inputText == placeholderString ? .gray : .primary)
                             .onTapGesture {

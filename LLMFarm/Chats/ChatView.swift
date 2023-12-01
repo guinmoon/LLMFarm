@@ -100,8 +100,13 @@ struct ChatView: View {
                         //                            .lineLimit(1...10)
                         TextEditor(text: $inputText)
                             .padding(.vertical, 6)
+<<<<<<< HEAD
                             .padding(.leading, 5)
                             .lineSpacing(1)
+=======
+//                            .padding(.leading, 5)
+                            .lineSpacing(8)
+>>>>>>> 8060d5a (llama.cpp updated to b1575, its not final commit to this update)
                             .font(.system(.body))
                             .foregroundColor(inputText == placeholderString ? .gray : .primary)
                             .onTapGesture {

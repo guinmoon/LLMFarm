@@ -622,7 +622,7 @@ struct AddChatView: View {
                                     Spacer()
                                     Toggle("Metal", isOn: $use_metal)
                                         .frame(maxWidth: 120, alignment: .trailing)
-                                        .disabled((self.model_inference != "llama" && self.model_inference != "starcoder"  && self.model_inference != "gpt2") || hardware_arch=="x86_64")
+                                        .disabled((self.model_inference == "rwkv" || self.model_inference == "replit"  /*&& self.model_inference != "gpt2"*/) /*|| hardware_arch=="x86_64"*/)
                                 }
                                 .padding(.horizontal)
                                 .padding(.bottom, 4)
@@ -631,10 +631,10 @@ struct AddChatView: View {
                                     Spacer()
                                     Toggle("MLock", isOn: $mlock)
                                         .frame(maxWidth: .infinity, alignment: .trailing)
-                                        .disabled(self.model_inference != "llama" && self.model_inference != "starcoder"  )
+                                        .disabled(self.model_inference == "rwkv" || self.model_inference == "replit" || self.model_inference == "gpt2" )
                                     Toggle("MMap", isOn: $mmap)
                                         .frame(maxWidth: .infinity, alignment: .trailing)
-                                        .disabled(self.model_inference != "llama" && self.model_inference != "starcoder" )
+                                        .disabled(self.model_inference == "rwkv" || self.model_inference == "replit" || self.model_inference == "gpt2" )
                                 }
                                 .padding(.horizontal)
                                 .padding(.bottom, 4)

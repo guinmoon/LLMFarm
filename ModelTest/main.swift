@@ -68,7 +68,9 @@ func main(){
     //    ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/llama-2-7b-chat-q4_K_M.gguf"
 //    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/openllama-3b-v2-q8_0.gguf"
 //    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/bloom-560m-finetuned-sd-prompts-f16.gguf"
-    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/stablelm-3b-4e1t-Q4_K_M.gguf"    
+    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/SantaCoder-1B-f16.gguf"
+//    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/open_llama_3b_v2_ggml-model-f16.gguf"
+//    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/stablelm-3b-4e1t-Q4_K_M.gguf"
 //    ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/mpt-7b-storywriter-Q4_K.gguf"
 //       ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/orca-mini-3b-q4_1.gguf"
     modelInference = ModelInference.LLama_gguf

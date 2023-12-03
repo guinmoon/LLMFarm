@@ -41,6 +41,9 @@ struct SettingsView: View {
                         NavigationLink("Fine Tune"){
                             FineTuneView().environmentObject(fineTuneModel)
                         }
+                        NavigationLink("Merge Lora"){
+                            ExportLoraView().environmentObject(fineTuneModel)
+                        }
 //                        ForEach(settings_menu_items, id: \.self) { settings_menu_item in
 //                            NavigationLink(settings_menu_item["value"]!){
 ////                                ModelsView()

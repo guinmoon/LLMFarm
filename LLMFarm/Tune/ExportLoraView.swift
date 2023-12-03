@@ -8,12 +8,12 @@
 import SwiftUI
 
 
-struct FineTuneView: View {
+struct ExportLoraView: View {
     @EnvironmentObject var fineTuneModel: FineTuneModel
     @State private var isModelImporting: Bool = false
     @State private var isDataSetImporting: Bool = false
     @State var models_previews = get_models_list()!
-    @State var datasets_preview = get_datasets_list()!
+    @State var loras_preview = get_loras_list()!
     
     
     var body: some View {
@@ -81,8 +81,8 @@ struct FineTuneView: View {
                     
                     Divider()
                     
-                    Section("Avalible datasets") {
-                        ForEach(datasets_preview, id: \.self) { model in
+                    Section("Avalible adapters") {
+                        ForEach(loras_preview, id: \.self) { model in
                             Button(model["file_name"]!){
                                 //                                            model_file_name = model["file_name"]!
                                 fineTuneModel.dataset_file_path = model["file_name"]!
@@ -91,7 +91,7 @@ struct FineTuneView: View {
                         }
                     }
                 } label: {
-                    Label(fineTuneModel.dataset_file_path == "" ?"Select File...":fineTuneModel.dataset_file_path, systemImage: "ellipsis.circle")
+                    Label(fineTuneModel.dataset_file_path == "" ?"Select Adapter...":fineTuneModel.dataset_file_path, systemImage: "ellipsis.circle")
                 }.padding()
             }
             .fileImporter(
@@ -103,7 +103,7 @@ struct FineTuneView: View {
                     guard let selectedFile: URL = try result.get().first else { return }
                     fineTuneModel.dataset_file_url = selectedFile
                     fineTuneModel.dataset_file_path = selectedFile.lastPathComponent
-                    fineTuneModel.lora_name = get_file_name_without_ext(fileName:fineTuneModel.model_file_path) + "_" + get_file_name_without_ext(fileName:fineTuneModel.dataset_file_path) + ".txt"
+                    fineTuneModel.lora_name = get_file_name_without_ext(fileName:fineTuneModel.model_file_path) + "_" + get_file_name_without_ext(fileName:fineTuneModel.dataset_file_path) + ".bin"
                 } catch {
                     print("Unable to add file")
                     print(error.localizedDescription)
@@ -237,8 +237,8 @@ struct FineTuneView: View {
     }
 }
 
-struct FineTuneView_Previews: PreviewProvider {
+struct ExportLoraView_Previews: PreviewProvider {
     static var previews: some View {
-        FineTuneView()
+        ExportLoraView()
     }
 }

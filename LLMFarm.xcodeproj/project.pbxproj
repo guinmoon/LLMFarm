@@ -60,6 +60,7 @@
 		15F210962A1920AA0021F414 /* AIChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F210922A1920AA0021F414 /* AIChatModel.swift */; };
 		15F210AA2A1A659B0021F414 /* FileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F210A92A1A659B0021F414 /* FileHelper.swift */; };
 		15F210AD2A1A8B7A0021F414 /* LLMUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F210AC2A1A8B7A0021F414 /* LLMUser.swift */; };
+		15FB67422B1BDB0800174379 /* ExportLoraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FB67412B1BDB0800174379 /* ExportLoraView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -155,6 +156,7 @@
 		15F210A92A1A659B0021F414 /* FileHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileHelper.swift; sourceTree = "<group>"; };
 		15F210AB2A1A7B790021F414 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		15F210AC2A1A8B7A0021F414 /* LLMUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLMUser.swift; sourceTree = "<group>"; };
+		15FB67412B1BDB0800174379 /* ExportLoraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExportLoraView.swift; sourceTree = "<group>"; };
 		E61E38F329B1F0BA00114C15 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		E61E38F529B1F12E00114C15 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		E624E2102958F21E00996CD1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -274,6 +276,7 @@
 			isa = PBXGroup;
 			children = (
 				15E086C32AEAC69B006459DE /* FineTuneModel.swift */,
+				15FB67412B1BDB0800174379 /* ExportLoraView.swift */,
 				15D8FE8F2AF80D7600B5C90D /* FineTuneView.swift */,
 			);
 			path = Tune;
@@ -518,6 +521,7 @@
 				15A3EDCC2A2121D90030AF5A /* ModelinfoItem.swift in Sources */,
 				156A48D02A52B55B007DF519 /* SplitViews.swift in Sources */,
 				158FC6DB2AA3457A00A181B4 /* log_helper.swift in Sources */,
+				15FB67422B1BDB0800174379 /* ExportLoraView.swift in Sources */,
 				15A3EDCD2A2121D90030AF5A /* ChatListView.swift in Sources */,
 				156A48D22A52B65C007DF519 /* Orientation_helper.swift in Sources */,
 				15A3EDCB2A2121D90030AF5A /* ModelsView.swift in Sources */,
@@ -626,7 +630,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "\"LLMFarm/Preview Content\"";
 				DEVELOPMENT_TEAM = C66ZA422A7;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -651,7 +655,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 0.7.6;
+				MARKETING_VERSION = 0.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.guinmoon.LLMFarm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -675,7 +679,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "\"LLMFarm/Preview Content\"";
 				DEVELOPMENT_TEAM = C66ZA422A7;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -700,7 +704,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 0.7.6;
+				MARKETING_VERSION = 0.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.guinmoon.LLMFarm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

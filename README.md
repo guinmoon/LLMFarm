@@ -1,5 +1,7 @@
 # LLMFarm
 
+*If you are experiencing the error `extras.otherInstrOffset != 0 && "Kind::arm64_adrp_ldr missing extra info"` see the solution [here](https://github.com/guinmoon/LLMFarm/issues/19).*
+
 <p align="center">
   <img width="178px" alt="Icon" src="dist/LLMFarm0.1.2_256.png">
   <a href="https://testflight.apple.com/join/6SpPLIVM"><img width="178px" alt="Icon" src="dist/testflight.png"></a>
@@ -33,7 +35,7 @@ Also used sources from:
 - [x] Model setting templates
 - [x] LoRA adapters support ([read more](./lora.md))
 - [x] LoRA finetune support
-- [ ] LoRA export as model support
+- [x] LoRA export as model support
 - [ ] Restore context state (now only chat history) 
 
 # Inferences

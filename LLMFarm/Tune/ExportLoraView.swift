@@ -16,6 +16,7 @@ struct ExportLoraView: View {
     @State var loras_preview = get_loras_list()!
     
     
+    
     var body: some View {
         VStack(alignment: .leading){
             HStack {
@@ -35,7 +36,7 @@ struct ExportLoraView: View {
                             Button(model["file_name"]!){
                                 //                                            model_file_name = model["file_name"]!
                                 fineTuneModel.model_file_path = model["file_name"]!
-                                fineTuneModel.lora_name = get_file_name_without_ext(fileName:fineTuneModel.model_file_path) + "_" + get_file_name_without_ext(fileName:fineTuneModel.dataset_file_path) + ".bin"
+                                fineTuneModel.export_model_name = get_file_name_without_ext(fileName:fineTuneModel.model_file_path) + "_" + get_file_name_without_ext(fileName:fineTuneModel.lora_file_path) + ".gguf"
                             }
                         }
                     }
@@ -59,7 +60,7 @@ struct ExportLoraView: View {
                     //#else
                     //                                    model_file_path = selectedFile.path
                     //#endif
-                    fineTuneModel.lora_name = get_file_name_without_ext(fileName:fineTuneModel.model_file_path) + "_" + get_file_name_without_ext(fileName:fineTuneModel.dataset_file_path) + ".bin"
+                    fineTuneModel.lora_name = get_file_name_without_ext(fileName:fineTuneModel.model_file_path) + "_" + get_file_name_without_ext(fileName:fineTuneModel.lora_file_path) + ".gguf"
                 } catch {
                     // Handle failure.
                     print("Unable to read file contents")
@@ -85,13 +86,13 @@ struct ExportLoraView: View {
                         ForEach(loras_preview, id: \.self) { model in
                             Button(model["file_name"]!){
                                 //                                            model_file_name = model["file_name"]!
-                                fineTuneModel.dataset_file_path = model["file_name"]!
-                                fineTuneModel.lora_name = get_file_name_without_ext(fileName:fineTuneModel.model_file_path) + "_" + get_file_name_without_ext(fileName:fineTuneModel.dataset_file_path) + ".bin"
+                                fineTuneModel.lora_file_path = model["file_name"]!
+                                fineTuneModel.export_model_name = get_file_name_without_ext(fileName:fineTuneModel.model_file_path) + "_" + get_file_name_without_ext(fileName:fineTuneModel.lora_file_path) + ".gguf"
                             }
                         }
                     }
                 } label: {
-                    Label(fineTuneModel.dataset_file_path == "" ?"Select Adapter...":fineTuneModel.dataset_file_path, systemImage: "ellipsis.circle")
+                    Label(fineTuneModel.lora_file_path == "" ?"Select Adapter...":fineTuneModel.lora_file_path, systemImage: "ellipsis.circle")
                 }.padding()
             }
             .fileImporter(
@@ -101,9 +102,9 @@ struct ExportLoraView: View {
             ) { result in
                 do {
                     guard let selectedFile: URL = try result.get().first else { return }
-                    fineTuneModel.dataset_file_url = selectedFile
-                    fineTuneModel.dataset_file_path = selectedFile.lastPathComponent
-                    fineTuneModel.lora_name = get_file_name_without_ext(fileName:fineTuneModel.model_file_path) + "_" + get_file_name_without_ext(fileName:fineTuneModel.dataset_file_path) + ".bin"
+                    fineTuneModel.lora_file_url = selectedFile
+                    fineTuneModel.lora_file_path = selectedFile.lastPathComponent
+                    fineTuneModel.lora_name = get_file_name_without_ext(fileName:fineTuneModel.model_file_path) + "_" + get_file_name_without_ext(fileName:fineTuneModel.lora_file_path) + ".gguf"
                 } catch {
                     print("Unable to add file")
                     print(error.localizedDescription)
@@ -112,11 +113,11 @@ struct ExportLoraView: View {
             
             HStack {
 #if os(macOS)
-                Text("LoRA Name:")
-                DidEndEditingTextField(text: $fineTuneModel.lora_name,didEndEditing: { newName in})
+                Text("Result model name:")
+                DidEndEditingTextField(text: $fineTuneModel.export_model_name,didEndEditing: { newName in})
                     .frame(maxWidth: .infinity, alignment: .leading)
 #else
-                TextField("LoRA file name...", text: $fineTuneModel.lora_name)
+                TextField("Result model name...", text: $fineTuneModel.export_model_name)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .textFieldStyle(.plain)
 #endif
@@ -125,106 +126,47 @@ struct ExportLoraView: View {
             .padding()
             
             
-            HStack {
-                Text("Threads:")
-                    .frame(maxWidth: 75, alignment: .leading)
-                TextField("count..", value: $fineTuneModel.n_threads, format:.number)
-                    .frame( alignment: .leading)
-                    .multilineTextAlignment(.trailing)
-                    .textFieldStyle(.plain)
-#if os(iOS)
-                    .keyboardType(.numberPad)
-#endif
-            }
-            .padding(.horizontal)
-            .padding(.top, 5)
-            
 //            HStack {
-//                Toggle("Metal", isOn: $fineTuneModel.use_metal)
-//                    .frame(maxWidth: .infinity, alignment: .leading)
+//                Text("Threads:")
+//                    .frame(maxWidth: 75, alignment: .leading)
+//                TextField("count..", value: $fineTuneModel.n_threads, format:.number)
+//                    .frame( alignment: .leading)
+//                    .multilineTextAlignment(.trailing)
+//                    .textFieldStyle(.plain)
+//#if os(iOS)
+//                    .keyboardType(.numberPad)
+//#endif
 //            }
 //            .padding(.horizontal)
-//            .padding(.bottom, 4)
+//            .padding(.top, 5)
+        
             
             HStack {
-                Toggle("Use Checkpointing", isOn: $fineTuneModel.use_checkpointing)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-            }
-            .padding(.horizontal)
-            .padding(.bottom, 4)
-            
-            HStack {
-                Toggle("Use Metal", isOn: $fineTuneModel.use_metal)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-            }
-            .padding(.horizontal)
-            .padding(.bottom, 4)
-            
-            HStack {
-                Text("Adam Iter:")
+                Text("Scale:")
                     .frame(maxWidth: 95, alignment: .leading)
-                TextField("count..", value: $fineTuneModel.adam_iter, format:.number)
+                TextField("scale..", value: $fineTuneModel.lora_scale, format:.number)
                     .frame( alignment: .leading)
                     .multilineTextAlignment(.trailing)
                     .textFieldStyle(.plain)
-#if os(iOS)
-                    .keyboardType(.numberPad)
-#endif
             }
             .padding(.horizontal)
             
-            HStack {
-                Text("Context:")
-                    .frame(maxWidth: 75, alignment: .leading)
-                TextField("size..", value: $fineTuneModel.n_ctx, format:.number)
-                    .frame( alignment: .leading)
-                    .multilineTextAlignment(.trailing)
-                    .textFieldStyle(.plain)
-#if os(iOS)
-                    .keyboardType(.numberPad)
-#endif
+            if fineTuneModel.state == .export {
+                VStack {
+                    ProgressView(value: fineTuneModel.progress)
+                }
+                .padding(.horizontal)
             }
-            .padding(.horizontal)
-            
-            HStack {
-                Text("N_Batch:")
-                    .frame(maxWidth: 75, alignment: .leading)
-                TextField("size..", value: $fineTuneModel.n_batch, format:.number)
-                    .frame( alignment: .leading)
-                    .multilineTextAlignment(.trailing)
-                    .textFieldStyle(.plain)
-#if os(iOS)
-                    .keyboardType(.numberPad)
-#endif
-            }
-            .padding(.horizontal)
-            
-            VStack {
-                Text("Log:")
-                    .frame(maxWidth: 75, alignment: .leading)
-                TextEditor(text:$fineTuneModel.tune_log).frame(minHeight: 5)
-            }
-            .padding(.horizontal)
-//            .onChange(of: fineTuneModel.llama_finetune.tune_log)
             
             HStack{
-                if fineTuneModel.state == .tune{
-                    Button {
-                        Task {
-                            await fineTuneModel.cancel_finetune()
-                        }
-                    } label: {
-                        Text("Cancel")
+                Button {
+                    Task {
+                        await fineTuneModel.export_lora()
                     }
-                }else{
-                    Button {
-                        Task {
-                            await fineTuneModel.finetune()
-                        }
-                    } label: {
-                        Text("Run finetune")
-                    }
+                } label: {
+                    Text("Export")
                 }
+                .disabled(fineTuneModel.state == .export)
                 
             }
             .padding()
@@ -232,7 +174,7 @@ struct ExportLoraView: View {
             
         }
         .frame(maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment:.topLeading)
-        .navigationTitle("FineTune")
+        .navigationTitle("Merge LoRA")
         .disabled(fineTuneModel.state == .cancel)
     }
 }

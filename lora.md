@@ -29,4 +29,6 @@ Now you can perform FineTune directly in LLMFarm. To do this, go to settings -> 
 You can read [more about FineTune here.](https://github.com/ggerganov/llama.cpp/tree/master/examples/finetune).
 
 # Export LoRA as a model
+Now you can perform FineTune directly in LLMFarm. To do this, go to settings -> Merge Lora
 You can read about how to apply an adapter to a model and export the resulting model [here.](https://github.com/ggerganov/llama.cpp/tree/master/examples/export-lora).
+*For proper functionality on iOS devices, it is recommended to merge with Q4_K models and below.*

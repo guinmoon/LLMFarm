@@ -32,7 +32,7 @@ Also used sources from:
 - [x] Metal ([dont work](https://github.com/ggerganov/llama.cpp/issues/2407#issuecomment-1699544808) on intel Mac)
 - [x] Model setting templates
 - [x] LoRA adapters support ([read more](./lora.md))
-- [ ] LoRA finetune support
+- [x] LoRA finetune support
 - [ ] LoRA export as model support
 - [ ] Restore context state (now only chat history) 
 
@@ -47,6 +47,8 @@ Also used sources from:
 - [x] [Falcon](https://github.com/cmp-nct/ggllm.cpp) <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px">
 - [x] [MPT](https://huggingface.co/guinmoon/mpt-7b-storywriter-GGUF) <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px">
 - [x] [Bloom](https://huggingface.co/guinmoon/bloomz-1b7-gguf) <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px">
+- [x] [StableLM-3b-4e1t](https://huggingface.co/stabilityai/stablelm-3b-4e1t) <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px">
+- [x] [Qwen](https://huggingface.co/Qwen/Qwen-7B) <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px">
   
 Note: For *Falcon, Alpaca, GPT4All, Chinese LLaMA / Alpaca and Chinese LLaMA-2 / Alpaca-2, Vigogne (French), Vicuna, Koala, OpenBuddy (Multilingual), Pygmalion/Metharme, WizardLM, Baichuan 1 & 2 + derivations, Aquila 1 & 2, Mistral AI v0.1, Refact, Persimmon 8B, MPT, Bloom* select `llama inferece` in model settings.
 

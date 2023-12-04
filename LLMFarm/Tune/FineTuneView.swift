@@ -207,6 +207,13 @@ struct FineTuneView: View {
             .padding(.horizontal)
 //            .onChange(of: fineTuneModel.llama_finetune.tune_log)
             
+            if fineTuneModel.state == .tune {
+                VStack {
+                    ProgressView(value: fineTuneModel.progress)
+                }
+                .padding(.horizontal)
+            }
+            
             HStack{
                 if fineTuneModel.state == .tune{
                     Button {

@@ -15,6 +15,19 @@ private extension Duration {
     }
 }
 
+public func parse_finetune_log_to_iter_num(_ log_str:String) -> Int{
+//    "train_opt_callback: iter=     0 sample=1/26766 sched=0.000000 loss=0.000000"
+    var progress = -1
+    if let b_index = log_str.endIndex(of: "iter=") {
+        if let e_index = log_str.index(of: " sample=") {
+            let substring = log_str[b_index...e_index]   // ab
+            let iter_str = String(substring).trimmingCharacters(in: .whitespacesAndNewlines)
+            return Int(iter_str) ?? -1
+        }
+    }
+    return progress
+}
+
 //@MainActor
 final class FineTuneModel: ObservableObject {
     enum State {
@@ -36,7 +49,7 @@ final class FineTuneModel: ObservableObject {
     @Published  var lora_file_url: URL = URL(filePath: "/")
     @Published  var n_ctx: Int32 = 64
     @Published  var n_batch: Int32 = 4
-    @Published  var adam_iter: Int32 = 1
+    @Published  var adam_iter: Int32 = 30
     @Published  var n_threads: Int32 = 0
     @Published  var use_metal: Bool = false
     @Published  var use_checkpointing: Bool = true
@@ -68,12 +81,17 @@ final class FineTuneModel: ObservableObject {
                                                 n_threads, adam_iter: adam_iter,batch: n_batch,ctx: n_ctx,
                                             use_checkpointing: use_checkpointing, use_metal: use_metal)
             self.state = .tune
+            self.progress = 0.0
             tuneQueue.async{
                 do{
                     try self.llama_finetune!.finetune(
                     { progress_str in
                         DispatchQueue.main.async {
                             self.tune_log += "\n\(progress_str)"
+                            let tmp_progress = parse_finetune_log_to_iter_num(progress_str)
+                            if tmp_progress > 0{
+                                self.progress = Double(tmp_progress) / Double(self.adam_iter)
+                            }
                             if self.llama_finetune?.cancel == true
                             {
                                 self.state = .completed

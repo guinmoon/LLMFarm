@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1509BA602B1E6FD400703BC0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1509BA5F2B1E6FD400703BC0 /* Extensions.swift */; };
+		1509BA622B1F1D7000703BC0 /* LLMTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1509BA612B1F1D7000703BC0 /* LLMTextView.swift */; };
 		15141E5C2A651F8C0060E767 /* model_setting_templates in Resources */ = {isa = PBXBuildFile; fileRef = 15141E5B2A651F8C0060E767 /* model_setting_templates */; };
 		15141E712A65799D0060E767 /* ModelSettingsTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15141E702A65799D0060E767 /* ModelSettingsTemplate.swift */; };
 		1532BF7A2A9FA885006DC514 /* GetDeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1532BF792A9FA885006DC514 /* GetDeviceInfo.swift */; };
@@ -97,6 +98,7 @@
 
 /* Begin PBXFileReference section */
 		1509BA5F2B1E6FD400703BC0 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		1509BA612B1F1D7000703BC0 /* LLMTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLMTextView.swift; sourceTree = "<group>"; };
 		15141E362A6488A60060E767 /* Replit 3B.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Replit 3B.json"; sourceTree = "<group>"; };
 		15141E372A6488A60060E767 /* dolly v2 3b.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "dolly v2 3b.json"; sourceTree = "<group>"; };
 		15141E382A6488A60060E767 /* orca mini 3b.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "orca mini 3b.json"; sourceTree = "<group>"; };
@@ -263,6 +265,7 @@
 				15A3EDC62A2121D90030AF5A /* OnlineUserView.swift */,
 				15A3EDC72A2121D90030AF5A /* ChatItem.swift */,
 				156A48CF2A52B55B007DF519 /* SplitViews.swift */,
+				1509BA612B1F1D7000703BC0 /* LLMTextView.swift */,
 			);
 			path = Chats;
 			sourceTree = "<group>";
@@ -535,6 +538,7 @@
 				15B7BE9D2A968399006624BD /* MacEditorTextView.swift in Sources */,
 				15F210AA2A1A659B0021F414 /* FileHelper.swift in Sources */,
 				15F210932A1920AA0021F414 /* MessageView.swift in Sources */,
+				1509BA622B1F1D7000703BC0 /* LLMTextView.swift in Sources */,
 				15A3EDD12A21266E0030AF5A /* SearchView.swift in Sources */,
 				15F210942A1920AA0021F414 /* Message.swift in Sources */,
 				15F2108E2A191EE60021F414 /* ChatView.swift in Sources */,
@@ -634,7 +638,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_ASSET_PATHS = "\"LLMFarm/Preview Content\"";
 				DEVELOPMENT_TEAM = C66ZA422A7;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -683,7 +687,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_ASSET_PATHS = "\"LLMFarm/Preview Content\"";
 				DEVELOPMENT_TEAM = C66ZA422A7;
 				ENABLE_HARDENED_RUNTIME = YES;

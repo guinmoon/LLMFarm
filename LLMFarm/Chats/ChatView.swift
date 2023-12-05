@@ -10,14 +10,14 @@ struct ChatView: View {
     
     @EnvironmentObject var aiChatModel: AIChatModel
     @EnvironmentObject var orientationInfo: OrientationInfo
-        
-    #if os(iOS)
-    var placeholderString: String = "Type your message..."
+    
+//#if os(iOS)
+    @State var placeholderString: String = "Type your message..."
     @State private var inputText: String = "Type your message..."
-    #else
-    var placeholderString: String = ""
-    @State private var inputText: String = ""
-    #endif
+//#else
+//    var placeholderString: String = ""
+//    @State private var inputText: String = ""
+//#endif
     
     
     @Binding var model_name: String
@@ -40,18 +40,30 @@ struct ChatView: View {
     private var isInputFieldFocused: Bool
     
     func scrollToBottom(with_animation:Bool = false) {
+        var scroll_bug = true
+#if os(macOS)
+        scroll_bug = false
+#else
+        if #available(iOS 16.4, *){
+            scroll_bug = false
+        }
+#endif
+        if scroll_bug {
+            return
+        }
         let last_msg = aiChatModel.messages.last // try to fixscrolling and  specialized Array._checkSubscript(_:wasNativeTypeChecked:)
         if last_msg != nil && last_msg?.id != nil && scrollProxy != nil{
             if with_animation{
                 withAnimation {
-                    //                    scrollProxy?.scrollTo(last_msg?.id, anchor: .bottom)
-                    scrollProxy?.scrollTo("latest")
+                    scrollProxy?.scrollTo(last_msg?.id, anchor: .bottom)
+                    //                    scrollProxy?.scrollTo("latest")
                 }
             }else{
-                //                scrollProxy?.scrollTo(last_msg?.id, anchor: .bottom)
-                scrollProxy?.scrollTo("latest")
+                scrollProxy?.scrollTo(last_msg?.id, anchor: .bottom)
+                //                scrollProxy?.scrollTo("latest")
             }
         }
+        
     }
     
     func reload() async{
@@ -86,35 +98,15 @@ struct ChatView: View {
                             MessageView(message: message).id(message.id)
                         }
                         .listRowSeparator(.hidden)
-                        Text("").id("latest")
+                        //                        Text("").id("latest")
                     }
                     .listStyle(PlainListStyle())
-                    
                     HStack{
-                        //#if os(macOS)
-                        //                        DidEndEditingTextField(text: $inputText, didEndEditing: { input in})
-                        //                                                           .frame( alignment: .leading)
-                        ////#else
-                        //                        TextField(placeholderString, text: $inputText,  axis: .vertical)
-                        //                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                        //                            .lineLimit(1...10)
-                        TextEditor(text: $inputText)
-                            .padding(.vertical, 6)
-                            .padding(.leading, 5)
-                            .lineSpacing(1)
-                            .font(.system(.body))
-                            .foregroundColor(inputText == placeholderString ? .gray : .primary)
-                            .onTapGesture {
-                                if inputText == placeholderString {
-                                    inputText = ""
-                                }
-                            }
-                        
-                        //#endif
+                        LLMTextView(placeholder:$placeholderString, text: $inputText)
                         Button {
                             Task {
                                 let text = inputText
-                                inputText = placeholderString
+//                                inputText = placeholderString
                                 if (aiChatModel.predicting){
                                     aiChatModel.stop_predict()
                                 }else
@@ -138,29 +130,11 @@ struct ChatView: View {
                     .padding(.leading, 10)
                     .padding(.trailing, 5)
                     .padding(.bottom, 5)
-                    .onChange(of: aiChatModel.AI_typing){ ai_typing in
-                        //                .onChange(of: aiChatModel.messages.count){ count in
-                        // Fix for theese https://developer.apple.com/forums/thread/712510
-#if os(macOS)
-                        if (aiChatModel.predicting){
-                            scrollToBottom(with_animation: true)
-                        }else{
-                            scrollToBottom(with_animation: false)
-                        }
-#endif
-                        if #available(iOS 16.4, *){
-                            if (aiChatModel.predicting){
-                                scrollToBottom(with_animation: true)
-                            }else{
-                                scrollToBottom(with_animation: false)
-                            }
-                        }
-                    }
-                    .frame(height:47)
+                    .frame(height:67)
                     .background(.regularMaterial)
-                    //                .padding(.bottom)
-                    //                .padding(.leading)
-                    //                .padding(.trailing)
+                    .onChange(of: aiChatModel.AI_typing){ ai_typing in
+                        scrollToBottom(with_animation: false)
+                    }
                 }
                 .navigationTitle($title)
                 .toolbar {
@@ -190,12 +164,7 @@ struct ChatView: View {
                 .disabled(chat_selection == nil)
                 .onAppear(){
                     scrollProxy = scrollView
-#if os(macOS)
                     scrollToBottom(with_animation: false)
-#endif
-                    if #available(iOS 16.4, *) {
-                        scrollToBottom(with_animation: false)
-                    }
                 }
             }
             .frame(maxHeight: .infinity)
@@ -211,6 +180,7 @@ struct ChatView: View {
                     }
                 }
             }
+            
         }
     }
 }

@@ -60,8 +60,8 @@ final class OrientationInfo: ObservableObject {
         }
         
         // unowned self because we unregister before self becomes invalid
-        _observer = NotificationCenter.default.addObserver(forName: UIDevice.orientationDidChangeNotification, object: nil, queue: nil) { [unowned self] note in
-            guard let device = note.object as? UIDevice else {
+        _observer = NotificationCenter.default.addObserver(forName: UIDevice.orientationDidChangeNotification, object: nil, queue: nil) { [unowned self] text in
+            guard let device = text.object as? UIDevice else {
                 return
             }
             if device.orientation.isPortrait {

@@ -61,7 +61,6 @@
 		15F210942A1920AA0021F414 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F210902A1920AA0021F414 /* Message.swift */; };
 		15F210962A1920AA0021F414 /* AIChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F210922A1920AA0021F414 /* AIChatModel.swift */; };
 		15F210AA2A1A659B0021F414 /* FileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F210A92A1A659B0021F414 /* FileHelper.swift */; };
-		15F210AD2A1A8B7A0021F414 /* LLMUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F210AC2A1A8B7A0021F414 /* LLMUser.swift */; };
 		15FB67422B1BDB0800174379 /* ExportLoraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FB67412B1BDB0800174379 /* ExportLoraView.swift */; };
 /* End PBXBuildFile section */
 
@@ -159,7 +158,6 @@
 		15F210922A1920AA0021F414 /* AIChatModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AIChatModel.swift; sourceTree = "<group>"; };
 		15F210A92A1A659B0021F414 /* FileHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileHelper.swift; sourceTree = "<group>"; };
 		15F210AB2A1A7B790021F414 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		15F210AC2A1A8B7A0021F414 /* LLMUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLMUser.swift; sourceTree = "<group>"; };
 		15FB67412B1BDB0800174379 /* ExportLoraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExportLoraView.swift; sourceTree = "<group>"; };
 		E61E38F329B1F0BA00114C15 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		E61E38F529B1F12E00114C15 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -308,7 +306,6 @@
 				15F210922A1920AA0021F414 /* AIChatModel.swift */,
 				15F210902A1920AA0021F414 /* Message.swift */,
 				15F2108F2A1920AA0021F414 /* MessageView.swift */,
-				15F210AC2A1A8B7A0021F414 /* LLMUser.swift */,
 				15F210802A191B190021F414 /* LLMFarmApp.swift */,
 				15F210842A191B1B0021F414 /* Assets.xcassets */,
 				15F210862A191B1B0021F414 /* LLMFarm.entitlements */,
@@ -522,7 +519,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				15F210AD2A1A8B7A0021F414 /* LLMUser.swift in Sources */,
 				15A3EDCF2A2121D90030AF5A /* ChatItem.swift in Sources */,
 				15A3EDCC2A2121D90030AF5A /* ModelinfoItem.swift in Sources */,
 				156A48D02A52B55B007DF519 /* SplitViews.swift in Sources */,
@@ -638,7 +634,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "\"LLMFarm/Preview Content\"";
 				DEVELOPMENT_TEAM = C66ZA422A7;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -663,7 +659,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 0.8.0;
+				MARKETING_VERSION = 0.8.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.guinmoon.LLMFarm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -687,7 +683,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "\"LLMFarm/Preview Content\"";
 				DEVELOPMENT_TEAM = C66ZA422A7;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -712,7 +708,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 0.8.0;
+				MARKETING_VERSION = 0.8.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.guinmoon.LLMFarm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -11,13 +11,13 @@ struct ChatView: View {
     @EnvironmentObject var aiChatModel: AIChatModel
     @EnvironmentObject var orientationInfo: OrientationInfo
     
-//#if os(iOS)
+#if os(iOS)
     @State var placeholderString: String = "Type your message..."
     @State private var inputText: String = "Type your message..."
-//#else
-//    var placeholderString: String = ""
-//    @State private var inputText: String = ""
-//#endif
+#else
+    @State var placeholderString: String = ""
+    @State private var inputText: String = ""
+#endif
     
     
     @Binding var model_name: String
@@ -55,12 +55,12 @@ struct ChatView: View {
         if last_msg != nil && last_msg?.id != nil && scrollProxy != nil{
             if with_animation{
                 withAnimation {
-                    scrollProxy?.scrollTo(last_msg?.id, anchor: .bottom)
-                    //                    scrollProxy?.scrollTo("latest")
+                    //                    scrollProxy?.scrollTo(last_msg?.id, anchor: .bottom)
+                    scrollProxy?.scrollTo("latest")
                 }
             }else{
-                scrollProxy?.scrollTo(last_msg?.id, anchor: .bottom)
-                //                scrollProxy?.scrollTo("latest")
+                //                scrollProxy?.scrollTo(last_msg?.id, anchor: .bottom)
+                scrollProxy?.scrollTo("latest")
             }
         }
         
@@ -85,6 +85,27 @@ struct ChatView: View {
         }
     }
     
+    private var starOverlay: some View {
+        
+        Button {
+            Task{
+                scrollToBottom()
+            }
+        }
+        
+    label: {
+        Image(systemName: "arrow.down.circle")
+            .resizable()
+            .foregroundColor(.white)
+            .frame(width: 25, height: 25)
+            .padding([.bottom, .trailing], 15)
+            .opacity(0.4)
+    }
+    .buttonStyle(BorderlessButtonStyle())
+    }
+    
+    
+    
     var body: some View {
         VStack{
             if aiChatModel.state == .loading{
@@ -98,15 +119,17 @@ struct ChatView: View {
                             MessageView(message: message).id(message.id)
                         }
                         .listRowSeparator(.hidden)
-                        //                        Text("").id("latest")
+                        Text("").id("latest")
                     }
                     .listStyle(PlainListStyle())
+                    .overlay(starOverlay, alignment: .bottomTrailing)
+                    
                     HStack{
                         LLMTextView(placeholder:$placeholderString, text: $inputText)
                         Button {
                             Task {
                                 let text = inputText
-//                                inputText = placeholderString
+                                //                                inputText = placeholderString
                                 if (aiChatModel.predicting){
                                     aiChatModel.stop_predict()
                                 }else
@@ -169,6 +192,7 @@ struct ChatView: View {
             }
             .frame(maxHeight: .infinity)
             .disabled(aiChatModel.state == .loading)
+            
             .onChange(of: chat_selection) { chat_name in
                 Task {
                     if chat_name == nil{
@@ -180,6 +204,7 @@ struct ChatView: View {
                     }
                 }
             }
+            
             
         }
     }

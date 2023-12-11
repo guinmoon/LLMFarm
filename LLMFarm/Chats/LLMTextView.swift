@@ -16,7 +16,7 @@ struct LLMTextView: View {
         TextEditor(text: self.$text)
         // make the color of the placeholder gray
 #if os(macOS)
-            .padding(.vertical, 5)
+            .padding(.top, 15)
 #else
             .padding(.top, 10)
             .listRowBackground(Color(uiColor: .systemGroupedBackground))

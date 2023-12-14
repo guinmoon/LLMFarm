@@ -3,14 +3,13 @@
 *If you are experiencing the error `extras.otherInstrOffset != 0 && "Kind::arm64_adrp_ldr missing extra info"` see the solution [here](https://github.com/guinmoon/LLMFarm/issues/19).*
 
 <p align="center">
-  <img width="178px" alt="Icon" src="dist/LLMFarm0.1.2_256.png">
+  <a href="https://apps.apple.com/ru/app/llm-farm/id6461209867?l=en-GB&platform=iphone"><img width="178px" alt="Icon" src="dist/LLMFarm0.1.2_256.png"></a>
   <a href="https://testflight.apple.com/join/6SpPLIVM"><img width="178px" alt="Icon" src="dist/testflight.png"></a>
 </p>
-
 <p align="center">
-<a href="https://testflight.apple.com/join/6SpPLIVM"><strong>Install with TestFlight</strong></a>
+  <a href="https://apps.apple.com/ru/app/llm-farm/id6461209867?l=en-GB&platform=iphone"><strong>Install Stable&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</strong></a>
+  <a href="https://testflight.apple.com/join/6SpPLIVM"><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Install Latest</strong></a>
 </p>
-
 
 <p align="center">
   <img alt="Icon" height="400px"  src="dist/screen1.png">

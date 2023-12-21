@@ -195,11 +195,12 @@ final class AIChatModel: ObservableObject {
     }
     
     public func send(message text: String) async {
-        //        let aiQueue = DispatchQueue(label: "LLMFarm-model-load", qos: .userInitiated, attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
         
         let requestMessage = Message(sender: .user, state: .typed, text: text, tok_sec: 0)
         self.messages.append(requestMessage)
         self.AI_typing += 1
+        
+        
         if self.chat != nil{
             if self.chat_name != self.chat?.chatName{
                 self.chat = nil
@@ -207,7 +208,7 @@ final class AIChatModel: ObservableObject {
         }
         
         if self.chat == nil{
-                self.state = .loading
+            self.state = .loading
             do{
                 var res:Bool? = nil
                 try await Task {
@@ -218,8 +219,6 @@ final class AIChatModel: ObservableObject {
                     self.state = .completed
                     self.stop_predict(is_error: true)
                     return
-                }else{
-                     await self.send(message: text)
                 }
             }catch{
                 self.messages.append(Message(sender: .system, text: "\(error)", tok_sec: 0))
@@ -227,55 +226,47 @@ final class AIChatModel: ObservableObject {
                 self.stop_predict(is_error: true)
                 return
             }
-            return
-        }else{
-            self.state = .completed
-            self.chat?.chatName = self.chat_name
-            
-            self.chat?.flagExit = false
-            //            do {
-            var message = Message(sender: .system, text: "",tok_sec: 0)
-            self.messages.append(message)
-            let messageIndex = self.messages.endIndex - 1
-            
-            self.numberOfTokens = 0
-            self.total_sec = 0.0
-            self.predicting = true
-            self.action_button_icon = "stop.circle"
-            self.start_predicting_time = DispatchTime.now()
-            self.chat?.conversation(text, { str, time in
-                _ = self.process_predicted_str(str, time, &message, messageIndex)
-            }, {
-                final_str in
-                print(final_str)
-                self.AI_typing = 0
-                self.total_sec = Double((DispatchTime.now().uptimeNanoseconds - self.start_predicting_time.uptimeNanoseconds)) / 1_000_000_000
-                if (self.chat_name == self.chat?.chatName && self.chat?.flagExit != true){
-                    message.state = .predicted(totalSecond: self.total_sec)
-                    if self.tok_sec != 0{
-                        message.tok_sec = self.tok_sec
-                    }
-                    else{
-                        message.tok_sec = Double(self.numberOfTokens)/self.total_sec
-                    }
-                    self.messages[messageIndex] = message
-                }else{
-                    print("chat ended.")
-                }
-                self.predicting = false
-                self.numberOfTokens = 0
-                self.action_button_icon = "paperplane"
-                if final_str.hasPrefix("[Error]"){
-                    self.messages.append(Message(sender: .system, state: .error, text: "Eval \(final_str)", tok_sec: 0))
-                }
-                save_chat_history(self.messages,self.chat_name+".json")
-            })
-            
-            
-            //            } catch {
-            //                let message = Message(sender: .system, state: .error, text: error.localizedDescription, tok_sec: 0)
-            //                self.messages.append(message)
-            //            }
         }
+        
+        self.state = .completed
+        self.chat?.chatName = self.chat_name
+        self.chat?.flagExit = false
+        var message = Message(sender: .system, text: "",tok_sec: 0)
+        self.messages.append(message)
+        let messageIndex = self.messages.endIndex - 1
+        self.numberOfTokens = 0
+        self.total_sec = 0.0
+        self.predicting = true
+        self.action_button_icon = "stop.circle"
+        self.start_predicting_time = DispatchTime.now()
+        
+        self.chat?.conversation(text, { str, time in
+            _ = self.process_predicted_str(str, time, &message, messageIndex)
+        }, 
+        {
+            final_str in
+            print(final_str)
+            self.AI_typing = 0
+            self.total_sec = Double((DispatchTime.now().uptimeNanoseconds - self.start_predicting_time.uptimeNanoseconds)) / 1_000_000_000
+            if (self.chat_name == self.chat?.chatName && self.chat?.flagExit != true){
+                message.state = .predicted(totalSecond: self.total_sec)
+                if self.tok_sec != 0{
+                    message.tok_sec = self.tok_sec
+                }
+                else{
+                    message.tok_sec = Double(self.numberOfTokens)/self.total_sec
+                }
+                self.messages[messageIndex] = message
+            }else{
+                print("chat ended.")
+            }
+            self.predicting = false
+            self.numberOfTokens = 0
+            self.action_button_icon = "paperplane"
+            if final_str.hasPrefix("[Error]"){
+                self.messages.append(Message(sender: .system, state: .error, text: "Eval \(final_str)", tok_sec: 0))
+            }
+            save_chat_history(self.messages,self.chat_name+".json")
+        })
     }
 }

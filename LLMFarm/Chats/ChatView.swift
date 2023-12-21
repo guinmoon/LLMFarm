@@ -72,7 +72,9 @@ struct ChatView: View {
         }
         print("\nreload\n")
         aiChatModel.stop_predict()
-        await aiChatModel.prepare(model_name,chat_selection!)
+//        await aiChatModel.prepare(model_name,chat_selection!)
+        aiChatModel.model_name = model_name
+        aiChatModel.chat_name = chat_selection ?? "Not selected"
         aiChatModel.messages = []
         aiChatModel.messages = load_chat_history(chat_selection!+".json")!
         aiChatModel.AI_typing = -Int.random(in: 0..<100000)
@@ -111,6 +113,8 @@ struct ChatView: View {
             if aiChatModel.state == .loading{
                 Text("Model loading...")
                     .padding(.top, 5)
+                    .frame(width: .infinity)
+                    .background(.regularMaterial)
             }
             ScrollViewReader { scrollView in
                 VStack {
@@ -134,9 +138,12 @@ struct ChatView: View {
                                     aiChatModel.stop_predict()
                                 }else
                                 {
-                                    DispatchQueue.main.async {
-                                        aiChatModel.send(message: text)
+                                    Task {
+                                        await aiChatModel.send(message: text)
                                     }
+//                                    DispatchQueue.main.async {
+//                                        aiChatModel.send(message: text)
+//                                    }
                                 }
                             }
                         } label: {

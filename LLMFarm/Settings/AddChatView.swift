@@ -104,7 +104,7 @@ struct AddChatView: View {
     let bin_type = UTType(tag: "bin", tagClass: .filenameExtension, conformingTo: nil)
     let gguf_type = UTType(tag: "gguf", tagClass: .filenameExtension, conformingTo: nil)
     
-    @State private var model_settings_template:ModelSettingsTemplate = ModelSettingsTemplate()
+    @State private var model_settings_template:ChatSettingsTemplate = ChatSettingsTemplate()
     let model_setting_templates = get_model_setting_templates()
     
     @State private var model_inference = "llama"
@@ -130,8 +130,11 @@ struct AddChatView: View {
         self._renew_chat_list = renew_chat_list
     }
     
+    
+    
+    
     init(add_chat_dialog: Binding<Bool>,edit_chat_dialog:Binding<Bool>,
-         chat_name:String,renew_chat_list: Binding<() -> Void>) {
+        chat_name:String,renew_chat_list: Binding<() -> Void>) {
         self._add_chat_dialog = add_chat_dialog
         self._edit_chat_dialog = edit_chat_dialog
         self._renew_chat_list = renew_chat_list
@@ -239,7 +242,7 @@ struct AddChatView: View {
         }
     }
     
-    func apply_setting_template(template:ModelSettingsTemplate){
+    func apply_setting_template(template:ChatSettingsTemplate){
         model_inference = template.inference
         prompt_format = template.prompt_format
         model_context = template.context
@@ -249,12 +252,49 @@ struct AddChatView: View {
         model_top_p = template.top_p
         model_repeat_penalty = template.repeat_penalty
         model_repeat_last_n = template.repeat_last_n
-        warm_prompt = template.warm_prompt
+//        warm_prompt = template.warm_prompt
         reverse_prompt = template.reverse_prompt
         use_metal = template.use_metal
+        
         if hardware_arch=="x86_64"{
             use_metal = false
         }
+    }
+    
+    func get_chat_options_dict(is_template:Bool = false) -> Dictionary<String, Any> {
+        var options:Dictionary<String, Any> =    ["model":model_file_path,
+                                               "lora_adapters":lora_adapters,
+                                               "title":model_title,
+                                               "icon":model_icon,
+                                               "model_inference":model_inference,
+                                               "use_metal":use_metal,
+                                               "mlock":mlock,
+                                               "mmap":mmap,
+                                               "prompt_format":prompt_format,
+                                               "warm_prompt":warm_prompt,
+                                               "reverse_prompt":reverse_prompt,
+                                               "numberOfThreads":Int32(numberOfThreads),
+                                               "context":Int32(model_context),
+                                               "n_batch":Int32(model_n_batch),
+                                               "temp":Float(model_temp),
+                                               "repeat_last_n":Int32(model_repeat_last_n),
+                                               "repeat_penalty":Float(model_repeat_penalty),
+                                               "top_k":Int32(model_top_k),
+                                               "top_p":Float(model_top_p),
+                                               "mirostat":mirostat,
+                                               "mirostat_eta":mirostat_eta,
+                                               "mirostat_tau":mirostat_tau,
+                                               "tfs_z":tfs_z,
+                                               "typical_p":typical_p,
+                                               "grammar":grammar,
+                                               "add_bos_token":add_bos_token,
+                                               "add_eos_token":add_eos_token,
+                                               "parse_special_tokens":parse_special_tokens
+        ]
+        if is_template{
+            options["template_name"] = model_settings_template.template_name
+        }
+        return options
     }
     
     var body: some View {
@@ -299,35 +339,7 @@ struct AddChatView: View {
                                 //#endif
 //                            }
                             lora_adapters.append(["adapter":lora_file_path,"scale":lora_file_scale])
-                            let options:Dictionary<String, Any> = ["model":model_file_path,
-                                                                   "lora_adapters":lora_adapters,
-                                                                   "title":model_title,
-                                                                   "icon":model_icon,
-                                                                   "model_inference":model_inference,
-                                                                   "use_metal":use_metal,
-                                                                   "mlock":mlock,
-                                                                   "mmap":mmap,
-                                                                   "prompt_format":prompt_format,
-                                                                   "warm_prompt":warm_prompt,
-                                                                   "reverse_prompt":reverse_prompt,
-                                                                   "numberOfThreads":Int32(numberOfThreads),
-                                                                   "context":Int32(model_context),
-                                                                   "n_batch":Int32(model_n_batch),
-                                                                   "temp":Float(model_temp),
-                                                                   "repeat_last_n":Int32(model_repeat_last_n),
-                                                                   "repeat_penalty":Float(model_repeat_penalty),
-                                                                   "top_k":Int32(model_top_k),
-                                                                   "top_p":Float(model_top_p),
-                                                                   "mirostat":mirostat,
-                                                                   "mirostat_eta":mirostat_eta,
-                                                                   "mirostat_tau":mirostat_tau,
-                                                                   "tfs_z":tfs_z,
-                                                                   "typical_p":typical_p,
-                                                                   "grammar":grammar,
-                                                                   "add_bos_token":add_bos_token,
-                                                                   "add_eos_token":add_eos_token,
-                                                                   "parse_special_tokens":parse_special_tokens
-                            ]
+                            let options = get_chat_options_dict()
                             _ = create_chat(options,edit_chat_dialog:self.edit_chat_dialog,chat_name:self.chat_name)
                             if add_chat_dialog {
                                 add_chat_dialog = false
@@ -857,19 +869,21 @@ struct AddChatView: View {
 #endif
                                 Button {
                                     Task {
-                                        save_template(model_settings_template.template_name + ".json",
-                                                      template_name: model_settings_template.template_name,
-                                                      inference: model_inference,
-                                                      context: model_context,
-                                                      n_batch: model_n_batch,
-                                                      temp: model_temp,
-                                                      top_k: model_top_k,
-                                                      top_p: model_top_p,
-                                                      repeat_last_n: model_repeat_last_n,
-                                                      repeat_penalty: model_repeat_penalty,
-                                                      prompt_format: prompt_format,
-                                                      reverse_prompt: reverse_prompt,
-                                                      use_metal: use_metal)
+                                        let options = get_chat_options_dict(is_template: true)
+                                        _ = create_chat(options,edit_chat_dialog:true,chat_name:model_settings_template.template_name + ".json",save_as_template:true)
+//                                        save_template_old(model_settings_template.template_name + ".json",
+//                                                      template_name: model_settings_template.template_name,
+//                                                      inference: model_inference,
+//                                                      context: model_context,
+//                                                      n_batch: model_n_batch,
+//                                                      temp: model_temp,
+//                                                      top_k: model_top_k,
+//                                                      top_p: model_top_p,
+//                                                      repeat_last_n: model_repeat_last_n,
+//                                                      repeat_penalty: model_repeat_penalty,
+//                                                      prompt_format: prompt_format,
+//                                                      reverse_prompt: reverse_prompt,
+//                                                      use_metal: use_metal)
                                     }
                                 } label: {
                                     Image(systemName: "doc.badge.plus")

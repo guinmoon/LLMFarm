@@ -10,7 +10,7 @@ import Foundation
 struct ChatSettingsTemplate: Hashable {
     var template_name: String = "Custom"
     var inference: String = "llama"
-    var context: Int32 = 2048
+    var context: Int32 = 1024
     var n_batch: Int32 = 512
     var temp: Float = 0.9
     var top_k: Int32 = 40
@@ -18,37 +18,26 @@ struct ChatSettingsTemplate: Hashable {
     var repeat_last_n: Int32 = 64
     var repeat_penalty: Float = 1.1
     var prompt_format: String = "{{prompt}}"
-    var warm_prompt: String = "\\n\\n\\n"
     var reverse_prompt:String = ""
     var use_metal:Bool = false
+    var mirostat_tau:Float = 5
+    var mirostat_eta :Float =  0.1
+    var grammar:String = "<None>"
+    var numberOfThreads:Int32 = 0
+    var add_bos_token:Bool =  true
+    var add_eos_token:Bool = false
+    var parse_special_tokens = true
+    var mmap:Bool = true
+    var mlock:Bool = false
+    var mirostat:Int32 =  0
+    var tfs_z:Float =  1
+    var typical_p:Float = 1
     
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(template_name)
     }
     
-//    func save_template(_ fname:URL) -> Bool{
-//        do{
-//            let new_template:[String: Any] = ["template_name":self.template_name,
-//                                              "inference":self.inference,
-//                                              "context":self.context,
-//                                              "temp":self.n_batch,
-//                                              "top_k":self.top_k,
-//                                              "top_p":self.top_p,
-//                                              "repeat_last_n":self.repeat_last_n,
-//                                              "repeat_penalty":self.repeat_penalty,
-//                                              "prompt_format":self.prompt_format,
-//                                              "reverse_prompt":self.reverse_prompt,
-//                                              "use_metal":self.use_metal]
-//            let jsonData = try JSONSerialization.data(withJSONObject: new_template, options: .prettyPrinted)
-//            try jsonData.write(to: fname)
-//            return true
-//        }
-//        catch{
-//            print(error)
-//        }
-//        return false
-//    }
     
     static func == (lhs: ChatSettingsTemplate, rhs: ChatSettingsTemplate) -> Bool {
         return lhs.template_name == rhs.template_name 

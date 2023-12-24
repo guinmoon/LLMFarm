@@ -28,8 +28,8 @@ import Foundation
 //    return res
 //}
 
-func parse_model_setting_template(template_path:String) -> ModelSettingsTemplate{
-    var tmp_template:ModelSettingsTemplate = ModelSettingsTemplate()
+func parse_model_setting_template(template_path:String) -> ChatSettingsTemplate{
+    var tmp_template:ChatSettingsTemplate = ChatSettingsTemplate()
     do{
         let data = try Data(contentsOf: URL(fileURLWithPath: template_path), options: .mappedIfSafe)
         let jsonResult = try JSONSerialization.jsonObject(with: data, options: .mutableLeaves)
@@ -45,9 +45,9 @@ func parse_model_setting_template(template_path:String) -> ModelSettingsTemplate
         if (jsonResult_dict!["prompt_format"] != nil){
             tmp_template.prompt_format = jsonResult_dict!["prompt_format"] as! String
         }
-        if (jsonResult_dict!["warm_prompt"] != nil){
-            tmp_template.warm_prompt = jsonResult_dict!["warm_prompt"] as! String
-        }
+//        if (jsonResult_dict!["warm_prompt"] != nil){
+//            tmp_template.warm_prompt = jsonResult_dict!["warm_prompt"] as! String
+//        }
         if (jsonResult_dict!["reverse_prompt"] != nil){
             tmp_template.reverse_prompt = jsonResult_dict!["reverse_prompt"] as! String
         }
@@ -75,6 +75,41 @@ func parse_model_setting_template(template_path:String) -> ModelSettingsTemplate
         if (jsonResult_dict!["repeat_last_n"] != nil){
             tmp_template.repeat_last_n = jsonResult_dict!["repeat_last_n"] as! Int32
         }
+        if (jsonResult_dict!["mirostat_tau"] != nil){
+            tmp_template.mirostat_tau = jsonResult_dict!["mirostat_tau"] as! Float
+        }
+        if (jsonResult_dict!["mirostat_eta"] != nil){
+            tmp_template.mirostat_eta = jsonResult_dict!["mirostat_eta"] as! Float
+        }
+        if (jsonResult_dict!["tfs_z"] != nil){
+            tmp_template.tfs_z = jsonResult_dict!["tfs_z"] as! Float
+        }
+        if (jsonResult_dict!["typical_p"] != nil){
+            tmp_template.typical_p =  jsonResult_dict!["typical_p"] as! Float
+        }
+        if (jsonResult_dict!["grammar"] != nil){
+            tmp_template.grammar =  jsonResult_dict!["grammar"]! as! String
+        }
+        if (jsonResult_dict!["add_bos_token"] != nil){
+            tmp_template.add_bos_token =  jsonResult_dict!["add_bos_token"] as! Bool
+        }
+        if (jsonResult_dict!["add_eos_token"] != nil){
+            tmp_template.add_eos_token = jsonResult_dict!["add_eos_token"] as! Bool
+        }
+        if (jsonResult_dict!["parse_special_tokens"] != nil){
+            tmp_template.parse_special_tokens = jsonResult_dict!["parse_special_tokens"] as! Bool
+        }
+//        var mirostat_tau:Float = 5
+//        var mirostat_eta :Float =  0.1
+//        var grammar:String = "<None>"
+//        var numberOfThreads:Int32 = 0
+//        var add_bos_token:Bool =  true
+//        var add_eos_token:Bool = false
+//        var mmap:Bool = true
+//        var mlock:Bool = false
+//        var mirostat:Int32 =  0
+//        var tfs_z:Float =  1
+//        var typical_p:Float = 1
     }
     catch {
         print(error)
@@ -82,9 +117,9 @@ func parse_model_setting_template(template_path:String) -> ModelSettingsTemplate
     return tmp_template
 }
 
-func get_model_setting_templates() -> [ModelSettingsTemplate]{
-    var model_setting_templates: [ModelSettingsTemplate] = []
-    model_setting_templates.append(ModelSettingsTemplate())
+func get_model_setting_templates() -> [ChatSettingsTemplate]{
+    var model_setting_templates: [ChatSettingsTemplate] = []
+    model_setting_templates.append(ChatSettingsTemplate())
     do{
         let fileManager = FileManager.default
         let templates_path=Bundle.main.resourcePath!.appending("/model_setting_templates")
@@ -229,45 +264,47 @@ public func rename_file(_ old_fname:String, _ new_fname: String, _ dir: String) 
     return result
 }
 
-public func save_template(_ f_name:String,
-                             template_name: String ,
-                             inference: String ,
-                             context: Int32 ,
-                             n_batch: Int32 ,
-                             temp: Float ,
-                             top_k: Int32 ,
-                             top_p: Float ,
-                             repeat_last_n: Int32,
-                             repeat_penalty: Float ,
-                             prompt_format: String ,
-                             reverse_prompt:String ,
-                             use_metal:Bool,
-                             dir: String = "model_setting_templates") -> Bool{
-    var result = false
-    do{
-        let tmp_template = ModelSettingsTemplate( template_name: template_name,
-                                                  inference: inference,
-                                                  context: context,
-                                                  n_batch: n_batch,
-                                                  temp: temp,
-                                                  top_k: top_k,
-                                                  top_p: top_p,
-                                                  repeat_last_n: repeat_last_n,
-                                                  repeat_penalty: repeat_penalty,
-                                                  prompt_format: prompt_format,
-                                                  reverse_prompt:reverse_prompt)
-        let fileManager = FileManager.default
-        let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
-        let destinationURL = documentsPath!.appendingPathComponent(dir)
-        try fileManager.createDirectory (at: destinationURL, withIntermediateDirectories: true, attributes: nil)
-        let new_template_path = destinationURL.appendingPathComponent(f_name)
-        return tmp_template.save_template(new_template_path)
-    }
-    catch{
-        print(error)
-    }
-    return result
-}
+
+//
+//public func save_template_old(_ f_name:String,
+//                             template_name: String ,
+//                             inference: String ,
+//                             context: Int32 ,
+//                             n_batch: Int32 ,
+//                             temp: Float ,
+//                             top_k: Int32 ,
+//                             top_p: Float ,
+//                             repeat_last_n: Int32,
+//                             repeat_penalty: Float ,
+//                             prompt_format: String ,
+//                             reverse_prompt:String ,
+//                             use_metal:Bool,
+//                             dir: String = "model_setting_templates") -> Bool{
+//    var result = false
+//    do{
+//        let tmp_template = ModelSettingsTemplate( template_name: template_name,
+//                                                  inference: inference,
+//                                                  context: context,
+//                                                  n_batch: n_batch,
+//                                                  temp: temp,
+//                                                  top_k: top_k,
+//                                                  top_p: top_p,
+//                                                  repeat_last_n: repeat_last_n,
+//                                                  repeat_penalty: repeat_penalty,
+//                                                  prompt_format: prompt_format,
+//                                                  reverse_prompt:reverse_prompt)
+//        let fileManager = FileManager.default
+//        let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+//        let destinationURL = documentsPath!.appendingPathComponent(dir)
+//        try fileManager.createDirectory (at: destinationURL, withIntermediateDirectories: true, attributes: nil)
+//        let new_template_path = destinationURL.appendingPathComponent(f_name)
+//        return tmp_template.save_template(new_template_path)
+//    }
+//    catch{
+//        print(error)
+//    }
+//    return result
+//}
 
 public func get_models_list(dir:String = "models") -> [Dictionary<String, String>]?{
     var res: [Dictionary<String, String>] = []
@@ -402,12 +439,27 @@ public func get_grammars_list() -> [String]?{
 //    return nil
 //}
 
-func create_chat(_ options:Dictionary<String, Any>,edit_chat_dialog:Bool = false,chat_name: String = "") -> Bool{
+func create_chat(_ in_options:Dictionary<String, Any>,edit_chat_dialog:Bool = false,chat_name: String = "", save_as_template:Bool = false) -> Bool{
     do {
+        var options:Dictionary<String, Any> = [:]
+        for (key, value) in in_options {
+                print("\(key) : \(value)")
+            if !save_as_template {
+                options[key] = value
+                continue
+            }
+            if key != "lora_adapters" && key != "model" && key != "title" && key != "icon"{
+                options[key] = value
+            }
+        }
         let fileManager = FileManager.default
         let jsonData = try JSONSerialization.data(withJSONObject: options, options: .prettyPrinted)
         let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
-        let destinationURL = documentsPath!.appendingPathComponent("chats")
+        var target_dir = "chats"
+        if save_as_template{
+            target_dir = "model_setting_templates"
+        }
+        let destinationURL = documentsPath!.appendingPathComponent(target_dir)
         try fileManager.createDirectory (at: destinationURL, withIntermediateDirectories: true, attributes: nil)
         let today = Date()
         // convert Date to TimeInterval (typealias for Double)
@@ -419,6 +471,9 @@ func create_chat(_ options:Dictionary<String, Any>,edit_chat_dialog:Bool = false
             fname = chat_name
         }else{
             fname = options["title"]! as! String + salt + ".json"
+        }
+        if save_as_template{
+            fname = chat_name
         }
         let path = destinationURL.appendingPathComponent(fname)
         try jsonData.write(to: path)

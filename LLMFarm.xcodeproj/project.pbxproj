@@ -10,7 +10,7 @@
 		1509BA602B1E6FD400703BC0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1509BA5F2B1E6FD400703BC0 /* Extensions.swift */; };
 		1509BA622B1F1D7000703BC0 /* LLMTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1509BA612B1F1D7000703BC0 /* LLMTextView.swift */; };
 		15141E5C2A651F8C0060E767 /* model_setting_templates in Resources */ = {isa = PBXBuildFile; fileRef = 15141E5B2A651F8C0060E767 /* model_setting_templates */; };
-		15141E712A65799D0060E767 /* ModelSettingsTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15141E702A65799D0060E767 /* ModelSettingsTemplate.swift */; };
+		15141E712A65799D0060E767 /* ChatSettingsTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15141E702A65799D0060E767 /* ChatSettingsTemplate.swift */; };
 		1532BF7A2A9FA885006DC514 /* GetDeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1532BF792A9FA885006DC514 /* GetDeviceInfo.swift */; };
 		1532BF7C2AA113AD006DC514 /* RWKV-4 Raven Eng.json in Resources */ = {isa = PBXBuildFile; fileRef = 1532BF7B2AA113AD006DC514 /* RWKV-4 Raven Eng.json */; };
 		1532BF7E2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json in Resources */ = {isa = PBXBuildFile; fileRef = 1532BF7D2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json */; };
@@ -108,7 +108,7 @@
 		15141E3D2A6488A60060E767 /* cerebras 2.7b.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "cerebras 2.7b.json"; sourceTree = "<group>"; };
 		15141E3F2A6488A70060E767 /* stablelm-tuned-alpha-3b.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stablelm-tuned-alpha-3b.json"; sourceTree = "<group>"; };
 		15141E5B2A651F8C0060E767 /* model_setting_templates */ = {isa = PBXFileReference; lastKnownFileType = folder; name = model_setting_templates; path = LLMFarm/model_setting_templates; sourceTree = "<group>"; };
-		15141E702A65799D0060E767 /* ModelSettingsTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelSettingsTemplate.swift; sourceTree = "<group>"; };
+		15141E702A65799D0060E767 /* ChatSettingsTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSettingsTemplate.swift; sourceTree = "<group>"; };
 		1532BF792A9FA885006DC514 /* GetDeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDeviceInfo.swift; sourceTree = "<group>"; };
 		1532BF7B2AA113AD006DC514 /* RWKV-4 Raven Eng.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "RWKV-4 Raven Eng.json"; sourceTree = "<group>"; };
 		1532BF7D2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "MagicPrompt-Stable-Diffusion.json"; sourceTree = "<group>"; };
@@ -230,7 +230,7 @@
 			children = (
 				15F210A92A1A659B0021F414 /* FileHelper.swift */,
 				156A48D12A52B65C007DF519 /* Orientation_helper.swift */,
-				15141E702A65799D0060E767 /* ModelSettingsTemplate.swift */,
+				15141E702A65799D0060E767 /* ChatSettingsTemplate.swift */,
 				158FC6DA2AA3457A00A181B4 /* log_helper.swift */,
 				15584A5B2AAB994100EC9C9C /* DownloadManager.swift */,
 				1509BA5F2B1E6FD400703BC0 /* Extensions.swift */,
@@ -527,7 +527,7 @@
 				15A3EDCD2A2121D90030AF5A /* ChatListView.swift in Sources */,
 				156A48D22A52B65C007DF519 /* Orientation_helper.swift in Sources */,
 				15A3EDCB2A2121D90030AF5A /* ModelsView.swift in Sources */,
-				15141E712A65799D0060E767 /* ModelSettingsTemplate.swift in Sources */,
+				15141E712A65799D0060E767 /* ChatSettingsTemplate.swift in Sources */,
 				1560D6172A2D1A3D00918330 /* AddChatView.swift in Sources */,
 				15B1B9DA2AF588FD0058F275 /* SettingsMenuItem.swift in Sources */,
 				15F210962A1920AA0021F414 /* AIChatModel.swift in Sources */,

@@ -7,5 +7,6 @@
   "top_p" : 0.94999998807907104,
   "n_batch" : 512,
   "top_k" : 40,
-  "use_metal" : true
+  "use_metal" : true,
+  "mlock": true
 }

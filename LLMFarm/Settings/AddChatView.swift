@@ -6,57 +6,20 @@
 //
 
 import SwiftUI
-import UniformTypeIdentifiers
 import llmfarm_core_cpp
-
-struct InputDoument: FileDocument {
-    
-    static var readableContentTypes: [UTType] { [.plainText] }
-    
-    var input: String
-    
-    init(input: String) {
-        self.input = input
-    }
-    
-    init(configuration: FileDocumentReadConfiguration) throws {
-        guard let data = configuration.file.regularFileContents,
-              let string = String(data: data, encoding: .utf8)
-        else {
-            throw CocoaError(.fileReadCorruptFile)
-        }
-        input = string
-    }
-    
-    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-        return FileWrapper(regularFileWithContents: input.data(using: .utf8)!)
-    }
-    
-}
+import UniformTypeIdentifiers
 
 
-struct SelectInference: View {
-    @State private var selection = "Red"
-    let colors = ["Red", "Green", "Blue", "Black", "Tartan"]
-    
-    var body: some View {
-        VStack {
-            Picker("Select an inference", selection: $selection) {
-                ForEach(colors, id: \.self) {
-                    Text($0)
-                }
-            }
-            .pickerStyle(.menu)
-            
-            Text("Selected inference: \(selection)")
-        }
-    }
-}
+
+
 
 struct AddChatView: View {
-    
+        
     @Binding var add_chat_dialog: Bool
     @Binding var edit_chat_dialog: Bool
+    
+//    @State private var chat_config: Dictionary<String, AnyObject> = [:]
+    
     //    @State private var model_file: InputDoument = InputDoument(input: "")
     @State private var isPredictionAccordionExpanded: Bool = false
     @State private var isSamplingAccordionExpanded: Bool = false
@@ -106,6 +69,7 @@ struct AddChatView: View {
     
     @State private var model_settings_template:ChatSettingsTemplate = ChatSettingsTemplate()
     let model_setting_templates = get_model_setting_templates()
+    @State var save_as_template_name:String = "My Template"
     
     @State private var model_inference = "llama"
     let model_inferences = ["gptneox", "llama", "gpt2", "replit", "starcoder", "rwkv"]
@@ -143,6 +107,9 @@ struct AddChatView: View {
         if chat_config == nil{ //in Swift runtime failure: Unexpectedly found nil while unwrapping an Optional value ()
             return
         }
+        
+//        self._chat_config = State(initialValue: chat_config!)
+        
         if (chat_config!["title"] != nil){
             self._model_title = State(initialValue: chat_config!["title"]! as! String)
         }
@@ -242,7 +209,22 @@ struct AddChatView: View {
         }
     }
     
+    @State var applying_template:Bool = false
+    
+    func set_template_to_custom(){
+        model_settings_template = model_setting_templates[0]
+    }
+    
+    private func run_after_delay(delay: Int, function: @escaping () -> Void) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(delay)) {
+            function()
+        }
+    }
+    
     func apply_setting_template(template:ChatSettingsTemplate){
+        if template.template_name == "Custom"{
+            return
+        }
         model_inference = template.inference
         prompt_format = template.prompt_format
         model_context = template.context
@@ -255,11 +237,24 @@ struct AddChatView: View {
 //        warm_prompt = template.warm_prompt
         reverse_prompt = template.reverse_prompt
         use_metal = template.use_metal
-        
+        mirostat = template.mirostat
+        mirostat_tau = template.mirostat_tau
+        mirostat_eta = template.mirostat_eta
+        grammar = template.grammar
+        numberOfThreads = template.numberOfThreads
+        add_bos_token = template.add_bos_token
+        add_eos_token = template.add_eos_token
+        parse_special_tokens = template.parse_special_tokens
+        mmap = template.mmap
+        mlock = template.mlock
+        tfs_z = template.tfs_z
+        typical_p = template.typical_p
         if hardware_arch=="x86_64"{
             use_metal = false
         }
+        run_after_delay(delay:1200, function:{applying_template = false})
     }
+    
     
     func get_chat_options_dict(is_template:Bool = false) -> Dictionary<String, Any> {
         var options:Dictionary<String, Any> =    ["model":model_file_path,
@@ -296,6 +291,8 @@ struct AddChatView: View {
         }
         return options
     }
+    
+   
     
     var body: some View {
         ZStack{
@@ -505,6 +502,7 @@ struct AddChatView: View {
                                 }
                             }
                             .onChange(of: model_settings_template) { tmpl in
+                                applying_template = true
                                 apply_setting_template(template:model_settings_template)
                             }
                             .pickerStyle(.menu)
@@ -860,17 +858,17 @@ struct AddChatView: View {
                                 .padding(.horizontal)
                             HStack {
 #if os(macOS)
-                                DidEndEditingTextField(text: $model_settings_template.template_name,didEndEditing: { newName in})
+                                DidEndEditingTextField(text: $save_as_template_name,didEndEditing: { newName in})
                                     .frame(maxWidth: .infinity, alignment: .leading)
 #else
-                                TextField("New template name...", text: $model_settings_template.template_name)
+                                TextField("New template name...", text: $save_as_template_name)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .textFieldStyle(.plain)
 #endif
                                 Button {
                                     Task {
                                         let options = get_chat_options_dict(is_template: true)
-                                        _ = create_chat(options,edit_chat_dialog:true,chat_name:model_settings_template.template_name + ".json",save_as_template:true)
+                                        _ = create_chat(options,edit_chat_dialog:true,chat_name:save_as_template_name + ".json",save_as_template:true)
 //                                        save_template_old(model_settings_template.template_name + ".json",
 //                                                      template_name: model_settings_template.template_name,
 //                                                      inference: model_inference,
@@ -897,9 +895,38 @@ struct AddChatView: View {
             .padding(.top)
             .padding(.horizontal)
         }
-        //        .navigationTitle($model_title)
+        .onChange(of: anyOfModelOptions){ new_val in
+            if !applying_template {
+                set_template_to_custom()
+            }
+        }
     }
     
+    var anyOfModelOptions: [String] {[
+        use_metal.description,
+        model_inference,
+        mlock.description,
+        mmap.description,
+        prompt_format,
+        reverse_prompt,
+        numberOfThreads.description,
+        model_context.description,
+        model_n_batch.description,
+        model_temp.description,
+        model_repeat_last_n.description,
+        model_repeat_penalty.description,
+        model_top_k.description,
+        model_top_p.description,
+        mirostat.description,
+        mirostat_eta.description,
+        mirostat_tau.description,
+        tfs_z.description,
+        typical_p.description,
+        grammar,
+        add_bos_token.description,
+        add_eos_token.description,
+        parse_special_tokens.description
+    ]}
 }
 //
 //struct AddChatView_Previews: PreviewProvider {

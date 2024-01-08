@@ -20,6 +20,7 @@ struct ChatSettingsTemplate: Hashable {
     var prompt_format: String = "{{prompt}}"
     var reverse_prompt:String = ""
     var use_metal:Bool = false
+    var mirostat:Int32 =  0
     var mirostat_tau:Float = 5
     var mirostat_eta :Float =  0.1
     var grammar:String = "<None>"
@@ -29,7 +30,6 @@ struct ChatSettingsTemplate: Hashable {
     var parse_special_tokens = true
     var mmap:Bool = true
     var mlock:Bool = false
-    var mirostat:Int32 =  0
     var tfs_z:Float =  1
     var typical_p:Float = 1
     

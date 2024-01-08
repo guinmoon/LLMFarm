@@ -6,27 +6,9 @@
 //
 
 import Foundation
-//import SwiftUI
+import SwiftUI
+import UniformTypeIdentifiers
 
-//func get_avalible_models() -> [String]?{
-//    var res: [String] = []
-//    do {
-//        let fileManager = FileManager.default
-//        let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
-//        let destinationURL = documentsPath!.appendingPathComponent("models")
-//        let items = try fileManager.contentsOfDirectory(atPath: destinationURL.path)
-//        for item in items {
-//            if item.contains(".bin"){
-//                res.append(item)
-//            }
-//        }
-//        return res
-//    } catch {
-//        // failed to read directory – bad permissions, perhaps?
-//        print(error)
-//    }
-//    return res
-//}
 
 func parse_model_setting_template(template_path:String) -> ChatSettingsTemplate{
     var tmp_template:ChatSettingsTemplate = ChatSettingsTemplate()
@@ -98,6 +80,12 @@ func parse_model_setting_template(template_path:String) -> ChatSettingsTemplate{
         }
         if (jsonResult_dict!["parse_special_tokens"] != nil){
             tmp_template.parse_special_tokens = jsonResult_dict!["parse_special_tokens"] as! Bool
+        }
+        if (jsonResult_dict!["mlock"] != nil){
+            tmp_template.mlock = jsonResult_dict!["mlock"] as! Bool
+        }
+        if (jsonResult_dict!["mmap"] != nil){
+            tmp_template.mmap = jsonResult_dict!["mmap"] as! Bool
         }
 //        var mirostat_tau:Float = 5
 //        var mirostat_eta :Float =  0.1
@@ -653,4 +641,30 @@ func save_chat_history(_ messages_raw: [Message],_ fname:String){
     catch {
         // handle error
     }
+}
+
+
+struct InputDoument: FileDocument {
+    
+    static var readableContentTypes: [UTType] { [.plainText] }
+    
+    var input: String
+    
+    init(input: String) {
+        self.input = input
+    }
+    
+    init(configuration: FileDocumentReadConfiguration) throws {
+        guard let data = configuration.file.regularFileContents,
+              let string = String(data: data, encoding: .utf8)
+        else {
+            throw CocoaError(.fileReadCorruptFile)
+        }
+        input = string
+    }
+    
+    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
+        return FileWrapper(regularFileWithContents: input.data(using: .utf8)!)
+    }
+    
 }

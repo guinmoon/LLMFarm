@@ -62,8 +62,10 @@ final class FineTuneModel: ObservableObject {
     
     public func finetune() async {
         Task{
-            self.tune_log = ""
-            self.state = .loading
+            DispatchQueue.main.async {
+                self.tune_log = ""
+                self.state = .loading
+            }
             let documents_path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
             let model_path = get_path_by_short_name(model_file_path,dest:"models")
             if (model_path == nil || documents_path == nil){

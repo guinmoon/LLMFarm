@@ -71,7 +71,7 @@ final class FineTuneModel: ObservableObject {
             }
             _ = get_path_by_short_name(lora_name,dest:"lora_adapters")
             let lora_path:String = String(documents_path!.appendingPathComponent("lora_adapters").path(percentEncoded: true) + lora_name)
-//            try! lora_path.write(to: URL(fileURLWithPath: lora_path), atomically: true, encoding: String.Encoding.utf8)
+            try! lora_path.write(to: URL(fileURLWithPath: lora_path), atomically: true, encoding: String.Encoding.utf8)
             print("Lora_path: \(lora_path)")
             let dataset_path = get_path_by_short_name(dataset_file_path,dest:"datasets")
             if dataset_path == nil{

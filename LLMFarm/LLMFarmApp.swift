@@ -61,7 +61,7 @@ struct LLMFarmApp: App {
                 }else{
                     AddChatView(add_chat_dialog: $add_chat_dialog,
                                 edit_chat_dialog: $edit_chat_dialog,
-                                renew_chat_list: $renew_chat_list)
+                                renew_chat_list: $renew_chat_list).environmentObject(aiChatModel)
                     .frame(minWidth: 200,maxHeight: .infinity)
                 }
             }
@@ -85,7 +85,7 @@ struct LLMFarmApp: App {
                 AddChatView(add_chat_dialog: $add_chat_dialog,
                             edit_chat_dialog: $edit_chat_dialog,
                             chat_name: aiChatModel.chat_name,
-                            renew_chat_list: $renew_chat_list)
+                            renew_chat_list: $renew_chat_list).environmentObject(aiChatModel)
                 .frame(minWidth: 200,maxHeight: .infinity)
 #if !os(macOS)
                 .toolbar(.hidden, for: .automatic)

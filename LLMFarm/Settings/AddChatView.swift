@@ -17,6 +17,7 @@ struct AddChatView: View {
         
     @Binding var add_chat_dialog: Bool
     @Binding var edit_chat_dialog: Bool
+    @EnvironmentObject var aiChatModel: AIChatModel
     
 //    @State private var chat_config: Dictionary<String, AnyObject> = [:]
     
@@ -86,6 +87,7 @@ struct AddChatView: View {
     
     @State var grammars_previews = get_grammars_list()!
     
+    @State private var clearChatAlert = false
     
     init(add_chat_dialog: Binding<Bool>,edit_chat_dialog:Binding<Bool>,
          renew_chat_list: Binding<() -> Void>) {
@@ -886,9 +888,34 @@ struct AddChatView: View {
                                 } label: {
                                     Image(systemName: "doc.badge.plus")
                                 }
+                                .frame(alignment: .trailing)
                             }
+                            .frame(maxWidth: .infinity)
                             .padding(.horizontal)
                         }
+                        HStack {
+                            Button {
+                                Task {
+                                    clearChatAlert = true
+                                }
+                            } label: {
+                                Image(systemName: "trash")
+                                Text("Clear chat history")
+                                    .foregroundStyle(.red)
+                            }
+                            .alert("Are you sure?", isPresented: $clearChatAlert, actions: {
+                                  Button("Cancel", role: .cancel, action: {})
+                                  Button("Clear", role: .destructive, action: {
+                                      aiChatModel.messages = []
+                                      save_chat_history(aiChatModel.messages,aiChatModel.chat_name+".json")
+                                  })
+                                }, message: {
+                                  Text("The message history will be cleared")
+                                })
+                        }
+                        .padding()
+                        
+                        
                     }
                 }
             }

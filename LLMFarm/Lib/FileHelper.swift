@@ -552,6 +552,7 @@ func load_chat_history(_ fname:String) -> [Message]?{
     return res
 }
 
+
 //func saveBookmark(url: URL){
 //    do {
 //        let res = url.startAccessingSecurityScopedResource()
@@ -619,6 +620,31 @@ func copyModelToSandbox (url: URL, dest:String = "models") -> String?{
 }
 
 func save_chat_history(_ messages_raw: [Message],_ fname:String){
+    do {
+        let fileManager = FileManager.default
+        var messages: [Dictionary<String, AnyObject>] = []
+        for message in messages_raw {
+            let tmp_msg = ["id":message.id.uuidString as AnyObject,
+                           "sender":String(describing: message.sender) as AnyObject,
+                           "state":String(describing: message.state) as AnyObject,
+                           "text":message.text as AnyObject,
+                           "tok_sec":String(message.tok_sec) as AnyObject]
+            messages.append(tmp_msg)
+        }
+        let jsonData = try JSONSerialization.data(withJSONObject: messages, options: .prettyPrinted)
+        let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+        let destinationURL = documentsPath!.appendingPathComponent("history")
+        try fileManager.createDirectory (at: destinationURL, withIntermediateDirectories: true, attributes: nil)
+        let path = destinationURL.appendingPathComponent(fname)
+        try jsonData.write(to: path)
+        
+    }
+    catch {
+        // handle error
+    }
+}
+
+func clear_chat_history(_ messages_raw: [Message],_ fname:String){
     do {
         let fileManager = FileManager.default
         var messages: [Dictionary<String, AnyObject>] = []

@@ -57,6 +57,6 @@ struct LLMTextView: View {
     }
 }
 
-#Preview {
-    LLMTextView(placeholder: .constant("type here"),text: .constant(""))
-}
+//#Preview {
+//    LLMTextView(placeholder: .constant("type here"),text: .constant(""))
+//}

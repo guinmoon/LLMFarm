@@ -129,7 +129,12 @@ struct ChatView: View {
                     .overlay(starOverlay, alignment: .bottomTrailing)
                     
                     HStack{
+#if os(macOS)
                         LLMTextView(placeholder:$placeholderString, text: $inputText)
+#else
+//                        LLMTextInput(messagePlaceholder: placeholderString)
+                        LLMTextView(placeholder:$placeholderString, text: $inputText)
+#endif
                         Button {
                             Task {
                                 let text = inputText
@@ -138,6 +143,7 @@ struct ChatView: View {
                                     aiChatModel.stop_predict()
                                 }else
                                 {
+                                    
                                     Task {
                                         await aiChatModel.send(message: text)
                                     }

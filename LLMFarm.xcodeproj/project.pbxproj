@@ -11,6 +11,7 @@
 		1509BA622B1F1D7000703BC0 /* LLMTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1509BA612B1F1D7000703BC0 /* LLMTextView.swift */; };
 		15141E5C2A651F8C0060E767 /* model_setting_templates in Resources */ = {isa = PBXBuildFile; fileRef = 15141E5B2A651F8C0060E767 /* model_setting_templates */; };
 		15141E712A65799D0060E767 /* ChatSettingsTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15141E702A65799D0060E767 /* ChatSettingsTemplate.swift */; };
+		151746A22B585B030074FF35 /* LLMTextInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151746A12B585B030074FF35 /* LLMTextInput.swift */; };
 		1532BF7A2A9FA885006DC514 /* GetDeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1532BF792A9FA885006DC514 /* GetDeviceInfo.swift */; };
 		1532BF7C2AA113AD006DC514 /* RWKV-4 Raven Eng.json in Resources */ = {isa = PBXBuildFile; fileRef = 1532BF7B2AA113AD006DC514 /* RWKV-4 Raven Eng.json */; };
 		1532BF7E2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json in Resources */ = {isa = PBXBuildFile; fileRef = 1532BF7D2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json */; };
@@ -109,6 +110,7 @@
 		15141E3F2A6488A70060E767 /* stablelm-tuned-alpha-3b.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stablelm-tuned-alpha-3b.json"; sourceTree = "<group>"; };
 		15141E5B2A651F8C0060E767 /* model_setting_templates */ = {isa = PBXFileReference; lastKnownFileType = folder; name = model_setting_templates; path = LLMFarm/model_setting_templates; sourceTree = "<group>"; };
 		15141E702A65799D0060E767 /* ChatSettingsTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSettingsTemplate.swift; sourceTree = "<group>"; };
+		151746A12B585B030074FF35 /* LLMTextInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLMTextInput.swift; sourceTree = "<group>"; };
 		1532BF792A9FA885006DC514 /* GetDeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDeviceInfo.swift; sourceTree = "<group>"; };
 		1532BF7B2AA113AD006DC514 /* RWKV-4 Raven Eng.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "RWKV-4 Raven Eng.json"; sourceTree = "<group>"; };
 		1532BF7D2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "MagicPrompt-Stable-Diffusion.json"; sourceTree = "<group>"; };
@@ -264,6 +266,7 @@
 				15A3EDC72A2121D90030AF5A /* ChatItem.swift */,
 				156A48CF2A52B55B007DF519 /* SplitViews.swift */,
 				1509BA612B1F1D7000703BC0 /* LLMTextView.swift */,
+				151746A12B585B030074FF35 /* LLMTextInput.swift */,
 			);
 			path = Chats;
 			sourceTree = "<group>";
@@ -549,6 +552,7 @@
 				15A3EDCA2A2121D90030AF5A /* SettingsHeaderItem.swift in Sources */,
 				1568E3CE2A8BF86200930CC9 /* BottomPanel.swift in Sources */,
 				15B1B9D82AF2C9A70058F275 /* SettingsView.swift in Sources */,
+				151746A22B585B030074FF35 /* LLMTextInput.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

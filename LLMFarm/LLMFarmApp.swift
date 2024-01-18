@@ -44,19 +44,19 @@ struct LLMFarmApp: App {
                                      edit_chat_dialog:$edit_chat_dialog,
                                      chat_selection:$chat_selection,
                                      renew_chat_list: $renew_chat_list
-                        )
+                        ).environmentObject(fineTuneModel)
                         .disabled(edit_chat_dialog)
                         .frame(minWidth: 250, maxHeight: .infinity)
                         
                         //                        .border(/*@START_MENU_TOKEN@*/Color.black/*@END_MENU_TOKEN@*/)
-                        BottomPanelView(tabIndex: $tabIndex, current_detail_view_name:$current_detail_view_name)
+//                        BottomPanelView(tabIndex: $tabIndex, current_detail_view_name:$current_detail_view_name)
                         //                            .border(/*@START_MENU_TOKEN@*/Color.black/*@END_MENU_TOKEN@*/)
                     }
                     if (tabIndex==1){
                         // ModelsView()
                         SettingsView(current_detail_view_name:$current_detail_view_name).environmentObject(fineTuneModel)
-                        BottomPanelView(tabIndex: $tabIndex, current_detail_view_name:$current_detail_view_name)
-                            .ignoresSafeArea(.keyboard)
+//                        BottomPanelView(tabIndex: $tabIndex, current_detail_view_name:$current_detail_view_name)
+//                            .ignoresSafeArea(.keyboard)
                     }
                 }else{
                     AddChatView(add_chat_dialog: $add_chat_dialog,

@@ -10,6 +10,7 @@ import SwiftUI
 
 
 struct ChatListView: View {
+    @EnvironmentObject var fineTuneModel: FineTuneModel
     
     @State var searchText: String = ""
     @Binding var tabSelection: Int
@@ -21,6 +22,8 @@ struct ChatListView: View {
     @Binding var chat_selection: String?
     @Binding var renew_chat_list: () -> Void    
     @State var chats_previews:[Dictionary<String, String>] = []
+    @State var current_detail_view_name:String? = "Chat"
+    @State private var toggleSettings = false
     
     func refresh_chat_list(){
         self.chats_previews = get_chats_list()!
@@ -44,27 +47,27 @@ struct ChatListView: View {
 //            Color("color_bg").edgesIgnoringSafeArea(.all)
             
             VStack(alignment: .leading, spacing: 5){
-                HStack{
-                    Text("Chats")
-                        .fontWeight(.semibold)
-                        .font(.title2)
-                    Spacer()
-                    
-                    Button {
-                        Task {
-                            add_chat_dialog = true
-                            edit_chat_dialog = false
-                        }
-                    } label: {
-                        Image(systemName: "plus.app")
-//                            .foregroundColor(Color("color_primary"))
-                            .font(.title2)
-                    }
-                    .buttonStyle(.borderless)
-                    .controlSize(.large)
-                }
-                .padding(.top)
-                .padding(.horizontal)
+//                HStack{
+//                    Text("Chats")
+//                        .fontWeight(.semibold)
+//                        .font(.title2)
+//                    Spacer()
+//                    
+//                    Button {
+//                        Task {
+//                            add_chat_dialog = true
+//                            edit_chat_dialog = false
+//                        }
+//                    } label: {
+//                        Image(systemName: "plus.app")
+////                            .foregroundColor(Color("color_primary"))
+//                            .font(.title2)
+//                    }
+//                    .buttonStyle(.borderless)
+//                    .controlSize(.large)
+//                }
+//                .padding(.top)
+//                .padding(.horizontal)
                 
                 
 //                    Divider()
@@ -137,8 +140,45 @@ struct ChatListView: View {
                 renew_chat_list = refresh_chat_list
                 refresh_chat_list()
             }
+            
         }
-        
+        .navigationTitle("Chats")
+        .toolbar {
+            ToolbarItemGroup(placement: .primaryAction) {
+                Menu {
+                    Button {
+                        toggleSettings = true
+                    } label: {
+                        HStack {
+                            Text("Settings")
+                            Image(systemName: "gear")
+                        }
+                    }
+                    #if os(iOS)
+                    EditButton()
+                    #endif
+                } label: {
+                    Image(systemName: "ellipsis.circle")
+                }
+            }
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    Task {
+                        add_chat_dialog = true
+                        edit_chat_dialog = false
+                    }
+                } label: {
+                    Image(systemName: "plus")
+                }
+                
+            }
+    }
+        .sheet(isPresented: $toggleSettings) {
+            SettingsView(current_detail_view_name:$current_detail_view_name).environmentObject(fineTuneModel)
+#if os(macOS)
+                .frame(minWidth: 400,minHeight: 600)
+#endif
+        }
     }
 }
 

@@ -19,7 +19,7 @@ struct SettingsView: View {
     ]
 
     var body: some View {
-        ZStack(){
+        NavigationStack {
             //            Color("color_bg").edgesIgnoringSafeArea(.all)
             VStack(alignment: .leading, spacing: 5){
                 HStack{
@@ -63,7 +63,7 @@ struct SettingsView: View {
                     }
                     .buttonStyle(.borderless)
                     .controlSize(.large)
-                    Text("LLMFarm v\(app_version)\nAuthor Artem Savkin\n2023")
+                    Text("LLMFarm v\(app_version)\nAuthor Artem Savkin\n2024")
                         .font(.footnote)
                         .frame(maxWidth: .infinity)
                         .multilineTextAlignment(.center)
@@ -74,5 +74,6 @@ struct SettingsView: View {
                 
             }
         }
+        .navigationTitle("Settings")
     }
 }

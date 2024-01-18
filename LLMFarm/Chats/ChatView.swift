@@ -128,49 +128,10 @@ struct ChatView: View {
                     .listStyle(PlainListStyle())
                     .overlay(starOverlay, alignment: .bottomTrailing)
                     
-                    HStack{
-#if os(macOS)
-                        LLMTextView(placeholder:$placeholderString, text: $inputText)
-#else
-//                        LLMTextInput(messagePlaceholder: placeholderString)
-                        LLMTextView(placeholder:$placeholderString, text: $inputText)
-#endif
-                        Button {
-                            Task {
-                                let text = inputText
-                                //                                inputText = placeholderString
-                                if (aiChatModel.predicting){
-                                    aiChatModel.stop_predict()
-                                }else
-                                {
-                                    
-                                    Task {
-                                        await aiChatModel.send(message: text)
-                                    }
-//                                    DispatchQueue.main.async {
-//                                        aiChatModel.send(message: text)
-//                                    }
-                                }
-                            }
-                        } label: {
-                            Image(systemName: aiChatModel.action_button_icon)
-                        }
-                        .padding(.horizontal, 6.0)
-                        .disabled((inputText.isEmpty && !aiChatModel.predicting))
-                        //                        .keyboardShortcut(.defaultAction)
-#if os(macOS)
-                        .buttonStyle(.borderedProminent)
-                        .controlSize(.large)
-#endif
-                    }
-                    .padding(.leading, 10)
-                    .padding(.trailing, 5)
-                    .padding(.bottom, 5)
-                    .frame(height:67)
-                    .background(.regularMaterial)
-                    .onChange(of: aiChatModel.AI_typing){ ai_typing in
-                        scrollToBottom(with_animation: false)
-                    }
+                    LLMTextInput(messagePlaceholder: placeholderString).environmentObject(aiChatModel)
+                }
+                .onChange(of: aiChatModel.AI_typing){ ai_typing in
+                    scrollToBottom(with_animation: false)
                 }
                 .navigationTitle($title)
                 .toolbar {

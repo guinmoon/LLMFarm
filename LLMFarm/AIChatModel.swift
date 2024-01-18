@@ -35,7 +35,6 @@ final class AIChatModel: ObservableObject {
     //    public var maxToken = 512
     public var numberOfTokens = 0
     public var total_sec = 0.0
-    @Published  var predicting = false
     public var action_button_icon = "paperplane"
     public var model_loading = false
     //    public var model_name = "llama-7b-q5_1.bin"
@@ -49,6 +48,7 @@ final class AIChatModel: ObservableObject {
     
     //    public var title:String = ""
     
+    @Published var predicting = false
     @Published var AI_typing = 0
     @Published var state: State = .none
     @Published var messages: [Message] = []

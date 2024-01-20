@@ -306,7 +306,7 @@ struct AddChatView: View {
                     Button {
                         Task {
                             add_chat_dialog = false
-                            edit_chat_dialog = false
+//                            edit_chat_dialog = false
                         }
                     } label: {
                         Text("Cancel")
@@ -895,28 +895,29 @@ struct AddChatView: View {
                             .frame(maxWidth: .infinity)
                             .padding(.horizontal)
                         }
-                        HStack {
-                            Button {
-                                Task {
-                                    clearChatAlert = true
+                        if edit_chat_dialog{
+                            HStack {
+                                Button {
+                                    Task {
+                                        clearChatAlert = true
+                                    }
+                                } label: {
+                                    Image(systemName: "trash")
+                                    Text("Clear chat history")
+                                        .foregroundStyle(.red)
                                 }
-                            } label: {
-                                Image(systemName: "trash")
-                                Text("Clear chat history")
-                                    .foregroundStyle(.red)
-                            }
-                            .alert("Are you sure?", isPresented: $clearChatAlert, actions: {
-                                  Button("Cancel", role: .cancel, action: {})
-                                  Button("Clear", role: .destructive, action: {
-                                      aiChatModel.messages = []
-                                      save_chat_history(aiChatModel.messages,aiChatModel.chat_name+".json")
-                                  })
+                                .alert("Are you sure?", isPresented: $clearChatAlert, actions: {
+                                    Button("Cancel", role: .cancel, action: {})
+                                    Button("Clear", role: .destructive, action: {
+                                        aiChatModel.messages = []
+                                        save_chat_history(aiChatModel.messages,aiChatModel.chat_name+".json")
+                                    })
                                 }, message: {
-                                  Text("The message history will be cleared")
+                                    Text("The message history will be cleared")
                                 })
+                            }
+                            .padding()
                         }
-                        .padding()
-                        
                         
                     }
                 }

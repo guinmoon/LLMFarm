@@ -11,17 +11,20 @@ struct ChatView: View {
     @EnvironmentObject var aiChatModel: AIChatModel
     @EnvironmentObject var orientationInfo: OrientationInfo
     
-#if os(iOS)
+// #if os(iOS)
     @State var placeholderString: String = "Type your message..."
     @State private var inputText: String = "Type your message..."
-#else
-    @State var placeholderString: String = ""
-    @State private var inputText: String = ""
-#endif
+// #else
+//     @State var placeholderString: String = ""
+//     @State private var inputText: String = ""
+// #endif
     
+    enum FocusedField {
+        case firstName, lastName
+    }
     
     @Binding var model_name: String
-    @Binding var chat_selection: String?
+    @Binding var chat_selection: Dictionary<String, String>?
     @Binding var title: String
     var close_chat: () -> Void
     @Binding var add_chat_dialog:Bool
@@ -31,6 +34,9 @@ struct ChatView: View {
     @State private var scrollProxy: ScrollViewProxy? = nil
     
     @State private var scrollTarget: Int?
+    @State private var toggleEditChat = false
+
+    @FocusState private var focusedField: FocusedField?
     
     @Namespace var bottomID
     
@@ -70,13 +76,15 @@ struct ChatView: View {
         if chat_selection == nil {
             return
         }
+        print(chat_selection)
         print("\nreload\n")
         aiChatModel.stop_predict()
 //        await aiChatModel.prepare(model_name,chat_selection!)
-        aiChatModel.model_name = model_name
-        aiChatModel.chat_name = chat_selection ?? "Not selected"
+        aiChatModel.model_name = model_name        
+        aiChatModel.chat_name = chat_selection!["chat"] ?? "Not selected"
+        title = chat_selection!["title"] ?? ""
         aiChatModel.messages = []
-        aiChatModel.messages = load_chat_history(chat_selection!+".json")!
+        aiChatModel.messages = load_chat_history(chat_selection!["chat"]!+".json")!
         aiChatModel.AI_typing = -Int.random(in: 0..<100000)
     }
     
@@ -129,6 +137,7 @@ struct ChatView: View {
                     .overlay(starOverlay, alignment: .bottomTrailing)
                     
                     LLMTextInput(messagePlaceholder: placeholderString).environmentObject(aiChatModel)
+                    .focused($focusedField, equals: .firstName)
                 }
                 .onChange(of: aiChatModel.AI_typing){ ai_typing in
                     scrollToBottom(with_animation: false)
@@ -149,7 +158,8 @@ struct ChatView: View {
                     
                     Button {
                         Task {
-                            //                        add_chat_dialog = true
+                                                //    add_chat_dialog = true
+                            toggleEditChat = true
                             edit_chat_dialog = true
                             //                        chat_selection = nil
                         }
@@ -162,6 +172,7 @@ struct ChatView: View {
                 .onAppear(){
                     scrollProxy = scrollView
                     scrollToBottom(with_animation: false)
+                    focusedField = .firstName
                 }
             }
             .frame(maxHeight: .infinity)
@@ -180,6 +191,15 @@ struct ChatView: View {
             }
             
             
+        }
+        .sheet(isPresented: $toggleEditChat) {
+            AddChatView(add_chat_dialog: $toggleEditChat,
+                        edit_chat_dialog: $edit_chat_dialog,
+                        chat_name: aiChatModel.chat_name,
+                        renew_chat_list: .constant({})).environmentObject(aiChatModel)
+#if os(macOS)
+                .frame(minWidth: 400,minHeight: 600)
+#endif
         }
     }
 }

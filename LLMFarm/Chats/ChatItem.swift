@@ -17,19 +17,19 @@ struct ChatItem: View {
     var time: String = ""
     var model: String = ""
     var chat: String = ""
-    @Binding var chat_selection: String?
+//    @Binding var chat_selection: String?
     @Binding var model_name: String
     @Binding var title: String    
     var close_chat: () -> Void
     
     var body: some View {
         HStack{
-            Button(action: {
-//                close_chat()
-                model_name = self.model
-                chat_selection = self.chat
-                title = self.chatTitle
-            }){
+//            Button(action: {
+////                close_chat()
+//                model_name = self.model
+//                chat_selection = self.chat
+//                title = self.chatTitle
+//            }){
                 Image(chatImage+"_85")
                     .resizable()
                     .background( Color("color_bg_inverted").opacity(0.05))
@@ -57,13 +57,13 @@ struct ChatItem: View {
                         .lineLimit(/*@START_MENU_TOKEN@*/2/*@END_MENU_TOKEN@*/)
                     
                 }
-            }
-            .buttonStyle(.borderless)
-            #if os(macOS)
-            .padding(.vertical, 4)
-            #else
-            .padding(.horizontal, 0)
-            #endif
+//            }
+//            .buttonStyle(.borderless)
+//            #if os(macOS)
+//            .padding(.vertical, 4)
+//            #else
+//            .padding(.horizontal, 0)
+//            #endif
         }
         
     }

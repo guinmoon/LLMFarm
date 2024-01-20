@@ -13,7 +13,7 @@
 
 <p align="center">
   <img alt="Icon" height="400px"  src="dist/screen1.png">
-  <img alt="Icon" width="525px"  src="dist/screen2.png">
+  <img alt="Icon" width="600px"  src="dist/screen2.png">
 </p>
 
 LLMFarm is an iOS and MacOS app to work with large language models (LLM). It allows you to load different LLMs with certain parameters.With LLMFarm, you can test the performance of different LLMs on iOS and macOS and find the most suitable model for your project.<br>
@@ -50,6 +50,10 @@ Also used sources from:
 - [x] [Bloom](https://huggingface.co/guinmoon/bloomz-1b7-gguf) <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px">
 - [x] [StableLM-3b-4e1t](https://huggingface.co/stabilityai/stablelm-3b-4e1t) <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px">
 - [x] [Qwen](https://huggingface.co/Qwen/Qwen-7B) <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px">
+- [x] [Yi models](https://huggingface.co/models?search=01-ai/Yi) <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px">
+- [x] [Deepseek models](https://huggingface.co/models?search=deepseek-ai/deepseek) <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px">
+- [x] [Mixtral MoE](https://huggingface.co/models?search=mistral-ai/Mixtral) <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px">
+- [x] [PLaMo-13B](https://github.com/ggerganov/llama.cpp/pull/3557) <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px">
   
 Note: For *Falcon, Alpaca, GPT4All, Chinese LLaMA / Alpaca and Chinese LLaMA-2 / Alpaca-2, Vigogne (French), Vicuna, Koala, OpenBuddy (Multilingual), Pygmalion/Metharme, WizardLM, Baichuan 1 & 2 + derivations, Aquila 1 & 2, Mistral AI v0.1, Refact, Persimmon 8B, MPT, Bloom* select `llama inferece` in model settings.
 

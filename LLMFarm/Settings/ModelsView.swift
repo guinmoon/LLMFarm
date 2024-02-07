@@ -32,12 +32,14 @@ struct ModelsView: View {
     func delete(at offsets: IndexSet) {
         let chatsToDelete = offsets.map { self.models_previews[$0] }
         _ = delete_models(chatsToDelete,dest:dir)
+        models_previews = get_models_list(dir:dir)!
         
     }
     
     func delete(at elem:Dictionary<String, String>){
         _  = delete_models([elem],dest:dir)
         self.models_previews.removeAll(where: { $0 == elem })
+        models_previews = get_models_list(dir:dir)!
     }
     
     private func delayIconChange() {

@@ -145,6 +145,32 @@ public func get_chat_info(_ chat_fname:String) -> Dictionary<String, AnyObject>?
     return nil
 }
 
+public func duplicate_chat(_ chat:Dictionary<String, String>) -> Bool{
+    do{
+                                
+        if chat["chat"] != nil{
+            var chat_info = get_chat_info(chat["chat"]!)
+            if chat_info == nil{
+                return false
+            }
+            if (chat_info!["title"] != nil){
+                var title = chat_info!["title"] as! String
+                title  = title + "_2"
+                chat_info!["title"] = title as AnyObject
+            }
+            if !create_chat(chat_info!){
+                return false
+            }
+        }
+        
+        return true
+    }
+    catch{
+        print(error)
+    }
+    return false
+}
+
 public func delete_chats(_ chats:[Dictionary<String, String>]) -> Bool{
     do{
         let fileManager = FileManager.default
@@ -192,8 +218,14 @@ public func get_chats_list() -> [Dictionary<String, String>]?{
         let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
         print(documentsPath)
         let destinationURL = documentsPath!.appendingPathComponent("chats")
-        let files = try fileManager.contentsOfDirectory(atPath: destinationURL.path)
-        for chatfile in files {
+//        let files = try fileManager.contentsOfDirectory(atPath: destinationURL.path)
+        let files = try fileManager.contentsOfDirectory(at: destinationURL, includingPropertiesForKeys: nil, options: .skipsHiddenFiles).sorted(by: {
+            let date0 = try $0.promisedItemResourceValues(forKeys:[.contentModificationDateKey]).contentModificationDate!
+            let date1 = try $1.promisedItemResourceValues(forKeys:[.contentModificationDateKey]).contentModificationDate!
+            return date0.compare(date1) == .orderedDescending
+         })
+        for chatfile_url in files {
+            let chatfile = chatfile_url.lastPathComponent
             if chatfile.contains(".json"){
                 let info = get_chat_info(chatfile)
                 if info == nil{
@@ -523,6 +555,9 @@ func load_chat_history(_ fname:String) -> [Message]?{
             if (row["id"] != nil){
                 tmp_msg.id = UUID.init(uuidString: row["id"]!)!
             }
+            if (row["header"] != nil){
+                tmp_msg.header = row["header"]!
+            }
             if (row["text"] != nil){
                 tmp_msg.text = row["text"]!
             }
@@ -624,11 +659,14 @@ func save_chat_history(_ messages_raw: [Message],_ fname:String){
         let fileManager = FileManager.default
         var messages: [Dictionary<String, AnyObject>] = []
         for message in messages_raw {
-            let tmp_msg = ["id":message.id.uuidString as AnyObject,
+            var tmp_msg = ["id":message.id.uuidString as AnyObject,
                            "sender":String(describing: message.sender) as AnyObject,
                            "state":String(describing: message.state) as AnyObject,
                            "text":message.text as AnyObject,
                            "tok_sec":String(message.tok_sec) as AnyObject]
+            if (message.header != ""){
+                tmp_msg["header"] = message.header as AnyObject
+            }
             messages.append(tmp_msg)
         }
         let jsonData = try JSONSerialization.data(withJSONObject: messages, options: .prettyPrinted)

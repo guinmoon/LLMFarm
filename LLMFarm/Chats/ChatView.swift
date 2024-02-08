@@ -35,6 +35,7 @@ struct ChatView: View {
     
     @State private var scrollTarget: Int?
     @State private var toggleEditChat = false
+    @State private var clearChatAlert = false
 
     @FocusState private var focusedField: FocusedField?
     
@@ -146,6 +147,22 @@ struct ChatView: View {
                 .toolbar {
                     Button {
                         Task {
+                            clearChatAlert = true
+                        }
+                    } label: {
+                        Image(systemName: "eraser.line.dashed.fill")
+                    }
+                    .alert("Are you sure?", isPresented: $clearChatAlert, actions: {
+                        Button("Cancel", role: .cancel, action: {})
+                        Button("Clear", role: .destructive, action: {
+                            aiChatModel.messages = []
+                            save_chat_history(aiChatModel.messages,aiChatModel.chat_name+".json")
+                        })
+                    }, message: {
+                        Text("The message history will be cleared")
+                    })
+                    Button {
+                        Task {
                             self.aiChatModel.chat = nil
                             reload_button_icon = "checkmark"
                             delayIconChange()
@@ -155,7 +172,8 @@ struct ChatView: View {
                     }
                     .disabled(aiChatModel.predicting)
                     //                .font(.title2)
-                    
+                    Spacer()
+                    Spacer()
                     Button {
                         Task {
                                                 //    add_chat_dialog = true

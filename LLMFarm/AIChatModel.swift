@@ -194,12 +194,11 @@ final class AIChatModel: ObservableObject {
         return check
     }
     
-    public func send(message text: String) async {
-        
+    public func send(message in_text: String) async {
+        var text = in_text
         let requestMessage = Message(sender: .user, state: .typed, text: text, tok_sec: 0)
         self.messages.append(requestMessage)
-        self.AI_typing += 1
-        
+        self.AI_typing += 1        
         
         if self.chat != nil{
             if self.chat_name != self.chat?.chatName{
@@ -226,11 +225,14 @@ final class AIChatModel: ObservableObject {
                 self.stop_predict(is_error: true)
                 return
             }
+            if self.model_context_param.system_prompt != ""{
+                text = self.model_context_param.system_prompt+"\n" + text
+                self.messages[self.messages.endIndex - 1].header = self.model_context_param.system_prompt
+            }
         }
-        
         self.state = .completed
         self.chat?.chatName = self.chat_name
-        self.chat?.flagExit = false
+        self.chat?.flagExit = false        
         var message = Message(sender: .system, text: "",tok_sec: 0)
         self.messages.append(message)
         let messageIndex = self.messages.endIndex - 1

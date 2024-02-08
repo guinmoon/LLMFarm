@@ -40,8 +40,15 @@ struct MessageView: View {
                     .foregroundColor(Color.red)
                     .textSelection(.enabled)
             case .typed:
-                Text(message.text)
-                .textSelection(.enabled)
+                VStack(alignment: .leading) {
+                    if message.header != ""{
+                        Text(message.header)
+                            .font(.footnote)
+                            .foregroundColor(Color.gray)
+                    }
+                    Text(message.text)
+                        .textSelection(.enabled)
+                }
             case .predicting:
                 HStack {
                     Text(message.text).textSelection(.enabled)

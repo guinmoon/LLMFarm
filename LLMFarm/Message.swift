@@ -26,4 +26,5 @@ struct Message: Identifiable {
     var state: State = .none
     var text: String
     var tok_sec: Double
+    var header: String = ""
 }

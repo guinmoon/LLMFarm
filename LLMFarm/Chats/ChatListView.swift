@@ -35,8 +35,7 @@ struct ChatListView: View {
     func delete(at offsets: IndexSet) {
         let chatsToDelete = offsets.map { self.chats_previews[$0] }
         _ = delete_chats(chatsToDelete)
-        refresh_chat_list()
-        
+        refresh_chat_list()        
     }
     
     func delete(at elem:Dictionary<String, String>){
@@ -45,7 +44,10 @@ struct ChatListView: View {
         refresh_chat_list()
     }
 
-
+    func duplicate(at elem:Dictionary<String, String>){
+        _ = duplicate_chat(elem)        
+        refresh_chat_list()
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 5){
@@ -96,10 +98,16 @@ struct ChatListView: View {
                             .listRowInsets(.init())
                             .contextMenu {
                                 Button(action: {
+                                    duplicate(at: chat_preview)
+                                }){
+                                    Text("Duplicate chat")
+                                }
+                                Button(action: {
                                     delete(at: chat_preview)
                                 }){
-                                    Text("Delete chat")
+                                    Text("Remove chat")
                                 }
+                                
                             }
                         }
                     }

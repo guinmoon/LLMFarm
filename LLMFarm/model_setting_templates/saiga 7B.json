@@ -1,14 +1,14 @@
 {
   "use_metal" : false,
   "n_batch" : 512,
-  "prompt_format" : "<s>user\n{{prompt}}</s>\n",
-  "warm_prompt":"<s>system\nТы — Сайга, русскоязычный автоматический ассистент. Ты разговариваешь с людьми и помогаешь им.</s>",
+  "prompt_format" : "[system](Ты — Сайга, русскоязычный автоматический ассистент. Ты разговариваешь с людьми и помогаешь им.)\n<s>user\n{prompt}</s>\n",
+  "warm_prompt":"",
   "top_k" : 20,
   "context" : 1024,
   "temp" : 0.8,
   "model_inference" : "llama",
   "repeat_last_n" : 64,
-  "reverse_prompt": "<s>user",
+  "reverse_prompt": "",
   "template_name" : "Saiga 7B",
   "repeat_penalty" : 1.1759999990463257,
   "top_p" : 0.94999998807907104

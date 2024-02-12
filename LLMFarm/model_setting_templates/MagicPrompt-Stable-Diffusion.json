@@ -1,7 +1,7 @@
 {
   "model_inference" : "gpt2",
   "temp" : 0.80000001192092896,
-  "prompt_format" : "{{prompt}}",
+  "prompt_format" : "{prompt}",
   "reverse_prompt":"<|endoftext|>",
   "top_k" : 40,
   "n_batch" : 1024,

@@ -1,6 +1,6 @@
 {
   "context" : 512,
-  "prompt_format" : "[INST] <<SYS>>\nYou are a helpful, respectful and honest assistant. Always answer as helpfully as possible.  If you don't know the answer to a question, please don't share false information.\n<</SYS>>\n{{prompt}}[/INST]",
+  "prompt_format" : "[system](You are a helpful, respectful and honest assistant. Always answer as helpfully as possible.)\n[INST]{prompt}[/INST]",
   "reverse_prompt": "",
   "template_name" : "LLaMA 2 Chat 7B NEW",
   "temp" : 0.89999997615814209,

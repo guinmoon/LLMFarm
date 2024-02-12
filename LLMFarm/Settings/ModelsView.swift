@@ -72,6 +72,9 @@ struct ModelsView: View {
                             }
                         }.onDelete(perform: delete)
                     }
+                    .onAppear {
+                        models_previews = get_models_list(dir:dir)  ?? []
+                    }
 #if os(macOS)
                     .listStyle(.sidebar)
 #else

@@ -6,5 +6,5 @@
   "model_inference" : "llama",
   "n_batch" : 512,
   "template_name" : "OpenLLaMA 3B 1T",
-  "prompt_format" : "Q: {{prompt}}\nA:"
+  "prompt_format" : "Q: {prompt}\nA:"
 }

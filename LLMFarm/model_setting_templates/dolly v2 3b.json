@@ -2,7 +2,7 @@
   "context" : 1024,
   "temp" : 0.89999997615814209,
   "top_p" : 0.94999998807907104,
-  "prompt_format" : "### Instruction:{{prompt}}\n### Response:",
+  "prompt_format" : "### Instruction:{prompt}\n### Response:",
   "top_k" : 40,
   "model_inference" : "gptneox",
   "n_batch" : 512,

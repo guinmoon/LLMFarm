@@ -1,0 +1,13 @@
+{
+  "context" : 2048,
+  "prompt_format" : "[system](You are a helpful, respectful and honest assistant.)\nInstruct: {prompt}\nOutput:",
+  "template_name" : "Phi 2",
+  "temp" : 0.7,
+  "model_inference" : "llama",
+  "top_p" : 0.94999998807907104,
+  "n_batch" : 512,
+  "top_k" : 40,
+  "use_metal" : true,
+  "repeat_penalty" : 1.1,
+  "mlock": true
+}

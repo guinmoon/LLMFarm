@@ -6,7 +6,7 @@
   "reverse_prompt":"<|endoftext|>",
   "template_name" : "Replit 3B",
   "top_p" : 0.80000001192092896,
-  "prompt_format" : "{{prompt}}",
+  "prompt_format" : "{prompt}",
   "repeat_last_n" : 128,
   "repeat_penalty" : 1.174
 }

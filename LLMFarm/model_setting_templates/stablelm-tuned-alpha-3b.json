@@ -6,6 +6,6 @@
   "model_inference" : "gptneox",
   "template_name" : "StableLM tuned 3B",
   "context" : 1024,
-  "prompt_format" : "{{prompt}}",
+  "prompt_format" : "{prompt}",
   "top_p" : 0.94999998807907104
 }

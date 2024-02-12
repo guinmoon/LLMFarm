@@ -172,8 +172,6 @@ struct ChatView: View {
                     }
                     .disabled(aiChatModel.predicting)
                     //                .font(.title2)
-                    Spacer()
-                    Spacer()
                     Button {
                         Task {
                                                 //    add_chat_dialog = true

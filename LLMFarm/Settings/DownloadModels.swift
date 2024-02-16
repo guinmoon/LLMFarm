@@ -1,0 +1,175 @@
+//
+//  ContactsView.swift
+//  ChatUI
+//
+//  Created by Shezad Ahamed on 05/08/21.
+//
+
+import SwiftUI
+import UniformTypeIdentifiers
+
+struct DownloadModelsView: View {
+    
+    public var dir:String
+    @State var searchText: String = ""
+    @State var models_previews: [Dictionary<String, String>]
+    @State var model_selection: String?
+    @State private var isImporting: Bool = false
+    @State private var modelImported: Bool = false
+    let bin_type = UTType(tag: "bin", tagClass: .filenameExtension, conformingTo: nil)
+    let gguf_type = UTType(tag: "gguf", tagClass: .filenameExtension, conformingTo: nil)
+    @State private var model_file_url: URL = URL(filePath: "")
+    @State private var model_file_name: String = ""
+    @State private var model_file_path: String = "select model"
+    @State private var add_button_icon: String = "plus.app"
+    
+    
+    init (_ dir:String){
+        self.dir = dir
+        self._models_previews = State(initialValue: get_donloadble_models("downloadable_models.json")!)
+    }
+
+    private func download() {
+        status = "downloading"
+        print("Downloading model \(modelName) from \(modelUrl)")
+        guard let url = URL(string: modelUrl) else { return }
+        let fileURL = DownloadButton.getFileURL(filename: filename)
+
+        downloadTask = URLSession.shared.downloadTask(with: url) { temporaryURL, response, error in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+                return
+            }
+
+            // observation = downloadTask.progress.observe(\.fractionCompleted) { progress, _ in
+            //     print("progress: ", progress.fractionCompleted)
+            // }
+
+            guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
+                print("Server error!")
+                return
+            }
+
+            do {
+                if let temporaryURL = temporaryURL {
+                    try FileManager.default.copyItem(at: temporaryURL, to: fileURL)
+                    print("Writing to \(filename) completed")
+
+                    llamaState.cacheCleared = false
+
+                    let model = Model(name: modelName, url: modelUrl, filename: filename, status: "downloaded")
+                    llamaState.downloadedModels.append(model)
+                    status = "downloaded"
+                }
+            } catch let err {
+                print("Error: \(err.localizedDescription)")
+            }
+        }
+
+        observation = downloadTask?.progress.observe(\.fractionCompleted) { progress, _ in
+            self.progress = progress.fractionCompleted
+        }
+
+        downloadTask?.resume()
+    }
+    
+    func delete(at offsets: IndexSet) {
+        let chatsToDelete = offsets.map { self.models_previews[$0] }
+        _ = delete_models(chatsToDelete,dest:dir)
+        models_previews = get_models_list(dir:dir) ?? []        
+    }
+    
+    func delete(at elem:Dictionary<String, String>){
+        _  = delete_models([elem],dest:dir)
+        self.models_previews.removeAll(where: { $0 == elem })
+        models_previews = get_models_list(dir:dir) ?? []
+    }
+    
+    private func delayIconChange() {
+        // Delay of 7.5 seconds
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            add_button_icon = "plus.app"
+        }
+    }
+    
+    
+    
+    var body: some View {
+        ZStack{
+            //            Color("color_bg").edgesIgnoringSafeArea(.all)
+            VStack{
+                 Button(action: {
+                    let fileURL = DownloadButton.getFileURL(filename: filename)
+                    if !FileManager.default.fileExists(atPath: fileURL.path) {
+                        download()
+                        return
+                    }
+                    do {
+                        try llamaState.loadModel(modelUrl: fileURL)
+                    } catch let err {
+                        print("Error: \(err.localizedDescription)")
+                    }
+                }) {
+                    Text("Load \(modelName)")
+                }
+                VStack(spacing: 5){
+                    List(selection: $model_selection){
+                        ForEach(models_previews, id: \.self) { model in
+                            
+                            ModelInfoItem(
+                                modelIcon: "square.stack.3d.up.fill",
+                                file_name:  String(describing: model["file_name"]!),
+                                orig_file_name:String(describing: model["file_name"]!),
+                                download_url: String(describing: model["url"]!,
+                                download_button_state: .downloadable)
+                            ).contextMenu {
+                                Button(action: {
+                                    delete(at: model)
+                                }){
+                                    Text("Delete")
+                                }
+                            }
+                        }.onDelete(perform: delete)
+                    }
+                    .onAppear {
+                        models_previews = get_models_list(dir:dir)  ?? []
+                    }
+#if os(macOS)
+                    .listStyle(.sidebar)
+#else
+                    .listStyle(InsetListStyle())
+#endif
+                }
+                if  models_previews.count <= 0 {
+                    VStack{
+                        
+                        Button {
+                            Task {
+                                isImporting.toggle()
+                            }
+                        } label: {
+                            Image(systemName: "plus.square.dashed")
+                                .foregroundColor(.secondary)
+                                .font(.system(size: 40))
+                        }
+                        .buttonStyle(.borderless)
+                        .controlSize(.large)
+                        Text("Add model")
+                            .font(.title3)
+                            .frame(maxWidth: .infinity)
+                        
+                    }.opacity(0.4)
+                        .frame(maxWidth: .infinity,alignment: .center)
+                }
+                
+            }
+            .padding(.top)
+            .padding(.horizontal)
+        }
+        .toolbar{
+           
+        }
+        .navigationTitle("Download models")      
+    }
+}
+

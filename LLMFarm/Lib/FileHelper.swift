@@ -536,6 +536,37 @@ func get_path_by_short_name(_ short_name:String, dest:String = "models") -> Stri
     return nil
 }
 
+func get_donloadble_models(_ fname:String) -> [Dictionary<String, String>]?{
+    var res:[Dictionary<String, String>] = []
+    do {
+        let fileManager = FileManager.default
+        let downloadable_models_json_path=Bundle.main.resourcePath!.appending("/"+fname)
+        let data = try Data(contentsOf: URL(fileURLWithPath: downloadable_models_json_path), options: .mappedIfSafe)
+        let jsonResult = try JSONSerialization.jsonObject(with: data, options: .mutableLeaves)
+        let jsonResult_dict = jsonResult as? [Dictionary<String, String>]
+        if jsonResult_dict == nil {
+            return []
+        }
+        // for row in jsonResult_dict! {
+        //     // var tmp_msg = Message(sender: .system, text: "", tok_sec: 0)
+        //     // if (row["id"] != nil){
+        //     //     tmp_msg.id = UUID.init(uuidString: row["id"]!)!
+        //     // }
+        //     // if (row["header"] != nil){
+        //     //     tmp_msg.header = row["header"]!
+        //     // }
+           
+        //     // res.append(tmp_msg)
+        // }
+        return jsonResult_dict
+    }
+    catch {
+        // handle error
+        print(error)
+    }
+    return res
+}
+
 func load_chat_history(_ fname:String) -> [Message]?{
     var res:[Message] = []
     do {

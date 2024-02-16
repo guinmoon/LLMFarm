@@ -1,0 +1,18 @@
+[
+    {
+        "file_name":"orca-mini-3b.q4_0.gguf",
+        "url":"https://huggingface.co/juanjgit/orca_mini_3B-GGUF/resolve/main/orca-mini-3b.q4_0.gguf"
+    },
+    {
+        "file_name":"phi-2.Q4_K_M.gguf",
+        "url":"https://huggingface.co/TheBloke/phi-2-GGUF/resolve/main/phi-2.Q4_K_M.gguf"
+    },
+    {
+        "file_name":"marx-3b-v3.Q4_K_M.gguf",
+        "url":"https://huggingface.co/TheBloke/Marx-3B-v3-GGUF/resolve/main/marx-3b-v3.Q4_K_M.gguf"
+    },
+    {
+        "file_name":"tinyllama-1.1b-chat-v1.0.Q6_K.gguf",
+        "url":"https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q6_K.gguf"
+    }
+]

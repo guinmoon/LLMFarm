@@ -31,41 +31,32 @@ final class AIChatModel: ObservableObject {
     public var modelURL: String
     public var model_sample_param: ModelSampleParams = ModelSampleParams.default
     public var model_context_param:ModelAndContextParams = ModelAndContextParams.default
-    
-    //    public var maxToken = 512
     public var numberOfTokens = 0
     public var total_sec = 0.0
     public var action_button_icon = "paperplane"
     public var model_loading = false
-    //    public var model_name = "llama-7b-q5_1.bin"
-    //    public var model_name = "stablelm-tuned-alpha-3b-ggml-model-q5_1.bin"
     public var model_name = ""
     public var chat_name = ""
     //    public var avalible_models: [String]
     public var start_predicting_time = DispatchTime.now()
     public var first_predicted_token_time = DispatchTime.now()
     public var tok_sec:Double = 0.0
-    
-    //    public var title:String = ""
+    private var title_backup = ""
     
     @Published var predicting = false
     @Published var AI_typing = 0
     @Published var state: State = .none
     @Published var messages: [Message] = []
+    @Published var load_progress:Float = 0.0
+    @Published var Title: String = ""
     
     public init(){
         chat = nil
         modelURL = ""
-        //        avalible_models = []
     }
     
-    //    func _get_avalible_models(){
-    //        self.avalible_models = get_avalible_models()!
-    //    }
-    
-    
-    
-    public func load_model_by_chat_name(chat_name: String) throws -> Bool?{
+    @MainActor
+    public func load_model_by_chat_name(_ chat_name: String,in_text:String) -> Bool?{
         self.model_loading = true
         
         let chat_config = get_chat_info(chat_name)
@@ -92,11 +83,6 @@ final class AIChatModel: ObservableObject {
         model_sample_param = get_model_sample_param_by_config(chat_config!)
         model_context_param = get_model_context_param_by_config(chat_config!)
         
-        // let model_lowercase=URL(fileURLWithPath: model_name).lastPathComponent.lowercased()
-        //         if (chat_config!["warm_prompt"] != nil){
-        //             model_context_param.warm_prompt = chat_config!["warm_prompt"]! as! String
-        //         }
-        
         if (chat_config!["grammar"] != nil && chat_config!["grammar"] as! String != "<None>" && chat_config!["grammar"] as! String != ""){
             let grammar_path = get_grammar_path_by_name(chat_config!["grammar"] as! String)
             model_context_param.grammar_path = grammar_path
@@ -104,35 +90,39 @@ final class AIChatModel: ObservableObject {
         
         self.chat = nil
         self.chat = AI(_modelPath: modelURL,_chatName: chat_name);
-        
-        do{
-            try _ = self.chat?.loadModel(model_context_param.model_inference,contextParams: model_context_param)
-        }
-        catch {
-            print(error)
-            throw error
-        }
-        
-        if self.chat?.model == nil || self.chat?.model.context == nil{
-            return nil
-        }
-        
-        self.chat?.model.sampleParams = model_sample_param
-        self.chat?.model.contextParams = model_context_param
-        //Set prompt model if in config or try to set promt format by filename
-        
-        print(model_sample_param)
-        print(model_context_param)
-        self.model_loading = false
+        self.chat?.loadModel_new(model_context_param.model_inference,
+            { progress in
+                DispatchQueue.main.async {
+                    self.load_progress = progress
+                    print(self.load_progress)
+                }
+                return true
+            }, { load_result in
+                if load_result != "[done]"{
+                    self.finish_send(append_err_msg: true, msg_text: "Load Model \(load_result)")
+                    return
+                }                
+//                if self.chat?.model == nil || self.chat?.model.context == nil{
+//                    return nil
+//                }
+                
+                self.chat?.model.sampleParams = self.model_sample_param
+                self.chat?.model.contextParams = self.model_context_param
+                //Set prompt model if in config or try to set promt format by filename
+                
+                print(self.model_sample_param)
+                print(self.model_context_param)
+                self.model_loading = false
+                var text = in_text
+                if self.model_context_param.system_prompt != ""{
+                    text = self.model_context_param.system_prompt+"\n" + text
+                    self.messages[self.messages.endIndex - 1].header = self.model_context_param.system_prompt
+                }
+                self.send(message: in_text, append_user_message:false)
+            },contextParams: model_context_param)
         return true
     }
     
-//    func prepare(_ model_name:String, _ chat_name:String) async {
-//
-//        self.model_name = model_name
-//        self.chat_name = chat_name
-//
-//    }
     
     public func stop_predict(is_error:Bool=false){
         self.chat?.flagExit = true
@@ -194,11 +184,23 @@ final class AIChatModel: ObservableObject {
         return check
     }
     
-    public func send(message in_text: String) async {
+    public func finish_send(append_err_msg:Bool = false, msg_text:String = ""){
+        if append_err_msg {
+            self.messages.append(Message(sender: .system, state: .error, text: msg_text, tok_sec: 0))
+            self.stop_predict(is_error: true)
+        }
+        self.state = .completed        
+        self.Title = self.title_backup
+    }
+
+    public func send(message in_text: String, append_user_message:Bool = true)  {
         var text = in_text
-        let requestMessage = Message(sender: .user, state: .typed, text: text, tok_sec: 0)
-        self.messages.append(requestMessage)
-        self.AI_typing += 1        
+        if append_user_message{
+            let requestMessage = Message(sender: .user, state: .typed, text: text, tok_sec: 0)
+            self.messages.append(requestMessage)
+        }
+        self.AI_typing += 1    
+        self.load_progress = 0
         
         if self.chat != nil{
             if self.chat_name != self.chat?.chatName{
@@ -208,27 +210,10 @@ final class AIChatModel: ObservableObject {
         
         if self.chat == nil{
             self.state = .loading
-            do{
-                var res:Bool? = nil
-                try await Task {
-                    res=try self.load_model_by_chat_name(chat_name:self.chat_name)
-                }.value
-                if (res == nil){
-                    self.messages.append(Message(sender: .system, text: "Failed to load model.", tok_sec: 0))
-                    self.state = .completed
-                    self.stop_predict(is_error: true)
-                    return
-                }
-            }catch{
-                self.messages.append(Message(sender: .system, text: "\(error)", tok_sec: 0))
-                self.state = .completed
-                self.stop_predict(is_error: true)
-                return
-            }
-            if self.model_context_param.system_prompt != ""{
-                text = self.model_context_param.system_prompt+"\n" + text
-                self.messages[self.messages.endIndex - 1].header = self.model_context_param.system_prompt
-            }
+            title_backup = Title
+            Title = "loading..."
+            self.load_model_by_chat_name(self.chat_name,in_text:in_text)
+            return
         }
         self.state = .completed
         self.chat?.chatName = self.chat_name
@@ -242,11 +227,11 @@ final class AIChatModel: ObservableObject {
         self.action_button_icon = "stop.circle"
         self.start_predicting_time = DispatchTime.now()
         
-        self.chat?.conversation(text, { str, time in
+        self.chat?.conversation(text, 
+        { str, time in //Predicting
             _ = self.process_predicted_str(str, time, &message, messageIndex)
         }, 
-        {
-            final_str in
+        { final_str in // Finish predicting            
             print(final_str)
             self.AI_typing = 0
             self.total_sec = Double((DispatchTime.now().uptimeNanoseconds - self.start_predicting_time.uptimeNanoseconds)) / 1_000_000_000

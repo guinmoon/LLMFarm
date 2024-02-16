@@ -83,7 +83,8 @@ struct ChatView: View {
 //        await aiChatModel.prepare(model_name,chat_selection!)
         aiChatModel.model_name = model_name        
         aiChatModel.chat_name = chat_selection!["chat"] ?? "Not selected"
-        title = chat_selection!["title"] ?? ""
+//        title = chat_selection!["title"] ?? ""
+        aiChatModel.Title = chat_selection!["title"] ?? ""
         aiChatModel.messages = []
         aiChatModel.messages = load_chat_history(chat_selection!["chat"]!+".json")!
         aiChatModel.AI_typing = -Int.random(in: 0..<100000)
@@ -119,11 +120,16 @@ struct ChatView: View {
     
     var body: some View {
         VStack{
-            if aiChatModel.state == .loading{
-                Text("Model loading...")
-                    .padding(.top, 5)
-                    .frame(width: .infinity)
-                    .background(.regularMaterial)
+            VStack{
+                if aiChatModel.state == .loading{
+                    VStack {
+//                        Text("Model loading...")
+//                            .padding(.top, 5)
+//                            .frame(width: .infinity)
+//                            .background(.regularMaterial)
+                        ProgressView(value: aiChatModel.load_progress)
+                    }
+                }
             }
             ScrollViewReader { scrollView in
                 VStack {
@@ -136,54 +142,12 @@ struct ChatView: View {
                     }
                     .listStyle(PlainListStyle())
                     .overlay(starOverlay, alignment: .bottomTrailing)
-                    
-                    LLMTextInput(messagePlaceholder: placeholderString).environmentObject(aiChatModel)
-                    .focused($focusedField, equals: .firstName)
                 }
                 .onChange(of: aiChatModel.AI_typing){ ai_typing in
                     scrollToBottom(with_animation: false)
                 }
-                .navigationTitle($title)
-                .toolbar {
-                    Button {
-                        Task {
-                            clearChatAlert = true
-                        }
-                    } label: {
-                        Image(systemName: "eraser.line.dashed.fill")
-                    }
-                    .alert("Are you sure?", isPresented: $clearChatAlert, actions: {
-                        Button("Cancel", role: .cancel, action: {})
-                        Button("Clear", role: .destructive, action: {
-                            aiChatModel.messages = []
-                            save_chat_history(aiChatModel.messages,aiChatModel.chat_name+".json")
-                        })
-                    }, message: {
-                        Text("The message history will be cleared")
-                    })
-                    Button {
-                        Task {
-                            self.aiChatModel.chat = nil
-                            reload_button_icon = "checkmark"
-                            delayIconChange()
-                        }
-                    } label: {
-                        Image(systemName: reload_button_icon)
-                    }
-                    .disabled(aiChatModel.predicting)
-                    //                .font(.title2)
-                    Button {
-                        Task {
-                                                //    add_chat_dialog = true
-                            toggleEditChat = true
-                            edit_chat_dialog = true
-                            //                        chat_selection = nil
-                        }
-                    } label: {
-                        Image(systemName: "slider.horizontal.3")
-                    }
-                    //                .font(.title2)
-                }
+                
+                
                 .disabled(chat_selection == nil)
                 .onAppear(){
                     scrollProxy = scrollView
@@ -193,7 +157,6 @@ struct ChatView: View {
             }
             .frame(maxHeight: .infinity)
             .disabled(aiChatModel.state == .loading)
-            
             .onChange(of: chat_selection) { chat_name in
                 Task {
                     if chat_name == nil{
@@ -205,7 +168,50 @@ struct ChatView: View {
                     }
                 }
             }
+            .toolbar {
+                Button {
+                    Task {
+                        clearChatAlert = true
+                    }
+                } label: {
+                    Image(systemName: "eraser.line.dashed.fill")
+                }
+                .alert("Are you sure?", isPresented: $clearChatAlert, actions: {
+                    Button("Cancel", role: .cancel, action: {})
+                    Button("Clear", role: .destructive, action: {
+                        aiChatModel.messages = []
+                        save_chat_history(aiChatModel.messages,aiChatModel.chat_name+".json")
+                    })
+                }, message: {
+                    Text("The message history will be cleared")
+                })
+                Button {
+                    Task {
+                        self.aiChatModel.chat = nil
+                        reload_button_icon = "checkmark"
+                        delayIconChange()
+                    }
+                } label: {
+                    Image(systemName: reload_button_icon)
+                }
+                .disabled(aiChatModel.predicting)
+                //                .font(.title2)
+                Button {
+                    Task {
+                                            //    add_chat_dialog = true
+                        toggleEditChat = true
+                        edit_chat_dialog = true
+                        //                        chat_selection = nil
+                    }
+                } label: {
+                    Image(systemName: "slider.horizontal.3")
+                }
+                //                .font(.title2)
+            }
+            .navigationTitle(aiChatModel.Title)
             
+            LLMTextInput(messagePlaceholder: placeholderString).environmentObject(aiChatModel)
+            .focused($focusedField, equals: .firstName)
             
         }
         .sheet(isPresented: $toggleEditChat) {

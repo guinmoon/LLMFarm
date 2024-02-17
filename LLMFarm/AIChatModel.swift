@@ -94,18 +94,18 @@ final class AIChatModel: ObservableObject {
             { progress in
                 DispatchQueue.main.async {
                     self.load_progress = progress
-                    print(self.load_progress)
+//                    print(self.load_progress)
                 }
                 return true
             }, { load_result in
-                if load_result != "[done]"{
-                    self.finish_send(append_err_msg: true, msg_text: "Load Model \(load_result)")
+                if load_result != "[Done]"{
+                    self.finish_load(append_err_msg: true, msg_text: "Load Model \(load_result)")
                     return
                 }                
 //                if self.chat?.model == nil || self.chat?.model.context == nil{
 //                    return nil
 //                }
-                
+                self.finish_load()
                 self.chat?.model.sampleParams = self.model_sample_param
                 self.chat?.model.contextParams = self.model_context_param
                 //Set prompt model if in config or try to set promt format by filename
@@ -184,7 +184,7 @@ final class AIChatModel: ObservableObject {
         return check
     }
     
-    public func finish_send(append_err_msg:Bool = false, msg_text:String = ""){
+    public func finish_load(append_err_msg:Bool = false, msg_text:String = ""){
         if append_err_msg {
             self.messages.append(Message(sender: .system, state: .error, text: msg_text, tok_sec: 0))
             self.stop_predict(is_error: true)

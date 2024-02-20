@@ -22,6 +22,9 @@
 		156A48D02A52B55B007DF519 /* SplitViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156A48CF2A52B55B007DF519 /* SplitViews.swift */; };
 		156A48D22A52B65C007DF519 /* Orientation_helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156A48D12A52B65C007DF519 /* Orientation_helper.swift */; };
 		157EFB062ABF3209001E0C7A /* llama chat 2 7B new.json in Resources */ = {isa = PBXBuildFile; fileRef = 157EFB052ABF3209001E0C7A /* llama chat 2 7B new.json */; };
+		158DAA4E2B812A4A00550274 /* DownloadModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158DAA4D2B812A4A00550274 /* DownloadModels.swift */; };
+		158DAA502B83BF5700550274 /* DownloadButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158DAA4F2B83BF5700550274 /* DownloadButton.swift */; };
+		158DAA522B83C0B700550274 /* downloadable_models.json in Resources */ = {isa = PBXBuildFile; fileRef = 158DAA512B83C0B700550274 /* downloadable_models.json */; };
 		158FC6DB2AA3457A00A181B4 /* log_helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158FC6DA2AA3457A00A181B4 /* log_helper.swift */; };
 		159650ED2A49F8280007BE5C /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61E38F329B1F0BA00114C15 /* Accelerate.framework */; };
 		159650F12A49F8400007BE5C /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 159650EE2A49F8400007BE5C /* MetalKit.framework */; };
@@ -121,6 +124,9 @@
 		156A48CF2A52B55B007DF519 /* SplitViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViews.swift; sourceTree = "<group>"; };
 		156A48D12A52B65C007DF519 /* Orientation_helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Orientation_helper.swift; sourceTree = "<group>"; };
 		157EFB052ABF3209001E0C7A /* llama chat 2 7B new.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "llama chat 2 7B new.json"; sourceTree = "<group>"; };
+		158DAA4D2B812A4A00550274 /* DownloadModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadModels.swift; sourceTree = "<group>"; };
+		158DAA4F2B83BF5700550274 /* DownloadButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadButton.swift; sourceTree = "<group>"; };
+		158DAA512B83C0B700550274 /* downloadable_models.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = downloadable_models.json; sourceTree = "<group>"; };
 		158FC6DA2AA3457A00A181B4 /* log_helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = log_helper.swift; sourceTree = "<group>"; };
 		159650EE2A49F8400007BE5C /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
 		159650EF2A49F8400007BE5C /* MetalPerformanceShaders.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalPerformanceShaders.framework; path = System/Library/Frameworks/MetalPerformanceShaders.framework; sourceTree = SDKROOT; };
@@ -243,7 +249,10 @@
 		15A3EDBD2A2121D90030AF5A /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				158DAA512B83C0B700550274 /* downloadable_models.json */,
 				15584A5D2AABA09300EC9C9C /* DidEndEditingTextField.swift */,
+				158DAA4F2B83BF5700550274 /* DownloadButton.swift */,
+				158DAA4D2B812A4A00550274 /* DownloadModels.swift */,
 				15A3EDC32A2121D90030AF5A /* ModelinfoItem.swift */,
 				15B7BE9C2A968399006624BD /* MacEditorTextView.swift */,
 				15A3EDC22A2121D90030AF5A /* ModelsView.swift */,
@@ -260,6 +269,8 @@
 		15A3EDC42A2121D90030AF5A /* Chats */ = {
 			isa = PBXGroup;
 			children = (
+				15F210902A1920AA0021F414 /* Message.swift */,
+				15F2108F2A1920AA0021F414 /* MessageView.swift */,
 				15F2108D2A191EE60021F414 /* ChatView.swift */,
 				15A3EDC52A2121D90030AF5A /* ChatListView.swift */,
 				15A3EDC62A2121D90030AF5A /* OnlineUserView.swift */,
@@ -307,8 +318,6 @@
 				15A3EDBD2A2121D90030AF5A /* Settings */,
 				15F210AB2A1A7B790021F414 /* Info.plist */,
 				15F210922A1920AA0021F414 /* AIChatModel.swift */,
-				15F210902A1920AA0021F414 /* Message.swift */,
-				15F2108F2A1920AA0021F414 /* MessageView.swift */,
 				15F210802A191B190021F414 /* LLMFarmApp.swift */,
 				15F210842A191B1B0021F414 /* Assets.xcassets */,
 				15F210862A191B1B0021F414 /* LLMFarm.entitlements */,
@@ -496,6 +505,7 @@
 				1532BF7E2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json in Resources */,
 				1532BF7C2AA113AD006DC514 /* RWKV-4 Raven Eng.json in Resources */,
 				157EFB062ABF3209001E0C7A /* llama chat 2 7B new.json in Resources */,
+				158DAA522B83C0B700550274 /* downloadable_models.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -533,6 +543,7 @@
 				15141E712A65799D0060E767 /* ChatSettingsTemplate.swift in Sources */,
 				1560D6172A2D1A3D00918330 /* AddChatView.swift in Sources */,
 				15B1B9DA2AF588FD0058F275 /* SettingsMenuItem.swift in Sources */,
+				158DAA4E2B812A4A00550274 /* DownloadModels.swift in Sources */,
 				15F210962A1920AA0021F414 /* AIChatModel.swift in Sources */,
 				15B7BE9D2A968399006624BD /* MacEditorTextView.swift in Sources */,
 				15F210AA2A1A659B0021F414 /* FileHelper.swift in Sources */,
@@ -540,6 +551,7 @@
 				1509BA622B1F1D7000703BC0 /* LLMTextView.swift in Sources */,
 				15A3EDD12A21266E0030AF5A /* SearchView.swift in Sources */,
 				15F210942A1920AA0021F414 /* Message.swift in Sources */,
+				158DAA502B83BF5700550274 /* DownloadButton.swift in Sources */,
 				15F2108E2A191EE60021F414 /* ChatView.swift in Sources */,
 				15D8FE902AF80D7600B5C90D /* FineTuneView.swift in Sources */,
 				15E086C42AEAC69B006459DE /* FineTuneModel.swift in Sources */,

@@ -536,7 +536,7 @@ func get_path_by_short_name(_ short_name:String, dest:String = "models") -> Stri
     return nil
 }
 
-func get_donloadble_models(_ fname:String) -> [Dictionary<String, String>]?{
+func get_downloadble_models(_ fname:String) -> [Dictionary<String, String>]?{
     var res:[Dictionary<String, String>] = []
     do {
         let fileManager = FileManager.default

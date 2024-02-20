@@ -32,8 +32,11 @@ struct SettingsView: View {
                 
                 VStack(){
                     List(){
-                        NavigationLink("Models"){
+                        NavigationLink("Manage models"){
                             ModelsView("models")
+                        }
+                        NavigationLink("Download models"){
+                            DownloadModelsView()
                         }
                         NavigationLink("LoRA Adapters"){
                             ModelsView("lora_adapters")

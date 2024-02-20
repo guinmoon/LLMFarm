@@ -10,7 +10,7 @@ import UniformTypeIdentifiers
 
 struct DownloadModelsView: View {
     
-    public var dir:String
+
     @State var searchText: String = ""
     @State var models_previews: [Dictionary<String, String>]
     @State var model_selection: String?
@@ -22,67 +22,74 @@ struct DownloadModelsView: View {
     @State private var model_file_name: String = ""
     @State private var model_file_path: String = "select model"
     @State private var add_button_icon: String = "plus.app"
+
+    @State private var downloadTask: URLSessionDownloadTask?
+    @State private var progress = 0.0
+    @State private var observation: NSKeyValueObservation?
+
+    private static func getFileURL(filename: String) -> URL {
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(filename)
+    }
     
     
-    init (_ dir:String){
-        self.dir = dir
-        self._models_previews = State(initialValue: get_donloadble_models("downloadable_models.json")!)
+    init (){
+        self._models_previews = State(initialValue: get_downloadble_models("downloadable_models.json")!)
     }
 
-    private func download() {
-        status = "downloading"
-        print("Downloading model \(modelName) from \(modelUrl)")
-        guard let url = URL(string: modelUrl) else { return }
-        let fileURL = DownloadButton.getFileURL(filename: filename)
+    // private func download() {
+    //     status = "downloading"
+    //     print("Downloading model \(modelName) from \(modelUrl)")
+    //     guard let url = URL(string: modelUrl) else { return }
+    //     let fileURL = DownloadButton.getFileURL(filename: filename)
 
-        downloadTask = URLSession.shared.downloadTask(with: url) { temporaryURL, response, error in
-            if let error = error {
-                print("Error: \(error.localizedDescription)")
-                return
-            }
+    //     downloadTask = URLSession.shared.downloadTask(with: url) { temporaryURL, response, error in
+    //         if let error = error {
+    //             print("Error: \(error.localizedDescription)")
+    //             return
+    //         }
 
-            // observation = downloadTask.progress.observe(\.fractionCompleted) { progress, _ in
-            //     print("progress: ", progress.fractionCompleted)
-            // }
+    //         // observation = downloadTask.progress.observe(\.fractionCompleted) { progress, _ in
+    //         //     print("progress: ", progress.fractionCompleted)
+    //         // }
 
-            guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
-                print("Server error!")
-                return
-            }
+    //         guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
+    //             print("Server error!")
+    //             return
+    //         }
 
-            do {
-                if let temporaryURL = temporaryURL {
-                    try FileManager.default.copyItem(at: temporaryURL, to: fileURL)
-                    print("Writing to \(filename) completed")
+    //         do {
+    //             if let temporaryURL = temporaryURL {
+    //                 try FileManager.default.copyItem(at: temporaryURL, to: fileURL)
+    //                 print("Writing to \(filename) completed")
 
-                    llamaState.cacheCleared = false
+    //                 llamaState.cacheCleared = false
 
-                    let model = Model(name: modelName, url: modelUrl, filename: filename, status: "downloaded")
-                    llamaState.downloadedModels.append(model)
-                    status = "downloaded"
-                }
-            } catch let err {
-                print("Error: \(err.localizedDescription)")
-            }
-        }
+    //                 let model = Model(name: modelName, url: modelUrl, filename: filename, status: "downloaded")
+    //                 llamaState.downloadedModels.append(model)
+    //                 status = "downloaded"
+    //             }
+    //         } catch let err {
+    //             print("Error: \(err.localizedDescription)")
+    //         }
+    //     }
 
-        observation = downloadTask?.progress.observe(\.fractionCompleted) { progress, _ in
-            self.progress = progress.fractionCompleted
-        }
+    //     observation = downloadTask?.progress.observe(\.fractionCompleted) { progress, _ in
+    //         self.progress = progress.fractionCompleted
+    //     }
 
-        downloadTask?.resume()
-    }
+    //     downloadTask?.resume()
+    // }
     
     func delete(at offsets: IndexSet) {
-        let chatsToDelete = offsets.map { self.models_previews[$0] }
-        _ = delete_models(chatsToDelete,dest:dir)
-        models_previews = get_models_list(dir:dir) ?? []        
+//        let chatsToDelete = offsets.map { self.models_previews[$0] }
+//        _ = delete_models(chatsToDelete,dest:dir)
+//        models_previews = get_models_list(dir:dir) ?? []        
     }
     
     func delete(at elem:Dictionary<String, String>){
-        _  = delete_models([elem],dest:dir)
-        self.models_previews.removeAll(where: { $0 == elem })
-        models_previews = get_models_list(dir:dir) ?? []
+//        _  = delete_models([elem],dest:dir)
+//        self.models_previews.removeAll(where: { $0 == elem })
+//        models_previews = get_models_list(dir:dir) ?? []
     }
     
     private func delayIconChange() {
@@ -98,20 +105,20 @@ struct DownloadModelsView: View {
         ZStack{
             //            Color("color_bg").edgesIgnoringSafeArea(.all)
             VStack{
-                 Button(action: {
-                    let fileURL = DownloadButton.getFileURL(filename: filename)
-                    if !FileManager.default.fileExists(atPath: fileURL.path) {
-                        download()
-                        return
-                    }
-                    do {
-                        try llamaState.loadModel(modelUrl: fileURL)
-                    } catch let err {
-                        print("Error: \(err.localizedDescription)")
-                    }
-                }) {
-                    Text("Load \(modelName)")
-                }
+//                 Button(action: {
+//                    let fileURL = DownloadButton.getFileURL(filename: filename)
+//                    if !FileManager.default.fileExists(atPath: fileURL.path) {
+//                        download()
+//                        return
+//                    }
+//                    do {
+//                        try llamaState.loadModel(modelUrl: fileURL)
+//                    } catch let err {
+//                        print("Error: \(err.localizedDescription)")
+//                    }
+//                }) {
+//                    Text("Load \(modelName)")
+//                }
                 VStack(spacing: 5){
                     List(selection: $model_selection){
                         ForEach(models_previews, id: \.self) { model in
@@ -120,19 +127,17 @@ struct DownloadModelsView: View {
                                 modelIcon: "square.stack.3d.up.fill",
                                 file_name:  String(describing: model["file_name"]!),
                                 orig_file_name:String(describing: model["file_name"]!),
-                                download_url: String(describing: model["url"]!,
+                                download_url: String(describing: model["url"]!),
                                 download_button_state: .downloadable)
-                            ).contextMenu {
+                            .contextMenu {
                                 Button(action: {
                                     delete(at: model)
                                 }){
                                     Text("Delete")
                                 }
                             }
+                            DownloadButton(modelName: model["file_name"]!, modelUrl: model["url"]!, filename:model["file_name"]!)
                         }.onDelete(perform: delete)
-                    }
-                    .onAppear {
-                        models_previews = get_models_list(dir:dir)  ?? []
                     }
 #if os(macOS)
                     .listStyle(.sidebar)

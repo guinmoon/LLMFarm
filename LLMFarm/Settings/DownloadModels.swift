@@ -35,50 +35,7 @@ struct DownloadModelsView: View {
     init (){
         self._models_previews = State(initialValue: get_downloadble_models("downloadable_models.json")!)
     }
-
-    // private func download() {
-    //     status = "downloading"
-    //     print("Downloading model \(modelName) from \(modelUrl)")
-    //     guard let url = URL(string: modelUrl) else { return }
-    //     let fileURL = DownloadButton.getFileURL(filename: filename)
-
-    //     downloadTask = URLSession.shared.downloadTask(with: url) { temporaryURL, response, error in
-    //         if let error = error {
-    //             print("Error: \(error.localizedDescription)")
-    //             return
-    //         }
-
-    //         // observation = downloadTask.progress.observe(\.fractionCompleted) { progress, _ in
-    //         //     print("progress: ", progress.fractionCompleted)
-    //         // }
-
-    //         guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
-    //             print("Server error!")
-    //             return
-    //         }
-
-    //         do {
-    //             if let temporaryURL = temporaryURL {
-    //                 try FileManager.default.copyItem(at: temporaryURL, to: fileURL)
-    //                 print("Writing to \(filename) completed")
-
-    //                 llamaState.cacheCleared = false
-
-    //                 let model = Model(name: modelName, url: modelUrl, filename: filename, status: "downloaded")
-    //                 llamaState.downloadedModels.append(model)
-    //                 status = "downloaded"
-    //             }
-    //         } catch let err {
-    //             print("Error: \(err.localizedDescription)")
-    //         }
-    //     }
-
-    //     observation = downloadTask?.progress.observe(\.fractionCompleted) { progress, _ in
-    //         self.progress = progress.fractionCompleted
-    //     }
-
-    //     downloadTask?.resume()
-    // }
+    
     
     func delete(at offsets: IndexSet) {
 //        let chatsToDelete = offsets.map { self.models_previews[$0] }
@@ -135,8 +92,7 @@ struct DownloadModelsView: View {
                                 }){
                                     Text("Delete")
                                 }
-                            }
-                            DownloadButton(modelName: model["file_name"]!, modelUrl: model["url"]!, filename:model["file_name"]!)
+                            }                            
                         }.onDelete(perform: delete)
                     }
 #if os(macOS)
@@ -168,8 +124,6 @@ struct DownloadModelsView: View {
                 }
                 
             }
-            .padding(.top)
-            .padding(.horizontal)
         }
         .toolbar{
            

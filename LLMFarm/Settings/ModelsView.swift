@@ -104,8 +104,6 @@ struct ModelsView: View {
                 }
                 
             }
-            .padding(.top)
-            .padding(.horizontal)
         }
         .toolbar{
             Button {

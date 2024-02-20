@@ -71,15 +71,22 @@ struct DownloadButton: View {
         VStack {
             if status == "download" {
                 Button(action: download) {
-                    Text("Download " + modelName)
+                    // Text("Download " + modelName)
+                    Image(systemName:"icloud.and.arrow.down")
                 }
+                .buttonStyle(.borderless)
             } else if status == "downloading" {
                 Button(action: {
                     downloadTask?.cancel()
                     status = "download"
                 }) {
-                    Text("\(modelName) (Downloading \(Int(progress * 100))%)")
+                    HStack{
+                        Image(systemName:"stop.circle.fill")                    
+                        Text("\(Int(progress * 100))%")
+                        .padding(.trailing,-20)
+                    }
                 }
+                .buttonStyle(.borderless)
             } else if status == "downloaded" {
                 Button(action: {
                     let fileURL = DownloadButton.getFileURL(filename: filename)
@@ -88,8 +95,10 @@ struct DownloadButton: View {
                         return
                     }                    
                 }) {
-                    Text("Load \(modelName)")
+                    // Text("Load \(modelName)")
+                    Image(systemName:"trash")
                 }
+                .buttonStyle(.borderless)
             } else {
                 Text("Unknown status")
             }

@@ -41,55 +41,35 @@ struct ModelInfoItem: View {
             VStack(alignment: .leading, spacing: 6){
                 HStack
                 {
-#if os(macOS)
-                    DidEndEditingTextField(text: $file_name, didEndEditing: { newName in
-                        model_name_canged()
-                    })
-#else
-                    TextField("", text: $file_name)
-                        .onSubmit {
-                            model_name_canged()
-                        }
-#endif
-                    //                    MacEditorTextView(text: $file_name, isEditable: true, onTextChange: model_name_canged)
-                    //                        .frame(minWidth: 300,
-                    //                                       maxWidth: .infinity,
-                    //                                       minHeight: 20,
-                    //                                       maxHeight: .infinity)
-                    //                        .padding(.top)
-                    
-                    
-                    //
-                    //                    Text(file_name)
-                    //                        .fontWeight(.none)
-                    //                        .padding(.top, 3)
-                    //                    Spacer()
-                    //                    Image(systemName: "rectangle.and.pencil.and.ellipsis")
-                    //                        .padding(.horizontal)
-                    //                    Image(systemName: "bubble.right")
-                    //                        .foregroundColor(Color("color_primary"))
+                    Text(file_name)
+//                        .frame( maxWidth: .infinity)
+                        .frame( alignment: .leading)
+//#if os(macOS)
+//                    DidEndEditingTextField(text: $file_name, didEndEditing: { newName in
+//                        model_name_canged()
+//                    })
+//#else
+//                    TextField("", text: $file_name)
+//                        .onSubmit {
+//                            model_name_canged()
+//                        }
+                    if download_url != ""{
+                        Spacer()
+                        DownloadButton(modelName: file_name, modelUrl: download_url, filename:orig_file_name)
+                            .frame( alignment: .trailing)
+                            .frame( maxWidth: 50)
+                    }
                 }
                 
                 HStack{
                     Text(description)
-                    //                        .foregroundColor(Color("color_bg_inverted").opacity(0.5))
                         .lineLimit(/*@START_MENU_TOKEN@*/2/*@END_MENU_TOKEN@*/)
-                }
+                    
+                }                
                 
-                Divider()
-                    .padding(.top, 8)
             }
             .padding(.horizontal, 10)
 
-            if download_button_state == .downloadable{
-                HStack{
-                    Button(action: {
-                    })
-                    {
-                        Text("DL")
-                    }
-                }
-            }
         }
     }
 }

@@ -25,6 +25,7 @@
 		158DAA4E2B812A4A00550274 /* DownloadModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158DAA4D2B812A4A00550274 /* DownloadModels.swift */; };
 		158DAA502B83BF5700550274 /* DownloadButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158DAA4F2B83BF5700550274 /* DownloadButton.swift */; };
 		158DAA522B83C0B700550274 /* downloadable_models.json in Resources */ = {isa = PBXBuildFile; fileRef = 158DAA512B83C0B700550274 /* downloadable_models.json */; };
+		158DAA542B8655AE00550274 /* ModelDownloadItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158DAA532B8655AE00550274 /* ModelDownloadItem.swift */; };
 		158FC6DB2AA3457A00A181B4 /* log_helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158FC6DA2AA3457A00A181B4 /* log_helper.swift */; };
 		159650ED2A49F8280007BE5C /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61E38F329B1F0BA00114C15 /* Accelerate.framework */; };
 		159650F12A49F8400007BE5C /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 159650EE2A49F8400007BE5C /* MetalKit.framework */; };
@@ -127,6 +128,7 @@
 		158DAA4D2B812A4A00550274 /* DownloadModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadModels.swift; sourceTree = "<group>"; };
 		158DAA4F2B83BF5700550274 /* DownloadButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadButton.swift; sourceTree = "<group>"; };
 		158DAA512B83C0B700550274 /* downloadable_models.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = downloadable_models.json; sourceTree = "<group>"; };
+		158DAA532B8655AE00550274 /* ModelDownloadItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelDownloadItem.swift; sourceTree = "<group>"; };
 		158FC6DA2AA3457A00A181B4 /* log_helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = log_helper.swift; sourceTree = "<group>"; };
 		159650EE2A49F8400007BE5C /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
 		159650EF2A49F8400007BE5C /* MetalPerformanceShaders.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalPerformanceShaders.framework; path = System/Library/Frameworks/MetalPerformanceShaders.framework; sourceTree = SDKROOT; };
@@ -253,6 +255,7 @@
 				15584A5D2AABA09300EC9C9C /* DidEndEditingTextField.swift */,
 				158DAA4F2B83BF5700550274 /* DownloadButton.swift */,
 				158DAA4D2B812A4A00550274 /* DownloadModels.swift */,
+				158DAA532B8655AE00550274 /* ModelDownloadItem.swift */,
 				15A3EDC32A2121D90030AF5A /* ModelinfoItem.swift */,
 				15B7BE9C2A968399006624BD /* MacEditorTextView.swift */,
 				15A3EDC22A2121D90030AF5A /* ModelsView.swift */,
@@ -540,6 +543,7 @@
 				15A3EDCD2A2121D90030AF5A /* ChatListView.swift in Sources */,
 				156A48D22A52B65C007DF519 /* Orientation_helper.swift in Sources */,
 				15A3EDCB2A2121D90030AF5A /* ModelsView.swift in Sources */,
+				158DAA542B8655AE00550274 /* ModelDownloadItem.swift in Sources */,
 				15141E712A65799D0060E767 /* ChatSettingsTemplate.swift in Sources */,
 				1560D6172A2D1A3D00918330 /* AddChatView.swift in Sources */,
 				15B1B9DA2AF588FD0058F275 /* SettingsMenuItem.swift in Sources */,

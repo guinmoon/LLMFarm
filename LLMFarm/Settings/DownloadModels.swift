@@ -8,11 +8,18 @@
 import SwiftUI
 import UniformTypeIdentifiers
 
+public protocol Tabbable: Identifiable {
+    associatedtype Id
+    var id: Id { get }
+    
+    var name : String { get }
+}
+
 struct DownloadModelsView: View {
     
 
     @State var searchText: String = ""
-    @State var models_previews: [Dictionary<String, String>]
+    @State var models_info: [DownloadModelInfo]
     @State var model_selection: String?
     @State private var isImporting: Bool = false
     @State private var modelImported: Bool = false
@@ -23,30 +30,30 @@ struct DownloadModelsView: View {
     @State private var model_file_path: String = "select model"
     @State private var add_button_icon: String = "plus.app"
 
-    @State private var downloadTask: URLSessionDownloadTask?
-    @State private var progress = 0.0
-    @State private var observation: NSKeyValueObservation?
+//    @State private var downloadTask: URLSessionDownloadTask?
+//    @State private var progress = 0.0
+//    @State private var observation: NSKeyValueObservation?
 
-    private static func getFileURL(filename: String) -> URL {
-        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(filename)
-    }
-    
+//    private static func getFileURL(filename: String) -> URL {
+//        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(filename)
+//    }
+//    
     
     init (){
-        self._models_previews = State(initialValue: get_downloadble_models("downloadable_models.json")!)
+        self._models_info = State(initialValue: get_downloadble_models("downloadable_models.json")!)
     }
     
     
     func delete(at offsets: IndexSet) {
-//        let chatsToDelete = offsets.map { self.models_previews[$0] }
+//        let chatsToDelete = offsets.map { self.models_info[$0] }
 //        _ = delete_models(chatsToDelete,dest:dir)
-//        models_previews = get_models_list(dir:dir) ?? []        
+//        models_info = get_models_list(dir:dir) ?? []        
     }
     
     func delete(at elem:Dictionary<String, String>){
 //        _  = delete_models([elem],dest:dir)
-//        self.models_previews.removeAll(where: { $0 == elem })
-//        models_previews = get_models_list(dir:dir) ?? []
+//        self.models_info.removeAll(where: { $0 == elem })
+//        models_info = get_models_list(dir:dir) ?? []
     }
     
     private func delayIconChange() {
@@ -78,21 +85,12 @@ struct DownloadModelsView: View {
 //                }
                 VStack(spacing: 5){
                     List(selection: $model_selection){
-                        ForEach(models_previews, id: \.self) { model in
-                            
-                            ModelInfoItem(
-                                modelIcon: "square.stack.3d.up.fill",
-                                file_name:  String(describing: model["file_name"]!),
-                                orig_file_name:String(describing: model["file_name"]!),
-                                download_url: String(describing: model["url"]!),
-                                download_button_state: .downloadable)
-                            .contextMenu {
-                                Button(action: {
-                                    delete(at: model)
-                                }){
-                                    Text("Delete")
-                                }
-                            }                            
+                        ForEach(models_info, id: \.self) { model_info  in
+
+                            ModelDownloadItem(modelInfo:model_info)
+//                                modelName: model["name"],
+//                                modelIcon: "square.stack.3d.up.fill",
+//                                model_files:  model["models"])                          
                         }.onDelete(perform: delete)
                     }
 #if os(macOS)
@@ -101,7 +99,7 @@ struct DownloadModelsView: View {
                     .listStyle(InsetListStyle())
 #endif
                 }
-                if  models_previews.count <= 0 {
+                if  models_info.count <= 0 {
                     VStack{
                         
                         Button {

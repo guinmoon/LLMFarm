@@ -1,0 +1,51 @@
+[
+    {
+        "name": "ORCA mini 3B",
+        "file_name": "orca-mini-3b-q4_1.gguf",
+        "url": "https://huggingface.co/guinmoon/LLMFarm_Models/resolve/main/orca-mini-3b-q4_1.gguf?download=true",
+        "size": "",
+        "Q": "Q4_1"
+    },
+    {
+        "name": "Phi 2 2.7B",
+        "file_name": "phi-2.Q4_K_M.gguf",
+        "url": "https://huggingface.co/TheBloke/phi-2-GGUF/resolve/main/phi-2.Q4_K_M.gguf?download=true",
+        "size": "1.48",
+        "Q": "Q4_K_M"
+    },
+    {
+        "name": "Marx 3B V3",
+        "file_name": "marx-3b-v3.Q4_K_M.gguf",
+        "url": "https://huggingface.co/TheBloke/Marx-3B-v3-GGUF/resolve/main/marx-3b-v3.Q4_K_M.gguf",
+        "size": "",
+        "Q": "Q4_K_M"
+    },
+    {
+        "name": "StableLM 3B 4E1T",
+        "file_name": "tinyllama-1.1b-chat-v1.0.Q6_K.gguf",
+        "url": "https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q6_K.gguf",
+        "size": "",
+        "Q": ""
+    },
+    {
+        "name": "StableLM 3B 4E1T",
+        "url": "https://huggingface.co/guinmoon/LLMFarm_Models/resolve/main/stablelm-3b-4e1t-Q4_K_M.gguf?download=true",
+        "file_name": "stablelm-3b-4e1t-Q4_K_M.gguf",
+        "size": "",
+        "Q": "Q4_K_M"
+    },
+    {
+        "name": "Mistral-7B-v0.1 (Q4_0, 3.8 GiB)",
+        "url": "https://huggingface.co/TheBloke/Mistral-7B-v0.1-GGUF/resolve/main/mistral-7b-v0.1.Q4_0.gguf?download=true",
+        "file_name": "mistral-7b-v0.1.Q4_0.gguf",
+        "size": "",
+        "Q": ""
+    },
+    {
+        "name": "OpenHermes-2.5-Mistral-7B (Q3_K_M, 3.52 GiB)",
+        "url": "https://huggingface.co/TheBloke/OpenHermes-2.5-Mistral-7B-GGUF/resolve/main/openhermes-2.5-mistral-7b.Q3_K_M.gguf?download=true",
+        "file_name": "openhermes-2.5-mistral-7b.Q3_K_M.gguf",
+        "size": "",
+        "Q": ""
+    }
+]

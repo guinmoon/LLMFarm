@@ -2,9 +2,9 @@ import SwiftUI
 
 struct DownloadButton: View {
 
-    private var modelName: String
-    private var modelUrl: String
-    private var filename: String
+    @State var modelName: String
+    @State var modelUrl: String
+    @Binding var filename: String
 
     @State private var status: String
 
@@ -19,14 +19,15 @@ struct DownloadButton: View {
     private func checkFileExistenceAndUpdateStatus() {
     }
 
-    init(modelName: String, modelUrl: String, filename: String) {
+    init(modelName: String, modelUrl: String, filename: Binding<String>) {
 
-        self.modelName = modelName
-        self.modelUrl = modelUrl
-        self.filename = filename
+        self._modelName = State(initialValue:modelName)
+        self._modelUrl = State(initialValue:modelUrl)
+//        self._filename = State(initialValue:filename)
+        self._filename = filename
 
-        let fileURL = DownloadButton.getFileURL(filename: filename)
-        status = FileManager.default.fileExists(atPath: fileURL.path) ? "downloaded" : "download"
+        let fileURL = DownloadButton.getFileURL(filename: filename.wrappedValue)
+        _status = State(initialValue:FileManager.default.fileExists(atPath: fileURL.path) ? "downloaded" : "download")
     }
 
     private func download() {
@@ -88,17 +89,18 @@ struct DownloadButton: View {
                 }
                 .buttonStyle(.borderless)
             } else if status == "downloaded" {
-                Button(action: {
-                    let fileURL = DownloadButton.getFileURL(filename: filename)
-                    if !FileManager.default.fileExists(atPath: fileURL.path) {
-                        download()
-                        return
-                    }                    
-                }) {
-                    // Text("Load \(modelName)")
-                    Image(systemName:"trash")
-                }
-                .buttonStyle(.borderless)
+                // Button(action: {
+                //     let fileURL = DownloadButton.getFileURL(filename: filename)
+                //     if !FileManager.default.fileExists(atPath: fileURL.path) {
+                //         download()
+                //         return
+                //     }                    
+                // }) {
+                //     // Text("Load \(modelName)")
+                //     Image(systemName:"trash")
+                // }
+                // .buttonStyle(.borderless)
+                Image(systemName:"checkmark.circle.fill")
             } else {
                 Text("Unknown status")
             }

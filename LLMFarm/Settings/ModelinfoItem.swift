@@ -7,11 +7,6 @@
 
 import SwiftUI
 
-enum DownloadButtonState {
-        case downloadable
-        case downloaded
-}
-
 struct ModelInfoItem: View {
     
     var modelIcon: String = ""
@@ -19,7 +14,6 @@ struct ModelInfoItem: View {
     @State var orig_file_name: String = ""
     var description: String = ""
     var download_url: String = ""
-    @State var download_button_state: DownloadButtonState? = nil
     
     func model_name_canged(){
         let res = rename_file(orig_file_name,file_name,"models")
@@ -53,12 +47,7 @@ struct ModelInfoItem: View {
 //                        .onSubmit {
 //                            model_name_canged()
 //                        }
-                    if download_url != ""{
-                        Spacer()
-                        DownloadButton(modelName: file_name, modelUrl: download_url, filename:orig_file_name)
-                            .frame( alignment: .trailing)
-                            .frame( maxWidth: 50)
-                    }
+
                 }
                 
                 HStack{

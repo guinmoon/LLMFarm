@@ -105,6 +105,10 @@ func parse_model_setting_template(template_path:String) -> ChatSettingsTemplate{
     return tmp_template
 }
 
+func getFileURLFormPathStr(dir:String,filename: String) -> URL {
+    FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(dir).appendingPathComponent(filename)
+}
+
 func get_model_setting_templates() -> [ChatSettingsTemplate]{
     var model_setting_templates: [ChatSettingsTemplate] = []
     model_setting_templates.append(ChatSettingsTemplate())

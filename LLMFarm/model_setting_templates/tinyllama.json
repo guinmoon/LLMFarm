@@ -1,0 +1,14 @@
+{
+  "context" : 2048,
+  "prompt_format" : "[system](You are a story writing assistant.)\n<|user|>{prompt}<\/s>\n<|assistant|>",
+  "template_name" : "TinyLLaMa 1B",
+  "temp" : 0.89999997615814209,
+  "model_inference" : "llama",
+  "top_p" : 0.94999998807907104,
+  "n_batch" : 512,
+  "top_k" : 40,
+  "use_metal" : true,
+  "mlock": true,
+  "add_bos_token" : false,
+  "parse_special_tokens" : true
+}

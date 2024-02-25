@@ -91,7 +91,8 @@ struct DownloadModelsView: View {
 //                                modelName: model["name"],
 //                                modelIcon: "square.stack.3d.up.fill",
 //                                model_files:  model["models"])                          
-                        }.onDelete(perform: delete)
+                        }
+//                        .onDelete(perform: delete)
                     }
 #if os(macOS)
                     .listStyle(.sidebar)

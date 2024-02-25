@@ -82,6 +82,7 @@ struct ModelDownloadItem: View {
                     }
                     .frame( alignment: .trailing)
                     .frame( maxWidth: 90)
+                    .frame( maxHeight: 30)
                     
 //                    if download_url != ""{
                     DownloadButton(modelName: $modelName, modelUrl: $download_url, filename:$file_name, status:$status)

@@ -17,6 +17,7 @@ struct AddChatView: View {
         
     @Binding var add_chat_dialog: Bool
     @Binding var edit_chat_dialog: Bool
+    @Binding var toggleSettings: Bool
     @EnvironmentObject var aiChatModel: AIChatModel
     
 //    @State private var chat_config: Dictionary<String, AnyObject> = [:]
@@ -94,17 +95,19 @@ struct AddChatView: View {
     }
     
     init(add_chat_dialog: Binding<Bool>,edit_chat_dialog:Binding<Bool>,
-         renew_chat_list: Binding<() -> Void>) {
+         renew_chat_list: Binding<() -> Void>,toggleSettings: Binding<Bool>) {
         self._add_chat_dialog = add_chat_dialog
         self._edit_chat_dialog = edit_chat_dialog
         self._renew_chat_list = renew_chat_list
+        self._toggleSettings = toggleSettings
     }
     
     init(add_chat_dialog: Binding<Bool>,edit_chat_dialog:Binding<Bool>,
-        chat_name:String,renew_chat_list: Binding<() -> Void>) {
+        chat_name:String,renew_chat_list: Binding<() -> Void>,toggleSettings: Binding<Bool>) {
         self._add_chat_dialog = add_chat_dialog
         self._edit_chat_dialog = edit_chat_dialog
         self._renew_chat_list = renew_chat_list
+        self._toggleSettings = toggleSettings
         self.chat_name = chat_name
         let chat_config = get_chat_info(chat_name)
         if chat_config == nil{ //in Swift runtime failure: Unexpectedly found nil while unwrapping an Optional value ()
@@ -368,6 +371,17 @@ struct AddChatView: View {
                                     Label("Import from file...", systemImage: "plus.app")
                                 }
                                 
+                                if !edit_chat_dialog{
+                                    Button {
+                                        Task {
+                                            toggleSettings = true
+                                        }
+                                    } label: {
+                                        Label("Download models...", systemImage: "icloud.and.arrow.down")
+                                    }
+                                    
+                                }
+                                 
                                 Divider()
                                 
                                 Section("Avalible models") {

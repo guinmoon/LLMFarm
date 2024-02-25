@@ -218,7 +218,8 @@ struct ChatView: View {
             AddChatView(add_chat_dialog: $toggleEditChat,
                         edit_chat_dialog: $edit_chat_dialog,
                         chat_name: aiChatModel.chat_name,
-                        renew_chat_list: .constant({})).environmentObject(aiChatModel)
+                        renew_chat_list: .constant({}),
+                        toggleSettings: .constant(false)).environmentObject(aiChatModel)
 #if os(macOS)
                 .frame(minWidth: 400,minHeight: 600)
 #endif

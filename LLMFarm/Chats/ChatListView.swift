@@ -129,6 +129,7 @@ struct ChatListView: View {
                 VStack{
                     Button {
                         Task {
+                            toggleAddChat = true
                             add_chat_dialog = true
                             edit_chat_dialog = false
                         }
@@ -193,7 +194,8 @@ struct ChatListView: View {
             AddChatView(add_chat_dialog: $toggleAddChat,
                         edit_chat_dialog: $edit_chat_dialog,
                         chat_name: aiChatModel.chat_name,
-                        renew_chat_list: $renew_chat_list).environmentObject(aiChatModel)
+                        renew_chat_list: $renew_chat_list,
+                        toggleSettings: $toggleSettings).environmentObject(aiChatModel)
 #if os(macOS)
                 .frame(minWidth: 400,minHeight: 600)
 #endif

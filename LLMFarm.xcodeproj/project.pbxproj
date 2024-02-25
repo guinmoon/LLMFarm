@@ -27,6 +27,7 @@
 		158DAA522B83C0B700550274 /* downloadable_models.json in Resources */ = {isa = PBXBuildFile; fileRef = 158DAA512B83C0B700550274 /* downloadable_models.json */; };
 		158DAA542B8655AE00550274 /* ModelDownloadItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158DAA532B8655AE00550274 /* ModelDownloadItem.swift */; };
 		158FC6DB2AA3457A00A181B4 /* log_helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158FC6DA2AA3457A00A181B4 /* log_helper.swift */; };
+		159578302B8BB3C3002EDBA0 /* tinyllama.json in Resources */ = {isa = PBXBuildFile; fileRef = 1595782F2B8BB3C3002EDBA0 /* tinyllama.json */; };
 		159650ED2A49F8280007BE5C /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61E38F329B1F0BA00114C15 /* Accelerate.framework */; };
 		159650F12A49F8400007BE5C /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 159650EE2A49F8400007BE5C /* MetalKit.framework */; };
 		159650F22A49F8400007BE5C /* MetalPerformanceShaders.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 159650EF2A49F8400007BE5C /* MetalPerformanceShaders.framework */; };
@@ -130,6 +131,7 @@
 		158DAA512B83C0B700550274 /* downloadable_models.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = downloadable_models.json; sourceTree = "<group>"; };
 		158DAA532B8655AE00550274 /* ModelDownloadItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelDownloadItem.swift; sourceTree = "<group>"; };
 		158FC6DA2AA3457A00A181B4 /* log_helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = log_helper.swift; sourceTree = "<group>"; };
+		1595782F2B8BB3C3002EDBA0 /* tinyllama.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tinyllama.json; sourceTree = "<group>"; };
 		159650EE2A49F8400007BE5C /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
 		159650EF2A49F8400007BE5C /* MetalPerformanceShaders.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalPerformanceShaders.framework; path = System/Library/Frameworks/MetalPerformanceShaders.framework; sourceTree = SDKROOT; };
 		159650F02A49F8400007BE5C /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
@@ -223,6 +225,7 @@
 				1532BF7D2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json */,
 				1532BF7B2AA113AD006DC514 /* RWKV-4 Raven Eng.json */,
 				15141E3D2A6488A60060E767 /* cerebras 2.7b.json */,
+				1595782F2B8BB3C3002EDBA0 /* tinyllama.json */,
 				15141E372A6488A60060E767 /* dolly v2 3b.json */,
 				15141E392A6488A60060E767 /* openllama 3b.json */,
 				15141E382A6488A60060E767 /* orca mini 3b.json */,
@@ -503,6 +506,7 @@
 			files = (
 				15141E5C2A651F8C0060E767 /* model_setting_templates in Resources */,
 				159C699B2A9A52D200F74913 /* llama chat 2 7B iphone 12.json in Resources */,
+				159578302B8BB3C3002EDBA0 /* tinyllama.json in Resources */,
 				15F210892A191B1B0021F414 /* Preview Assets.xcassets in Resources */,
 				15F210852A191B1B0021F414 /* Assets.xcassets in Resources */,
 				1532BF7E2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json in Resources */,
@@ -654,7 +658,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_ASSET_PATHS = "\"LLMFarm/Preview Content\"";
 				DEVELOPMENT_TEAM = C66ZA422A7;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -703,7 +707,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_ASSET_PATHS = "\"LLMFarm/Preview Content\"";
 				DEVELOPMENT_TEAM = C66ZA422A7;
 				ENABLE_HARDENED_RUNTIME = YES;

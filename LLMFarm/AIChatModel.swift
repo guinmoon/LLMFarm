@@ -55,7 +55,7 @@ final class AIChatModel: ObservableObject {
         modelURL = ""
     }
     
-    @MainActor
+//    @MainActor
     public func load_model_by_chat_name(_ chat_name: String,in_text:String) -> Bool?{
         self.model_loading = true
         
@@ -88,6 +88,7 @@ final class AIChatModel: ObservableObject {
             model_context_param.grammar_path = grammar_path
         }
         
+        AIChatModel_obj_ptr = nil
         self.chat = nil
         self.chat = AI(_modelPath: modelURL,_chatName: chat_name);
         self.chat?.loadModel_new(model_context_param.model_inference,

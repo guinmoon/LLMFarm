@@ -19,7 +19,7 @@ struct DownloadModelsView: View {
     
 
     @State var searchText: String = ""
-    @State var models_info: [DownloadModelInfo]
+    @State var models_info: [DownloadModelInfo] = get_downloadble_models("downloadable_models.json") ?? []
     @State var model_selection: String?
     @State private var isImporting: Bool = false
     @State private var modelImported: Bool = false
@@ -39,9 +39,9 @@ struct DownloadModelsView: View {
 //    }
 //    
     
-    init (){
-        self._models_info = State(initialValue: get_downloadble_models("downloadable_models.json")!)
-    }
+//    init (){
+//        self._models_info = State(initialValue: get_downloadble_models("downloadable_models.json")!)
+//    }
     
     
     func delete(at offsets: IndexSet) {

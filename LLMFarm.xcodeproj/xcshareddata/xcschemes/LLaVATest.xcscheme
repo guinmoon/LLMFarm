@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1430"
+   LastUpgradeVersion = "1520"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "llmfarm_core"
-               BuildableName = "llmfarm_core"
-               BlueprintName = "llmfarm_core"
-               ReferencedContainer = "container:llmfarm_core.swift">
+               BlueprintIdentifier = "15C08A5B2B9DF6D1000A1BE0"
+               BuildableName = "LLaVATest"
+               BlueprintName = "LLaVATest"
+               ReferencedContainer = "container:LLMFarm.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -28,10 +28,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "15E415D02A18A2970057A15E"
-               BuildableName = "ModelTest"
-               BlueprintName = "ModelTest"
-               ReferencedContainer = "container:LLMFarm.xcodeproj">
+               BlueprintIdentifier = "llmfarm_core"
+               BuildableName = "llmfarm_core"
+               BlueprintName = "llmfarm_core"
+               ReferencedContainer = "container:llmfarm_core.swift">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -58,9 +58,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "15E415D02A18A2970057A15E"
-            BuildableName = "ModelTest"
-            BlueprintName = "ModelTest"
+            BlueprintIdentifier = "15C08A5B2B9DF6D1000A1BE0"
+            BuildableName = "LLaVATest"
+            BlueprintName = "LLaVATest"
             ReferencedContainer = "container:LLMFarm.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -75,9 +75,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "15E415D02A18A2970057A15E"
-            BuildableName = "ModelTest"
-            BlueprintName = "ModelTest"
+            BlueprintIdentifier = "15C08A5B2B9DF6D1000A1BE0"
+            BuildableName = "LLaVATest"
+            BlueprintName = "LLaVATest"
             ReferencedContainer = "container:LLMFarm.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

@@ -56,6 +56,8 @@
 		15B9D7422A4B55EA00276782 /* MetalPerformanceShaders.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B9D73F2A4B55E800276782 /* MetalPerformanceShaders.framework */; };
 		15B9D7432A4B55EA00276782 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B9D7402A4B55E900276782 /* Metal.framework */; };
 		15B9D7442A4B55EA00276782 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B9D7412A4B55E900276782 /* MetalKit.framework */; };
+		15C08A5F2B9DF6D2000A1BE0 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C08A5E2B9DF6D2000A1BE0 /* main.swift */; };
+		15C08A642B9DF6F7000A1BE0 /* llmfarm_core in Frameworks */ = {isa = PBXBuildFile; productRef = 15C08A632B9DF6F7000A1BE0 /* llmfarm_core */; };
 		15D8FE902AF80D7600B5C90D /* FineTuneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D8FE8F2AF80D7600B5C90D /* FineTuneView.swift */; };
 		15E086C42AEAC69B006459DE /* FineTuneModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E086C32AEAC69B006459DE /* FineTuneModel.swift */; };
 		15E415D42A18A2980057A15E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E415D32A18A2980057A15E /* main.swift */; };
@@ -82,6 +84,15 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		15B1B9C62AF023080058F275 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		15C08A5A2B9DF6D1000A1BE0 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -155,6 +166,8 @@
 		15B9D73F2A4B55E800276782 /* MetalPerformanceShaders.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalPerformanceShaders.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.4.sdk/System/Library/Frameworks/MetalPerformanceShaders.framework; sourceTree = DEVELOPER_DIR; };
 		15B9D7402A4B55E900276782 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.4.sdk/System/Library/Frameworks/Metal.framework; sourceTree = DEVELOPER_DIR; };
 		15B9D7412A4B55E900276782 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.4.sdk/System/Library/Frameworks/MetalKit.framework; sourceTree = DEVELOPER_DIR; };
+		15C08A5C2B9DF6D1000A1BE0 /* LLaVATest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = LLaVATest; sourceTree = BUILT_PRODUCTS_DIR; };
+		15C08A5E2B9DF6D2000A1BE0 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		15D8FE8F2AF80D7600B5C90D /* FineTuneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FineTuneView.swift; sourceTree = "<group>"; };
 		15E086C32AEAC69B006459DE /* FineTuneModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FineTuneModel.swift; sourceTree = "<group>"; };
 		15E415D12A18A2970057A15E /* ModelTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ModelTest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -187,6 +200,14 @@
 				15B1B9D22AF025E80058F275 /* Metal.framework in Frameworks */,
 				15B1B9D12AF025E10058F275 /* Accelerate.framework in Frameworks */,
 				15B1B9D62AF025FC0058F275 /* MetalPerformanceShadersGraph.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		15C08A592B9DF6D1000A1BE0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				15C08A642B9DF6F7000A1BE0 /* llmfarm_core in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,6 +317,14 @@
 			path = FineTune_Test;
 			sourceTree = "<group>";
 		};
+		15C08A5D2B9DF6D2000A1BE0 /* LLaVATest */ = {
+			isa = PBXGroup;
+			children = (
+				15C08A5E2B9DF6D2000A1BE0 /* main.swift */,
+			);
+			path = LLaVATest;
+			sourceTree = "<group>";
+		};
 		15E086C22AEAC674006459DE /* Tune */ = {
 			isa = PBXGroup;
 			children = (
@@ -359,6 +388,7 @@
 				15F2107F2A191B190021F414 /* LLMFarm */,
 				15E415D22A18A2980057A15E /* ModelTest */,
 				15B1B9C92AF023080058F275 /* FineTune_Test */,
+				15C08A5D2B9DF6D2000A1BE0 /* LLaVATest */,
 				E624E1FF2958ECC800996CD1 /* Products */,
 				E624E259295902A100996CD1 /* Frameworks */,
 			);
@@ -370,6 +400,7 @@
 				15E415D12A18A2970057A15E /* ModelTest */,
 				15F2107E2A191B190021F414 /* LLMFarm.app */,
 				15B1B9C82AF023080058F275 /* FineTune_Test */,
+				15C08A5C2B9DF6D1000A1BE0 /* LLaVATest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -412,6 +443,26 @@
 			);
 			productName = FineTune_Test;
 			productReference = 15B1B9C82AF023080058F275 /* FineTune_Test */;
+			productType = "com.apple.product-type.tool";
+		};
+		15C08A5B2B9DF6D1000A1BE0 /* LLaVATest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 15C08A622B9DF6D2000A1BE0 /* Build configuration list for PBXNativeTarget "LLaVATest" */;
+			buildPhases = (
+				15C08A582B9DF6D1000A1BE0 /* Sources */,
+				15C08A592B9DF6D1000A1BE0 /* Frameworks */,
+				15C08A5A2B9DF6D1000A1BE0 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LLaVATest;
+			packageProductDependencies = (
+				15C08A632B9DF6F7000A1BE0 /* llmfarm_core */,
+			);
+			productName = LLaVATest;
+			productReference = 15C08A5C2B9DF6D1000A1BE0 /* LLaVATest */;
 			productType = "com.apple.product-type.tool";
 		};
 		15E415D02A18A2970057A15E /* ModelTest */ = {
@@ -463,11 +514,14 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1500;
+				LastSwiftUpdateCheck = 1520;
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
 					15B1B9C72AF023080058F275 = {
 						CreatedOnToolsVersion = 15.0.1;
+					};
+					15C08A5B2B9DF6D1000A1BE0 = {
+						CreatedOnToolsVersion = 15.2;
 					};
 					15E415D02A18A2970057A15E = {
 						CreatedOnToolsVersion = 14.2;
@@ -495,6 +549,7 @@
 				15E415D02A18A2970057A15E /* ModelTest */,
 				15F2107D2A191B190021F414 /* LLMFarm */,
 				15B1B9C72AF023080058F275 /* FineTune_Test */,
+				15C08A5B2B9DF6D1000A1BE0 /* LLaVATest */,
 			);
 		};
 /* End PBXProject section */
@@ -524,6 +579,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				15B1B9CB2AF023080058F275 /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		15C08A582B9DF6D1000A1BE0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				15C08A5F2B9DF6D2000A1BE0 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -616,6 +679,41 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		15C08A602B9DF6D2000A1BE0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = C66ZA422A7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		15C08A612B9DF6D2000A1BE0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = C66ZA422A7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -874,6 +972,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		15C08A622B9DF6D2000A1BE0 /* Build configuration list for PBXNativeTarget "LLaVATest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				15C08A602B9DF6D2000A1BE0 /* Debug */,
+				15C08A612B9DF6D2000A1BE0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		15E415D52A18A2980057A15E /* Build configuration list for PBXNativeTarget "ModelTest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -917,6 +1024,10 @@
 			productName = llmfarm_core;
 		};
 		15B1B9CF2AF025DD0058F275 /* llmfarm_core */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = llmfarm_core;
+		};
+		15C08A632B9DF6F7000A1BE0 /* llmfarm_core */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = llmfarm_core;
 		};

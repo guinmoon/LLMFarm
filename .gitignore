@@ -10,3 +10,4 @@ site/*
 backup/*
 *autosave.kra
 LLMFarm.xcodeproj/xcshareddata/xcschemes/LLMFarm.xcscheme
+llmfarm_core_legacy.swift

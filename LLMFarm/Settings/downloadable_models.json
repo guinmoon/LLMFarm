@@ -18,6 +18,40 @@
         ]
     },
     {
+        "name": "MobileVLM 3B",
+        "models": [
+            {
+                "file_name": "MobileVLM-3B-q3_K_S.gguf",
+                "url": "https://huggingface.co/guinmoon/MobileVLM-3B-GGUF/resolve/main/MobileVLM-3B-q3_K_S.gguf?download=true",
+                "size": "",
+                "Q": "Q3_K_S"
+            },
+            {
+                "file_name": "MobileVLM-3B-Q4_K_M.gguf",
+                "url": "https://huggingface.co/guinmoon/MobileVLM-3B-GGUF/resolve/main/MobileVLM-3B-Q4_K_M.gguf?download=true",
+                "size": "",
+                "Q": "Q4_K_M"
+            },
+            {
+                "file_name": "MobileVLM-3B-Q5_K_S.gguf",
+                "url": "https://huggingface.co/guinmoon/MobileVLM-3B-GGUF/resolve/main/MobileVLM-3B-q5_K_S.gguf?download=true",
+                "size": "",
+                "Q": "Q5_K_S"
+            }
+        ]
+    },
+    {
+        "name": "MobileVLM 3B CLIP",
+        "models": [
+            {
+                "file_name": "MobileVLM-3B-mmproj-f16.gguf",
+                "url": "https://huggingface.co/guinmoon/MobileVLM-3B-GGUF/resolve/main/MobileVLM-3B-mmproj-f16.gguf?download=true",
+                "size": "",
+                "Q": "F16"
+            }
+        ]
+    },
+    {
         "name": "Phi 2 2.7B",
         "models": [
             {

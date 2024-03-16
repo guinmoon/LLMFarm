@@ -224,6 +224,7 @@ public struct LLMTextInput: View {
             {
                 img_cahce_path = nil
                 image = nil
+                selectedPhoto = nil
                 Task {
                     await aiChatModel.send(message: input_text,img_path: img_path)
                     input_text = ""

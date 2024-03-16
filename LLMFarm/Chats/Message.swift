@@ -27,4 +27,6 @@ struct Message: Identifiable {
     var text: String
     var tok_sec: Double
     var header: String = ""
+    var attachment: String? = nil
+    var attachment_type: String? = nil
 }

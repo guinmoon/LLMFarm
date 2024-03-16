@@ -191,14 +191,22 @@ struct ChatListView: View {
 #endif
         }
         .sheet(isPresented: $toggleAddChat) {
-            AddChatView(add_chat_dialog: $toggleAddChat,
-                        edit_chat_dialog: $edit_chat_dialog,
-                        chat_name: aiChatModel.chat_name,
-                        renew_chat_list: $renew_chat_list,
-                        toggleSettings: $toggleSettings).environmentObject(aiChatModel)
+            if edit_chat_dialog{
+                AddChatView(add_chat_dialog: $toggleAddChat,
+                            edit_chat_dialog: $edit_chat_dialog,
+                            chat_name: aiChatModel.chat_name,
+                            renew_chat_list: $renew_chat_list,
+                            toggleSettings: $toggleSettings).environmentObject(aiChatModel)
 #if os(macOS)
-                .frame(minWidth: 400,minHeight: 600)
+                    .frame(minWidth: 400,minHeight: 600)
 #endif
+            }else{
+                AddChatView(add_chat_dialog: $toggleAddChat,
+                            edit_chat_dialog: $edit_chat_dialog,
+                            renew_chat_list: $renew_chat_list,
+                            toggleSettings: $toggleSettings).environmentObject(aiChatModel)
+            }
+
         }
     }
 }

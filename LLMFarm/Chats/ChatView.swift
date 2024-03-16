@@ -36,6 +36,7 @@ struct ChatView: View {
     @State private var scrollTarget: Int?
     @State private var toggleEditChat = false
     @State private var clearChatAlert = false
+    @State private var is_mmodal = false
 
     @FocusState private var focusedField: FocusedField?
     
@@ -77,6 +78,8 @@ struct ChatView: View {
         if chat_selection == nil {
             return
         }
+        
+        print(self.is_mmodal)
         print(chat_selection)
         print("\nreload\n")
         aiChatModel.stop_predict()
@@ -86,6 +89,7 @@ struct ChatView: View {
 //        title = chat_selection!["title"] ?? ""
         aiChatModel.Title = chat_selection!["title"] ?? ""
         aiChatModel.messages = []
+        self.is_mmodal =  chat_selection!["mmodal"] ?? "" == "1"
         aiChatModel.messages = load_chat_history(chat_selection!["chat"]!+".json")!
         aiChatModel.AI_typing = -Int.random(in: 0..<100000)
     }
@@ -210,8 +214,9 @@ struct ChatView: View {
             }
             .navigationTitle(aiChatModel.Title)
             
-            LLMTextInput(messagePlaceholder: placeholderString).environmentObject(aiChatModel)
-            .focused($focusedField, equals: .firstName)
+            LLMTextInput(messagePlaceholder: placeholderString,show_attachment_btn:self.is_mmodal).environmentObject(aiChatModel)
+                .disabled(self.aiChatModel.chat_name == "")
+//            .focused($focusedField, equals: .firstName)
             
         }
         .sheet(isPresented: $toggleEditChat) {

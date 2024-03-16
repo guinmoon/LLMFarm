@@ -39,6 +39,7 @@ let ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/mobilevlm-3b.Q4_K_
 var params:ModelAndContextParams = .default
 
 //set custom prompt format
+params.clip_model = "/Users/guinmoon/dev/alpaca_llama_etc/mobilevlm-3b-mmproj-model-f16.gguf"
 params.promptFormat = .Custom
 params.custom_prompt_format = """
 SYSTEM: You are a helpful, respectful and honest assistant.
@@ -49,15 +50,6 @@ var input_text = "Who on this picture?"
 
 //params.use_metal = true
 
-_ = try? ai.loadModel(ModelInference.LLama_mm,contextParams: params)
-// to use other inference like RWKV set ModelInference.RWKV
-// to use old ggjt_v3 llama models use ModelInference.LLama_bin
-
-// Set mirostat_v2 sampling method
-//ai.model.sampleParams.mirostat = 2
-//ai.model.sampleParams.mirostat_eta = 0.1
-//ai.model.sampleParams.mirostat_tau = 5.0
-
-//eval with callback
+try? _ = ai.loadModel_sync(ModelInference.LLama_mm,contextParams:params)
+_ = ai.model.make_image_embed("/Users/guinmoon/dev/alpaca_llama_etc/Angelina-Jolie-Rome-Film-Fest.jpg")
 let output = try? ai.model.predict(input_text, mainCallback)
-

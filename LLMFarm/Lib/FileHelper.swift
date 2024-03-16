@@ -27,9 +27,9 @@ func parse_model_setting_template(template_path:String) -> ChatSettingsTemplate{
         if (jsonResult_dict!["prompt_format"] != nil){
             tmp_template.prompt_format = jsonResult_dict!["prompt_format"] as! String
         }
-//        if (jsonResult_dict!["warm_prompt"] != nil){
-//            tmp_template.warm_prompt = jsonResult_dict!["warm_prompt"] as! String
-//        }
+        //        if (jsonResult_dict!["warm_prompt"] != nil){
+        //            tmp_template.warm_prompt = jsonResult_dict!["warm_prompt"] as! String
+        //        }
         if (jsonResult_dict!["reverse_prompt"] != nil){
             tmp_template.reverse_prompt = jsonResult_dict!["reverse_prompt"] as! String
         }
@@ -87,17 +87,17 @@ func parse_model_setting_template(template_path:String) -> ChatSettingsTemplate{
         if (jsonResult_dict!["mmap"] != nil){
             tmp_template.mmap = jsonResult_dict!["mmap"] as! Bool
         }
-//        var mirostat_tau:Float = 5
-//        var mirostat_eta :Float =  0.1
-//        var grammar:String = "<None>"
-//        var numberOfThreads:Int32 = 0
-//        var add_bos_token:Bool =  true
-//        var add_eos_token:Bool = false
-//        var mmap:Bool = true
-//        var mlock:Bool = false
-//        var mirostat:Int32 =  0
-//        var tfs_z:Float =  1
-//        var typical_p:Float = 1
+        //        var mirostat_tau:Float = 5
+        //        var mirostat_eta :Float =  0.1
+        //        var grammar:String = "<None>"
+        //        var numberOfThreads:Int32 = 0
+        //        var add_bos_token:Bool =  true
+        //        var add_eos_token:Bool = false
+        //        var mmap:Bool = true
+        //        var mlock:Bool = false
+        //        var mirostat:Int32 =  0
+        //        var tfs_z:Float =  1
+        //        var typical_p:Float = 1
     }
     catch {
         print(error)
@@ -151,7 +151,7 @@ public func get_chat_info(_ chat_fname:String) -> Dictionary<String, AnyObject>?
 
 public func duplicate_chat(_ chat:Dictionary<String, String>) -> Bool{
     do{
-                                
+        
         if chat["chat"] != nil{
             var chat_info = get_chat_info(chat["chat"]!)
             if chat_info == nil{
@@ -222,12 +222,12 @@ public func get_chats_list() -> [Dictionary<String, String>]?{
         let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
         print(documentsPath)
         let destinationURL = documentsPath!.appendingPathComponent("chats")
-//        let files = try fileManager.contentsOfDirectory(atPath: destinationURL.path)
+        //        let files = try fileManager.contentsOfDirectory(atPath: destinationURL.path)
         let files = try fileManager.contentsOfDirectory(at: destinationURL, includingPropertiesForKeys: nil, options: .skipsHiddenFiles).sorted(by: {
             let date0 = try $0.promisedItemResourceValues(forKeys:[.contentModificationDateKey]).contentModificationDate!
             let date1 = try $1.promisedItemResourceValues(forKeys:[.contentModificationDateKey]).contentModificationDate!
             return date0.compare(date1) == .orderedDescending
-         })
+        })
         for chatfile_url in files {
             let chatfile = chatfile_url.lastPathComponent
             if chatfile.contains(".json"){
@@ -260,7 +260,14 @@ public func get_chats_list() -> [Dictionary<String, String>]?{
                 if (info!["context"] != nil){
                     message += " ctx:" + (info!["context"] as! Int32).description
                 }
-                let tmp_chat_info = ["title":title,"icon":icon, "message":message, "time": "10:30 AM","model":model,"chat":chatfile]
+                var mmodal = "0"
+                if (info!["clip_model"] != nil){
+                    let clip = info!["clip_model"] as! String
+                    if clip.hasSuffix(".gguf"){
+                        mmodal = "1"
+                    }
+                }
+                let tmp_chat_info = ["title":title,"icon":icon, "message":message, "time": "10:30 AM","model":model,"chat":chatfile,"mmodal":mmodal]
                 res.append(tmp_chat_info)
             }
         }
@@ -340,7 +347,7 @@ public func get_models_list(dir:String = "models") -> [Dictionary<String, String
         let files = try fileManager.contentsOfDirectory(atPath: destinationURL.path)
         for modelfile in files {
             if modelfile.hasSuffix(".bin") || modelfile.hasSuffix(".gguf"){
-//                let info = get_chat_info(modelfile)!
+                //                let info = get_chat_info(modelfile)!
                 let tmp_chat_info = ["icon":"square.stack.3d.up.fill","file_name":modelfile,"description":""]
                 res.append(tmp_chat_info)
             }
@@ -363,7 +370,7 @@ public func get_datasets_list() -> [Dictionary<String, String>]?{
         let files = try fileManager.contentsOfDirectory(atPath: destinationURL.path)
         for modelfile in files {
             if modelfile.hasSuffix(".txt"){
-//                let info = get_chat_info(modelfile)!
+                //                let info = get_chat_info(modelfile)!
                 let tmp_chat_info = ["icon":"square.stack.3d.up.fill","file_name":modelfile,"description":""]
                 res.append(tmp_chat_info)
             }
@@ -385,7 +392,7 @@ public func get_loras_list() -> [Dictionary<String, String>]?{
         let files = try fileManager.contentsOfDirectory(atPath: destinationURL.path)
         for modelfile in files {
             if modelfile.hasSuffix(".bin"){
-//                let info = get_chat_info(modelfile)!
+                //                let info = get_chat_info(modelfile)!
                 let tmp_chat_info = ["icon":"square.stack.3d.up.fill","file_name":modelfile,"description":""]
                 res.append(tmp_chat_info)
             }
@@ -420,12 +427,12 @@ public func get_grammars_list() -> [String]?{
     var res: [String] = []
     res.append("<None>")
     do {
-//        var gbnf_path=Bundle.main.resourcePath!.appending("/grammars")
-//        let gbnf_files = try FileManager.default.contentsOfDirectory(atPath: gbnf_path)
-//        for gbnf_file in gbnf_files {
-//            let tmp_chat_info = ["file_name":gbnf_file,"location":"res"]
-//            res.append(tmp_chat_info)
-//        }
+        //        var gbnf_path=Bundle.main.resourcePath!.appending("/grammars")
+        //        let gbnf_files = try FileManager.default.contentsOfDirectory(atPath: gbnf_path)
+        //        for gbnf_file in gbnf_files {
+        //            let tmp_chat_info = ["file_name":gbnf_file,"location":"res"]
+        //            res.append(tmp_chat_info)
+        //        }
         let fileManager = FileManager.default
         let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
         let destinationURL = documentsPath!.appendingPathComponent("grammars")
@@ -433,7 +440,7 @@ public func get_grammars_list() -> [String]?{
         let files = try fileManager.contentsOfDirectory(atPath: destinationURL.path)
         for gbnf_file in files {
             if gbnf_file.hasSuffix(".gbnf"){
-//                let tmp_chat_info = ["file_name":gbnf_file,"location":"doc"]
+                //                let tmp_chat_info = ["file_name":gbnf_file,"location":"doc"]
                 res.append(gbnf_file)
             }
         }
@@ -467,12 +474,13 @@ func create_chat(_ in_options:Dictionary<String, Any>,edit_chat_dialog:Bool = fa
     do {
         var options:Dictionary<String, Any> = [:]
         for (key, value) in in_options {
-                print("\(key) : \(value)")
+            print("\(key) : \(value)")
             if !save_as_template {
                 options[key] = value
                 continue
             }
-            if key != "lora_adapters" && key != "model" && key != "title" && key != "icon"{
+            if key != "lora_adapters" && key != "model" && key != "clip_model"
+                && key != "title" && key != "icon"{
                 options[key] = value
             }
         }
@@ -519,6 +527,109 @@ func get_file_name_without_ext(fileName:String) -> String{
         return fileName
     }
 }
+
+
+//func saveJpeg(imageName: String, path: URL) {
+//    let image = NSImage (named: imageName)!
+//    let imageRepresentation = NSBitmapImageRep(data: image.tiffRepresentation!)
+//    let jpegData = imageRepresentation?.representation(using: .jpeg, properties:[:])
+//    do{
+//        try jpegData!.write(to: path)
+//    } catch {
+//        print (error)
+//    }
+//}
+//
+//func savePNG(imageName: String, path: URL) {
+//    let image = NSImage (named: imageName)!
+//    let imageRepresentation = NSBitmapImageRep(data: image.tiffRepresentation!)
+//    let pngData = imageRepresentation?.representation(using: .png, properties:[:])
+//    do{
+//        try pngData!.write(to: path)
+//    } catch {
+//        print (error)
+//    }
+//}
+
+
+
+#if os(macOS)
+
+func save_image_from_library_to_cache(_ image: NSImage?) -> String?{
+    do {
+        if image == nil{
+            return nil
+        }
+        let fileManager = FileManager.default
+        let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+        let destinationURL = documentsPath!.appendingPathComponent("cache/images")
+        try fileManager.createDirectory (at: destinationURL, withIntermediateDirectories: true, attributes: nil)
+        let today = Date()
+        let timeInterval = today.timeIntervalSince1970
+        let salt = "_" + String(Int(timeInterval))
+        let fileName = "im"+salt+".jpg"
+        let fileURL = destinationURL.appendingPathComponent(fileName)
+        let resized_img = image?.resizeMaintainingAspectRatio(withSize: NSSize(width: 1024, height: 1024))
+        if resized_img == nil{
+            print("image resizing error")
+            return nil
+        }
+        let imageRepresentation = NSBitmapImageRep(data: resized_img!.tiffRepresentation!)
+        let jpegData = imageRepresentation?.representation(using: .jpeg, properties:[:])
+//        !FileManager.default.fileExists(atPath: fileURL.path)
+        try jpegData?.write(to: fileURL)
+        print("file saved")
+        return fileName
+    } catch {
+        print("error:", error)
+    }
+    return nil
+}
+#endif
+#if os(iOS)
+func save_image_from_library_to_cache(_ image: UIImage?) -> String?{
+    do {
+        if image == nil{
+            return nil
+        }
+        let fileManager = FileManager.default
+        let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+        let destinationURL = documentsPath!.appendingPathComponent("cache/images")
+        try fileManager.createDirectory (at: destinationURL, withIntermediateDirectories: true, attributes: nil)
+        let today = Date()
+        let timeInterval = today.timeIntervalSince1970
+        let salt = "_" + String(Int(timeInterval))
+        let fileName = "im"+salt+".jpg"
+        let fileURL = destinationURL.appendingPathComponent(fileName)
+        let dimension: CGFloat = 1024
+        var framework: UIImage.ResizeFramework = .accelerate
+        var startTime = Date()
+        let image = image!.resizeWithScaleAspectFitMode(to: dimension, resizeFramework: framework)
+        if image == nil{
+            return nil
+        }
+        if let data = image!.jpegData(compressionQuality:  1),
+           !FileManager.default.fileExists(atPath: fileURL.path) {
+            // writes the image data to disk
+            try data.write(to: fileURL)
+            print("file saved")
+            return fileName
+        }
+    } catch {
+        print("error:", error)
+    }
+    return nil
+}
+#endif
+//extension Image {
+//    func getNSImage(newSize: CGSize) -> NSImage? {
+//        let image = resizable()
+//            .scaledToFill()
+//            .frame(width: newSize.width, height: newSize.height)
+//            .clipped()
+//        return ImageRenderer(content: image).nsImage
+//    }
+//}
 
 func get_path_by_short_name(_ short_name:String, dest:String = "models") -> String? {
     //#if os(iOS) || os(watchOS) || os(tvOS)
@@ -608,9 +719,10 @@ func load_chat_history(_ fname:String) -> [Message]?{
                 tmp_msg.sender = .user
                 tmp_msg.state = .typed
             }
-            if (row["tok_sec"] != nil){
-                tmp_msg.tok_sec = Double(row["tok_sec"]!) ?? 0
-            }
+            
+            tmp_msg.tok_sec = Double(row["tok_sec"] ?? "") ?? 0
+            tmp_msg.attachment_type = row["attachment_type"]
+            tmp_msg.attachment = row["attachment"]
             res.append(tmp_msg)
         }
     }
@@ -673,7 +785,7 @@ func copyModelToSandbox (url: URL, dest:String = "models") -> String?{
             } catch {
                 print(error.localizedDescription)
             }
-//            CFURLStopAccessingSecurityScopedResource(url as CFURL) // <- and here
+            //            CFURLStopAccessingSecurityScopedResource(url as CFURL) // <- and here
             return actualPath.lastPathComponent
             //#endif
         }
@@ -698,8 +810,14 @@ func save_chat_history(_ messages_raw: [Message],_ fname:String){
                            "state":String(describing: message.state) as AnyObject,
                            "text":message.text as AnyObject,
                            "tok_sec":String(message.tok_sec) as AnyObject]
-            if (message.header != ""){
+            if message.header != ""{
                 tmp_msg["header"] = message.header as AnyObject
+            }
+            if message.attachment != nil{
+                tmp_msg["attachment"] = message.attachment as AnyObject
+            }
+            if message.attachment_type != nil{
+                tmp_msg["attachment_type"] = message.attachment_type as AnyObject
             }
             messages.append(tmp_msg)
         }

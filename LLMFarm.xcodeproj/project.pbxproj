@@ -58,6 +58,9 @@
 		15B9D7442A4B55EA00276782 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B9D7412A4B55E900276782 /* MetalKit.framework */; };
 		15C08A5F2B9DF6D2000A1BE0 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C08A5E2B9DF6D2000A1BE0 /* main.swift */; };
 		15C08A642B9DF6F7000A1BE0 /* llmfarm_core in Frameworks */ = {isa = PBXBuildFile; productRef = 15C08A632B9DF6F7000A1BE0 /* llmfarm_core */; };
+		15C08A662BA3705D000A1BE0 /* ModelSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C08A652BA3705D000A1BE0 /* ModelSelector.swift */; };
+		15C08A682BA5976A000A1BE0 /* MessageImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C08A672BA5976A000A1BE0 /* MessageImage.swift */; };
+		15C08A6A2BA5CB2C000A1BE0 /* MobileVLM.json in Resources */ = {isa = PBXBuildFile; fileRef = 15C08A692BA5CB2C000A1BE0 /* MobileVLM.json */; };
 		15D8FE902AF80D7600B5C90D /* FineTuneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D8FE8F2AF80D7600B5C90D /* FineTuneView.swift */; };
 		15E086C42AEAC69B006459DE /* FineTuneModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E086C32AEAC69B006459DE /* FineTuneModel.swift */; };
 		15E415D42A18A2980057A15E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E415D32A18A2980057A15E /* main.swift */; };
@@ -115,11 +118,9 @@
 /* Begin PBXFileReference section */
 		1509BA5F2B1E6FD400703BC0 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		1509BA612B1F1D7000703BC0 /* LLMTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLMTextView.swift; sourceTree = "<group>"; };
-		15141E362A6488A60060E767 /* Replit 3B.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Replit 3B.json"; sourceTree = "<group>"; };
 		15141E372A6488A60060E767 /* dolly v2 3b.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "dolly v2 3b.json"; sourceTree = "<group>"; };
 		15141E382A6488A60060E767 /* orca mini 3b.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "orca mini 3b.json"; sourceTree = "<group>"; };
 		15141E392A6488A60060E767 /* openllama 3b.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "openllama 3b.json"; sourceTree = "<group>"; };
-		15141E3A2A6488A60060E767 /* rp-incite-base-v1-3b.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "rp-incite-base-v1-3b.json"; sourceTree = "<group>"; };
 		15141E3B2A6488A60060E767 /* santacoder.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = santacoder.json; sourceTree = "<group>"; };
 		15141E3C2A6488A60060E767 /* saiga 7B.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "saiga 7B.json"; sourceTree = "<group>"; };
 		15141E3D2A6488A60060E767 /* cerebras 2.7b.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "cerebras 2.7b.json"; sourceTree = "<group>"; };
@@ -168,6 +169,9 @@
 		15B9D7412A4B55E900276782 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.4.sdk/System/Library/Frameworks/MetalKit.framework; sourceTree = DEVELOPER_DIR; };
 		15C08A5C2B9DF6D1000A1BE0 /* LLaVATest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = LLaVATest; sourceTree = BUILT_PRODUCTS_DIR; };
 		15C08A5E2B9DF6D2000A1BE0 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		15C08A652BA3705D000A1BE0 /* ModelSelector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelSelector.swift; sourceTree = "<group>"; };
+		15C08A672BA5976A000A1BE0 /* MessageImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageImage.swift; sourceTree = "<group>"; };
+		15C08A692BA5CB2C000A1BE0 /* MobileVLM.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = MobileVLM.json; sourceTree = "<group>"; };
 		15D8FE8F2AF80D7600B5C90D /* FineTuneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FineTuneView.swift; sourceTree = "<group>"; };
 		15E086C32AEAC69B006459DE /* FineTuneModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FineTuneModel.swift; sourceTree = "<group>"; };
 		15E415D12A18A2970057A15E /* ModelTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ModelTest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -241,6 +245,7 @@
 		15141E332A64875F0060E767 /* model_setting_templates */ = {
 			isa = PBXGroup;
 			children = (
+				15C08A692BA5CB2C000A1BE0 /* MobileVLM.json */,
 				159C699A2A9A52D200F74913 /* llama chat 2 7B iphone 12.json */,
 				157EFB052ABF3209001E0C7A /* llama chat 2 7B new.json */,
 				1532BF7D2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json */,
@@ -250,8 +255,6 @@
 				15141E372A6488A60060E767 /* dolly v2 3b.json */,
 				15141E392A6488A60060E767 /* openllama 3b.json */,
 				15141E382A6488A60060E767 /* orca mini 3b.json */,
-				15141E362A6488A60060E767 /* Replit 3B.json */,
-				15141E3A2A6488A60060E767 /* rp-incite-base-v1-3b.json */,
 				15141E3C2A6488A60060E767 /* saiga 7B.json */,
 				15141E3B2A6488A60060E767 /* santacoder.json */,
 				15141E3F2A6488A70060E767 /* stablelm-tuned-alpha-3b.json */,
@@ -282,6 +285,7 @@
 				158DAA532B8655AE00550274 /* ModelDownloadItem.swift */,
 				15A3EDC32A2121D90030AF5A /* ModelinfoItem.swift */,
 				15B7BE9C2A968399006624BD /* MacEditorTextView.swift */,
+				15C08A652BA3705D000A1BE0 /* ModelSelector.swift */,
 				15A3EDC22A2121D90030AF5A /* ModelsView.swift */,
 				15B1B9D92AF588FD0058F275 /* SettingsMenuItem.swift */,
 				15A3EDC02A2121D90030AF5A /* SettingsHeaderItem.swift */,
@@ -305,6 +309,7 @@
 				156A48CF2A52B55B007DF519 /* SplitViews.swift */,
 				1509BA612B1F1D7000703BC0 /* LLMTextView.swift */,
 				151746A12B585B030074FF35 /* LLMTextInput.swift */,
+				15C08A672BA5976A000A1BE0 /* MessageImage.swift */,
 			);
 			path = Chats;
 			sourceTree = "<group>";
@@ -566,6 +571,7 @@
 				15F210852A191B1B0021F414 /* Assets.xcassets in Resources */,
 				1532BF7E2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json in Resources */,
 				1532BF7C2AA113AD006DC514 /* RWKV-4 Raven Eng.json in Resources */,
+				15C08A6A2BA5CB2C000A1BE0 /* MobileVLM.json in Resources */,
 				157EFB062ABF3209001E0C7A /* llama chat 2 7B new.json in Resources */,
 				158DAA522B83C0B700550274 /* downloadable_models.json in Resources */,
 			);
@@ -606,6 +612,7 @@
 				15A3EDCC2A2121D90030AF5A /* ModelinfoItem.swift in Sources */,
 				156A48D02A52B55B007DF519 /* SplitViews.swift in Sources */,
 				158FC6DB2AA3457A00A181B4 /* log_helper.swift in Sources */,
+				15C08A662BA3705D000A1BE0 /* ModelSelector.swift in Sources */,
 				15FB67422B1BDB0800174379 /* ExportLoraView.swift in Sources */,
 				15A3EDCD2A2121D90030AF5A /* ChatListView.swift in Sources */,
 				156A48D22A52B65C007DF519 /* Orientation_helper.swift in Sources */,
@@ -630,6 +637,7 @@
 				1532BF7A2A9FA885006DC514 /* GetDeviceInfo.swift in Sources */,
 				15584A5C2AAB994100EC9C9C /* DownloadManager.swift in Sources */,
 				15584A5E2AABA09300EC9C9C /* DidEndEditingTextField.swift in Sources */,
+				15C08A682BA5976A000A1BE0 /* MessageImage.swift in Sources */,
 				1509BA602B1E6FD400703BC0 /* Extensions.swift in Sources */,
 				15A3EDCE2A2121D90030AF5A /* OnlineUserView.swift in Sources */,
 				15A3EDCA2A2121D90030AF5A /* SettingsHeaderItem.swift in Sources */,
@@ -756,7 +764,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "\"LLMFarm/Preview Content\"";
 				DEVELOPMENT_TEAM = C66ZA422A7;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -781,7 +789,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 0.9.5;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.guinmoon.LLMFarm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -805,7 +813,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "\"LLMFarm/Preview Content\"";
 				DEVELOPMENT_TEAM = C66ZA422A7;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -830,7 +838,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 0.9.5;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.guinmoon.LLMFarm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

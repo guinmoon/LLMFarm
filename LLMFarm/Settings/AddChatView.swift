@@ -14,13 +14,13 @@ import UniformTypeIdentifiers
 
 
 struct AddChatView: View {
-        
+    
     @Binding var add_chat_dialog: Bool
     @Binding var edit_chat_dialog: Bool
     @Binding var toggleSettings: Bool
     @EnvironmentObject var aiChatModel: AIChatModel
     
-//    @State private var chat_config: Dictionary<String, AnyObject> = [:]
+    //    @State private var chat_config: Dictionary<String, AnyObject> = [:]
     
     //    @State private var model_file: InputDoument = InputDoument(input: "")
     @State private var isPredictionAccordionExpanded: Bool = false
@@ -28,12 +28,17 @@ struct AddChatView: View {
     @State private var isPromptAccordionExpanded: Bool = false
     @State private var model_file_url: URL = URL(filePath: "/")
     @State private var model_file_path: String = "Select model"
-    //    @State private var model_file_name: String = ""
-    @State private var lora_file_url: URL = URL(filePath: "/")    
-    @State private var lora_file_path: String = "Add LoRA adapter"
-    @State private var lora_file_scale: Float = 1.0
     @State private var model_title: String = ""
+    
+    @State private var clip_model_file_url: URL = URL(filePath: "/")
+    @State private var clip_model_file_path: String = "Select Clip model"
+    @State private var clip_model_title: String = ""
+    
+    @State private var lora_file_url: URL = URL(filePath: "/")
+    @State private var lora_file_path: String = "Add LoRA adapter"
     @State private var lora_title: String = ""
+    @State private var lora_file_scale: Float = 1.0
+    
     @State private var model_context: Int32 = 1024
     @State private var model_n_batch: Int32 = 512
     @State private var model_temp: Float = 0.9
@@ -51,7 +56,7 @@ struct AddChatView: View {
     @State private var use_metal: Bool = false
     @State private var mlock: Bool = false
     @State private var mmap: Bool = true
-    @State private var isModelImporting: Bool = false
+    
     @State private var isLoraImporting: Bool = false
     @State private var tfs_z: Float = 1.0
     @State private var typical_p: Float = 1.0
@@ -59,6 +64,9 @@ struct AddChatView: View {
     @State private var add_bos_token: Bool = true
     @State private var add_eos_token: Bool = false
     @State private var parse_special_tokens: Bool = true
+    
+    @State private var has_lora: Bool = false
+    @State private var has_clip: Bool = false
     
     @State private var lora_adapters: [Dictionary<String, Any>] = []
     
@@ -74,7 +82,10 @@ struct AddChatView: View {
     @State var save_as_template_name:String = "My Template"
     
     @State private var model_inference = "llama"
-    let model_inferences = ["gptneox", "llama", "gpt2", "replit", "starcoder", "rwkv"]
+    @State private var ggjt_v3_inference = "gpt2"
+    
+    let model_inferences = ["llama","rwkv","ggjt_v3"]
+    let ggjt_v3_inferences = ["gptneox", "gpt2", "replit", "starcoder"]
     
     @State private var model_sampling = "temperature"
     let model_samplings = ["temperature", "greedy", "mirostat", "mirostat_v2"]
@@ -103,7 +114,7 @@ struct AddChatView: View {
     }
     
     init(add_chat_dialog: Binding<Bool>,edit_chat_dialog:Binding<Bool>,
-        chat_name:String,renew_chat_list: Binding<() -> Void>,toggleSettings: Binding<Bool>) {
+         chat_name:String,renew_chat_list: Binding<() -> Void>,toggleSettings: Binding<Bool>) {
         self._add_chat_dialog = add_chat_dialog
         self._edit_chat_dialog = edit_chat_dialog
         self._renew_chat_list = renew_chat_list
@@ -114,13 +125,16 @@ struct AddChatView: View {
             return
         }
         
-//        self._chat_config = State(initialValue: chat_config!)
+        //        self._chat_config = State(initialValue: chat_config!)
         
         if (chat_config!["title"] != nil){
             self._model_title = State(initialValue: chat_config!["title"]! as! String)
         }
         if (chat_config!["model"] != nil){
             self._model_file_path = State(initialValue: chat_config!["model"]! as! String)
+        }
+        if (chat_config!["clip_model"] != nil){
+            self._clip_model_file_path = State(initialValue: chat_config!["clip_model"]! as! String)
         }
         if chat_config!["lora_adapters"] != nil{
             let adapters = chat_config!["lora_adapters"]! as?  [Dictionary<String, Any>]
@@ -240,7 +254,7 @@ struct AddChatView: View {
         model_top_p = template.top_p
         model_repeat_penalty = template.repeat_penalty
         model_repeat_last_n = template.repeat_last_n
-//        warm_prompt = template.warm_prompt
+        //        warm_prompt = template.warm_prompt
         reverse_prompt = template.reverse_prompt
         use_metal = template.use_metal
         mirostat = template.mirostat
@@ -264,33 +278,34 @@ struct AddChatView: View {
     
     func get_chat_options_dict(is_template:Bool = false) -> Dictionary<String, Any> {
         var options:Dictionary<String, Any> =    ["model":model_file_path,
-                                               "lora_adapters":lora_adapters,
-                                               "title":model_title,
-                                               "icon":model_icon,
-                                               "model_inference":model_inference,
-                                               "use_metal":use_metal,
-                                               "mlock":mlock,
-                                               "mmap":mmap,
-                                               "prompt_format":prompt_format,
-                                               "warm_prompt":warm_prompt,
-                                               "reverse_prompt":reverse_prompt,
-                                               "numberOfThreads":Int32(numberOfThreads),
-                                               "context":Int32(model_context),
-                                               "n_batch":Int32(model_n_batch),
-                                               "temp":Float(model_temp),
-                                               "repeat_last_n":Int32(model_repeat_last_n),
-                                               "repeat_penalty":Float(model_repeat_penalty),
-                                               "top_k":Int32(model_top_k),
-                                               "top_p":Float(model_top_p),
-                                               "mirostat":mirostat,
-                                               "mirostat_eta":mirostat_eta,
-                                               "mirostat_tau":mirostat_tau,
-                                               "tfs_z":tfs_z,
-                                               "typical_p":typical_p,
-                                               "grammar":grammar,
-                                               "add_bos_token":add_bos_token,
-                                               "add_eos_token":add_eos_token,
-                                               "parse_special_tokens":parse_special_tokens
+                                                  "clip_model":clip_model_file_path,
+                                                  "lora_adapters":lora_adapters,
+                                                  "title":model_title,
+                                                  "icon":model_icon,
+                                                  "model_inference":model_inference,
+                                                  "use_metal":use_metal,
+                                                  "mlock":mlock,
+                                                  "mmap":mmap,
+                                                  "prompt_format":prompt_format,
+                                                  "warm_prompt":warm_prompt,
+                                                  "reverse_prompt":reverse_prompt,
+                                                  "numberOfThreads":Int32(numberOfThreads),
+                                                  "context":Int32(model_context),
+                                                  "n_batch":Int32(model_n_batch),
+                                                  "temp":Float(model_temp),
+                                                  "repeat_last_n":Int32(model_repeat_last_n),
+                                                  "repeat_penalty":Float(model_repeat_penalty),
+                                                  "top_k":Int32(model_top_k),
+                                                  "top_p":Float(model_top_p),
+                                                  "mirostat":mirostat,
+                                                  "mirostat_eta":mirostat_eta,
+                                                  "mirostat_tau":mirostat_tau,
+                                                  "tfs_z":tfs_z,
+                                                  "typical_p":typical_p,
+                                                  "grammar":grammar,
+                                                  "add_bos_token":add_bos_token,
+                                                  "add_eos_token":add_eos_token,
+                                                  "parse_special_tokens":parse_special_tokens
         ]
         if is_template{
             options["template_name"] = save_as_template_name
@@ -298,7 +313,7 @@ struct AddChatView: View {
         return options
     }
     
-   
+    
     
     var body: some View {
         ZStack{
@@ -309,7 +324,7 @@ struct AddChatView: View {
                     Button {
                         Task {
                             add_chat_dialog = false
-//                            edit_chat_dialog = false
+                            //                            edit_chat_dialog = false
                         }
                     } label: {
                         Text("Cancel")
@@ -322,25 +337,32 @@ struct AddChatView: View {
                     Spacer()
                     Button {
                         Task {
-//                            if !edit_chat_dialog {
-                                if model_file_url.path != "/"{
-                                    print(model_file_url.path)
-                                    let sandbox_path = copyModelToSandbox(url: model_file_url,dest: "models")
-                                    if sandbox_path != nil{
-                                        model_file_path = sandbox_path!
-                                    }
+                            //                            if !edit_chat_dialog {
+                            if model_file_url.path != "/"{
+                                print(model_file_url.path)
+                                let sandbox_path = copyModelToSandbox(url: model_file_url,dest: "models")
+                                if sandbox_path != nil{
+                                    model_file_path = sandbox_path!
                                 }
-                                if lora_file_url.path != "/"{
-                                    print(lora_file_url.path)
-                                    let sandbox_path = copyModelToSandbox(url: lora_file_url,dest: "lora_adapters")
-                                    if sandbox_path != nil{
-                                        lora_file_path = sandbox_path!
-                                    }
+                            }
+                            if lora_file_url.path != "/"{
+                                print(lora_file_url.path)
+                                let sandbox_path = copyModelToSandbox(url: lora_file_url,dest: "lora_adapters")
+                                if sandbox_path != nil{
+                                    lora_file_path = sandbox_path!
                                 }
-                                //#if os(macOS)
-                                
-                                //#endif
-//                            }
+                            }
+                            if clip_model_file_url.path != "/"{
+                                print(clip_model_file_url.path)
+                                let sandbox_path = copyModelToSandbox(url: clip_model_file_url,dest: "models")
+                                if sandbox_path != nil{
+                                    clip_model_file_path = sandbox_path!
+                                }
+                            }
+                            //#if os(macOS)
+                            
+                            //#endif
+                            //                            }
                             lora_adapters.append(["adapter":lora_file_path,"scale":lora_file_scale])
                             let options = get_chat_options_dict()
                             _ = create_chat(options,edit_chat_dialog:self.edit_chat_dialog,chat_name:self.chat_name)
@@ -360,140 +382,101 @@ struct AddChatView: View {
                 }
                 
                 ScrollView(showsIndicators: false){
+                    
+                    HStack {
+#if os(macOS)
+                        DidEndEditingTextField(text: $model_title,didEndEditing: { newName in})
+                            .frame(maxWidth: .infinity, alignment: .leading)
+#else
+                        TextField("Title...", text: $model_title)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .textFieldStyle(.plain)
+#endif
+                        
+                    }
+                    .padding([.trailing, .leading, .top])
+                    
                     VStack(alignment: .leading, spacing: 5){
+                        
+                        ModelSelector(  models_previews:$models_previews,
+                                        model_file_path:$model_file_path,
+                                        model_file_url:$model_file_url,
+                                        model_title:$model_title,
+                                        toggleSettings:$toggleSettings,
+                                        edit_chat_dialog:$edit_chat_dialog,
+                                        import_lable:"Import from file...",
+                                        download_lable:"Download models...",
+                                        selection_lable:"Select Model...",
+                                        avalible_lable:"Avalible models")
+                        .padding([.trailing, .leading, .top])
+#if os(iOS)
+                        .padding(.bottom)
+#endif
                         HStack {
-                            Menu {
-                                Button {
-                                    Task {
-                                        isModelImporting = true
-                                    }
-                                } label: {
-                                    Label("Import from file...", systemImage: "plus.app")
-                                }
-                                
-                                if !edit_chat_dialog{
-                                    Button {
-                                        Task {
-                                            toggleSettings = true
-                                        }
-                                    } label: {
-                                        Label("Download models...", systemImage: "icloud.and.arrow.down")
-                                    }
-                                    
-                                }
-                                 
-                                Divider()
-                                
-                                Section("Avalible models") {
-                                    ForEach(models_previews, id: \.self) { model in
-                                        Button(model["file_name"]!){
-//                                            model_file_name = model["file_name"]!
-                                            model_file_path = model["file_name"]!
-                                            model_title = get_file_name_without_ext(fileName:model_file_path)
-                                        }
-                                    }
-                                }
-                            } label: {
-                                Label(model_file_path == "" ?"Select Model...":model_file_path, systemImage: "ellipsis.circle")
-                            }.padding()
+                            Toggle("Clip", isOn: $has_clip)
+                                .frame(maxWidth: 120, alignment: .trailing)
+                            Toggle("LoRa", isOn: $has_lora)
+                                .frame(maxWidth: 120, alignment: .trailing)
+                            Spacer()
                         }
-                        .fileImporter(
-                            isPresented: $isModelImporting,
-                            allowedContentTypes: [.data],
-                            allowsMultipleSelection: false
-                        ) { result in
-                            do {
-                                guard let selectedFile: URL = try result.get().first else { return }
-                                //                                model_file.input = selectedFile.lastPathComponent
-//                                model_file_name = selectedFile.lastPathComponent
-                                model_file_url = selectedFile
-                                //                                    saveBookmark(url: selectedFile)
-                                //#if os(iOS) || os(watchOS) || os(tvOS)
-                                model_file_path = selectedFile.lastPathComponent
-                                //#else
-                                //                                    model_file_path = selectedFile.path
-                                //#endif
-                                model_title = get_file_name_without_ext(fileName:selectedFile.lastPathComponent)
-                            } catch {
-                                // Handle failure.
-                                print("Unable to read file contents")
-                                print(error.localizedDescription)
+                        .padding([.trailing, .leading, .top])
+#if os(iOS)
+                        .padding([.bottom])
+#endif
+                        
+                        if has_clip {
+                            ModelSelector(  models_previews:$models_previews,
+                                            model_file_path:$clip_model_file_path,
+                                            model_file_url:$clip_model_file_url,
+                                            model_title:$clip_model_title,
+                                            toggleSettings:$toggleSettings,
+                                            edit_chat_dialog:$edit_chat_dialog,
+                                            import_lable:"Import from file...",
+                                            download_lable:"Download models...",
+                                            selection_lable:"Select Clip Model...",
+                                            avalible_lable:"Avalible models")
+                            .padding([.trailing, .leading, .top])
+#if os(iOS)
+                            .padding(.bottom)
+#endif
+                        }
+                        if has_lora {
+                            HStack {
+                                ModelSelector(  models_previews:$loras_previews,
+                                                model_file_path:$lora_file_path,
+                                                model_file_url:$lora_file_url,
+                                                model_title:$lora_title,
+                                                toggleSettings:$toggleSettings,
+                                                edit_chat_dialog:$edit_chat_dialog,
+                                                import_lable:"Import from file...",
+                                                download_lable:"Download models...",
+                                                selection_lable:"Select Adapter...",
+                                                avalible_lable:"Avalible adapters")
+                                .padding([.trailing, .leading, .top])
+#if os(iOS)
+                                .padding(.bottom)
+#endif
+                                Spacer()
+                                
+                                TextField("Scale..", value: $lora_file_scale, format:.number)
+                                    .frame( maxWidth: 50, alignment: .leading)
+                                    .multilineTextAlignment(.trailing)
+                                    .textFieldStyle(.plain)
+                                    .padding(.trailing)
+                                //                                .padding(.bottom)
+#if os(iOS)
+                                    .keyboardType(.numbersAndPunctuation)
+#endif
                             }
                         }
                         
-                        HStack {
-
-                            Menu {
-                                Button {
-                                    Task {
-                                        isLoraImporting = true
-                                    }
-                                } label: {
-                                    Label("Import from file...", systemImage: "plus.app")
-                                }
-                                
-                                Divider()
-                                
-                                Section("Avalible adapters") {
-                                    ForEach(loras_previews, id: \.self) { model in
-                                        Button(model["file_name"]!){
-//                                            model_file_name = model["file_name"]!
-                                            lora_file_path = model["file_name"]!
-                                            lora_title = get_file_name_without_ext(fileName:lora_file_path)
-                                        }
-                                    }
-                                }
-                            } label: {
-                                Label(lora_file_path == "" ?"Select File...":lora_file_path, systemImage: "ellipsis.circle")
-                            }.padding(.leading)
-                                .padding(.bottom)
-                            
-                            TextField("Scale..", value: $lora_file_scale, format:.number)
-                                .frame( maxWidth: 50, alignment: .leading)
-                                .multilineTextAlignment(.trailing)
-                                .textFieldStyle(.plain)
-                                .padding(.trailing)
-                                .padding(.bottom)
-#if os(iOS)
-                                .keyboardType(.numbersAndPunctuation)
-#endif
-                        }
-                        .fileImporter(
-                            isPresented: $isLoraImporting,
-                            allowedContentTypes: [.data],
-                            allowsMultipleSelection: false
-                        ) { result in
-                            do {
-                                guard let selectedFile: URL = try result.get().first else { return }
-                                lora_file_url = selectedFile
-                                lora_file_path = selectedFile.lastPathComponent
-                                lora_title = get_file_name_without_ext(fileName:selectedFile.lastPathComponent)
-                            } catch {
-                                print("Unable to add file")
-                                print(error.localizedDescription)
-                            }
-                        }
-
-                        HStack {
-#if os(macOS)
-                            DidEndEditingTextField(text: $model_title,didEndEditing: { newName in})
-                                .frame(maxWidth: .infinity, alignment: .leading)
-#else
-                            TextField("Title...", text: $model_title)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .textFieldStyle(.plain)
-#endif
-                            
-                        }
-                        .padding()
-
                         HStack{
                             Text("Icon:")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                             VStack {
                                 Picker("", selection: $model_icon) {
                                     ForEach(model_icons, id: \.self) {
-//                                        Text($0)
+                                        //                                        Text($0)
                                         Image($0+"_48")
                                             .resizable()
                                             .background( Color("color_bg_inverted").opacity(0.05))
@@ -506,7 +489,9 @@ struct AddChatView: View {
                             }
                             .frame(maxWidth: 80, alignment: .trailing)
                             .frame(height: 48)
-                        }.padding()
+                        }
+                        .padding([.trailing, .leading, .top])
+                        
                         Divider()
                             .padding(.top, 8)
                         
@@ -541,21 +526,7 @@ struct AddChatView: View {
                         .padding(.horizontal)
                         .padding(.top, 8)
                         
-                        if model_inference == "llama"{
-                            HStack{
-                                Text("Grammar sampling:")
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                Picker("", selection: $grammar) {
-                                    ForEach(grammars_previews, id: \.self) {
-                                        Text($0)
-                                    }
-                                }
-                                .pickerStyle(.menu)
-                                
-                            }
-                            .padding(.horizontal)
-                            .padding(.top, 8)
-                        }
+                        
                         
                         DisclosureGroup("Prompt format:", isExpanded: $isPromptAccordionExpanded) {
                             Group {
@@ -623,7 +594,7 @@ struct AddChatView: View {
                                 }
                                 .padding(.horizontal)
                                 .padding(.bottom, 4)
-
+                                
                                 Divider()
                                     .padding(.top, 8)
                             }
@@ -638,9 +609,9 @@ struct AddChatView: View {
                                         .frame( alignment: .leading)
                                         .multilineTextAlignment(.trailing)
                                         .textFieldStyle(.plain)
-    #if os(iOS)
+#if os(iOS)
                                         .keyboardType(.numberPad)
-    #endif
+#endif
                                 }
                                 .padding(.horizontal)
                                 .padding(.top, 5)
@@ -673,9 +644,9 @@ struct AddChatView: View {
                                         .frame( alignment: .leading)
                                         .multilineTextAlignment(.trailing)
                                         .textFieldStyle(.plain)
-    #if os(iOS)
+#if os(iOS)
                                         .keyboardType(.numberPad)
-    #endif
+#endif
                                 }
                                 .padding(.horizontal)
                                 
@@ -686,9 +657,9 @@ struct AddChatView: View {
                                         .frame( alignment: .leading)
                                         .multilineTextAlignment(.trailing)
                                         .textFieldStyle(.plain)
-    #if os(iOS)
+#if os(iOS)
                                         .keyboardType(.numberPad)
-    #endif
+#endif
                                 }
                                 .padding(.horizontal)
                             }
@@ -696,7 +667,21 @@ struct AddChatView: View {
                         
                         DisclosureGroup("Sampling options:", isExpanded: $isSamplingAccordionExpanded) {
                             Group {
-
+                                if model_inference == "llama"{
+                                    HStack{
+                                        Text("Grammar sampling:")
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                        Picker("", selection: $grammar) {
+                                            ForEach(grammars_previews, id: \.self) {
+                                                Text($0)
+                                            }
+                                        }
+                                        .pickerStyle(.menu)
+                                        
+                                    }
+                                    .padding(.horizontal)
+                                    .padding(.top, 8)
+                                }
                                 HStack{
                                     Text("Sampling:")
                                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -725,7 +710,7 @@ struct AddChatView: View {
                                 }
                                 .padding(.horizontal)
                                 .padding(.top, 8)
-
+                                
                                 if model_sampling == "temperature" {
                                     Group {
                                         
@@ -887,19 +872,19 @@ struct AddChatView: View {
                                         let options = get_chat_options_dict(is_template: true)
                                         _ = create_chat(options,edit_chat_dialog:true,chat_name:save_as_template_name + ".json",save_as_template:true)
                                         refresh_templates()
-//                                        save_template_old(model_settings_template.template_name + ".json",
-//                                                      template_name: model_settings_template.template_name,
-//                                                      inference: model_inference,
-//                                                      context: model_context,
-//                                                      n_batch: model_n_batch,
-//                                                      temp: model_temp,
-//                                                      top_k: model_top_k,
-//                                                      top_p: model_top_p,
-//                                                      repeat_last_n: model_repeat_last_n,
-//                                                      repeat_penalty: model_repeat_penalty,
-//                                                      prompt_format: prompt_format,
-//                                                      reverse_prompt: reverse_prompt,
-//                                                      use_metal: use_metal)
+                                        //                                        save_template_old(model_settings_template.template_name + ".json",
+                                        //                                                      template_name: model_settings_template.template_name,
+                                        //                                                      inference: model_inference,
+                                        //                                                      context: model_context,
+                                        //                                                      n_batch: model_n_batch,
+                                        //                                                      temp: model_temp,
+                                        //                                                      top_k: model_top_k,
+                                        //                                                      top_p: model_top_p,
+                                        //                                                      repeat_last_n: model_repeat_last_n,
+                                        //                                                      repeat_penalty: model_repeat_penalty,
+                                        //                                                      prompt_format: prompt_format,
+                                        //                                                      reverse_prompt: reverse_prompt,
+                                        //                                                      use_metal: use_metal)
                                     }
                                 } label: {
                                     Image(systemName: "doc.badge.plus")
@@ -909,29 +894,29 @@ struct AddChatView: View {
                             .frame(maxWidth: .infinity)
                             .padding(.horizontal)
                         }
-//                        if edit_chat_dialog{
-//                            HStack {
-//                                Button {
-//                                    Task {
-//                                        clearChatAlert = true
-//                                    }
-//                                } label: {
-//                                    Image(systemName: "trash")
-//                                    Text("Clear chat history")
-//                                        .foregroundStyle(.red)
-//                                }
-//                                .alert("Are you sure?", isPresented: $clearChatAlert, actions: {
-//                                    Button("Cancel", role: .cancel, action: {})
-//                                    Button("Clear", role: .destructive, action: {
-//                                        aiChatModel.messages = []
-//                                        save_chat_history(aiChatModel.messages,aiChatModel.chat_name+".json")
-//                                    })
-//                                }, message: {
-//                                    Text("The message history will be cleared")
-//                                })
-//                            }
-//                            .padding()
-//                        }
+                        //                        if edit_chat_dialog{
+                        //                            HStack {
+                        //                                Button {
+                        //                                    Task {
+                        //                                        clearChatAlert = true
+                        //                                    }
+                        //                                } label: {
+                        //                                    Image(systemName: "trash")
+                        //                                    Text("Clear chat history")
+                        //                                        .foregroundStyle(.red)
+                        //                                }
+                        //                                .alert("Are you sure?", isPresented: $clearChatAlert, actions: {
+                        //                                    Button("Cancel", role: .cancel, action: {})
+                        //                                    Button("Clear", role: .destructive, action: {
+                        //                                        aiChatModel.messages = []
+                        //                                        save_chat_history(aiChatModel.messages,aiChatModel.chat_name+".json")
+                        //                                    })
+                        //                                }, message: {
+                        //                                    Text("The message history will be cleared")
+                        //                                })
+                        //                            }
+                        //                            .padding()
+                        //                        }
                         
                     }
                 }

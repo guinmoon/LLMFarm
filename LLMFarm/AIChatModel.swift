@@ -56,7 +56,7 @@ final class AIChatModel: ObservableObject {
     }
     
 //    @MainActor
-    public func load_model_by_chat_name(_ chat_name: String,in_text:String) -> Bool?{
+    public func load_model_by_chat_name(_ chat_name: String,in_text:String, img_path: String? = nil) -> Bool?{
         self.model_loading = true
         
         let chat_config = get_chat_info(chat_name)
@@ -91,7 +91,7 @@ final class AIChatModel: ObservableObject {
         AIChatModel_obj_ptr = nil
         self.chat = nil
         self.chat = AI(_modelPath: modelURL,_chatName: chat_name);
-        self.chat?.loadModel_new(model_context_param.model_inference,
+        self.chat?.loadModel(model_context_param.model_inference,
             { progress in
                 DispatchQueue.main.async {
                     self.load_progress = progress
@@ -119,7 +119,7 @@ final class AIChatModel: ObservableObject {
                     text = self.model_context_param.system_prompt+"\n" + text
                     self.messages[self.messages.endIndex - 1].header = self.model_context_param.system_prompt
                 }
-                self.send(message: in_text, append_user_message:false)
+                self.send(message: in_text, append_user_message:false,img_path:img_path)
             },contextParams: model_context_param)
         return true
     }
@@ -194,14 +194,19 @@ final class AIChatModel: ObservableObject {
         self.Title = self.title_backup
     }
 
-    public func send(message in_text: String, append_user_message:Bool = true)  {
+    public func send(message in_text: String, append_user_message:Bool = true, img_path: String? = nil)  {
         var text = in_text
         if append_user_message{
-            let requestMessage = Message(sender: .user, state: .typed, text: text, tok_sec: 0)
+            var attachment_type:String? = nil
+            if img_path != nil{
+                attachment_type = "img"
+            }
+            let requestMessage = Message(sender: .user, state: .typed, text: text, tok_sec: 0,
+                                        attachment:img_path,attachment_type:attachment_type)
             self.messages.append(requestMessage)
         }
         self.AI_typing += 1    
-        self.load_progress = 0
+        
         
         if self.chat != nil{
             if self.chat_name != self.chat?.chatName{
@@ -213,7 +218,10 @@ final class AIChatModel: ObservableObject {
             self.state = .loading
             title_backup = Title
             Title = "loading..."
-            self.load_model_by_chat_name(self.chat_name,in_text:in_text)
+            let res = self.load_model_by_chat_name(self.chat_name,in_text:in_text, img_path: img_path)
+            if res == nil{
+                finish_load(append_err_msg:true,msg_text: "Model load error")
+            }
             return
         }
         self.state = .completed
@@ -227,12 +235,13 @@ final class AIChatModel: ObservableObject {
         self.predicting = true
         self.action_button_icon = "stop.circle"
         self.start_predicting_time = DispatchTime.now()
-        
-        self.chat?.conversation(text, 
+        let img_real_path = get_path_by_short_name(img_path ?? "unknown",dest: "cache/images")
+        self.chat?.conversation(text,
         { str, time in //Predicting
             _ = self.process_predicted_str(str, time, &message, messageIndex)
         }, 
-        { final_str in // Finish predicting            
+        { final_str in // Finish predicting 
+            self.load_progress = 0
             print(final_str)
             self.AI_typing = 0
             self.total_sec = Double((DispatchTime.now().uptimeNanoseconds - self.start_predicting_time.uptimeNanoseconds)) / 1_000_000_000
@@ -255,6 +264,6 @@ final class AIChatModel: ObservableObject {
                 self.messages.append(Message(sender: .system, state: .error, text: "Eval \(final_str)", tok_sec: 0))
             }
             save_chat_history(self.messages,self.chat_name+".json")
-        })
+        },img_path:img_real_path)
     }
 }

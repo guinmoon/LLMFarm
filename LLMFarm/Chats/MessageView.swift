@@ -46,6 +46,7 @@ struct MessageView: View {
                             .font(.footnote)
                             .foregroundColor(Color.gray)
                     }
+                    MessageImage(message: message)
                     Text(message.text)
                         .textSelection(.enabled)
                 }

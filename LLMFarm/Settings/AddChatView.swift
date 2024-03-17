@@ -26,6 +26,8 @@ struct AddChatView: View {
     @State private var isPredictionAccordionExpanded: Bool = false
     @State private var isSamplingAccordionExpanded: Bool = false
     @State private var isPromptAccordionExpanded: Bool = false
+    @State private var isBasicAccordionExpanded: Bool = true
+    @State private var isModelAccordionExpanded: Bool = true
     @State private var model_file_url: URL = URL(filePath: "/")
     @State private var model_file_path: String = "Select model"
     @State private var model_title: String = ""
@@ -83,6 +85,7 @@ struct AddChatView: View {
     
     @State private var model_inference = "llama"
     @State private var ggjt_v3_inference = "gpt2"
+    @State private var model_inference_inner = "llama"
     
     let model_inferences = ["llama","rwkv","ggjt_v3"]
     let ggjt_v3_inferences = ["gptneox", "gpt2", "replit", "starcoder"]
@@ -282,7 +285,7 @@ struct AddChatView: View {
                                                   "lora_adapters":lora_adapters,
                                                   "title":model_title,
                                                   "icon":model_icon,
-                                                  "model_inference":model_inference,
+                                                  "model_inference":model_inference_inner,
                                                   "use_metal":use_metal,
                                                   "mlock":mlock,
                                                   "mmap":mmap,
@@ -383,117 +386,43 @@ struct AddChatView: View {
                 
                 ScrollView(showsIndicators: false){
                     
-                    HStack {
-#if os(macOS)
-                        DidEndEditingTextField(text: $model_title,didEndEditing: { newName in})
-                            .frame(maxWidth: .infinity, alignment: .leading)
-#else
-                        TextField("Title...", text: $model_title)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .textFieldStyle(.plain)
-#endif
-                        
-                    }
-                    .padding([.trailing, .leading, .top])
-                    
-                    VStack(alignment: .leading, spacing: 5){
-                        
-                        ModelSelector(  models_previews:$models_previews,
-                                        model_file_path:$model_file_path,
-                                        model_file_url:$model_file_url,
-                                        model_title:$model_title,
-                                        toggleSettings:$toggleSettings,
-                                        edit_chat_dialog:$edit_chat_dialog,
-                                        import_lable:"Import from file...",
-                                        download_lable:"Download models...",
-                                        selection_lable:"Select Model...",
-                                        avalible_lable:"Avalible models")
-                        .padding([.trailing, .leading, .top])
-#if os(iOS)
-                        .padding(.bottom)
-#endif
-                        HStack {
-                            Toggle("Clip", isOn: $has_clip)
-                                .frame(maxWidth: 120, alignment: .trailing)
-                            Toggle("LoRa", isOn: $has_lora)
-                                .frame(maxWidth: 120, alignment: .trailing)
-                            Spacer()
-                        }
-                        .padding([.trailing, .leading, .top])
-#if os(iOS)
-                        .padding([.bottom])
-#endif
-                        
-                        if has_clip {
-                            ModelSelector(  models_previews:$models_previews,
-                                            model_file_path:$clip_model_file_path,
-                                            model_file_url:$clip_model_file_url,
-                                            model_title:$clip_model_title,
-                                            toggleSettings:$toggleSettings,
-                                            edit_chat_dialog:$edit_chat_dialog,
-                                            import_lable:"Import from file...",
-                                            download_lable:"Download models...",
-                                            selection_lable:"Select Clip Model...",
-                                            avalible_lable:"Avalible models")
-                            .padding([.trailing, .leading, .top])
-#if os(iOS)
-                            .padding(.bottom)
-#endif
-                        }
-                        if has_lora {
-                            HStack {
-                                ModelSelector(  models_previews:$loras_previews,
-                                                model_file_path:$lora_file_path,
-                                                model_file_url:$lora_file_url,
-                                                model_title:$lora_title,
-                                                toggleSettings:$toggleSettings,
-                                                edit_chat_dialog:$edit_chat_dialog,
-                                                import_lable:"Import from file...",
-                                                download_lable:"Download models...",
-                                                selection_lable:"Select Adapter...",
-                                                avalible_lable:"Avalible adapters")
-                                .padding([.trailing, .leading, .top])
-#if os(iOS)
-                                .padding(.bottom)
-#endif
-                                Spacer()
-                                
-                                TextField("Scale..", value: $lora_file_scale, format:.number)
-                                    .frame( maxWidth: 50, alignment: .leading)
-                                    .multilineTextAlignment(.trailing)
-                                    .textFieldStyle(.plain)
-                                    .padding(.trailing)
-                                //                                .padding(.bottom)
-#if os(iOS)
-                                    .keyboardType(.numbersAndPunctuation)
-#endif
-                            }
-                        }
-                        
+                    DisclosureGroup("Basic:", isExpanded: $isBasicAccordionExpanded) {
                         HStack{
-                            Text("Icon:")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            VStack {
-                                Picker("", selection: $model_icon) {
-                                    ForEach(model_icons, id: \.self) {
-                                        //                                        Text($0)
-                                        Image($0+"_48")
-                                            .resizable()
-                                            .background( Color("color_bg_inverted").opacity(0.05))
-                                            .padding(EdgeInsets(top: 7, leading: 5, bottom: 7, trailing: 5))
-                                            .frame(width: 48, height: 48)
-                                            .clipShape(Circle())
-                                    }
+                            
+                            Picker("", selection: $model_icon) {
+                                ForEach(model_icons, id: \.self) {
+                                    //                                        Text($0)
+                                    Image($0+"_48")
+                                        .resizable()
+                                        .background( Color("color_bg_inverted").opacity(0.05))
+                                        .padding(EdgeInsets(top: 7, leading: 5, bottom: 7, trailing: 5))
+                                        .frame(width: 48, height: 48)
+                                        .clipShape(Circle())
                                 }
-                                .pickerStyle(.menu)
                             }
-                            .frame(maxWidth: 80, alignment: .trailing)
+                            .pickerStyle(.menu)
+                            
+                            .frame(maxWidth: 80, alignment: .leading)
                             .frame(height: 48)
+                            
+#if os(macOS)
+                            DidEndEditingTextField(text: $model_title,didEndEditing: { newName in})
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            //                            .padding([.trailing, .leading, .top])
+#else
+                            TextField("Title...", text: $model_title)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .textFieldStyle(.plain)
+                            //                            .padding([.trailing, .leading, .top])
+#endif
+                            
+                            
+                            
+                            //                            Text("Icon:")
+                            //                                .frame(maxWidth: .infinity, alignment: .leading)
+                            
                         }
-                        .padding([.trailing, .leading, .top])
-                        
-                        Divider()
-                            .padding(.top, 8)
+                        .padding([.trailing,  .leading])
                         
                         HStack{
                             Text("Settings template:")
@@ -525,400 +454,478 @@ struct AddChatView: View {
                         }
                         .padding(.horizontal)
                         .padding(.top, 8)
+                        .onChange(of: model_inference){ inf in
+                            if model_inference != "ggjt_v3"{
+                                model_inference_inner = model_inference
+                            }else{
+                                model_inference_inner = ggjt_v3_inference
+                            }
+                        }
                         
                         
-                        
-                        DisclosureGroup("Prompt format:", isExpanded: $isPromptAccordionExpanded) {
-                            Group {
-                                //                            VStack {
-                                //                                Text("Warm prompt:")
-                                //                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                //                                TextField("prompt..", text: $warm_prompt, axis: .vertical)
-                                //                                    .lineLimit(2)
+                        if model_inference == "ggjt_v3"{
+                            HStack{
+                                Text("Inference ggjt_v3:")
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                Picker("", selection: $ggjt_v3_inference) {
+                                    ForEach(ggjt_v3_inferences, id: \.self) {
+                                        Text($0)
+                                    }
+                                }
+                                .pickerStyle(.menu)
                                 //
+                            }
+                            .padding(.horizontal)
+                            .padding(.top, 8)
+                            .onChange(of: ggjt_v3_inference){ inf in
+                                model_inference_inner = ggjt_v3_inference
+                            }
+                        }
+                    }
+                    
+                    DisclosureGroup("Model:", isExpanded: $isModelAccordionExpanded) {
+                        VStack(alignment: .leading, spacing: 5){
+                            
+                            ModelSelector(  models_previews:$models_previews,
+                                            model_file_path:$model_file_path,
+                                            model_file_url:$model_file_url,
+                                            model_title:$model_title,
+                                            toggleSettings:$toggleSettings,
+                                            edit_chat_dialog:$edit_chat_dialog,
+                                            import_lable:"Import from file...",
+                                            download_lable:"Download models...",
+                                            selection_lable:"Select Model...",
+                                            avalible_lable:"Avalible models")
+                            .padding([.trailing, .leading, .top])
+#if os(iOS)
+                            .padding(.bottom)
+#endif
+                            if has_clip {
+                                ModelSelector(  models_previews:$models_previews,
+                                                model_file_path:$clip_model_file_path,
+                                                model_file_url:$clip_model_file_url,
+                                                model_title:$clip_model_title,
+                                                toggleSettings:$toggleSettings,
+                                                edit_chat_dialog:$edit_chat_dialog,
+                                                import_lable:"Import from file...",
+                                                download_lable:"Download models...",
+                                                selection_lable:"Select Clip Model...",
+                                                avalible_lable:"Avalible models")
+                                .padding([.trailing, .leading, .top])
+#if os(iOS)
+                                .padding(.bottom)
+#endif
+                            }
+                            if has_lora {
+                                HStack {
+                                    ModelSelector(  models_previews:$loras_previews,
+                                                    model_file_path:$lora_file_path,
+                                                    model_file_url:$lora_file_url,
+                                                    model_title:$lora_title,
+                                                    toggleSettings:$toggleSettings,
+                                                    edit_chat_dialog:$edit_chat_dialog,
+                                                    import_lable:"Import from file...",
+                                                    download_lable:"Download models...",
+                                                    selection_lable:"Select Adapter...",
+                                                    avalible_lable:"Avalible adapters")
+                                    .padding([.trailing, .leading, .top])
+#if os(iOS)
+                                    .padding(.bottom)
+#endif
+                                    Spacer()
+                                    
+                                    TextField("Scale..", value: $lora_file_scale, format:.number)
+                                        .frame( maxWidth: 50, alignment: .leading)
+                                        .multilineTextAlignment(.trailing)
+                                        .textFieldStyle(.plain)
+                                        .padding(.trailing)
+                                        .padding(.top)
+#if os(iOS)
+                                        .keyboardType(.numbersAndPunctuation)
+#endif
+                                }
+                            }
+                            HStack {
+                                Toggle("Clip", isOn: $has_clip)
+                                    .frame(maxWidth: 120, alignment: .trailing)
+                                Toggle("LoRa", isOn: $has_lora)
+                                    .frame(maxWidth: 120, alignment: .trailing)
+                                Spacer()
+                            }
+                            .padding([.trailing, .leading, .top])
+#if os(iOS)
+                            .padding([.bottom])
+#endif
+                        }
+                    }
+
+                    DisclosureGroup("Prompt format:", isExpanded: $isPromptAccordionExpanded) {
+                        Group {
+                            //                            VStack {
+                            //                                Text("Warm prompt:")
+                            //                                    .frame(maxWidth: .infinity, alignment: .leading)
+                            //                                TextField("prompt..", text: $warm_prompt, axis: .vertical)
+                            //                                    .lineLimit(2)
+                            //
+                            //                                    .textFieldStyle(.roundedBorder)
+                            //                                    .frame( alignment: .leading)
+                            //                                //                                .multilineTextAlignment(.trailing)
+                            //                                //                                .textFieldStyle(.plain)
+                            //                            }
+                            //                            .padding(.horizontal)
+                            
+                            VStack {
+                                Text("Format:")
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                TextEditor(text: $prompt_format)
+                                    .frame(minHeight: 30)
+                                //                                TextField("prompt..", text: $prompt_format, axis: .vertical)
+                                //                                    .lineLimit(2)
                                 //                                    .textFieldStyle(.roundedBorder)
                                 //                                    .frame( alignment: .leading)
-                                //                                //                                .multilineTextAlignment(.trailing)
-                                //                                //                                .textFieldStyle(.plain)
-                                //                            }
-                                //                            .padding(.horizontal)
-                                
-                                VStack {
-                                    Text("Format:")
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                    TextEditor(text: $prompt_format)
-                                        .frame(minHeight: 30)
-                                    //                                TextField("prompt..", text: $prompt_format, axis: .vertical)
-                                    //                                    .lineLimit(2)
-                                    //                                    .textFieldStyle(.roundedBorder)
-                                    //                                    .frame( alignment: .leading)
-                                    //                                .multilineTextAlignment(.trailing)
-                                    //                                .textFieldStyle(.plain)
-                                }
-                                .padding(.top, 8)
-                                .padding(.horizontal)
-                                
-                                VStack {
-                                    Text("Reverse prompt:")
-                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                //                                .multilineTextAlignment(.trailing)
+                                //                                .textFieldStyle(.plain)
+                            }
+                            .padding(.top, 8)
+                            .padding(.horizontal)
+                            
+                            VStack {
+                                Text("Reverse prompt:")
+                                    .frame(maxWidth: .infinity, alignment: .leading)
 #if os(macOS)
-                                    DidEndEditingTextField(text: $reverse_prompt, didEndEditing: { newName in})
-                                        .frame( alignment: .leading)
+                                DidEndEditingTextField(text: $reverse_prompt, didEndEditing: { newName in})
+                                    .frame( alignment: .leading)
 #else
-                                    TextField("prompt..", text: $reverse_prompt, axis: .vertical)
-                                        .lineLimit(2)
-                                        .textFieldStyle(.roundedBorder)
-                                        .frame( alignment: .leading)
+                                TextField("prompt..", text: $reverse_prompt, axis: .vertical)
+                                    .lineLimit(2)
+                                    .textFieldStyle(.roundedBorder)
+                                    .frame( alignment: .leading)
 #endif
-                                    //                                .multilineTextAlignment(.trailing)
-                                    //                                .textFieldStyle(.plain)
-                                }
+                                //                                .multilineTextAlignment(.trailing)
+                                //                                .textFieldStyle(.plain)
+                            }
+                            .padding(.top, 8)
+                            .padding(.horizontal)
+                            
+                            HStack {
+                                Spacer()
+                                Toggle("Special", isOn: $parse_special_tokens)
+                                    .frame(maxWidth: 120, alignment: .trailing)
+                                    .disabled(self.model_inference != "llama" )
+                            }
+                            .padding(.horizontal)
+                            .padding(.bottom, 4)
+                            
+                            HStack {
+                                Spacer()
+                                Toggle("BOS", isOn: $add_bos_token)
+                                    .frame(maxWidth: 120, alignment: .trailing)
+                                Toggle("EOS", isOn: $add_eos_token)
+                                    .frame(maxWidth: 120, alignment: .trailing)
+                            }
+                            .padding(.horizontal)
+                            .padding(.bottom, 4)
+                            
+                            Divider()
                                 .padding(.top, 8)
-                                .padding(.horizontal)
-                                
-                                HStack {
-                                    Spacer()
-                                    Toggle("Special", isOn: $parse_special_tokens)
-                                        .frame(maxWidth: 120, alignment: .trailing)
-                                        .disabled(self.model_inference != "llama" && self.model_inference != "starcoder")
-                                }
-                                .padding(.horizontal)
-                                .padding(.bottom, 4)
-                                
-                                HStack {
-                                    Spacer()
-                                    Toggle("BOS", isOn: $add_bos_token)
-                                        .frame(maxWidth: 120, alignment: .trailing)
-                                    Toggle("EOS", isOn: $add_eos_token)
-                                        .frame(maxWidth: 120, alignment: .trailing)
-                                }
-                                .padding(.horizontal)
-                                .padding(.bottom, 4)
-                                
-                                Divider()
-                                    .padding(.top, 8)
+                        }
+                    }
+                    
+                    DisclosureGroup("Prediction options:", isExpanded: $isPredictionAccordionExpanded) {
+                        Group {
+                            HStack {
+                                Text("Threads:")
+                                    .frame(maxWidth: 75, alignment: .leading)
+                                TextField("count..", value: $numberOfThreads, format:.number)
+                                    .frame( alignment: .leading)
+                                    .multilineTextAlignment(.trailing)
+                                    .textFieldStyle(.plain)
+#if os(iOS)
+                                    .keyboardType(.numberPad)
+#endif
                             }
-                        }.padding()
-                        
-                        DisclosureGroup("Prediction options:", isExpanded: $isPredictionAccordionExpanded) {
-                            Group {
-                                HStack {
-                                    Text("Threads:")
-                                        .frame(maxWidth: 75, alignment: .leading)
-                                    TextField("count..", value: $numberOfThreads, format:.number)
-                                        .frame( alignment: .leading)
-                                        .multilineTextAlignment(.trailing)
-                                        .textFieldStyle(.plain)
-#if os(iOS)
-                                        .keyboardType(.numberPad)
-#endif
-                                }
-                                .padding(.horizontal)
-                                .padding(.top, 5)
-                                
-                                HStack {
-                                    Spacer()
-                                    Toggle("Metal", isOn: $use_metal)
-                                        .frame(maxWidth: 120, alignment: .trailing)
-                                        .disabled((self.model_inference == "rwkv" || self.model_inference == "replit") /*|| hardware_arch=="x86_64"*/)
-                                }
-                                .padding(.horizontal)
-                                .padding(.bottom, 4)
-                                
-                                HStack {
-                                    Spacer()
-                                    Toggle("MLock", isOn: $mlock)
-                                        .frame(maxWidth: .infinity, alignment: .trailing)
-                                        .disabled(self.model_inference == "rwkv" || self.model_inference == "replit" || self.model_inference == "gpt2" )
-                                    Toggle("MMap", isOn: $mmap)
-                                        .frame(maxWidth: .infinity, alignment: .trailing)
-                                        .disabled(self.model_inference == "rwkv" || self.model_inference == "replit" || self.model_inference == "gpt2" )
-                                }
-                                .padding(.horizontal)
-                                .padding(.bottom, 4)
-                                
-                                HStack {
-                                    Text("Context:")
-                                        .frame(maxWidth: 75, alignment: .leading)
-                                    TextField("size..", value: $model_context, format:.number)
-                                        .frame( alignment: .leading)
-                                        .multilineTextAlignment(.trailing)
-                                        .textFieldStyle(.plain)
-#if os(iOS)
-                                        .keyboardType(.numberPad)
-#endif
-                                }
-                                .padding(.horizontal)
-                                
-                                HStack {
-                                    Text("N_Batch:")
-                                        .frame(maxWidth: 75, alignment: .leading)
-                                    TextField("size..", value: $model_n_batch, format:.number)
-                                        .frame( alignment: .leading)
-                                        .multilineTextAlignment(.trailing)
-                                        .textFieldStyle(.plain)
-#if os(iOS)
-                                        .keyboardType(.numberPad)
-#endif
-                                }
-                                .padding(.horizontal)
+                            .padding(.horizontal)
+                            .padding(.top, 5)
+                            
+                            HStack {
+                                Spacer()
+                                Toggle("Metal", isOn: $use_metal)
+                                    .frame(maxWidth: 120, alignment: .trailing)
+                                    .disabled((self.model_inference != "llama" && self.model_inference_inner != "gpt2" ) /*|| hardware_arch=="x86_64"*/)
                             }
-                        }.padding()
-                        
-                        DisclosureGroup("Sampling options:", isExpanded: $isSamplingAccordionExpanded) {
-                            Group {
-                                if model_inference == "llama"{
-                                    HStack{
-                                        Text("Grammar sampling:")
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                        Picker("", selection: $grammar) {
-                                            ForEach(grammars_previews, id: \.self) {
-                                                Text($0)
-                                            }
-                                        }
-                                        .pickerStyle(.menu)
-                                        
-                                    }
-                                    .padding(.horizontal)
-                                    .padding(.top, 8)
-                                }
+                            .padding(.horizontal)
+                            .padding(.bottom, 4)
+                            
+                            HStack {
+                                Spacer()
+                                Toggle("MLock", isOn: $mlock)
+                                    .frame(maxWidth: .infinity, alignment: .trailing)
+                                    .disabled(self.model_inference != "llama" && self.model_inference_inner != "gpt2" )
+                                Toggle("MMap", isOn: $mmap)
+                                    .frame(maxWidth: .infinity, alignment: .trailing)
+                                    .disabled(self.model_inference != "llama" && self.model_inference_inner != "gpt2" )
+                            }
+                            .padding(.horizontal)
+                            .padding(.bottom, 4)
+                            
+                            HStack {
+                                Text("Context:")
+                                    .frame(maxWidth: 75, alignment: .leading)
+                                TextField("size..", value: $model_context, format:.number)
+                                    .frame( alignment: .leading)
+                                    .multilineTextAlignment(.trailing)
+                                    .textFieldStyle(.plain)
+#if os(iOS)
+                                    .keyboardType(.numberPad)
+#endif
+                            }
+                            .padding(.horizontal)
+                            
+                            HStack {
+                                Text("N_Batch:")
+                                    .frame(maxWidth: 75, alignment: .leading)
+                                TextField("size..", value: $model_n_batch, format:.number)
+                                    .frame( alignment: .leading)
+                                    .multilineTextAlignment(.trailing)
+                                    .textFieldStyle(.plain)
+#if os(iOS)
+                                    .keyboardType(.numberPad)
+#endif
+                            }
+                            .padding(.horizontal)
+                        }
+                    }
+                    
+                    DisclosureGroup("Sampling options:", isExpanded: $isSamplingAccordionExpanded) {
+                        Group {
+                            if model_inference == "llama"{
                                 HStack{
-                                    Text("Sampling:")
+                                    Text("Grammar sampling:")
                                         .frame(maxWidth: .infinity, alignment: .leading)
-                                    Picker("", selection: $model_sampling) {
-                                        ForEach(model_samplings, id: \.self) {
+                                    Picker("", selection: $grammar) {
+                                        ForEach(grammars_previews, id: \.self) {
                                             Text($0)
                                         }
                                     }
                                     .pickerStyle(.menu)
-                                    .onChange(of: model_sampling) { sampling in
-                                        if sampling == "temperature" {
-                                            mirostat = 0
-                                        }
-                                        if sampling == "greedy" {
-                                            mirostat = 0
-                                            model_temp = 0
-                                        }
-                                        if sampling == "mirostat" {
-                                            mirostat = 1
-                                        }
-                                        if sampling == "mirostat_v2" {
-                                            mirostat = 2
-                                        }
-                                    }
-                                    //
+                                    
                                 }
                                 .padding(.horizontal)
                                 .padding(.top, 8)
-                                
-                                if model_sampling == "temperature" {
-                                    Group {
-                                        
-                                        HStack {
-                                            Text("Repeat last N:")
-                                                .frame(maxWidth: 100, alignment: .leading)
-                                            TextField("count..", value: $model_repeat_last_n, format:.number)
-                                                .frame( alignment: .leading)
-                                                .multilineTextAlignment(.trailing)
-                                                .textFieldStyle(.plain)
-#if os(iOS)
-                                                .keyboardType(.numberPad)
-#endif
-                                        }
-                                        .padding(.horizontal)
-                                        
-                                        HStack {
-                                            Text("Repeat Penalty:")
-                                                .frame(maxWidth: 100, alignment: .leading)
-                                            TextField("size..", value: $model_repeat_penalty, format:.number)
-                                                .frame( alignment: .leading)
-                                                .multilineTextAlignment(.trailing)
-                                                .textFieldStyle(.plain)
-#if os(iOS)
-                                                .keyboardType(.numbersAndPunctuation)
-#endif
-                                        }
-                                        .padding(.horizontal)
-                                        
-                                        HStack {
-                                            Text("Temp:")
-                                                .frame(maxWidth: 75, alignment: .leading)
-                                            TextField("size..", value: $model_temp, format:.number)
-                                                .frame( alignment: .leading)
-                                                .multilineTextAlignment(.trailing)
-                                                .textFieldStyle(.plain)
-#if os(iOS)
-                                                .keyboardType(.numbersAndPunctuation)
-#endif
-                                        }
-                                        .padding(.horizontal)
-                                        
-                                        HStack {
-                                            Text("Top_k:")
-                                                .frame(maxWidth: 75, alignment: .leading)
-                                            TextField("val..", value: $model_top_k, format:.number)
-                                                .frame( alignment: .leading)
-                                                .multilineTextAlignment(.trailing)
-                                                .textFieldStyle(.plain)
-#if os(iOS)
-                                                .keyboardType(.numberPad)
-#endif
-                                        }
-                                        .padding(.horizontal)
-                                        
-                                        HStack {
-                                            Text("Top_p:")
-                                                .frame(maxWidth: 95, alignment: .leading)
-                                            TextField("val..", value: $model_top_p, format:.number)
-                                                .frame( alignment: .leading)
-                                                .multilineTextAlignment(.trailing)
-                                                .textFieldStyle(.plain)
-#if os(iOS)
-                                                .keyboardType(.numbersAndPunctuation)
-#endif
-                                        }
-                                        .padding(.horizontal)
-                                        
-                                        
-                                        HStack {
-                                            Text("Tail Free Z:")
-                                                .frame(maxWidth: 100, alignment: .leading)
-                                            TextField("val..", value: $tfs_z, format:.number)
-                                                .frame( alignment: .leading)
-                                                .multilineTextAlignment(.trailing)
-                                                .textFieldStyle(.plain)
-#if os(iOS)
-                                                .keyboardType(.numbersAndPunctuation)
-#endif
-                                        }
-                                        .padding(.horizontal)
-                                        
-                                        HStack {
-                                            Text("Locally Typical N:")
-                                                .frame(maxWidth: 140, alignment: .leading)
-                                            TextField("val..", value: $typical_p, format:.number)
-                                                .frame( alignment: .leading)
-                                                .multilineTextAlignment(.trailing)
-                                                .textFieldStyle(.plain)
-#if os(iOS)
-                                                .keyboardType(.numbersAndPunctuation)
-#endif
-                                        }
-                                        .padding(.horizontal)
-                                        
-                                    }
-                                }
-                                
-                                if model_sampling == "mirostat" || model_sampling == "mirostat_v2" {
-                                    Group {
-                                        HStack {
-                                            Text("Mirostat_eta:")
-                                                .frame(maxWidth: 100, alignment: .leading)
-                                            TextField("val..", value: $mirostat_eta, format:.number)
-                                                .frame( alignment: .leading)
-                                                .multilineTextAlignment(.trailing)
-                                                .textFieldStyle(.plain)
-#if os(iOS)
-                                                .keyboardType(.numbersAndPunctuation)
-#endif
-                                        }
-                                        .padding(.horizontal)
-                                        
-                                        HStack {
-                                            Text("Mirostat_tau:")
-                                                .frame(maxWidth: 100, alignment: .leading)
-                                            TextField("val..", value: $mirostat_tau, format:.number)
-                                                .frame( alignment: .leading)
-                                                .multilineTextAlignment(.trailing)
-                                                .textFieldStyle(.plain)
-#if os(iOS)
-                                                .keyboardType(.numbersAndPunctuation)
-#endif
-                                        }
-                                        .padding(.horizontal)
-                                        
-                                        HStack {
-                                            Text("Temp:")
-                                                .frame(maxWidth: 75, alignment: .leading)
-                                            TextField("size..", value: $model_temp, format:.number)
-                                                .frame( alignment: .leading)
-                                                .multilineTextAlignment(.trailing)
-                                                .textFieldStyle(.plain)
-#if os(iOS)
-                                                .keyboardType(.numbersAndPunctuation)
-#endif
-                                        }
-                                        .padding(.horizontal)
-                                    }
-                                }
                             }
-                        }.padding()
-                        
-                        VStack{
-                            Text("Save as new template:")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(.horizontal)
-                            HStack {
-#if os(macOS)
-                                DidEndEditingTextField(text: $save_as_template_name,didEndEditing: { newName in})
+                            HStack{
+                                Text("Sampling:")
                                     .frame(maxWidth: .infinity, alignment: .leading)
-#else
-                                TextField("New template name...", text: $save_as_template_name)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .textFieldStyle(.plain)
-#endif
-                                Button {
-                                    Task {
-                                        let options = get_chat_options_dict(is_template: true)
-                                        _ = create_chat(options,edit_chat_dialog:true,chat_name:save_as_template_name + ".json",save_as_template:true)
-                                        refresh_templates()
-                                        //                                        save_template_old(model_settings_template.template_name + ".json",
-                                        //                                                      template_name: model_settings_template.template_name,
-                                        //                                                      inference: model_inference,
-                                        //                                                      context: model_context,
-                                        //                                                      n_batch: model_n_batch,
-                                        //                                                      temp: model_temp,
-                                        //                                                      top_k: model_top_k,
-                                        //                                                      top_p: model_top_p,
-                                        //                                                      repeat_last_n: model_repeat_last_n,
-                                        //                                                      repeat_penalty: model_repeat_penalty,
-                                        //                                                      prompt_format: prompt_format,
-                                        //                                                      reverse_prompt: reverse_prompt,
-                                        //                                                      use_metal: use_metal)
+                                Picker("", selection: $model_sampling) {
+                                    ForEach(model_samplings, id: \.self) {
+                                        Text($0)
                                     }
-                                } label: {
-                                    Image(systemName: "doc.badge.plus")
                                 }
-                                .frame(alignment: .trailing)
+                                .pickerStyle(.menu)
+                                .onChange(of: model_sampling) { sampling in
+                                    if sampling == "temperature" {
+                                        mirostat = 0
+                                    }
+                                    if sampling == "greedy" {
+                                        mirostat = 0
+                                        model_temp = 0
+                                    }
+                                    if sampling == "mirostat" {
+                                        mirostat = 1
+                                    }
+                                    if sampling == "mirostat_v2" {
+                                        mirostat = 2
+                                    }
+                                }
+                                //
                             }
-                            .frame(maxWidth: .infinity)
                             .padding(.horizontal)
+                            .padding(.top, 8)
+                            
+                            if model_sampling == "temperature" {
+                                Group {
+                                    
+                                    HStack {
+                                        Text("Repeat last N:")
+                                            .frame(maxWidth: 100, alignment: .leading)
+                                        TextField("count..", value: $model_repeat_last_n, format:.number)
+                                            .frame( alignment: .leading)
+                                            .multilineTextAlignment(.trailing)
+                                            .textFieldStyle(.plain)
+#if os(iOS)
+                                            .keyboardType(.numberPad)
+#endif
+                                    }
+                                    .padding(.horizontal)
+                                    
+                                    HStack {
+                                        Text("Repeat Penalty:")
+                                            .frame(maxWidth: 100, alignment: .leading)
+                                        TextField("size..", value: $model_repeat_penalty, format:.number)
+                                            .frame( alignment: .leading)
+                                            .multilineTextAlignment(.trailing)
+                                            .textFieldStyle(.plain)
+#if os(iOS)
+                                            .keyboardType(.numbersAndPunctuation)
+#endif
+                                    }
+                                    .padding(.horizontal)
+                                    
+                                    HStack {
+                                        Text("Temp:")
+                                            .frame(maxWidth: 75, alignment: .leading)
+                                        TextField("size..", value: $model_temp, format:.number)
+                                            .frame( alignment: .leading)
+                                            .multilineTextAlignment(.trailing)
+                                            .textFieldStyle(.plain)
+#if os(iOS)
+                                            .keyboardType(.numbersAndPunctuation)
+#endif
+                                    }
+                                    .padding(.horizontal)
+                                    
+                                    HStack {
+                                        Text("Top_k:")
+                                            .frame(maxWidth: 75, alignment: .leading)
+                                        TextField("val..", value: $model_top_k, format:.number)
+                                            .frame( alignment: .leading)
+                                            .multilineTextAlignment(.trailing)
+                                            .textFieldStyle(.plain)
+#if os(iOS)
+                                            .keyboardType(.numberPad)
+#endif
+                                    }
+                                    .padding(.horizontal)
+                                    
+                                    HStack {
+                                        Text("Top_p:")
+                                            .frame(maxWidth: 95, alignment: .leading)
+                                        TextField("val..", value: $model_top_p, format:.number)
+                                            .frame( alignment: .leading)
+                                            .multilineTextAlignment(.trailing)
+                                            .textFieldStyle(.plain)
+#if os(iOS)
+                                            .keyboardType(.numbersAndPunctuation)
+#endif
+                                    }
+                                    .padding(.horizontal)
+                                    
+                                    
+                                    HStack {
+                                        Text("Tail Free Z:")
+                                            .frame(maxWidth: 100, alignment: .leading)
+                                        TextField("val..", value: $tfs_z, format:.number)
+                                            .frame( alignment: .leading)
+                                            .multilineTextAlignment(.trailing)
+                                            .textFieldStyle(.plain)
+#if os(iOS)
+                                            .keyboardType(.numbersAndPunctuation)
+#endif
+                                    }
+                                    .padding(.horizontal)
+                                    
+                                    HStack {
+                                        Text("Locally Typical N:")
+                                            .frame(maxWidth: 140, alignment: .leading)
+                                        TextField("val..", value: $typical_p, format:.number)
+                                            .frame( alignment: .leading)
+                                            .multilineTextAlignment(.trailing)
+                                            .textFieldStyle(.plain)
+#if os(iOS)
+                                            .keyboardType(.numbersAndPunctuation)
+#endif
+                                    }
+                                    .padding(.horizontal)
+                                    
+                                }
+                            }
+                            
+                            if model_sampling == "mirostat" || model_sampling == "mirostat_v2" {
+                                Group {
+                                    HStack {
+                                        Text("Mirostat_eta:")
+                                            .frame(maxWidth: 100, alignment: .leading)
+                                        TextField("val..", value: $mirostat_eta, format:.number)
+                                            .frame( alignment: .leading)
+                                            .multilineTextAlignment(.trailing)
+                                            .textFieldStyle(.plain)
+#if os(iOS)
+                                            .keyboardType(.numbersAndPunctuation)
+#endif
+                                    }
+                                    .padding(.horizontal)
+                                    
+                                    HStack {
+                                        Text("Mirostat_tau:")
+                                            .frame(maxWidth: 100, alignment: .leading)
+                                        TextField("val..", value: $mirostat_tau, format:.number)
+                                            .frame( alignment: .leading)
+                                            .multilineTextAlignment(.trailing)
+                                            .textFieldStyle(.plain)
+#if os(iOS)
+                                            .keyboardType(.numbersAndPunctuation)
+#endif
+                                    }
+                                    .padding(.horizontal)
+                                    
+                                    HStack {
+                                        Text("Temp:")
+                                            .frame(maxWidth: 75, alignment: .leading)
+                                        TextField("size..", value: $model_temp, format:.number)
+                                            .frame( alignment: .leading)
+                                            .multilineTextAlignment(.trailing)
+                                            .textFieldStyle(.plain)
+#if os(iOS)
+                                            .keyboardType(.numbersAndPunctuation)
+#endif
+                                    }
+                                    .padding(.horizontal)
+                                }
+                            }
                         }
-                        //                        if edit_chat_dialog{
-                        //                            HStack {
-                        //                                Button {
-                        //                                    Task {
-                        //                                        clearChatAlert = true
-                        //                                    }
-                        //                                } label: {
-                        //                                    Image(systemName: "trash")
-                        //                                    Text("Clear chat history")
-                        //                                        .foregroundStyle(.red)
-                        //                                }
-                        //                                .alert("Are you sure?", isPresented: $clearChatAlert, actions: {
-                        //                                    Button("Cancel", role: .cancel, action: {})
-                        //                                    Button("Clear", role: .destructive, action: {
-                        //                                        aiChatModel.messages = []
-                        //                                        save_chat_history(aiChatModel.messages,aiChatModel.chat_name+".json")
-                        //                                    })
-                        //                                }, message: {
-                        //                                    Text("The message history will be cleared")
-                        //                                })
-                        //                            }
-                        //                            .padding()
-                        //                        }
-                        
                     }
+                    
+                    VStack{
+                        Text("Save as new template:")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal)
+                        HStack {
+#if os(macOS)
+                            DidEndEditingTextField(text: $save_as_template_name,didEndEditing: { newName in})
+                                .frame(maxWidth: .infinity, alignment: .leading)
+#else
+                            TextField("New template name...", text: $save_as_template_name)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .textFieldStyle(.plain)
+#endif
+                            Button {
+                                Task {
+                                    let options = get_chat_options_dict(is_template: true)
+                                    _ = create_chat(options,edit_chat_dialog:true,chat_name:save_as_template_name + ".json",save_as_template:true)
+                                    refresh_templates()
+                                    //                                        save_template_old(model_settings_template.template_name + ".json",
+                                    //                                                      template_name: model_settings_template.template_name,
+                                    //                                                      inference: model_inference,
+                                    //                                                      context: model_context,
+                                    //                                                      n_batch: model_n_batch,
+                                    //                                                      temp: model_temp,
+                                    //                                                      top_k: model_top_k,
+                                    //                                                      top_p: model_top_p,
+                                    //                                                      repeat_last_n: model_repeat_last_n,
+                                    //                                                      repeat_penalty: model_repeat_penalty,
+                                    //                                                      prompt_format: prompt_format,
+                                    //                                                      reverse_prompt: reverse_prompt,
+                                    //                                                      use_metal: use_metal)
+                                }
+                            } label: {
+                                Image(systemName: "doc.badge.plus")
+                            }
+                            .frame(alignment: .trailing)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.horizontal)
+                    }
+
                 }
             }
             .padding(.top)

@@ -205,6 +205,9 @@ struct ChatListView: View {
                             edit_chat_dialog: $edit_chat_dialog,
                             renew_chat_list: $renew_chat_list,
                             toggleSettings: $toggleSettings).environmentObject(aiChatModel)
+#if os(macOS)
+                    .frame(minWidth: 400,minHeight: 600)
+#endif
             }
 
         }

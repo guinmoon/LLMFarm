@@ -23,11 +23,13 @@ struct AddChatView: View {
     //    @State private var chat_config: Dictionary<String, AnyObject> = [:]
     
     //    @State private var model_file: InputDoument = InputDoument(input: "")
+    @State private var isBasicAccordionExpanded: Bool = true
+    @State private var isModelAccordionExpanded: Bool = true
     @State private var isPredictionAccordionExpanded: Bool = false
     @State private var isSamplingAccordionExpanded: Bool = false
     @State private var isPromptAccordionExpanded: Bool = false
-    @State private var isBasicAccordionExpanded: Bool = true
-    @State private var isModelAccordionExpanded: Bool = true
+    @State private var isAdditionalAccordionExpanded: Bool = false
+    
     @State private var model_file_url: URL = URL(filePath: "/")
     @State private var model_file_path: String = "Select model"
     @State private var model_title: String = ""
@@ -390,15 +392,16 @@ struct AddChatView: View {
                         HStack{
                             
                             Picker("", selection: $model_icon) {
-                                ForEach(model_icons, id: \.self) {
-                                    //                                        Text($0)
-                                    Image($0+"_48")
-                                        .resizable()
-                                        .background( Color("color_bg_inverted").opacity(0.05))
-                                        .padding(EdgeInsets(top: 7, leading: 5, bottom: 7, trailing: 5))
-                                        .frame(width: 48, height: 48)
-                                        .clipShape(Circle())
-                                }
+//                                LazyVGrid(columns: [GridItem(.flexible(minimum: 20, maximum: 50)),GridItem(.flexible(minimum: 20, maximum: 50))], spacing: 5) {
+                                    ForEach(model_icons, id: \.self) { img in
+                                        Image(img+"_48")
+                                            .resizable()
+                                            .background( Color("color_bg_inverted").opacity(0.05))
+                                            .padding(EdgeInsets(top: 7, leading: 5, bottom: 7, trailing: 5))
+                                            .frame(width: 48, height: 48)
+                                            .clipShape(Circle())
+                                    }
+//                                }
                             }
                             .pickerStyle(.menu)
                             
@@ -422,7 +425,7 @@ struct AddChatView: View {
                             //                                .frame(maxWidth: .infinity, alignment: .leading)
                             
                         }
-                        .padding([.trailing,  .leading])
+                        .padding([.top ])
                         
                         HStack{
                             Text("Settings template:")
@@ -438,7 +441,7 @@ struct AddChatView: View {
                             }
                             .pickerStyle(.menu)
                         }
-                        .padding(.horizontal)
+                        .padding(.horizontal, 5)
                         .padding(.top, 8)
                         
                         HStack{
@@ -452,7 +455,7 @@ struct AddChatView: View {
                             .pickerStyle(.menu)
                             //
                         }
-                        .padding(.horizontal)
+                        .padding(.horizontal, 5)
                         .padding(.top, 8)
                         .onChange(of: model_inference){ inf in
                             if model_inference != "ggjt_v3"{
@@ -475,13 +478,13 @@ struct AddChatView: View {
                                 .pickerStyle(.menu)
                                 //
                             }
-                            .padding(.horizontal)
+                            .padding(.horizontal, 5)
                             .padding(.top, 8)
                             .onChange(of: ggjt_v3_inference){ inf in
                                 model_inference_inner = ggjt_v3_inference
                             }
                         }
-                    }
+                    }.padding([.top ])
                     
                     DisclosureGroup("Model:", isExpanded: $isModelAccordionExpanded) {
                         VStack(alignment: .leading, spacing: 5){
@@ -496,7 +499,8 @@ struct AddChatView: View {
                                             download_lable:"Download models...",
                                             selection_lable:"Select Model...",
                                             avalible_lable:"Avalible models")
-                            .padding([.trailing, .leading, .top])
+                            .padding([/*.trailing, .leading,*/ .top])
+                            .padding(.horizontal, 5)
 #if os(iOS)
                             .padding(.bottom)
 #endif
@@ -511,7 +515,8 @@ struct AddChatView: View {
                                                 download_lable:"Download models...",
                                                 selection_lable:"Select Clip Model...",
                                                 avalible_lable:"Avalible models")
-                                .padding([.trailing, .leading, .top])
+                                .padding([/*.trailing, .leading,*/ .top])
+                                .padding(.horizontal, 5)
 #if os(iOS)
                                 .padding(.bottom)
 #endif
@@ -528,7 +533,8 @@ struct AddChatView: View {
                                                     download_lable:"Download models...",
                                                     selection_lable:"Select Adapter...",
                                                     avalible_lable:"Avalible adapters")
-                                    .padding([.trailing, .leading, .top])
+                                    .padding([/*.trailing, .leading,*/ .top])
+                                    .padding(.leading, 5)
 #if os(iOS)
                                     .padding(.bottom)
 #endif
@@ -538,7 +544,7 @@ struct AddChatView: View {
                                         .frame( maxWidth: 50, alignment: .leading)
                                         .multilineTextAlignment(.trailing)
                                         .textFieldStyle(.plain)
-                                        .padding(.trailing)
+                                        .padding(.trailing, 5)
                                         .padding(.top)
 #if os(iOS)
                                         .keyboardType(.numbersAndPunctuation)
@@ -552,12 +558,13 @@ struct AddChatView: View {
                                     .frame(maxWidth: 120, alignment: .trailing)
                                 Spacer()
                             }
-                            .padding([.trailing, .leading, .top])
+                            .padding([/*.trailing, .leading,*/ .top])
+                            .padding(.horizontal, 5)
 #if os(iOS)
                             .padding([.bottom])
 #endif
                         }
-                    }
+                    }.padding([.top ])
 
                     DisclosureGroup("Prompt format:", isExpanded: $isPromptAccordionExpanded) {
                         Group {
@@ -587,7 +594,7 @@ struct AddChatView: View {
                                 //                                .textFieldStyle(.plain)
                             }
                             .padding(.top, 8)
-                            .padding(.horizontal)
+                            .padding(.horizontal, 5)
                             
                             VStack {
                                 Text("Reverse prompt:")
@@ -605,31 +612,31 @@ struct AddChatView: View {
                                 //                                .textFieldStyle(.plain)
                             }
                             .padding(.top, 8)
-                            .padding(.horizontal)
+                            .padding(.horizontal, 5)
                             
                             HStack {
-                                Spacer()
                                 Toggle("Special", isOn: $parse_special_tokens)
                                     .frame(maxWidth: 120, alignment: .trailing)
                                     .disabled(self.model_inference != "llama" )
+                                Spacer()
                             }
-                            .padding(.horizontal)
+                            .padding(.horizontal, 5)
                             .padding(.bottom, 4)
                             
                             HStack {
-                                Spacer()
                                 Toggle("BOS", isOn: $add_bos_token)
                                     .frame(maxWidth: 120, alignment: .trailing)
                                 Toggle("EOS", isOn: $add_eos_token)
                                     .frame(maxWidth: 120, alignment: .trailing)
+                                Spacer()
                             }
-                            .padding(.horizontal)
+                            .padding(.horizontal, 5)
                             .padding(.bottom, 4)
                             
                             Divider()
                                 .padding(.top, 8)
                         }
-                    }
+                    }.padding([.top ])
                     
                     DisclosureGroup("Prediction options:", isExpanded: $isPredictionAccordionExpanded) {
                         Group {
@@ -644,28 +651,28 @@ struct AddChatView: View {
                                     .keyboardType(.numberPad)
 #endif
                             }
-                            .padding(.horizontal)
-                            .padding(.top, 5)
+                            .padding(.horizontal, 5)
+                            .padding(.top)
                             
                             HStack {
-                                Spacer()
                                 Toggle("Metal", isOn: $use_metal)
-                                    .frame(maxWidth: 120, alignment: .trailing)
+                                    .frame(maxWidth: 120, alignment: .leading)
                                     .disabled((self.model_inference != "llama" && self.model_inference_inner != "gpt2" ) /*|| hardware_arch=="x86_64"*/)
+                                Spacer()
                             }
-                            .padding(.horizontal)
+                            .padding(.horizontal, 5)
                             .padding(.bottom, 4)
                             
                             HStack {
-                                Spacer()
                                 Toggle("MLock", isOn: $mlock)
-                                    .frame(maxWidth: .infinity, alignment: .trailing)
+                                    .frame(maxWidth: 120,  alignment: .leading)
                                     .disabled(self.model_inference != "llama" && self.model_inference_inner != "gpt2" )
                                 Toggle("MMap", isOn: $mmap)
-                                    .frame(maxWidth: .infinity, alignment: .trailing)
+                                    .frame(maxWidth: 120,  alignment: .leading)
                                     .disabled(self.model_inference != "llama" && self.model_inference_inner != "gpt2" )
+                                Spacer()
                             }
-                            .padding(.horizontal)
+                            .padding(.horizontal, 5)
                             .padding(.bottom, 4)
                             
                             HStack {
@@ -679,7 +686,7 @@ struct AddChatView: View {
                                     .keyboardType(.numberPad)
 #endif
                             }
-                            .padding(.horizontal)
+                            .padding(.horizontal, 5)
                             
                             HStack {
                                 Text("N_Batch:")
@@ -692,27 +699,12 @@ struct AddChatView: View {
                                     .keyboardType(.numberPad)
 #endif
                             }
-                            .padding(.horizontal)
+                            .padding(.horizontal, 5)
                         }
-                    }
+                    }.padding([.top ])
                     
                     DisclosureGroup("Sampling options:", isExpanded: $isSamplingAccordionExpanded) {
                         Group {
-                            if model_inference == "llama"{
-                                HStack{
-                                    Text("Grammar sampling:")
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                    Picker("", selection: $grammar) {
-                                        ForEach(grammars_previews, id: \.self) {
-                                            Text($0)
-                                        }
-                                    }
-                                    .pickerStyle(.menu)
-                                    
-                                }
-                                .padding(.horizontal)
-                                .padding(.top, 8)
-                            }
                             HStack{
                                 Text("Sampling:")
                                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -739,7 +731,7 @@ struct AddChatView: View {
                                 }
                                 //
                             }
-                            .padding(.horizontal)
+                            .padding(.horizontal, 5)
                             .padding(.top, 8)
                             
                             if model_sampling == "temperature" {
@@ -756,7 +748,7 @@ struct AddChatView: View {
                                             .keyboardType(.numberPad)
 #endif
                                     }
-                                    .padding(.horizontal)
+                                    .padding(.horizontal, 5)
                                     
                                     HStack {
                                         Text("Repeat Penalty:")
@@ -769,7 +761,7 @@ struct AddChatView: View {
                                             .keyboardType(.numbersAndPunctuation)
 #endif
                                     }
-                                    .padding(.horizontal)
+                                    .padding(.horizontal, 5)
                                     
                                     HStack {
                                         Text("Temp:")
@@ -782,7 +774,7 @@ struct AddChatView: View {
                                             .keyboardType(.numbersAndPunctuation)
 #endif
                                     }
-                                    .padding(.horizontal)
+                                    .padding(.horizontal, 5)
                                     
                                     HStack {
                                         Text("Top_k:")
@@ -795,7 +787,7 @@ struct AddChatView: View {
                                             .keyboardType(.numberPad)
 #endif
                                     }
-                                    .padding(.horizontal)
+                                    .padding(.horizontal, 5)
                                     
                                     HStack {
                                         Text("Top_p:")
@@ -808,7 +800,7 @@ struct AddChatView: View {
                                             .keyboardType(.numbersAndPunctuation)
 #endif
                                     }
-                                    .padding(.horizontal)
+                                    .padding(.horizontal, 5)
                                     
                                     
                                     HStack {
@@ -822,7 +814,7 @@ struct AddChatView: View {
                                             .keyboardType(.numbersAndPunctuation)
 #endif
                                     }
-                                    .padding(.horizontal)
+                                    .padding(.horizontal, 5)
                                     
                                     HStack {
                                         Text("Locally Typical N:")
@@ -835,9 +827,10 @@ struct AddChatView: View {
                                             .keyboardType(.numbersAndPunctuation)
 #endif
                                     }
-                                    .padding(.horizontal)
+                                    .padding(.horizontal, 5)
                                     
                                 }
+                                
                             }
                             
                             if model_sampling == "mirostat" || model_sampling == "mirostat_v2" {
@@ -853,7 +846,7 @@ struct AddChatView: View {
                                             .keyboardType(.numbersAndPunctuation)
 #endif
                                     }
-                                    .padding(.horizontal)
+                                    .padding(.horizontal, 5)
                                     
                                     HStack {
                                         Text("Mirostat_tau:")
@@ -866,7 +859,7 @@ struct AddChatView: View {
                                             .keyboardType(.numbersAndPunctuation)
 #endif
                                     }
-                                    .padding(.horizontal)
+                                    .padding(.horizontal, 5)
                                     
                                     HStack {
                                         Text("Temp:")
@@ -879,52 +872,72 @@ struct AddChatView: View {
                                             .keyboardType(.numbersAndPunctuation)
 #endif
                                     }
-                                    .padding(.horizontal)
+                                    .padding(.horizontal, 5)
                                 }
                             }
+                            
+                            if model_inference == "llama"{
+                                HStack{
+                                    Text("Grammar sampling:")
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                    Picker("", selection: $grammar) {
+                                        ForEach(grammars_previews, id: \.self) {
+                                            Text($0)
+                                        }
+                                    }
+                                    .pickerStyle(.menu)
+                                    
+                                }
+                                .padding(.horizontal, 5)
+//                                .padding(.top, 8)
+                            }
                         }
-                    }
+                    }.padding([.top ])
                     
-                    VStack{
-                        Text("Save as new template:")
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.horizontal)
-                        HStack {
+                    DisclosureGroup("Additionl options:", isExpanded: $isAdditionalAccordionExpanded) {
+                        VStack{
+                            Text("Save as new template:")
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.horizontal, 5)
+                            HStack {
 #if os(macOS)
-                            DidEndEditingTextField(text: $save_as_template_name,didEndEditing: { newName in})
-                                .frame(maxWidth: .infinity, alignment: .leading)
+                                DidEndEditingTextField(text: $save_as_template_name,didEndEditing: { newName in})
+                                    .frame(maxWidth: .infinity, alignment: .leading)
 #else
-                            TextField("New template name...", text: $save_as_template_name)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .textFieldStyle(.plain)
+                                TextField("New template name...", text: $save_as_template_name)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .textFieldStyle(.plain)
 #endif
-                            Button {
-                                Task {
-                                    let options = get_chat_options_dict(is_template: true)
-                                    _ = create_chat(options,edit_chat_dialog:true,chat_name:save_as_template_name + ".json",save_as_template:true)
-                                    refresh_templates()
-                                    //                                        save_template_old(model_settings_template.template_name + ".json",
-                                    //                                                      template_name: model_settings_template.template_name,
-                                    //                                                      inference: model_inference,
-                                    //                                                      context: model_context,
-                                    //                                                      n_batch: model_n_batch,
-                                    //                                                      temp: model_temp,
-                                    //                                                      top_k: model_top_k,
-                                    //                                                      top_p: model_top_p,
-                                    //                                                      repeat_last_n: model_repeat_last_n,
-                                    //                                                      repeat_penalty: model_repeat_penalty,
-                                    //                                                      prompt_format: prompt_format,
-                                    //                                                      reverse_prompt: reverse_prompt,
-                                    //                                                      use_metal: use_metal)
+                                Button {
+                                    Task {
+                                        let options = get_chat_options_dict(is_template: true)
+                                        _ = create_chat(options,edit_chat_dialog:true,chat_name:save_as_template_name + ".json",save_as_template:true)
+                                        refresh_templates()
+                                        //                                        save_template_old(model_settings_template.template_name + ".json",
+                                        //                                                      template_name: model_settings_template.template_name,
+                                        //                                                      inference: model_inference,
+                                        //                                                      context: model_context,
+                                        //                                                      n_batch: model_n_batch,
+                                        //                                                      temp: model_temp,
+                                        //                                                      top_k: model_top_k,
+                                        //                                                      top_p: model_top_p,
+                                        //                                                      repeat_last_n: model_repeat_last_n,
+                                        //                                                      repeat_penalty: model_repeat_penalty,
+                                        //                                                      prompt_format: prompt_format,
+                                        //                                                      reverse_prompt: reverse_prompt,
+                                        //                                                      use_metal: use_metal)
+                                    }
+                                } label: {
+                                    Image(systemName: "doc.badge.plus")
                                 }
-                            } label: {
-                                Image(systemName: "doc.badge.plus")
+                                .frame(alignment: .trailing)
                             }
-                            .frame(alignment: .trailing)
+                            .frame(maxWidth: .infinity)
+                            .padding(.horizontal, 5)
                         }
-                        .frame(maxWidth: .infinity)
-                        .padding(.horizontal)
-                    }
+                        
+                        .padding(.top)
+                    }.padding([.top ])
 
                 }
             }

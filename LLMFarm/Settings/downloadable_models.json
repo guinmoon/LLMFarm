@@ -18,6 +18,40 @@
         ]
     },
     {
+        "name": "MobileVLM 1.7B",
+        "models": [
+            {
+                "file_name": "MobileVLM-1.7B-Q5_K.gguf",
+                "url": "https://huggingface.co/guinmoon/MobileVLM-1.7B-GGUF/resolve/main/MobileVLM-1.7B-Q5_K.gguf?download=true",
+                "size": "",
+                "Q": "Q5_K"
+            },
+            {
+                "file_name": "MobileVLM-1.7B-Q6_K.gguf",
+                "url": "https://huggingface.co/guinmoon/MobileVLM-1.7B-GGUF/resolve/main/MobileVLM-1.7B-Q6_K.gguf?download=true",
+                "size": "",
+                "Q": "Q6_K"
+            },
+            {
+                "file_name": "MobileVLM-1.7B-Q4_K.gguf",
+                "url": "https://huggingface.co/guinmoon/MobileVLM-1.7B-GGUF/resolve/main/MobileVLM-1.7B-Q4_K.gguf?download=true",
+                "size": "",
+                "Q": "Q4_K"
+            }
+        ]
+    },
+    {
+        "name": "MobileVLM 1.7B CLIP",
+        "models": [
+            {
+                "file_name": "MobileVLM-1.7B-mmproj-f16.gguf",
+                "url": "https://huggingface.co/guinmoon/MobileVLM-1.7B-GGUF/resolve/main/MobileVLM-1.7B-mmproj-f16.gguf?download=true",
+                "size": "",
+                "Q": "F16"
+            }
+        ]
+    },
+    {
         "name": "MobileVLM 3B",
         "models": [
             {

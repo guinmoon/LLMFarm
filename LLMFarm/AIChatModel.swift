@@ -115,11 +115,13 @@ final class AIChatModel: ObservableObject {
                 print(self.model_context_param)
                 self.model_loading = false
                 var text = in_text
+                var system_prompt:String? = nil
                 if self.model_context_param.system_prompt != ""{
-                    text = self.model_context_param.system_prompt+"\n" + text
+//                    text = self.model_context_param.system_prompt+"\n" + text
+                    system_prompt = self.model_context_param.system_prompt+"\n"
                     self.messages[self.messages.endIndex - 1].header = self.model_context_param.system_prompt
                 }
-                self.send(message: in_text, append_user_message:false,img_path:img_path)
+                self.send(message: in_text, append_user_message:false,system_prompt:system_prompt,img_path:img_path)
             },contextParams: model_context_param)
         return true
     }
@@ -194,7 +196,7 @@ final class AIChatModel: ObservableObject {
         self.Title = self.title_backup
     }
 
-    public func send(message in_text: String, append_user_message:Bool = true, img_path: String? = nil)  {
+    public func send(message in_text: String, append_user_message:Bool = true,system_prompt:String? = nil, img_path: String? = nil)  {
         var text = in_text
         if append_user_message{
             var attachment_type:String? = nil
@@ -239,7 +241,7 @@ final class AIChatModel: ObservableObject {
         self.chat?.conversation(text,
         { str, time in //Predicting
             _ = self.process_predicted_str(str, time, &message, messageIndex)
-        }, 
+        },
         { final_str in // Finish predicting 
             self.load_progress = 0
             print(final_str)
@@ -264,6 +266,6 @@ final class AIChatModel: ObservableObject {
                 self.messages.append(Message(sender: .system, state: .error, text: "Eval \(final_str)", tok_sec: 0))
             }
             save_chat_history(self.messages,self.chat_name+".json")
-        },img_path:img_real_path)
+        },system_prompt:system_prompt,img_path:img_real_path)
     }
 }

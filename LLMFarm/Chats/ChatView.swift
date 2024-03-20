@@ -18,10 +18,7 @@ struct ChatView: View {
 //     @State var placeholderString: String = ""
 //     @State private var inputText: String = ""
 // #endif
-    
-    enum FocusedField {
-        case firstName, lastName
-    }
+
     
     @Binding var model_name: String
     @Binding var chat_selection: Dictionary<String, String>?
@@ -39,7 +36,7 @@ struct ChatView: View {
     @State private var clearChatAlert = false
     @State private var is_mmodal = false
 
-    @FocusState private var focusedField: FocusedField?
+    @FocusState var focusedField: Field?
     
     @Namespace var bottomID
     
@@ -95,18 +92,13 @@ struct ChatView: View {
         aiChatModel.AI_typing = -Int.random(in: 0..<100000)
     }
     
-//    private func delayIconChange() {
-//        // Delay of 7.5 seconds
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-//            reload_button_icon = "arrow.counterclockwise.circle"
-//        }
-//    }
     
     private var starOverlay: some View {
         
         Button {
             Task{
                 scrollToBottom()
+                
             }
         }
         
@@ -156,8 +148,7 @@ struct ChatView: View {
                 .disabled(chat_selection == nil)
                 .onAppear(){
                     scrollProxy = scrollView
-                    scrollToBottom(with_animation: false)
-                    focusedField = .firstName
+                    scrollToBottom(with_animation: false)                    
                 }
             }
             .frame(maxHeight: .infinity)
@@ -172,6 +163,10 @@ struct ChatView: View {
                         await self.reload()
                     }
                 }
+            }
+            .onTapGesture { location in
+                print("Tapped at \(location)")
+                focusedField = nil
             }
             .toolbar {
                 Button {
@@ -188,7 +183,7 @@ struct ChatView: View {
                         save_chat_history(aiChatModel.messages,aiChatModel.chat_name+".json")
                         clear_chat_button_icon = "checkmark"
                         self.aiChatModel.chat = nil
-                        run_after_delay(delay:1200, function:{clear_chat_button_icon = "arrow.counterclockwise.circle"})
+                        run_after_delay(delay:1200, function:{clear_chat_button_icon = "eraser.line.dashed.fill"})
                     })
                 }, message: {
                     Text("The message history will be cleared")
@@ -219,7 +214,7 @@ struct ChatView: View {
             }
             .navigationTitle(aiChatModel.Title)
             
-            LLMTextInput(messagePlaceholder: placeholderString,show_attachment_btn:self.is_mmodal).environmentObject(aiChatModel)
+            LLMTextInput(messagePlaceholder: placeholderString,show_attachment_btn:self.is_mmodal,focusedField:$focusedField).environmentObject(aiChatModel)
                 .disabled(self.aiChatModel.chat_name == "")
 //            .focused($focusedField, equals: .firstName)
             

@@ -55,14 +55,21 @@ extension Image {
 
 public struct LLMTextInput: View {
     
+    
+    
     private let messagePlaceholder: String
     private let show_attachment_btn:Bool
+    var focusedField: FocusState<Field?>.Binding
     @EnvironmentObject var aiChatModel: AIChatModel
     @State public var input_text: String = ""
     @State private var messageViewHeight: CGFloat = 0
     @State private var selectedPhoto: PhotosPickerItem?
     @State private var image: Image?
     @State public var img_cahce_path: String?
+    
+//    @FocusState private var focusedField: Field?
+    
+    
     
     
     
@@ -102,6 +109,7 @@ public struct LLMTextInput: View {
                         .padding(.leading, self.show_attachment_btn ? 5: 0)
                     
                 }
+                .focused(focusedField, equals: .msg)
                 .lineLimit(1...5)
             Group {
                 sendButton
@@ -207,11 +215,13 @@ public struct LLMTextInput: View {
     public init(
         //        _ chat: Binding<Chat>,
         messagePlaceholder: String? = nil,
-        show_attachment_btn: Bool
+        show_attachment_btn: Bool,
+        focusedField: FocusState<Field?>.Binding
     ) {
         //        self._chat = chat
         self.messagePlaceholder = messagePlaceholder ?? "Message"
         self.show_attachment_btn = show_attachment_btn
+        self.focusedField = focusedField
     }
     
     
@@ -225,7 +235,7 @@ public struct LLMTextInput: View {
                 img_cahce_path = nil
                 image = nil
                 selectedPhoto = nil
-                Task {
+                Task {                    
                     await aiChatModel.send(message: input_text,img_path: img_path)
                     input_text = ""
                 }

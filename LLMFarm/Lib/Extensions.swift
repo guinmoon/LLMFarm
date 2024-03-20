@@ -7,6 +7,10 @@
 
 import Foundation
 
+public enum Field: Int, CaseIterable {
+        case msg
+}
+
 public func run_after_delay(delay: Int, function: @escaping () -> Void) {
     DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(delay)) {
         function()

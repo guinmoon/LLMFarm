@@ -7,6 +7,11 @@
 
 import Foundation
 
+public func run_after_delay(delay: Int, function: @escaping () -> Void) {
+    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(delay)) {
+        function()
+    }
+}
 
 extension StringProtocol {
     func index<S: StringProtocol>(of string: S, options: String.CompareOptions = []) -> Index? {
@@ -152,6 +157,8 @@ enum NSImageExtensionError: Error {
 
 import UIKit
 import Accelerate
+
+
 
 extension UIImage {
 

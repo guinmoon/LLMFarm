@@ -19,6 +19,7 @@
 		15584A5E2AABA09300EC9C9C /* DidEndEditingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15584A5D2AABA09300EC9C9C /* DidEndEditingTextField.swift */; };
 		1560D6172A2D1A3D00918330 /* AddChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1560D6162A2D1A3D00918330 /* AddChatView.swift */; };
 		1568E3CE2A8BF86200930CC9 /* BottomPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1568E3CD2A8BF86200930CC9 /* BottomPanel.swift */; };
+		15692A7B2BAA082700AB2F4C /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 15692A7A2BAA082700AB2F4C /* PrivacyInfo.xcprivacy */; };
 		156A48D02A52B55B007DF519 /* SplitViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156A48CF2A52B55B007DF519 /* SplitViews.swift */; };
 		156A48D22A52B65C007DF519 /* Orientation_helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156A48D12A52B65C007DF519 /* Orientation_helper.swift */; };
 		157EFB062ABF3209001E0C7A /* llama chat 2 7B new.json in Resources */ = {isa = PBXBuildFile; fileRef = 157EFB052ABF3209001E0C7A /* llama chat 2 7B new.json */; };
@@ -135,6 +136,7 @@
 		15584A5D2AABA09300EC9C9C /* DidEndEditingTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DidEndEditingTextField.swift; sourceTree = "<group>"; };
 		1560D6162A2D1A3D00918330 /* AddChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChatView.swift; sourceTree = "<group>"; };
 		1568E3CD2A8BF86200930CC9 /* BottomPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomPanel.swift; sourceTree = "<group>"; };
+		15692A7A2BAA082700AB2F4C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		156A48CF2A52B55B007DF519 /* SplitViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViews.swift; sourceTree = "<group>"; };
 		156A48D12A52B65C007DF519 /* Orientation_helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Orientation_helper.swift; sourceTree = "<group>"; };
 		157EFB052ABF3209001E0C7A /* llama chat 2 7B new.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "llama chat 2 7B new.json"; sourceTree = "<group>"; };
@@ -387,6 +389,7 @@
 		E624E1F52958ECC800996CD1 = {
 			isa = PBXGroup;
 			children = (
+				15692A7A2BAA082700AB2F4C /* PrivacyInfo.xcprivacy */,
 				15141E5B2A651F8C0060E767 /* model_setting_templates */,
 				E6024EC229EA7BEB001FE9B0 /* Packages */,
 				E624E2102958F21E00996CD1 /* Info.plist */,
@@ -565,6 +568,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				15141E5C2A651F8C0060E767 /* model_setting_templates in Resources */,
+				15692A7B2BAA082700AB2F4C /* PrivacyInfo.xcprivacy in Resources */,
 				159C699B2A9A52D200F74913 /* llama chat 2 7B iphone 12.json in Resources */,
 				159578302B8BB3C3002EDBA0 /* tinyllama.json in Resources */,
 				15F210892A191B1B0021F414 /* Preview Assets.xcassets in Resources */,
@@ -789,7 +793,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.guinmoon.LLMFarm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -838,7 +842,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.guinmoon.LLMFarm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

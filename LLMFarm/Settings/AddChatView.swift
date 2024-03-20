@@ -240,11 +240,7 @@ struct AddChatView: View {
         model_settings_template = model_setting_templates[0]
     }
     
-    private func run_after_delay(delay: Int, function: @escaping () -> Void) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(delay)) {
-            function()
-        }
-    }
+    
     
     func apply_setting_template(template:ChatSettingsTemplate){
         if template.template_name == "Custom"{

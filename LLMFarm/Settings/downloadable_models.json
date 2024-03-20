@@ -208,7 +208,7 @@
                 "Q": "Q3_K_S"
             },
             {
-                "file_name": "openhermes-2.5-mistral-7b.Q4_K_M.gguf",
+                "file_name": "openhermes-2.5-mistral-7b.Q4_K_S.gguf",
                 "url": "https://huggingface.co/TheBloke/OpenHermes-2.5-Mistral-7B-GGUF/resolve/main/openhermes-2.5-mistral-7b.Q4_K_S.gguf?download=true",
                 "size": "",
                 "Q": "Q4_K_S"

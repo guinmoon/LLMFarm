@@ -56,6 +56,39 @@ final class AIChatModel: ObservableObject {
     }
     
 //    @MainActor
+
+    private func model_load_progress_callback(_ progress:Float) -> Bool{
+        DispatchQueue.main.async {
+            self.load_progress = progress
+//                    print(self.load_progress)
+        }
+        return true
+    }
+
+    private func on_model_loaded_callback(_ load_result: String,in_text:String, img_path: String? = nil){
+        if load_result != "[Done]" ||
+            self.chat?.model == nil || 
+            self.chat?.model.context == nil {
+            self.finish_load(append_err_msg: true, msg_text: "Load Model Error: \(load_result)")
+            return
+        }            
+
+        self.finish_load()
+        self.chat?.model.sampleParams = self.model_sample_param
+        self.chat?.model.contextParams = self.model_context_param
+        //Set prompt model if in config or try to set promt format by filename
+        
+        print(self.model_sample_param)
+        print(self.model_context_param)
+        self.model_loading = false
+        var system_prompt:String? = nil
+        if self.model_context_param.system_prompt != ""{
+            system_prompt = self.model_context_param.system_prompt+"\n"
+            self.messages[self.messages.endIndex - 1].header = self.model_context_param.system_prompt
+        }
+        self.send(message: in_text, append_user_message:false,system_prompt:system_prompt,img_path:img_path)
+    }
+
     public func load_model_by_chat_name(_ chat_name: String,in_text:String, img_path: String? = nil) -> Bool?{
         self.model_loading = true
         
@@ -92,36 +125,11 @@ final class AIChatModel: ObservableObject {
         self.chat = nil
         self.chat = AI(_modelPath: modelURL,_chatName: chat_name);
         self.chat?.loadModel(model_context_param.model_inference,
-            { progress in
-                DispatchQueue.main.async {
-                    self.load_progress = progress
-//                    print(self.load_progress)
-                }
-                return true
-            }, { load_result in
-                if load_result != "[Done]"{
-                    self.finish_load(append_err_msg: true, msg_text: "Load Model \(load_result)")
-                    return
-                }                
-//                if self.chat?.model == nil || self.chat?.model.context == nil{
-//                    return nil
-//                }
-                self.finish_load()
-                self.chat?.model.sampleParams = self.model_sample_param
-                self.chat?.model.contextParams = self.model_context_param
-                //Set prompt model if in config or try to set promt format by filename
-                
-                print(self.model_sample_param)
-                print(self.model_context_param)
-                self.model_loading = false
-                var text = in_text
-                var system_prompt:String? = nil
-                if self.model_context_param.system_prompt != ""{
-//                    text = self.model_context_param.system_prompt+"\n" + text
-                    system_prompt = self.model_context_param.system_prompt+"\n"
-                    self.messages[self.messages.endIndex - 1].header = self.model_context_param.system_prompt
-                }
-                self.send(message: in_text, append_user_message:false,system_prompt:system_prompt,img_path:img_path)
+             { progress in
+                return self.model_load_progress_callback(progress)
+             }, 
+            { load_result in
+                self.on_model_loaded_callback(load_result,in_text:in_text,img_path:img_path)
             },contextParams: model_context_param)
         return true
     }
@@ -174,10 +182,13 @@ final class AIChatModel: ObservableObject {
             //                    self.AI_typing += str.count
             self.AI_typing += 1
             var updatedMessages = self.messages
-            updatedMessages[messageIndex] = message
+            //try to fix crash without using Mutex
+            if updatedMessages.count>messageIndex{
+                updatedMessages[messageIndex] = message
+            }
             self.messages = updatedMessages
             self.numberOfTokens += 1
-            self.total_sec += time
+            // self.total_sec += time
             //            if (self.numberOfTokens>self.maxToken){
             //                self.stop_predict()
             //            }
@@ -195,6 +206,34 @@ final class AIChatModel: ObservableObject {
         self.state = .completed        
         self.Title = self.title_backup
     }
+
+    public func finish_completion(_ final_str:String,_ message: inout Message, _ messageIndex: Int){
+//        final_str in // Finish predicting 
+        self.load_progress = 0
+        print(final_str)
+        self.AI_typing = 0
+        self.total_sec = Double((DispatchTime.now().uptimeNanoseconds - self.start_predicting_time.uptimeNanoseconds)) / 1_000_000_000
+        if (self.chat_name == self.chat?.chatName && self.chat?.flagExit != true){
+            message.state = .predicted(totalSecond: self.total_sec)
+            if self.tok_sec != 0{
+                message.tok_sec = self.tok_sec
+            }
+            else{
+                message.tok_sec = Double(self.numberOfTokens)/self.total_sec
+            }
+            self.messages[messageIndex] = message
+        }else{
+            print("chat ended.")
+        }
+        self.predicting = false
+        self.numberOfTokens = 0
+        self.action_button_icon = "paperplane"
+        if final_str.hasPrefix("[Error]"){
+            self.messages.append(Message(sender: .system, state: .error, text: "Eval \(final_str)", tok_sec: 0))
+        }
+        save_chat_history(self.messages,self.chat_name+".json")
+    }
+
 
     public func send(message in_text: String, append_user_message:Bool = true,system_prompt:String? = nil, img_path: String? = nil)  {
         var text = in_text
@@ -239,33 +278,35 @@ final class AIChatModel: ObservableObject {
         self.start_predicting_time = DispatchTime.now()
         let img_real_path = get_path_by_short_name(img_path ?? "unknown",dest: "cache/images")
         self.chat?.conversation(text,
-        { str, time in //Predicting
-            _ = self.process_predicted_str(str, time, &message, messageIndex)
-        },
-        { final_str in // Finish predicting 
-            self.load_progress = 0
-            print(final_str)
-            self.AI_typing = 0
-            self.total_sec = Double((DispatchTime.now().uptimeNanoseconds - self.start_predicting_time.uptimeNanoseconds)) / 1_000_000_000
-            if (self.chat_name == self.chat?.chatName && self.chat?.flagExit != true){
-                message.state = .predicted(totalSecond: self.total_sec)
-                if self.tok_sec != 0{
-                    message.tok_sec = self.tok_sec
-                }
-                else{
-                    message.tok_sec = Double(self.numberOfTokens)/self.total_sec
-                }
-                self.messages[messageIndex] = message
-            }else{
-                print("chat ended.")
-            }
-            self.predicting = false
-            self.numberOfTokens = 0
-            self.action_button_icon = "paperplane"
-            if final_str.hasPrefix("[Error]"){
-                self.messages.append(Message(sender: .system, state: .error, text: "Eval \(final_str)", tok_sec: 0))
-            }
-            save_chat_history(self.messages,self.chat_name+".json")
-        },system_prompt:system_prompt,img_path:img_real_path)
+            { str, time in //Predicting
+                _ = self.process_predicted_str(str, time, &message, messageIndex)
+            },
+            { final_str in // Finish predicting 
+                self.finish_completion(final_str, &message, messageIndex)
+                // self.load_progress = 0
+                // print(final_str)
+                // self.AI_typing = 0
+                // self.total_sec = Double((DispatchTime.now().uptimeNanoseconds - self.start_predicting_time.uptimeNanoseconds)) / 1_000_000_000
+                // if (self.chat_name == self.chat?.chatName && self.chat?.flagExit != true){
+                //     message.state = .predicted(totalSecond: self.total_sec)
+                //     if self.tok_sec != 0{
+                //         message.tok_sec = self.tok_sec
+                //     }
+                //     else{
+                //         message.tok_sec = Double(self.numberOfTokens)/self.total_sec
+                //     }
+                //     self.messages[messageIndex] = message
+                // }else{
+                //     print("chat ended.")
+                // }
+                // self.predicting = false
+                // self.numberOfTokens = 0
+                // self.action_button_icon = "paperplane"
+                // if final_str.hasPrefix("[Error]"){
+                //     self.messages.append(Message(sender: .system, state: .error, text: "Eval \(final_str)", tok_sec: 0))
+                // }
+                // save_chat_history(self.messages,self.chat_name+".json")
+            },
+            system_prompt:system_prompt,img_path:img_real_path)
     }
 }

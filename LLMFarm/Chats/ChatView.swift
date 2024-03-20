@@ -30,6 +30,7 @@ struct ChatView: View {
     @Binding var add_chat_dialog:Bool
     @Binding var edit_chat_dialog:Bool
     @State private var reload_button_icon: String = "arrow.counterclockwise.circle"
+    @State private var clear_chat_button_icon: String = "eraser.line.dashed.fill"
     
     @State private var scrollProxy: ScrollViewProxy? = nil
     
@@ -94,12 +95,12 @@ struct ChatView: View {
         aiChatModel.AI_typing = -Int.random(in: 0..<100000)
     }
     
-    private func delayIconChange() {
-        // Delay of 7.5 seconds
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            reload_button_icon = "arrow.counterclockwise.circle"
-        }
-    }
+//    private func delayIconChange() {
+//        // Delay of 7.5 seconds
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+//            reload_button_icon = "arrow.counterclockwise.circle"
+//        }
+//    }
     
     private var starOverlay: some View {
         
@@ -178,13 +179,16 @@ struct ChatView: View {
                         clearChatAlert = true
                     }
                 } label: {
-                    Image(systemName: "eraser.line.dashed.fill")
+                    Image(systemName: clear_chat_button_icon)
                 }
                 .alert("Are you sure?", isPresented: $clearChatAlert, actions: {
                     Button("Cancel", role: .cancel, action: {})
                     Button("Clear", role: .destructive, action: {
                         aiChatModel.messages = []
                         save_chat_history(aiChatModel.messages,aiChatModel.chat_name+".json")
+                        clear_chat_button_icon = "checkmark"
+                        self.aiChatModel.chat = nil
+                        run_after_delay(delay:1200, function:{clear_chat_button_icon = "arrow.counterclockwise.circle"})
                     })
                 }, message: {
                     Text("The message history will be cleared")
@@ -193,7 +197,8 @@ struct ChatView: View {
                     Task {
                         self.aiChatModel.chat = nil
                         reload_button_icon = "checkmark"
-                        delayIconChange()
+                        run_after_delay(delay:1200, function:{reload_button_icon = "arrow.counterclockwise.circle"})
+//                        delayIconChange()
                     }
                 } label: {
                     Image(systemName: reload_button_icon)

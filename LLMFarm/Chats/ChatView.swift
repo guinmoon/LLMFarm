@@ -35,6 +35,8 @@ struct ChatView: View {
     @State private var toggleEditChat = false
     @State private var clearChatAlert = false
     @State private var is_mmodal = false
+    
+    @State private var auto_scroll = true
 
     @FocusState var focusedField: Field?
     
@@ -55,6 +57,9 @@ struct ChatView: View {
         }
 #endif
         if scroll_bug {
+            return
+        }
+        if !auto_scroll {
             return
         }
         let last_msg = aiChatModel.messages.last // try to fixscrolling and  specialized Array._checkSubscript(_:wasNativeTypeChecked:)
@@ -97,8 +102,8 @@ struct ChatView: View {
         
         Button {
             Task{
-                scrollToBottom()
-                
+                auto_scroll = true
+                scrollToBottom()                
             }
         }
         
@@ -167,6 +172,7 @@ struct ChatView: View {
             .onTapGesture { location in
                 print("Tapped at \(location)")
                 focusedField = nil
+                auto_scroll = false
             }
             .toolbar {
                 Button {
@@ -214,7 +220,10 @@ struct ChatView: View {
             }
             .navigationTitle(aiChatModel.Title)
             
-            LLMTextInput(messagePlaceholder: placeholderString,show_attachment_btn:self.is_mmodal,focusedField:$focusedField).environmentObject(aiChatModel)
+            LLMTextInput(messagePlaceholder: placeholderString,
+                         show_attachment_btn:self.is_mmodal,
+                         focusedField:$focusedField,
+                         auto_scroll:$auto_scroll).environmentObject(aiChatModel)
                 .disabled(self.aiChatModel.chat_name == "")
 //            .focused($focusedField, equals: .firstName)
             

@@ -66,6 +66,7 @@ public struct LLMTextInput: View {
     @State private var selectedPhoto: PhotosPickerItem?
     @State private var image: Image?
     @State public var img_cahce_path: String?
+    @Binding private var auto_scroll:Bool
     
 //    @FocusState private var focusedField: Field?
     
@@ -216,12 +217,14 @@ public struct LLMTextInput: View {
         //        _ chat: Binding<Chat>,
         messagePlaceholder: String? = nil,
         show_attachment_btn: Bool,
-        focusedField: FocusState<Field?>.Binding
+        focusedField: FocusState<Field?>.Binding,
+        auto_scroll: Binding<Bool>
     ) {
         //        self._chat = chat
         self.messagePlaceholder = messagePlaceholder ?? "Message"
         self.show_attachment_btn = show_attachment_btn
         self.focusedField = focusedField
+        self._auto_scroll = auto_scroll
     }
     
     
@@ -235,7 +238,8 @@ public struct LLMTextInput: View {
                 img_cahce_path = nil
                 image = nil
                 selectedPhoto = nil
-                Task {                    
+                auto_scroll = true
+                Task {
                     await aiChatModel.send(message: input_text,img_path: img_path)
                     input_text = ""
                 }

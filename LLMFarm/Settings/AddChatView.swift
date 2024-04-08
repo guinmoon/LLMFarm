@@ -890,7 +890,7 @@ struct AddChatView: View {
                         }
                     }.padding([.top ])
                     
-                    DisclosureGroup("Additionl options:", isExpanded: $isAdditionalAccordionExpanded) {
+                    DisclosureGroup("Additional options:", isExpanded: $isAdditionalAccordionExpanded) {
                         VStack{
                             Text("Save as new template:")
                                 .frame(maxWidth: .infinity, alignment: .leading)

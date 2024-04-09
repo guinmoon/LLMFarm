@@ -1,5 +1,5 @@
 {
-  "model_inference" : "starcoder",
+  "model_inference" : "llama",
   "template_name" : "Santacoder",
   "context" : 2048,
   "n_batch" : 512,
@@ -10,5 +10,6 @@
   "temp" : 0.89999997615814209,
   "top_p" : 0.94999998807907104,
   "repeat_last_n" : 64,
+  "add_bos_token":false,
   "repeat_penalty" : 1.1759999990463257
 }

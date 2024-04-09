@@ -1,5 +1,5 @@
 {
-  "prompt_format" : "[system](You are a helpful, respectful and honest assistant.)\nUSER: {prompt}\nASSISTANT:",
+  "prompt_format" : "USER: {prompt}\nASSISTANT:",
   "tfs_z" : 1,
   "top_p" : 0.94999998807907104,
   "mlock" : false,
@@ -11,7 +11,7 @@
   "repeat_penalty" : 1.1000000238418579,
   "reverse_prompt" : "USER:",
   "mmap" : true,
-  "add_bos_token" : true,
+  "add_bos_token" : false,
   "top_k" : 40,
   "context" : 1024,
   "mirostat_tau" : 5,

@@ -33,8 +33,7 @@ struct ChatView: View {
     
     @State private var scrollTarget: Int?
     @State private var toggleEditChat = false
-    @State private var clearChatAlert = false
-    @State private var is_mmodal = false
+    @State private var clearChatAlert = false    
     
     @State private var auto_scroll = true
 
@@ -81,20 +80,19 @@ struct ChatView: View {
         if chat_selection == nil {
             return
         }
-        
-        print(self.is_mmodal)
+                
         print(chat_selection)
         print("\nreload\n")
-        aiChatModel.stop_predict()
-//        await aiChatModel.prepare(model_name,chat_selection!)
-        aiChatModel.model_name = model_name        
-        aiChatModel.chat_name = chat_selection!["chat"] ?? "Not selected"
-//        title = chat_selection!["title"] ?? ""
-        aiChatModel.Title = chat_selection!["title"] ?? ""
-        aiChatModel.messages = []
-        self.is_mmodal =  chat_selection!["mmodal"] ?? "" == "1"
-        aiChatModel.messages = load_chat_history(chat_selection!["chat"]!+".json")!
-        aiChatModel.AI_typing = -Int.random(in: 0..<100000)
+        aiChatModel.reload_chat(chat_selection!)
+//         aiChatModel.stop_predict()
+// //        await aiChatModel.prepare(model_name,chat_selection!)
+//         aiChatModel.model_name = model_name        
+//         aiChatModel.chat_name = chat_selection!["chat"] ?? "Not selected"
+// //        title = chat_selection!["title"] ?? ""
+//         aiChatModel.Title = chat_selection!["title"] ?? ""
+//         aiChatModel.messages = []
+//         aiChatModel.messages = load_chat_history(chat_selection!["chat"]!+".json")!
+//         aiChatModel.AI_typing = -Int.random(in: 0..<100000)
     }
     
     
@@ -221,7 +219,7 @@ struct ChatView: View {
             .navigationTitle(aiChatModel.Title)
             
             LLMTextInput(messagePlaceholder: placeholderString,
-                         show_attachment_btn:self.is_mmodal,
+                         show_attachment_btn:self.aiChatModel.is_mmodal,
                          focusedField:$focusedField,
                          auto_scroll:$auto_scroll).environmentObject(aiChatModel)
                 .disabled(self.aiChatModel.chat_name == "")

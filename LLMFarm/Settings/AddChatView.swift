@@ -140,17 +140,32 @@ struct AddChatView: View {
         }
         if (chat_config!["clip_model"] != nil){
             self._clip_model_file_path = State(initialValue: chat_config!["clip_model"]! as! String)
+            if let path = get_path_by_short_name(chat_config!["clip_model"]! as! String){
+                self._has_clip = State(initialValue: true)
+            }
         }
         if chat_config!["lora_adapters"] != nil{
             let adapters = chat_config!["lora_adapters"]! as?  [Dictionary<String, Any>]
             if adapters != nil && adapters!.count>0{
                 self._lora_file_path = State(initialValue: adapters![0]["adapter"]! as! String)
                 self._lora_file_scale = State(initialValue: adapters![0]["scale"]! as! Float)
-            }
+                if let path = get_path_by_short_name(adapters![0]["adapter"]! as! String,dest:"lora_adapters"){
+                    self._has_lora = State(initialValue: true)
+                }
+            }            
         }
         if chat_config!["icon"] != nil{
             self._model_icon = State(initialValue: chat_config!["icon"]! as! String)
         }
+        if chat_config!["model_settings_template"] != nil{
+            let cur_template = chat_config?["model_settings_template"] as? String ?? ""
+//            let isPresent = model_setting_templates.contains(where: { $0.template_name == cur_template })
+            model_setting_templates.forEach { template in
+                if template.template_name == cur_template{
+                    self._model_settings_template = State(initialValue:template)
+                }
+            }
+        }        
         if (chat_config!["model_inference"] != nil){
             self._model_inference = State(initialValue: chat_config!["model_inference"]! as! String)
         }
@@ -279,6 +294,7 @@ struct AddChatView: View {
     
     func get_chat_options_dict(is_template:Bool = false) -> Dictionary<String, Any> {
         var options:Dictionary<String, Any> =    ["model":model_file_path,
+                                                  "model_settings_template":model_settings_template.template_name,
                                                   "clip_model":clip_model_file_path,
                                                   "lora_adapters":lora_adapters,
                                                   "title":model_title,
@@ -890,7 +906,7 @@ struct AddChatView: View {
                         }
                     }.padding([.top ])
                     
-                    DisclosureGroup("Additionl options:", isExpanded: $isAdditionalAccordionExpanded) {
+                    DisclosureGroup("Additional options:", isExpanded: $isAdditionalAccordionExpanded) {
                         VStack{
                             Text("Save as new template:")
                                 .frame(maxWidth: .infinity, alignment: .leading)

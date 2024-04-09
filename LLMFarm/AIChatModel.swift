@@ -42,6 +42,8 @@ final class AIChatModel: ObservableObject {
     public var first_predicted_token_time = DispatchTime.now()
     public var tok_sec:Double = 0.0
     private var title_backup = ""
+
+    private var messages_lock = NSLock()
     
     @Published var predicting = false
     @Published var AI_typing = 0
@@ -49,6 +51,7 @@ final class AIChatModel: ObservableObject {
     @Published var messages: [Message] = []
     @Published var load_progress:Float = 0.0
     @Published var Title: String = ""
+    @Published var is_mmodal: Bool = false
     
     public init(){
         chat = nil
@@ -87,6 +90,19 @@ final class AIChatModel: ObservableObject {
             self.messages[self.messages.endIndex - 1].header = self.model_context_param.system_prompt
         }
         self.send(message: in_text, append_user_message:false,system_prompt:system_prompt,img_path:img_path)
+    }
+
+    public func reload_chat(_ chat_selection: Dictionary<String, String>){
+        self.stop_predict()
+//        self.model_name = model_name        
+        self.chat_name = chat_selection["chat"] ?? "Not selected"
+        self.Title = chat_selection["title"] ?? ""
+        self.is_mmodal =  chat_selection["mmodal"] ?? "" == "1"
+        messages_lock.lock()
+        self.messages = []        
+        self.messages = load_chat_history(chat_selection["chat"]!+".json")!
+        messages_lock.unlock()
+        self.AI_typing = -Int.random(in: 0..<100000)
     }
 
     public func load_model_by_chat_name(_ chat_name: String,in_text:String, img_path: String? = nil) -> Bool?{
@@ -135,19 +151,36 @@ final class AIChatModel: ObservableObject {
     }
     
     
+    private func update_last_message(_ message: inout Message){
+        messages_lock.lock()
+        if let last_msg = messages.last {
+            messages[messages.endIndex-1] = message
+        }
+        messages_lock.unlock()
+    }
+
     public func stop_predict(is_error:Bool=false){
         self.chat?.flagExit = true
-        self.total_sec = Double((DispatchTime.now().uptimeNanoseconds - self.start_predicting_time.uptimeNanoseconds)) / 1_000_000_000
-        if messages.count>0{
-            if self.messages[messages.endIndex-1].state == .predicting ||
-                self.messages[messages.endIndex-1].state == .none{
-                self.messages[messages.endIndex-1].state = .predicted(totalSecond: self.total_sec)
-                self.messages[messages.endIndex-1].tok_sec = Double(self.numberOfTokens)/self.total_sec
+        self.total_sec = Double((DispatchTime.now().uptimeNanoseconds - self.start_predicting_time.uptimeNanoseconds)) / 1_000_000_000        
+        if var last_message =  messages.last{            
+            if last_message.state == .predicting || last_message.state == .none{
+                messages[messages.endIndex-1].state = .predicted(totalSecond: self.total_sec)
+                messages[messages.endIndex-1].tok_sec = Double(self.numberOfTokens)/self.total_sec
             }
             if is_error{
-                self.messages[messages.endIndex-1].state = .error
+                messages[messages.endIndex-1].state = .error
             }
         }
+        // if messages.count>0{            
+        //     if self.messages[messages.endIndex-1].state == .predicting ||
+        //         self.messages[messages.endIndex-1].state == .none{
+        //         self.messages[messages.endIndex-1].state = .predicted(totalSecond: self.total_sec)
+        //         self.messages[messages.endIndex-1].tok_sec = Double(self.numberOfTokens)/self.total_sec
+        //     }
+        //     if is_error{
+        //         self.messages[messages.endIndex-1].state = .error
+        //     }
+        // }
         self.predicting = false
         self.tok_sec = Double(self.numberOfTokens)/self.total_sec
         self.numberOfTokens = 0
@@ -156,7 +189,7 @@ final class AIChatModel: ObservableObject {
         save_chat_history(self.messages,self.chat_name+".json")
     }
     
-    public func process_predicted_str(_ str: String, _ time: Double,_ message: inout Message, _ messageIndex: Int) -> Bool
+    public func process_predicted_str(_ str: String, _ time: Double,_ message: inout Message/*, _ messageIndex: Int*/) -> Bool
     {
         var check = true
         for stop_word in self.model_context_param.reverse_prompt{
@@ -180,13 +213,13 @@ final class AIChatModel: ObservableObject {
             message.state = .predicting
             message.text += str
             //                    self.AI_typing += str.count
-            self.AI_typing += 1
-            var updatedMessages = self.messages
-            //try to fix crash without using Mutex
-            if updatedMessages.count>messageIndex{
-                updatedMessages[messageIndex] = message
-            }
-            self.messages = updatedMessages
+            self.AI_typing += 1            
+            // messages_lock.lock()
+            // if self.messages.count>messageIndex{
+            //     self.messages[messageIndex] = message
+            // }            
+            // messages_lock.unlock()
+            update_last_message(&message)
             self.numberOfTokens += 1
             // self.total_sec += time
             //            if (self.numberOfTokens>self.maxToken){
@@ -207,7 +240,7 @@ final class AIChatModel: ObservableObject {
         self.Title = self.title_backup
     }
 
-    public func finish_completion(_ final_str:String,_ message: inout Message, _ messageIndex: Int){
+    public func finish_completion(_ final_str:String,_ message: inout Message/*, _ messageIndex: Int*/){
 //        final_str in // Finish predicting 
         self.load_progress = 0
         print(final_str)
@@ -221,7 +254,12 @@ final class AIChatModel: ObservableObject {
             else{
                 message.tok_sec = Double(self.numberOfTokens)/self.total_sec
             }
-            self.messages[messageIndex] = message
+            update_last_message(&message)
+            // messages_lock.lock()
+            // if self.messages.count<messageIndex{
+            //     self.messages[messageIndex] = message
+            // }
+            // messages_lock.unlock()
         }else{
             print("chat ended.")
         }
@@ -270,7 +308,11 @@ final class AIChatModel: ObservableObject {
         self.chat?.flagExit = false        
         var message = Message(sender: .system, text: "",tok_sec: 0)
         self.messages.append(message)
-        let messageIndex = self.messages.endIndex - 1
+        // self.messages.append(Message(sender: .system, text: "",tok_sec: 0))
+        // guard var message = self.messages.last else{
+        //     return
+        // }
+        // let messageIndex = self.messages.endIndex - 1
         self.numberOfTokens = 0
         self.total_sec = 0.0
         self.predicting = true
@@ -279,33 +321,10 @@ final class AIChatModel: ObservableObject {
         let img_real_path = get_path_by_short_name(img_path ?? "unknown",dest: "cache/images")
         self.chat?.conversation(text,
             { str, time in //Predicting
-                _ = self.process_predicted_str(str, time, &message, messageIndex)
+                _ = self.process_predicted_str(str, time, &message/*, messageIndex*/)
             },
             { final_str in // Finish predicting 
-                self.finish_completion(final_str, &message, messageIndex)
-                // self.load_progress = 0
-                // print(final_str)
-                // self.AI_typing = 0
-                // self.total_sec = Double((DispatchTime.now().uptimeNanoseconds - self.start_predicting_time.uptimeNanoseconds)) / 1_000_000_000
-                // if (self.chat_name == self.chat?.chatName && self.chat?.flagExit != true){
-                //     message.state = .predicted(totalSecond: self.total_sec)
-                //     if self.tok_sec != 0{
-                //         message.tok_sec = self.tok_sec
-                //     }
-                //     else{
-                //         message.tok_sec = Double(self.numberOfTokens)/self.total_sec
-                //     }
-                //     self.messages[messageIndex] = message
-                // }else{
-                //     print("chat ended.")
-                // }
-                // self.predicting = false
-                // self.numberOfTokens = 0
-                // self.action_button_icon = "paperplane"
-                // if final_str.hasPrefix("[Error]"){
-                //     self.messages.append(Message(sender: .system, state: .error, text: "Eval \(final_str)", tok_sec: 0))
-                // }
-                // save_chat_history(self.messages,self.chat_name+".json")
+                self.finish_completion(final_str, &message/*, messageIndex*/)                
             },
             system_prompt:system_prompt,img_path:img_real_path)
     }

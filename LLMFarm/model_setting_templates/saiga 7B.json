@@ -11,5 +11,6 @@
   "reverse_prompt": "",
   "template_name" : "Saiga 7B",
   "repeat_penalty" : 1.1759999990463257,
+  "add_bos_token":false,
   "top_p" : 0.94999998807907104
 }

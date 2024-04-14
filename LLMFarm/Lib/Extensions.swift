@@ -187,6 +187,27 @@ enum NSImageExtensionError: Error {
 import UIKit
 
 extension UIImage {
+    
+    func normalizedImage() -> UIImage?
+    {        
+        if self.imageOrientation == .up
+        {
+            return self
+        }
+        else
+        {
+            UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
+            defer
+            {
+                UIGraphicsEndImageContext()
+            }
+
+            self.draw(in: CGRect(origin: .zero, size: self.size))
+
+            return UIGraphicsGetImageFromCurrentImageContext()
+        }
+    }
+    
     var fixedOrientation: UIImage {
         guard imageOrientation != .up else { return self }
         

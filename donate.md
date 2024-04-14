@@ -14,7 +14,7 @@ This project is done on **pure enthusiasm**. Your donations **really motivate** 
 
 # USDT (ERC-20)
 
-Address: `0x6cf855d6bf7e78409efc4fcbaac55be12469e512`
+Address: `0x45491Ff6ce7296CF8BC74a350358C349aCf52014`
 
 Scan it with your crypto wallet:
 
@@ -22,7 +22,7 @@ Scan it with your crypto wallet:
 
 # USDT (TRC-20)
 
-Address: `TEANPVFSrtJMT83YfuJqW7eBq854dPEpNy`
+Address: `TL5S4iTSGoot6BhrtzfwXPRGZLZKB4SXMv`
 
 Scan it with your crypto wallet:
 
@@ -30,15 +30,15 @@ Scan it with your crypto wallet:
 
 # LTC
 
-Address: `0x6cf855d6bf7e78409efc4fcbaac55be12469e512`
+Address: `MGbEnvzfct9xKWH7YE65TLP5dz2fpVXiNT`
 
 Scan it with your crypto wallet:
 
 <!-- ![LTC QR code](qrcodes/LTC.png) -->
 
-# ETH (ERC20)
+# ETH (BEP-20)
 
-Address: `0x6cf855d6bf7e78409efc4fcbaac55be12469e512`
+Address: `0x45491Ff6ce7296CF8BC74a350358C349aCf52014`
 
 Scan it with your crypto wallet:
 
@@ -47,7 +47,7 @@ Scan it with your crypto wallet:
 
 # BTC
 
-Address: `14My7cvN8pTSCFpxgxuo3p5945BE8ktVEj`
+Address: `3GVL6pZ8N6n46UCAz8SK8fu1jbPLp3pw1j`
 
 Scan it with your crypto wallet:
 

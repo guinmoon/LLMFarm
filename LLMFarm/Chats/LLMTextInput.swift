@@ -45,10 +45,10 @@ extension Image {
     @MainActor
     func getUIImage() -> UIImage? {
         let image = resizable()
-            .scaledToFill()
-        //            .frame(width: newSize.width, height: newSize.height)
-            .clipped()
-        return ImageRenderer(content: image).uiImage
+//            .scaledToFill()
+//        //            .frame(width: newSize.width, height: newSize.height)
+//            .clipped()
+        return ImageRenderer(content: image).uiImage?.fixedOrientation
     }
 }
 #endif

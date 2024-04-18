@@ -87,7 +87,7 @@ func main(){
     
     input_text = "write long story about Artem and Dasha"
     do{
-        try ai.loadModel(modelInference,contextParams: params)
+        try ai.loadModel_sync(modelInference,contextParams: params)
         
         //    input_text = "[INST] <<SYS>>\nYou are a helpful, respectful and honest assistant. Always answer as helpfully as possible.\n<</SYS>>\nTell about Stavropol in one sentence.[/INST]"
         //    input_text = "[INST] <<SYS>>\nYou are a helpful, respectful and honest assistant. Always answer as helpfully as possible.\n<</SYS>>\nTell more.[/INST]"

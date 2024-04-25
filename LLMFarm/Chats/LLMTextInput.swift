@@ -94,19 +94,26 @@ public struct LLMTextInput: View {
         HStack(alignment: .bottom) {
             if self.show_attachment_btn{
                 if img_cahce_path != nil && platformImage != nil{
+                    HStack{
 #if os(macOS)
-                    Image(nsImage:platformImage!)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(maxWidth: 30,maxHeight: 40)
+                        Image(nsImage:platformImage!)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(maxWidth: 30,maxHeight: 40)
 #else
-                    Image(uiImage:platformImage!)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(maxWidth: 30,maxHeight: 40)
+                        Image(uiImage:platformImage!)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(maxWidth: 30,maxHeight: 40)
+                            .clipShape(Circle())
 #endif
-                    // image!
-                    
+                        // image!
+                    }
+                    .cornerRadius(20) /// make the background rounded
+                    .overlay( /// apply a rounded border
+                        RoundedRectangle(cornerRadius: 5)
+                            .stroke(.gray, lineWidth: 1)
+                    )
                 }
                 Group {
                     attachButton

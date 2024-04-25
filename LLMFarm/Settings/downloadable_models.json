@@ -18,6 +18,46 @@
         ]
     },
     {
+        "name": "Phi 2 2.7B",
+        "models": [
+            {
+                "file_name": "phi-2.Q4_K_M.gguf",
+                "url": "https://huggingface.co/TheBloke/phi-2-GGUF/resolve/main/phi-2.Q4_K_M.gguf?download=true",
+                "size": "1.48",
+                "Q": "Q4_K_M"
+            },
+            {
+                "url": "https://huggingface.co/ggml-org/models/resolve/main/phi-2/ggml-model-q8_0.gguf?download=true",
+                "file_name": "phi-2-q8_0.gguf",
+                "size": "",
+                "Q": "Q8_0"
+            }
+        ]
+    },
+    {
+        "name": "Phi 3 mini 128k instruct",
+        "models": [
+            {
+                "file_name": "Phi-3-mini-128k-instruct.IQ4_NL.gguf",
+                "url": "https://huggingface.co/PrunaAI/Phi-3-mini-128k-instruct-GGUF-Imatrix-smashed/resolve/main/Phi-3-mini-128k-instruct.IQ4_NL.gguf?download=true",
+                "size": "1.48",
+                "Q": "IQ4_NL"
+            },
+            {
+                "url": "https://huggingface.co/PrunaAI/Phi-3-mini-128k-instruct-GGUF-Imatrix-smashed/resolve/main/Phi-3-mini-128k-instruct.IQ3_S.gguf?download=true",
+                "file_name": "Phi-3-mini-128k-instruct.IQ3_S.gguf",
+                "size": "",
+                "Q": "IQ3_S"
+            },
+            {
+                "url": "https://huggingface.co/PrunaAI/Phi-3-mini-128k-instruct-GGUF-Imatrix-smashed/resolve/main/Phi-3-mini-128k-instruct.Q5_K_M.gguf?download=true",
+                "file_name": "Phi-3-mini-128k-instruct.Q5_K_M.gguf",
+                "size": "",
+                "Q": "Q5_K_M"
+            }
+        ]
+    },
+    {
         "name": "MobileVLM 1.7B",
         "models": [
             {
@@ -82,23 +122,6 @@
                 "url": "https://huggingface.co/guinmoon/MobileVLM-3B-GGUF/resolve/main/MobileVLM-3B-mmproj-f16.gguf?download=true",
                 "size": "",
                 "Q": "F16"
-            }
-        ]
-    },
-    {
-        "name": "Phi 2 2.7B",
-        "models": [
-            {
-                "file_name": "phi-2.Q4_K_M.gguf",
-                "url": "https://huggingface.co/TheBloke/phi-2-GGUF/resolve/main/phi-2.Q4_K_M.gguf?download=true",
-                "size": "1.48",
-                "Q": "Q4_K_M"
-            },
-            {
-                "url": "https://huggingface.co/ggml-org/models/resolve/main/phi-2/ggml-model-q8_0.gguf?download=true",
-                "file_name": "phi-2-q8_0.gguf",
-                "size": "",
-                "Q": "Q8_0"
             }
         ]
     },

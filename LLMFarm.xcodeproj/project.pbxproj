@@ -65,6 +65,7 @@
 		15C08A662BA3705D000A1BE0 /* ModelSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C08A652BA3705D000A1BE0 /* ModelSelector.swift */; };
 		15C08A682BA5976A000A1BE0 /* MessageImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C08A672BA5976A000A1BE0 /* MessageImage.swift */; };
 		15C08A6A2BA5CB2C000A1BE0 /* MobileVLM.json in Resources */ = {isa = PBXBuildFile; fileRef = 15C08A692BA5CB2C000A1BE0 /* MobileVLM.json */; };
+		15D81B002BDAC0E900C3B5CE /* phi3.json in Resources */ = {isa = PBXBuildFile; fileRef = 15D81AFF2BDAC0E900C3B5CE /* phi3.json */; };
 		15D8FE902AF80D7600B5C90D /* FineTuneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D8FE8F2AF80D7600B5C90D /* FineTuneView.swift */; };
 		15E086C42AEAC69B006459DE /* FineTuneModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E086C32AEAC69B006459DE /* FineTuneModel.swift */; };
 		15E415D42A18A2980057A15E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E415D32A18A2980057A15E /* main.swift */; };
@@ -178,6 +179,7 @@
 		15C08A652BA3705D000A1BE0 /* ModelSelector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelSelector.swift; sourceTree = "<group>"; };
 		15C08A672BA5976A000A1BE0 /* MessageImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageImage.swift; sourceTree = "<group>"; };
 		15C08A692BA5CB2C000A1BE0 /* MobileVLM.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = MobileVLM.json; sourceTree = "<group>"; };
+		15D81AFF2BDAC0E900C3B5CE /* phi3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = phi3.json; sourceTree = "<group>"; };
 		15D8FE8F2AF80D7600B5C90D /* FineTuneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FineTuneView.swift; sourceTree = "<group>"; };
 		15E086C32AEAC69B006459DE /* FineTuneModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FineTuneModel.swift; sourceTree = "<group>"; };
 		15E415D12A18A2970057A15E /* ModelTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ModelTest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -254,6 +256,7 @@
 				158172B72BC5B1460078DCDA /* llama chat 2 7B (2).json */,
 				158172BD2BC5B1470078DCDA /* llama chat 2 7B.json */,
 				158172B52BC5B1460078DCDA /* phi2.json */,
+				15D81AFF2BDAC0E900C3B5CE /* phi3.json */,
 				158172B92BC5B1470078DCDA /* RWKV-4 Raven Eng.json */,
 				158172B82BC5B1470078DCDA /* StableLM-3B-4E1T.json */,
 				158172B42BC5B1460078DCDA /* tinyllama.json */,
@@ -577,6 +580,7 @@
 				158172CA2BC5B1480078DCDA /* llama chat 2 7B.json in Resources */,
 				15F210892A191B1B0021F414 /* Preview Assets.xcassets in Resources */,
 				15F210852A191B1B0021F414 /* Assets.xcassets in Resources */,
+				15D81B002BDAC0E900C3B5CE /* phi3.json in Resources */,
 				1532BF7E2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json in Resources */,
 				158172C12BC5B1480078DCDA /* tinyllama.json in Resources */,
 				158172C52BC5B1480078DCDA /* StableLM-3B-4E1T.json in Resources */,

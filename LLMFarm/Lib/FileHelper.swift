@@ -480,7 +480,7 @@ func create_chat(_ in_options:Dictionary<String, Any>,edit_chat_dialog:Bool = fa
                 continue
             }
             if key != "lora_adapters" && key != "model" && key != "clip_model"
-                && key != "title" && key != "icon"{
+                && key != "title" && key != "icon" && key != "model_settings_template"{
                 options[key] = value
             }
         }

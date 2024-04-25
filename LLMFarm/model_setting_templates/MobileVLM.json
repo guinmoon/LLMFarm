@@ -1,5 +1,5 @@
 {
-  "prompt_format" : "USER: {prompt}\nASSISTANT:",
+  "prompt_format" : "[system](You are a helpful, respectful and honest assistant.)\nUSER: {prompt}\nASSISTANT:",
   "tfs_z" : 1,
   "top_p" : 0.94999998807907104,
   "mlock" : false,

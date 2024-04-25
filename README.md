@@ -89,7 +89,4 @@ git clone --recurse-submodules https://github.com/guinmoon/LLMFarm
 ```
 
 
-# P.S.
-The number of open source models is constantly growing. One of the advantages of using such models is the possibility of preserving their original content without censorship. However, a disadvantage may be the irrelevance of the information they contain. It is also possible to get answers to questions from different industries, for example, there are models that specialize in medical terms or programming.
-In addition, you can use these models to create stories, songs, music, play quests, and so on...
-
+# [❤️ Support project](./donate.md)

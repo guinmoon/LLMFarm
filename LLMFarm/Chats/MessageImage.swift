@@ -37,7 +37,7 @@ struct MessageImage: View {
                 let ui_img = UIImage(contentsOfFile: img_path!)
                 if ui_img != nil{
                     let w = CGFloat(ui_img!.cgImage!.width * Int(maxHeight)/ui_img!.cgImage!.height)
-                    Image(uiImage: ui_img!)
+                    Image(uiImage: ui_img!.fixedOrientation)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(maxWidth: w,maxHeight: maxHeight)

@@ -39,17 +39,27 @@ extension Image {
             .clipped()
         return ImageRenderer(content: image).nsImage
     }
+    //    func getNSImage() -> NSImage? {
+    //        let image = resizable()
+    //        return NSImage(data: image)
+    //    }
 }
 #elseif os(iOS)
+
 extension Image {
     @MainActor
-    func getUIImage() -> UIImage? {
-        let image = resizable()
-//            .scaledToFill()
-//        //            .frame(width: newSize.width, height: newSize.height)
-//            .clipped()
-        return ImageRenderer(content: image).uiImage?.fixedOrientation
-    }
+         func getUIImage() -> UIImage? {
+             let image = resizable()
+     //            .scaledToFill()
+     //        //            .frame(width: newSize.width, height: newSize.height)
+     //            .clipped()
+             return ImageRenderer(content: image).uiImage?.fixedOrientation
+         }
+//    func getUIImage() -> UIImage? {
+//        let image = resizable()
+//        return UIImage(data: image).fixedOrientation
+//    }
+    
 }
 #endif
 
@@ -64,11 +74,17 @@ public struct LLMTextInput: View {
     @State public var input_text: String = ""
     @State private var messageViewHeight: CGFloat = 0
     @State private var selectedPhoto: PhotosPickerItem?
+    @State private var selectedImageData: Data? = nil
     @State private var image: Image?
+#if os(macOS)
+    @State private var platformImage: NSImage?
+#else
+    @State private var platformImage: UIImage?
+#endif
     @State public var img_cahce_path: String?
     @Binding private var auto_scroll:Bool
     
-//    @FocusState private var focusedField: Field?
+    //    @FocusState private var focusedField: Field?
     
     
     
@@ -77,11 +93,20 @@ public struct LLMTextInput: View {
     public var body: some View {
         HStack(alignment: .bottom) {
             if self.show_attachment_btn{
-                if img_cahce_path != nil && image != nil{
-                    image!
+                if img_cahce_path != nil && platformImage != nil{
+#if os(macOS)
+                    Image(nsImage:platformImage!)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(maxWidth: 30,maxHeight: 40)
+#else
+                    Image(uiImage:platformImage!)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(maxWidth: 30,maxHeight: 40)
+#endif
+                    // image!
+                    
                 }
                 Group {
                     attachButton
@@ -142,7 +167,7 @@ public struct LLMTextInput: View {
     }
     
     private func disable_send() -> Bool{
-        if input_text.isEmpty && 
+        if input_text.isEmpty &&
             !aiChatModel.predicting &&
             img_cahce_path == nil
         {
@@ -186,13 +211,23 @@ public struct LLMTextInput: View {
         .offset(x: 10, y: -7)
         .task(id: selectedPhoto)  {
             //            if selectedPhoto?.supportedContentTypes.first == .image {
-            image = try? await selectedPhoto?.loadTransferable(type: Image.self)
-            #if os(macOS)
-            let img = image?.getNSImage()
-            #elseif os(iOS)
-            let img = image?.getUIImage()
-            #endif
-            img_cahce_path = save_image_from_library_to_cache(img)
+            //            image = try? await selectedPhoto?.loadTransferable(type: Image.self)
+            if let data = try? await selectedPhoto?.loadTransferable(type: Data.self) {
+                selectedImageData = data
+                if selectedImageData != nil {
+#if os(macOS)
+                    //                platformImage = image?.getNSImage()
+                    platformImage = NSImage(data: selectedImageData!)
+                    img_cahce_path = save_image_from_library_to_cache(platformImage)
+#elseif os(iOS)
+                    platformImage = UIImage(data: selectedImageData!)?.fixedOrientation
+                    //                platformImage = image?.getUIImage()
+                    img_cahce_path = save_image_from_library_to_cache(platformImage)
+#endif
+                }
+            }
+            
+            
             //            }
         }
         //        Button(
@@ -240,7 +275,7 @@ public struct LLMTextInput: View {
                 selectedPhoto = nil
                 auto_scroll = true
                 Task {
-                    await aiChatModel.send(message: input_text,img_path: img_path)
+                    aiChatModel.send(message: input_text,img_path: img_path)
                     input_text = ""
                 }
             }

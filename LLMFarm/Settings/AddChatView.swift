@@ -106,6 +106,9 @@ struct AddChatView: View {
     
     @State private var clearChatAlert = false
     
+    @State private var model_not_selected_alert = false
+    
+    
     func refresh_templates(){
         model_setting_templates = get_model_setting_templates()
     }
@@ -354,6 +357,10 @@ struct AddChatView: View {
                     Spacer()
                     Button {
                         Task {
+                            if model_file_path == "Select model"{
+                                model_not_selected_alert = true
+                                return
+                            }
                             //                            if !edit_chat_dialog {
                             if model_file_url.path != "/"{
                                 print(model_file_url.path)
@@ -394,6 +401,9 @@ struct AddChatView: View {
                         }
                     } label: {
                         Text(edit_chat_dialog ? "Save" :"Add" )
+                    }
+                    .alert("To create a  chat, first select a model.", isPresented: $model_not_selected_alert) {
+                                Button("OK", role: .cancel) { }
                     }
                     .disabled(model_title=="")
                 }

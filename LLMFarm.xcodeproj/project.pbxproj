@@ -17,6 +17,7 @@
 		1532BF7E2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json in Resources */ = {isa = PBXBuildFile; fileRef = 1532BF7D2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json */; };
 		15584A5C2AAB994100EC9C9C /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15584A5B2AAB994100EC9C9C /* DownloadManager.swift */; };
 		15584A5E2AABA09300EC9C9C /* DidEndEditingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15584A5D2AABA09300EC9C9C /* DidEndEditingTextField.swift */; };
+		155D5B012BE2285300E43E18 /* Gemma.json in Resources */ = {isa = PBXBuildFile; fileRef = 155D5B002BE2285300E43E18 /* Gemma.json */; };
 		1560D6172A2D1A3D00918330 /* AddChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1560D6162A2D1A3D00918330 /* AddChatView.swift */; };
 		1568E3CE2A8BF86200930CC9 /* BottomPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1568E3CD2A8BF86200930CC9 /* BottomPanel.swift */; };
 		15692A7B2BAA082700AB2F4C /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 15692A7A2BAA082700AB2F4C /* PrivacyInfo.xcprivacy */; };
@@ -24,7 +25,6 @@
 		156A48D22A52B65C007DF519 /* Orientation_helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156A48D12A52B65C007DF519 /* Orientation_helper.swift */; };
 		158172C12BC5B1480078DCDA /* tinyllama.json in Resources */ = {isa = PBXBuildFile; fileRef = 158172B42BC5B1460078DCDA /* tinyllama.json */; };
 		158172C22BC5B1480078DCDA /* phi2.json in Resources */ = {isa = PBXBuildFile; fileRef = 158172B52BC5B1460078DCDA /* phi2.json */; };
-		158172C42BC5B1480078DCDA /* llama chat 2 7B (2).json in Resources */ = {isa = PBXBuildFile; fileRef = 158172B72BC5B1460078DCDA /* llama chat 2 7B (2).json */; };
 		158172C52BC5B1480078DCDA /* StableLM-3B-4E1T.json in Resources */ = {isa = PBXBuildFile; fileRef = 158172B82BC5B1470078DCDA /* StableLM-3B-4E1T.json */; };
 		158172C62BC5B1480078DCDA /* RWKV-4 Raven Eng.json in Resources */ = {isa = PBXBuildFile; fileRef = 158172B92BC5B1470078DCDA /* RWKV-4 Raven Eng.json */; };
 		158172CA2BC5B1480078DCDA /* llama chat 2 7B.json in Resources */ = {isa = PBXBuildFile; fileRef = 158172BD2BC5B1470078DCDA /* llama chat 2 7B.json */; };
@@ -136,6 +136,7 @@
 		1532BF7D2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "MagicPrompt-Stable-Diffusion.json"; sourceTree = "<group>"; };
 		15584A5B2AAB994100EC9C9C /* DownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
 		15584A5D2AABA09300EC9C9C /* DidEndEditingTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DidEndEditingTextField.swift; sourceTree = "<group>"; };
+		155D5B002BE2285300E43E18 /* Gemma.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Gemma.json; sourceTree = "<group>"; };
 		1560D6162A2D1A3D00918330 /* AddChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChatView.swift; sourceTree = "<group>"; };
 		1568E3CD2A8BF86200930CC9 /* BottomPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomPanel.swift; sourceTree = "<group>"; };
 		15692A7A2BAA082700AB2F4C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
@@ -143,7 +144,6 @@
 		156A48D12A52B65C007DF519 /* Orientation_helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Orientation_helper.swift; sourceTree = "<group>"; };
 		158172B42BC5B1460078DCDA /* tinyllama.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tinyllama.json; sourceTree = "<group>"; };
 		158172B52BC5B1460078DCDA /* phi2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = phi2.json; sourceTree = "<group>"; };
-		158172B72BC5B1460078DCDA /* llama chat 2 7B (2).json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "llama chat 2 7B (2).json"; sourceTree = "<group>"; };
 		158172B82BC5B1470078DCDA /* StableLM-3B-4E1T.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "StableLM-3B-4E1T.json"; sourceTree = "<group>"; };
 		158172B92BC5B1470078DCDA /* RWKV-4 Raven Eng.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "RWKV-4 Raven Eng.json"; sourceTree = "<group>"; };
 		158172BD2BC5B1470078DCDA /* llama chat 2 7B.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "llama chat 2 7B.json"; sourceTree = "<group>"; };
@@ -253,7 +253,7 @@
 		15141E332A64875F0060E767 /* model_setting_templates */ = {
 			isa = PBXGroup;
 			children = (
-				158172B72BC5B1460078DCDA /* llama chat 2 7B (2).json */,
+				155D5B002BE2285300E43E18 /* Gemma.json */,
 				158172BD2BC5B1470078DCDA /* llama chat 2 7B.json */,
 				158172B52BC5B1460078DCDA /* phi2.json */,
 				15D81AFF2BDAC0E900C3B5CE /* phi3.json */,
@@ -581,10 +581,10 @@
 				15F210892A191B1B0021F414 /* Preview Assets.xcassets in Resources */,
 				15F210852A191B1B0021F414 /* Assets.xcassets in Resources */,
 				15D81B002BDAC0E900C3B5CE /* phi3.json in Resources */,
+				155D5B012BE2285300E43E18 /* Gemma.json in Resources */,
 				1532BF7E2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json in Resources */,
 				158172C12BC5B1480078DCDA /* tinyllama.json in Resources */,
 				158172C52BC5B1480078DCDA /* StableLM-3B-4E1T.json in Resources */,
-				158172C42BC5B1480078DCDA /* llama chat 2 7B (2).json in Resources */,
 				158172C22BC5B1480078DCDA /* phi2.json in Resources */,
 				1532BF7C2AA113AD006DC514 /* RWKV-4 Raven Eng.json in Resources */,
 				15C08A6A2BA5CB2C000A1BE0 /* MobileVLM.json in Resources */,

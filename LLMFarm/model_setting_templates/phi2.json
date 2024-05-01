@@ -1,5 +1,5 @@
 {
-  "context" : 2048,
+  "context" : 1536,
   "prompt_format" : "Instruct: {prompt}\nOutput:",
   "template_name" : "Phi 2",
   "temp" : 0.7,

@@ -8,7 +8,7 @@
   "parse_special_tokens" : true,
   "mirostat" : 0,
   "temp" : 0.89999997615814209,
-  "repeat_penalty" : 1.1000000238418579,
+  "repeat_penalty" : 1,
   "reverse_prompt" : "USER:",
   "mmap" : true,
   "add_bos_token" : false,

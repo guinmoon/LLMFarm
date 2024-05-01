@@ -1,7 +1,7 @@
 {
   "add_eos_token" : false,
   "mlock" : false,
-  "repeat_penalty" : 1.1000000238418579,
+  "repeat_penalty" : 1,
   "mirostat_tau" : 5,
   "temp" : 0.89999997615814209,
   "warm_prompt" : "\n\n\n",

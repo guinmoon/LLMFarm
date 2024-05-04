@@ -105,11 +105,11 @@ public struct LLMTextInput: View {
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(maxWidth: 30,maxHeight: 40)
-                            .clipShape(Circle())
+//                            .clipShape(Circle())
 #endif
                         // image!
                     }
-                    .cornerRadius(20) /// make the background rounded
+                    .cornerRadius(5) /// make the background rounded
                     .overlay( /// apply a rounded border
                         RoundedRectangle(cornerRadius: 5)
                             .stroke(.gray, lineWidth: 1)

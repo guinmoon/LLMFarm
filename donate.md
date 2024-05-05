@@ -3,8 +3,8 @@ This project is done on **pure enthusiasm**. Your donations **really motivate** 
 
 *At the moment only Boosty and crypto donations are available. Soon I will add PayPal option*
 
-# [Boosty](boosty.to/llmfarm)
-<a href="boosty.to/llmfarm"><img src="dist/logo.boosty.svg" /></a>
+# [Boosty](https://boosty.to/llmfarm)
+<a href="https://boosty.to/llmfarm"><img src="dist/logo.boosty.svg" /></a>
 
 
 # Crypto

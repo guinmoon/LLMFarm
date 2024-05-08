@@ -1,8 +1,7 @@
 //
 //  ChatViewModel.swift
-//  AlpacaChatApp
 //
-//  Created by Yoshimasa Niwa on 3/19/23.
+//  Created by Artem Savkin
 //
 
 import Foundation
@@ -41,9 +40,13 @@ final class AIChatModel: ObservableObject {
     public var start_predicting_time = DispatchTime.now()
     public var first_predicted_token_time = DispatchTime.now()
     public var tok_sec:Double = 0.0
+
+//    public var conv_finished_group = DispatchGroup()
+
     private var title_backup = ""
 
     private var messages_lock = NSLock()
+
     
     @Published var predicting = false
     @Published var AI_typing = 0
@@ -105,9 +108,7 @@ final class AIChatModel: ObservableObject {
         self.AI_typing = -Int.random(in: 0..<100000)
     }
 
-    public func load_model_by_chat_name(_ chat_name: String,in_text:String, img_path: String? = nil) -> Bool?{
-        self.model_loading = true
-        
+    public func load_model_by_chat_name_prepare(_ chat_name: String,in_text:String, img_path: String? = nil) -> Bool?{
         let chat_config = get_chat_info(chat_name)
         if (chat_config == nil){
             return nil
@@ -140,13 +141,25 @@ final class AIChatModel: ObservableObject {
         AIChatModel_obj_ptr = nil
         self.chat = nil
         self.chat = AI(_modelPath: modelURL,_chatName: chat_name);
+        return true
+    }
+
+    public func load_model_by_chat_name(_ chat_name: String,in_text:String, img_path: String? = nil) -> Bool?{
+        self.model_loading = true
+        guard let res = load_model_by_chat_name_prepare(chat_name,in_text:in_text,img_path:img_path) else {
+            return nil;
+        }
+        
+        //////
+//        conv_finished_group.enter()
         self.chat?.loadModel(model_context_param.model_inference,
-             { progress in
-                return self.model_load_progress_callback(progress)
-             }, 
-            { load_result in
-                self.on_model_loaded_callback(load_result,in_text:in_text,img_path:img_path)
-            },contextParams: model_context_param)
+        { progress in
+            return self.model_load_progress_callback(progress)
+        }, 
+        { load_result in
+//            self.conv_finished_group.leave()
+            self.on_model_loaded_callback(load_result,in_text:in_text,img_path:img_path)
+        },contextParams: model_context_param)
         return true
     }
     
@@ -269,6 +282,7 @@ final class AIChatModel: ObservableObject {
         if final_str.hasPrefix("[Error]"){
             self.messages.append(Message(sender: .system, state: .error, text: "Eval \(final_str)", tok_sec: 0))
         }
+//        self.conv_finished_group.leave()
         save_chat_history(self.messages,self.chat_name+".json")
     }
 
@@ -319,13 +333,15 @@ final class AIChatModel: ObservableObject {
         self.action_button_icon = "stop.circle"
         self.start_predicting_time = DispatchTime.now()
         let img_real_path = get_path_by_short_name(img_path ?? "unknown",dest: "cache/images")
+//        conv_finished_group.enter()
         self.chat?.conversation(text,
             { str, time in //Predicting
                 _ = self.process_predicted_str(str, time, &message/*, messageIndex*/)
             },
             { final_str in // Finish predicting 
-                self.finish_completion(final_str, &message/*, messageIndex*/)                
+                self.finish_completion(final_str, &message/*, messageIndex*/)                  
             },
             system_prompt:system_prompt,img_path:img_real_path)
+        // self.conv_finished_group.leave()
     }
 }

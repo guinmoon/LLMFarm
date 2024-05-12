@@ -14,6 +14,7 @@
 		151746A22B585B030074FF35 /* LLMTextInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151746A12B585B030074FF35 /* LLMTextInput.swift */; };
 		152838272BEBCEFE000D8B82 /* LLMQueryIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152838252BEBCEFE000D8B82 /* LLMQueryIntent.swift */; };
 		152838282BEBCEFE000D8B82 /* LLMFarmShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152838262BEBCEFE000D8B82 /* LLMFarmShortcuts.swift */; };
+		1528382A2BF13E53000D8B82 /* ShortcutsChatEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152838292BF13E53000D8B82 /* ShortcutsChatEntity.swift */; };
 		1532BF7A2A9FA885006DC514 /* GetDeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1532BF792A9FA885006DC514 /* GetDeviceInfo.swift */; };
 		1532BF7C2AA113AD006DC514 /* RWKV-4 Raven Eng.json in Resources */ = {isa = PBXBuildFile; fileRef = 1532BF7B2AA113AD006DC514 /* RWKV-4 Raven Eng.json */; };
 		1532BF7E2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json in Resources */ = {isa = PBXBuildFile; fileRef = 1532BF7D2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json */; };
@@ -135,6 +136,7 @@
 		151746A12B585B030074FF35 /* LLMTextInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLMTextInput.swift; sourceTree = "<group>"; };
 		152838252BEBCEFE000D8B82 /* LLMQueryIntent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLMQueryIntent.swift; sourceTree = "<group>"; };
 		152838262BEBCEFE000D8B82 /* LLMFarmShortcuts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLMFarmShortcuts.swift; sourceTree = "<group>"; };
+		152838292BF13E53000D8B82 /* ShortcutsChatEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutsChatEntity.swift; sourceTree = "<group>"; };
 		1532BF792A9FA885006DC514 /* GetDeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDeviceInfo.swift; sourceTree = "<group>"; };
 		1532BF7B2AA113AD006DC514 /* RWKV-4 Raven Eng.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "RWKV-4 Raven Eng.json"; sourceTree = "<group>"; };
 		1532BF7D2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "MagicPrompt-Stable-Diffusion.json"; sourceTree = "<group>"; };
@@ -281,6 +283,7 @@
 			children = (
 				152838262BEBCEFE000D8B82 /* LLMFarmShortcuts.swift */,
 				152838252BEBCEFE000D8B82 /* LLMQueryIntent.swift */,
+				152838292BF13E53000D8B82 /* ShortcutsChatEntity.swift */,
 			);
 			path = Intents;
 			sourceTree = "<group>";
@@ -654,6 +657,7 @@
 				15B1B9DA2AF588FD0058F275 /* SettingsMenuItem.swift in Sources */,
 				158DAA4E2B812A4A00550274 /* DownloadModels.swift in Sources */,
 				15F210962A1920AA0021F414 /* AIChatModel.swift in Sources */,
+				1528382A2BF13E53000D8B82 /* ShortcutsChatEntity.swift in Sources */,
 				15B7BE9D2A968399006624BD /* MacEditorTextView.swift in Sources */,
 				15F210AA2A1A659B0021F414 /* FileHelper.swift in Sources */,
 				15F210932A1920AA0021F414 /* MessageView.swift in Sources */,

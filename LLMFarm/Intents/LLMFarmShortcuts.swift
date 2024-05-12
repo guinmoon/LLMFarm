@@ -4,7 +4,7 @@ import AppIntents
 struct LLMFarmShortcutsProvider: AppShortcutsProvider {
     static var appShortcuts: [AppShortcut] {
         AppShortcut(
-            intent: LLMQueryIntent3(),
+            intent: LLMQueryIntent(),
             phrases: [
                 "Ask Local LLM"
             ],

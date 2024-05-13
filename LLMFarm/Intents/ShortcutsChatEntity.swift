@@ -10,27 +10,30 @@ import AppIntents
 
 
 
-struct ShortcutsChatEntity: Identifiable, Hashable, Equatable, AppEntity {
+struct ShortcutsChatEntity: Identifiable,/* Hashable, Equatable,*/ AppEntity {
     
-    struct ShortcutsQuery: EntityQuery {
-        //        func entities(for: [Self.Entity.ID]) async throws -> [Self.Entity] {
-        //            return []
-        //        }
-        func entities(for identifiers: [UUID]) async throws -> [ShortcutsChatEntity] {
-            return try await suggestedEntities().filter { chat in
-                return identifiers.contains(chat.id)
-            }
+    struct ShortcutsQuery: EntityQuery {        
+        func entities(for identifiers: [ShortcutsChatEntity.ID]) async throws -> [ShortcutsChatEntity] {
+            getChatEntities().filter { identifiers.contains($0.id) }
         }
         
-        func suggestedEntities() async throws -> Self.Result {
+        func entities(matching string: String) async throws -> [ShortcutsChatEntity] {
+            getChatEntities().filter { $0.chat == string }
+        }
+        
+        func suggestedEntities() async throws -> [ShortcutsChatEntity] {
+            getChatEntities()
+        }
+        
+        private func getChatEntities() -> [ShortcutsChatEntity] {
             let chat_list = get_chats_list()!
             var chat_entities: [ShortcutsChatEntity] = []
             for chat in chat_list {
                 var hasher = Hasher()
                 hasher.combine(chat["chat"] ?? "none")
-                hasher.combine(chat["model"] ?? "none")
-                let hashValue = Int64(hasher.finalize())
-                chat_entities.append(ShortcutsChatEntity(id:UUID.from(integers: (hashValue,hashValue)),
+//                let hashValue = Int64(hasher.finalize())
+                chat_entities.append(ShortcutsChatEntity(/*id:UUID.from(integers: (hashValue,hashValue))*/
+                                                         id:chat["chat"] ?? "none",
                                                          title:chat["title"] ?? "none",
                                                          chat: chat["chat"] ?? "none",
                                                          model:chat["model"] ?? "none"))
@@ -43,7 +46,7 @@ struct ShortcutsChatEntity: Identifiable, Hashable, Equatable, AppEntity {
     
     static var typeDisplayRepresentation: TypeDisplayRepresentation = .init(name: "Chat")
     
-    var id: UUID
+    var id: String
     
     @Property(title: "Title")
     var title: String
@@ -55,7 +58,7 @@ struct ShortcutsChatEntity: Identifiable, Hashable, Equatable, AppEntity {
     var model: String
     
     
-    init(id: UUID, title: String?, chat: String?, model: String) {
+    init(id: String, title: String?, chat: String?, model: String) {
         
         let Title = title ?? "Unknown Title"
         let Chat = chat ?? "Unknown Chat"
@@ -74,16 +77,16 @@ struct ShortcutsChatEntity: Identifiable, Hashable, Equatable, AppEntity {
     }
 }
 
-extension ShortcutsChatEntity {
-    
-    // Hashable conformance
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-    
-    // Equtable conformance
-    static func ==(lhs: ShortcutsChatEntity, rhs: ShortcutsChatEntity) -> Bool {
-        return lhs.id == rhs.id
-    }
-    
-}
+//extension ShortcutsChatEntity {
+//    
+//    // Hashable conformance
+//    func hash(into hasher: inout Hasher) {
+//        hasher.combine(chat)
+//    }
+//    
+//    // Equtable conformance
+//    static func ==(lhs: ShortcutsChatEntity, rhs: ShortcutsChatEntity) -> Bool {
+//        return lhs.chat == rhs.chat
+//    }
+//    
+//}

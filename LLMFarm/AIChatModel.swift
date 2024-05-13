@@ -202,22 +202,42 @@ final class AIChatModel: ObservableObject {
         save_chat_history(self.messages,self.chat_name+".json")
     }
     
-    public func process_predicted_str(_ str: String, _ time: Double,_ message: inout Message/*, _ messageIndex: Int*/) -> Bool
-    {
+    public func check_stop_words(_ token:String,_ message_text: inout String) -> Bool{
         var check = true
         for stop_word in self.model_context_param.reverse_prompt{
-            if str == stop_word {
-                self.stop_predict()
-                check = false
-                break
+            if token == stop_word {
+                return false
             }
-            if message.text.hasSuffix(stop_word) {
-                self.stop_predict()
-                check = false
-                if stop_word.count>0 && message.text.count>stop_word.count{
-                    message.text.removeLast(stop_word.count)
+            if message_text.hasSuffix(stop_word) {
+                if stop_word.count>0 && message_text.count>stop_word.count{
+                    message_text.removeLast(stop_word.count)
                 }
+                return false
             }
+        }
+        return check
+    }
+    
+    public func process_predicted_str(_ str: String, _ time: Double,_ message: inout Message/*, _ messageIndex: Int*/) -> Bool
+    {
+//        var check = true
+//        for stop_word in self.model_context_param.reverse_prompt{
+//            if str == stop_word {
+//                self.stop_predict()
+//                check = false
+//                break
+//            }
+//            if message.text.hasSuffix(stop_word) {
+//                self.stop_predict()
+//                check = false
+//                if stop_word.count>0 && message.text.count>stop_word.count{
+//                    message.text.removeLast(stop_word.count)
+//                }
+//            }
+//        }
+        let check = check_stop_words(str,&message.text)
+        if !check {
+            self.stop_predict()
         }
         if (check &&
             self.chat?.flagExit != true &&

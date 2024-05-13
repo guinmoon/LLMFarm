@@ -22,12 +22,18 @@ func one_short_query(_ query: String, _ chat: String, _ token_limit:Int,img_path
             system_prompt = aiChatModel.model_context_param.system_prompt+"\n"
 //            aiChatModel.messages[aiChatModel.messages.endIndex - 1].header = aiChatModel.model_context_param.system_prompt
         }
-        var output: String?=""
+//        var full_output: String?=""
+        var current_output: String = ""
         var current_token_count = 0
         try ExceptionCather.catchException {
-            output = try! aiChatModel.chat?.model.predict(query, {
+            _ = try! aiChatModel.chat?.model.predict(query, {
                 str,time in
                 print("\(str)",terminator: "")
+                if !aiChatModel.check_stop_words(str, &current_output){
+                    return true
+                }else{
+                    current_output += str
+                }
                 current_token_count+=1
                 if current_token_count>token_limit{
                     return true
@@ -35,7 +41,7 @@ func one_short_query(_ query: String, _ chat: String, _ token_limit:Int,img_path
                 return false
             },system_prompt:system_prompt,img_path:img_path)
         }
-        result = output ?? ""
+        result = current_output
     }
     catch{
         return "Chat load eror."
@@ -73,42 +79,33 @@ struct LLMQueryIntent: AppIntent {
     
     /// Define the method that the system calls when it triggers this event.
     @MainActor
-    func perform() async throws -> some ProvidesDialog {
+    func perform() async throws -> some IntentResult & ReturnsValue<String> {
 
         var img_path:String? = nil
         
         if let imageUrls = imageUrls?.compactMap({ $0.data }), !imageUrls.isEmpty {
-            /// Import and handle file URLs
-            ///
-            
-//            var data: Data?
-//            do{
-//                data = try Data(contentsOf: imageUrls[0])
-//            }
-//            catch{
-//                print(error)
-//            }
-//            print(imageUrls[0])
-//            if data != nil {
-            if let ui_img = UIImage(data: imageUrls[0])?.fixedOrientation {
-                    img_path = save_image_from_library_to_cache(ui_img)
-                    print(img_path)
-                    if img_path != nil{
-                        img_path = get_path_by_short_name(img_path!,dest: "cache/images")
-                        print(img_path)
-                    }
+            #if os(iOS)
+            let ui_img = UIImage(data: imageUrls[0])?.fixedOrientation
+            #else
+            let ui_img = UIImage(data: imageUrls[0])
+            #endif
+            if ui_img != nil {
+                img_path = save_image_from_library_to_cache(ui_img)
+                if img_path != nil{
+                    img_path = get_path_by_short_name(img_path!,dest: "cache/images")
+//                    print(img_path)
                 }
-//            }imageUrls[0]
+            }
         }
         if (query == nil){
-            return .result(dialog: IntentDialog(stringLiteral: "Query is empty."))
+            return .result(value: "Query is empty.")
         }
         if (chat == nil){
-            return .result(dialog: IntentDialog(stringLiteral: "Please select chat."))
+            return .result(value: "Please select chat.")
         }
         
         let res = one_short_query(query!,chat!.chat,token_limit,img_path:img_path)
-        return .result(dialog: IntentDialog(stringLiteral: res))
+        return .result(value: res)
         
     }
     

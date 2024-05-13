@@ -1,6 +1,5 @@
 # LLMFarm
 
-*If you are experiencing the error `extras.otherInstrOffset != 0 && "Kind::arm64_adrp_ldr missing extra info"` see the solution [here](https://github.com/guinmoon/LLMFarm/issues/19).*
 
 <p align="center">
   <a href="https://apps.apple.com/ru/app/llm-farm/id6461209867?l=en-GB&platform=iphone"><img width="178px" alt="Icon" src="dist/LLMFarm0.1.2_256.png"></a>
@@ -39,26 +38,34 @@ Also used sources from:
 
 # Inferences
 
-- [x] [LLaMA](https://arxiv.org/abs/2302.13971) <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px">
+- [x] <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px"> [LLaMA 1,2,3](https://arxiv.org/abs/2302.13971) 
+- [x] <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px"> [Gemma](https://ai.google.dev/gemma) 
+- [x] <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px"> [Phi models](https://huggingface.co/models?search=microsoft/phi) 
+- [x] <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px"> [GPT2](https://huggingface.co/docs/transformers/model_doc/gpt2) + [Cerebras](https://arxiv.org/abs/2304.03208) 
+- [x] <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px"> [Starcoder(Santacoder)](https://huggingface.co/bigcode/santacoder) 
+- [x] <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px"> [Falcon](https://github.com/cmp-nct/ggllm.cpp) 
+- [x] <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px"> [MPT](https://huggingface.co/guinmoon/mpt-7b-storywriter-GGUF) 
+- [x] <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px"> [Bloom](https://huggingface.co/guinmoon/bloomz-1b7-gguf) 
+- [x] <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px"> [StableLM-3b-4e1t](https://huggingface.co/stabilityai/stablelm-3b-4e1t) 
+- [x] <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px"> [Qwen](https://huggingface.co/Qwen/Qwen-7B) 
+- [x] <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px"> [Yi models](https://huggingface.co/models?search=01-ai/Yi) 
+- [x] <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px"> [Deepseek models](https://huggingface.co/models?search=deepseek-ai/deepseek) 
+- [x] <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px"> [Mixtral MoE](https://huggingface.co/models?search=mistral-ai/Mixtral) 
+- [x] <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px"> [PLaMo-13B](https://github.com/ggerganov/llama.cpp/pull/3557) 
+- [x] <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px">  [Mamba](https://github.com/state-spaces/mamba)
+- [x] [RWKV](https://huggingface.co/docs/transformers/model_doc/rwkv) (20B tokenizer)
 - [x] [GPTNeoX](https://huggingface.co/docs/transformers/model_doc/gpt_neox)
 - [x] [Replit](https://huggingface.co/replit/replit-code-v1-3b)
-- [x] [GPT2](https://huggingface.co/docs/transformers/model_doc/gpt2) + [Cerebras](https://arxiv.org/abs/2304.03208) <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px">
-- [x] [Starcoder(Santacoder)](https://huggingface.co/bigcode/santacoder) <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px">
-- [x] [RWKV](https://huggingface.co/docs/transformers/model_doc/rwkv) (20B tokenizer)
-- [x] [Falcon](https://github.com/cmp-nct/ggllm.cpp) <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px">
-- [x] [MPT](https://huggingface.co/guinmoon/mpt-7b-storywriter-GGUF) <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px">
-- [x] [Bloom](https://huggingface.co/guinmoon/bloomz-1b7-gguf) <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px">
-- [x] [StableLM-3b-4e1t](https://huggingface.co/stabilityai/stablelm-3b-4e1t) <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px">
-- [x] [Qwen](https://huggingface.co/Qwen/Qwen-7B) <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px">
-- [x] [Yi models](https://huggingface.co/models?search=01-ai/Yi) <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px">
-- [x] [Deepseek models](https://huggingface.co/models?search=deepseek-ai/deepseek) <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px">
-- [x] [Mixtral MoE](https://huggingface.co/models?search=mistral-ai/Mixtral) <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px">
-- [x] [PLaMo-13B](https://github.com/ggerganov/llama.cpp/pull/3557) <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px">
 
 ## Multimodal
-- [x] [LLaVA 1.5 models](https://huggingface.co/collections/liuhaotian/llava-15-653aac15d994e992e2677a7e)
+- [x] [LLaVA 1.5 models](https://huggingface.co/collections/liuhaotian/llava-15-653aac15d994e992e2677a7e), [LLaVA 1.6 models](https://huggingface.co/collections/liuhaotian/llava-16-65b9e40155f60fd046a5ccf2)
+- [x] [BakLLaVA](https://huggingface.co/models?search=SkunkworksAI/Bakllava)
 - [x] [Obsidian](https://huggingface.co/NousResearch/Obsidian-3B-V0.5)
+- [x] [ShareGPT4V](https://huggingface.co/models?search=Lin-Chen/ShareGPT4V)
 - [x] [MobileVLM 1.7B/3B models](https://huggingface.co/models?search=mobileVLM)
+- [x] [Yi-VL](https://huggingface.co/models?search=Yi-VL)
+- [x] [Mini CPM](https://huggingface.co/models?search=MiniCPM)
+- [x] [Moondream](https://huggingface.co/vikhyatk/moondream2)
   
 Note: For *Falcon, Alpaca, GPT4All, Chinese LLaMA / Alpaca and Chinese LLaMA-2 / Alpaca-2, Vigogne (French), Vicuna, Koala, OpenBuddy (Multilingual), Pygmalion/Metharme, WizardLM, Baichuan 1 & 2 + derivations, Aquila 1 & 2, Mistral AI v0.1, Refact, Persimmon 8B, MPT, Bloom* select `llama inferece` in model settings.
 

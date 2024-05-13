@@ -30,6 +30,7 @@ struct ChatSettingsTemplate: Hashable {
     var parse_special_tokens = true
     var mmap:Bool = true
     var mlock:Bool = false
+    var flash_attn: Bool = false
     var tfs_z:Float =  1
     var typical_p:Float = 1
     

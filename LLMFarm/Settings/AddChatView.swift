@@ -60,6 +60,7 @@ struct AddChatView: View {
     @State private var use_metal: Bool = false
     @State private var mlock: Bool = false
     @State private var mmap: Bool = true
+    @State private var flash_attn: Bool = false
     
     @State private var isLoraImporting: Bool = false
     @State private var tfs_z: Float = 1.0
@@ -71,6 +72,7 @@ struct AddChatView: View {
     
     @State private var has_lora: Bool = false
     @State private var has_clip: Bool = false
+    
     
     @State private var lora_adapters: [Dictionary<String, Any>] = []
     
@@ -181,6 +183,9 @@ struct AddChatView: View {
         if (chat_config!["mmap"] != nil){
             self._mmap = State(initialValue: chat_config!["mmap"]! as! Bool)
         }
+        if (chat_config!["flash_attn"] != nil){
+            self._flash_attn = State(initialValue: chat_config!["flash_attn"]! as! Bool)
+        }
         if (chat_config!["prompt_format"] != nil){
             self._prompt_format = State(initialValue: chat_config!["prompt_format"]! as! String)
         }
@@ -288,6 +293,7 @@ struct AddChatView: View {
         mlock = template.mlock
         tfs_z = template.tfs_z
         typical_p = template.typical_p
+        flash_attn = template.flash_attn
         if hardware_arch=="x86_64"{
             use_metal = false
         }
@@ -325,7 +331,8 @@ struct AddChatView: View {
                                                   "grammar":grammar,
                                                   "add_bos_token":add_bos_token,
                                                   "add_eos_token":add_eos_token,
-                                                  "parse_special_tokens":parse_special_tokens
+                                                  "parse_special_tokens":parse_special_tokens,
+                                                  "flash_attn":flash_attn
         ]
         if is_template{
             options["template_name"] = save_as_template_name
@@ -680,6 +687,9 @@ struct AddChatView: View {
                                 Toggle("Metal", isOn: $use_metal)
                                     .frame(maxWidth: 120, alignment: .leading)
                                     .disabled((self.model_inference != "llama" && self.model_inference_inner != "gpt2" ) /*|| hardware_arch=="x86_64"*/)
+//                                Toggle("FAttn", isOn: $flash_attn)
+//                                    .frame(maxWidth: 120, alignment: .leading)
+//                                    .disabled((self.model_inference != "llama" && self.model_inference_inner != "gpt2" ) /*|| hardware_arch=="x86_64"*/)
                                 Spacer()
                             }
                             .padding(.horizontal, 5)
@@ -935,19 +945,6 @@ struct AddChatView: View {
                                         let options = get_chat_options_dict(is_template: true)
                                         _ = create_chat(options,edit_chat_dialog:true,chat_name:save_as_template_name + ".json",save_as_template:true)
                                         refresh_templates()
-                                        //                                        save_template_old(model_settings_template.template_name + ".json",
-                                        //                                                      template_name: model_settings_template.template_name,
-                                        //                                                      inference: model_inference,
-                                        //                                                      context: model_context,
-                                        //                                                      n_batch: model_n_batch,
-                                        //                                                      temp: model_temp,
-                                        //                                                      top_k: model_top_k,
-                                        //                                                      top_p: model_top_p,
-                                        //                                                      repeat_last_n: model_repeat_last_n,
-                                        //                                                      repeat_penalty: model_repeat_penalty,
-                                        //                                                      prompt_format: prompt_format,
-                                        //                                                      reverse_prompt: reverse_prompt,
-                                        //                                                      use_metal: use_metal)
                                     }
                                 } label: {
                                     Image(systemName: "doc.badge.plus")
@@ -996,7 +993,8 @@ struct AddChatView: View {
         grammar,
         add_bos_token.description,
         add_eos_token.description,
-        parse_special_tokens.description
+        parse_special_tokens.description,
+        flash_attn.description
     ]}
 }
 //

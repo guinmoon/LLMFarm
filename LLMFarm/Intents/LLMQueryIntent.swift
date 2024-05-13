@@ -82,13 +82,15 @@ struct LLMQueryIntent: AppIntent {
         
         if let imageUrls = imageUrls?.compactMap({ $0.fileURL }), !imageUrls.isEmpty {
             /// Import and handle file URLs
-            print(imageUrls[0].absoluteURL)
-            let data = try? Data(contentsOf: imageUrls[0].absoluteURL)
+            let data = try? Data(contentsOf: imageUrls[0])
+            print(imageUrls[0])
             if data != nil {
                 if let ui_img = UIImage(data: data!) {
                     img_path = save_image_from_library_to_cache(ui_img)
+                    print(img_path)
                     if img_path != nil{
                         img_path = get_path_by_short_name(img_path!,dest: "cache/images")
+                        print(img_path)
                     }
                 }
             }

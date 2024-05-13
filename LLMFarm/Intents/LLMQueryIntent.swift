@@ -4,16 +4,6 @@ import AppIntents
 import llmfarm_core_cpp
 
 
-func mainCallback(_ str: String, _ time: Double) -> Bool {
-    print("\(str)",terminator: "")
-    //    total_output += str.count
-    //    if(total_output>maxOutputLength){
-    //        print("Maximum output len achieved")
-    //        return true
-    //    }
-    
-    return false
-}
 
 @MainActor
 func one_short_query(_ query: String, _ chat: String, _ token_limit:Int,img_path: String? = nil) -> String{
@@ -25,6 +15,13 @@ func one_short_query(_ query: String, _ chat: String, _ token_limit:Int,img_path
     }
     do{
         try aiChatModel.chat?.loadModel_sync(aiChatModel.model_context_param.model_inference,contextParams:aiChatModel.model_context_param)
+        aiChatModel.chat?.model.sampleParams = aiChatModel.model_sample_param
+        aiChatModel.chat?.model.contextParams = aiChatModel.model_context_param
+        var system_prompt:String? = nil
+        if aiChatModel.model_context_param.system_prompt != ""{
+            system_prompt = aiChatModel.model_context_param.system_prompt+"\n"
+//            aiChatModel.messages[aiChatModel.messages.endIndex - 1].header = aiChatModel.model_context_param.system_prompt
+        }
         var output: String?=""
         var current_token_count = 0
         try ExceptionCather.catchException {
@@ -36,7 +33,7 @@ func one_short_query(_ query: String, _ chat: String, _ token_limit:Int,img_path
                     return true
                 }
                 return false
-            },img_path:img_path)
+            },system_prompt:system_prompt,img_path:img_path)
         }
         result = output ?? ""
     }
@@ -69,7 +66,7 @@ struct LLMQueryIntent: AppIntent {
     @Parameter(
         title: "Image",
         description: "Image to Multimodal",
-        supportedTypeIdentifiers: ["com.apple.live-photo","public.image"],
+        supportedTypeIdentifiers: ["public.image"],
         inputConnectionBehavior: .connectToPreviousIntentResult
     )
     var imageUrls: [IntentFile]?
@@ -80,12 +77,20 @@ struct LLMQueryIntent: AppIntent {
 
         var img_path:String? = nil
         
-        if let imageUrls = imageUrls?.compactMap({ $0.fileURL }), !imageUrls.isEmpty {
+        if let imageUrls = imageUrls?.compactMap({ $0.data }), !imageUrls.isEmpty {
             /// Import and handle file URLs
-            let data = try? Data(contentsOf: imageUrls[0])
-            print(imageUrls[0])
-            if data != nil {
-                if let ui_img = UIImage(data: data!) {
+            ///
+            
+//            var data: Data?
+//            do{
+//                data = try Data(contentsOf: imageUrls[0])
+//            }
+//            catch{
+//                print(error)
+//            }
+//            print(imageUrls[0])
+//            if data != nil {
+            if let ui_img = UIImage(data: imageUrls[0])?.fixedOrientation {
                     img_path = save_image_from_library_to_cache(ui_img)
                     print(img_path)
                     if img_path != nil{
@@ -93,7 +98,7 @@ struct LLMQueryIntent: AppIntent {
                         print(img_path)
                     }
                 }
-            }
+//            }imageUrls[0]
         }
         if (query == nil){
             return .result(dialog: IntentDialog(stringLiteral: "Query is empty."))

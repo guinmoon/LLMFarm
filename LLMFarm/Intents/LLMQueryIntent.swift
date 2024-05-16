@@ -14,9 +14,13 @@ func one_short_query(_ query: String, _ chat: String, _ token_limit:Int,img_path
         return "Chat load eror."
     }
     do{
-        try aiChatModel.chat?.loadModel_sync(aiChatModel.model_context_param.model_inference,contextParams:aiChatModel.model_context_param)
-        aiChatModel.chat?.model.sampleParams = aiChatModel.model_sample_param
-        aiChatModel.chat?.model.contextParams = aiChatModel.model_context_param
+        aiChatModel.chat?.initModel(aiChatModel.model_context_param.model_inference,contextParams: aiChatModel.model_context_param)
+        if aiChatModel.chat?.model == nil{
+            return "Model load eror."
+        }
+        aiChatModel.chat?.model?.sampleParams = aiChatModel.model_sample_param
+        aiChatModel.chat?.model?.contextParams = aiChatModel.model_context_param
+        try aiChatModel.chat?.loadModel_sync()        
         var system_prompt:String? = nil
         if aiChatModel.model_context_param.system_prompt != ""{
             system_prompt = aiChatModel.model_context_param.system_prompt+"\n"
@@ -26,7 +30,7 @@ func one_short_query(_ query: String, _ chat: String, _ token_limit:Int,img_path
         var current_output: String = ""
         var current_token_count = 0
         try ExceptionCather.catchException {
-            _ = try! aiChatModel.chat?.model.predict(query, {
+            _ = try! aiChatModel.chat?.model?.predict(query, {
                 str,time in
                 print("\(str)",terminator: "")
                 if !aiChatModel.check_stop_words(str, &current_output){

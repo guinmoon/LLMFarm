@@ -55,6 +55,7 @@ final class AIChatModel: ObservableObject {
     @Published var load_progress:Float = 0.0
     @Published var Title: String = ""
     @Published var is_mmodal: Bool = false
+    @Published var cur_t_name: String = ""
     
     public init(){
         chat = nil
@@ -70,18 +71,26 @@ final class AIChatModel: ObservableObject {
         }
         return true
     }
+    
+    private func eval_callback(_ t_name:Int) -> Bool{
+        DispatchQueue.main.async {
+            self.cur_t_name = t_name.description
+//            print(self.cur_t_name)
+        }
+        return false
+    }
 
     private func on_model_loaded_callback(_ load_result: String,in_text:String, img_path: String? = nil){
         if load_result != "[Done]" ||
             self.chat?.model == nil || 
-            self.chat?.model.context == nil {
+            self.chat?.model!.context == nil {
             self.finish_load(append_err_msg: true, msg_text: "Load Model Error: \(load_result)")
             return
         }            
 
         self.finish_load()
-        self.chat?.model.sampleParams = self.model_sample_param
-        self.chat?.model.contextParams = self.model_context_param
+        self.chat?.model!.sampleParams = self.model_sample_param
+        self.chat?.model!.contextParams = self.model_context_param
         //Set prompt model if in config or try to set promt format by filename
         
         print(self.model_sample_param)
@@ -152,14 +161,32 @@ final class AIChatModel: ObservableObject {
         
         //////
 //        conv_finished_group.enter()
-        self.chat?.loadModel(model_context_param.model_inference,
-        { progress in
+        if self.chat == nil{
+            return nil
+        }
+        self.chat?.initModel(model_context_param.model_inference,contextParams: model_context_param)
+        if self.chat?.model == nil{
+            return nil
+        }
+        self.chat?.model?.modelLoadProgressCallback = { progress in
             return self.model_load_progress_callback(progress)
-        }, 
-        { load_result in
-//            self.conv_finished_group.leave()
-            self.on_model_loaded_callback(load_result,in_text:in_text,img_path:img_path)
-        },contextParams: model_context_param)
+        }
+        self.chat?.model?.modelLoadCompleteCallback = {  load_result in
+            self.chat?.model?.evalCallback = self.eval_callback
+            self.on_model_loaded_callback(load_result,in_text:in_text,img_path:img_path)            
+        }
+        self.chat?.loadModel()
+            
+        
+//         self.chat?.loadModel(model_context_param.model_inference,
+//         { progress in
+//             return self.model_load_progress_callback(progress)
+//         }, 
+//         { load_result in
+// //            self.conv_finished_group.leave()
+//             self.chat?.model.evalCallback = self.eval_callback
+//             self.on_model_loaded_callback(load_result,in_text:in_text,img_path:img_path)
+//         },contextParams: model_context_param)
         return true
     }
     
@@ -275,6 +302,7 @@ final class AIChatModel: ObservableObject {
 
     public func finish_completion(_ final_str:String,_ message: inout Message/*, _ messageIndex: Int*/){
 //        final_str in // Finish predicting 
+        self.cur_t_name = ""
         self.load_progress = 0
         print(final_str)
         self.AI_typing = 0

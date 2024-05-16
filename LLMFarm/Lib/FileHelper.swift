@@ -215,6 +215,35 @@ public func delete_models(_ models:[Dictionary<String, String>], dest: String = 
     return false
 }
 
+func fileSize(fromPath path: String) -> UInt64? {
+    var size: Any?
+    do {
+        size = try FileManager.default.attributesOfItem(atPath: path)[FileAttributeKey.size]
+    } catch (let error) {
+        print("File size error: \(error)")
+        return nil
+    }
+    guard let fileSize = size as? UInt64 else {
+        return nil
+    }
+
+    // let formatter = NumberFormatter()
+    // formatter.numberStyle = .decimal
+    // formatter.formatterBehavior = .behavior10_4
+    // return formatter.string(from: NSNumber(value: fileSize))
+    return fileSize
+}
+
+public func get_model_info(_ model_path:String, full:Bool = false) -> Dictionary<String, AnyObject>{    
+    var full_path:String? = model_path
+    if !full {
+        full_path = get_path_by_short_name(model_path,dest: "models")
+    }
+    let model_size:UInt64  = fileSize(fromPath: full_path ?? "") ?? 0
+
+    return ["model_size":model_size as AnyObject]
+}
+
 public func get_chats_list() -> [Dictionary<String, String>]?{
     var res: [Dictionary<String, String>] = []
     do {
@@ -239,26 +268,23 @@ public func get_chats_list() -> [Dictionary<String, String>]?{
                 var icon = "ava0"
                 var model = ""
                 var message = ""
+                var model_info:Dictionary<String,AnyObject>
                 if (info!["title"] != nil){
                     title = info!["title"] as! String
                 }
                 if (info!["icon"] != nil){
                     icon = info!["icon"] as! String
-                }
-                if (info!["model"] != nil){
-                    model = info!["model"] as! String
-                }
-                //                if (info["context"] != nil){
-                //                    message = "ctx:" + (info["context"] as! Int32).description
-                //                }
-                //                if (info["temp"] != nil){
-                //                    message = message + ", temp:" + Float(info["temp"] as! Double).description
-                //                }
+                }                
                 if (info!["model_inference"] != nil){
                     message = info!["model_inference"] as! String
                 }
                 if (info!["context"] != nil){
                     message += " ctx:" + (info!["context"] as! Int32).description
+                }
+                if (info!["model"] != nil){
+                    model = info!["model"] as! String
+                    model_info = get_model_info(model)
+                    message += " msize:" + (model_info["model_size"] as! UInt64).description
                 }
                 var mmodal = "0"
                 if (info!["clip_model"] != nil){
@@ -267,7 +293,13 @@ public func get_chats_list() -> [Dictionary<String, String>]?{
                         mmodal = "1"
                     }
                 }
-                let tmp_chat_info = ["title":title,"icon":icon, "message":message, "time": "10:30 AM","model":model,"chat":chatfile,"mmodal":mmodal]
+                let tmp_chat_info = ["title":title,
+                                     "icon":icon, 
+                                     "message":message,
+                                     "time": "10:30 AM",
+                                     "model":model,
+                                     "chat":chatfile,
+                                     "mmodal":mmodal]
                 res.append(tmp_chat_info)
             }
         }
@@ -337,19 +369,27 @@ public func rename_file(_ old_fname:String, _ new_fname: String, _ dir: String) 
 //    return result
 //}
 
-public func get_models_list(dir:String = "models") -> [Dictionary<String, String>]?{
+public func get_file_list_with_options(dir:String = "models", exts:[String]) -> [Dictionary<String, String>]?{
     var res: [Dictionary<String, String>] = []
     do {
         let fileManager = FileManager.default
         let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
         let destinationURL = documentsPath!.appendingPathComponent(dir)
         try fileManager.createDirectory (at: destinationURL, withIntermediateDirectories: true, attributes: nil)
-        let files = try fileManager.contentsOfDirectory(atPath: destinationURL.path)
+        let files = try fileManager.contentsOfDirectory(at: destinationURL, includingPropertiesForKeys: nil, options: .skipsHiddenFiles).sorted(by: {
+            let date0 = try $0.promisedItemResourceValues(forKeys:[.contentModificationDateKey]).contentModificationDate!
+            let date1 = try $1.promisedItemResourceValues(forKeys:[.contentModificationDateKey]).contentModificationDate!
+            return date0.compare(date1) == .orderedDescending
+        })
+        // let files = try fileManager.contentsOfDirectory(atPath: destinationURL.path)
         for modelfile in files {
-            if modelfile.hasSuffix(".bin") || modelfile.hasSuffix(".gguf"){
-                //                let info = get_chat_info(modelfile)!
-                let tmp_chat_info = ["icon":"square.stack.3d.up.fill","file_name":modelfile,"description":""]
-                res.append(tmp_chat_info)
+            for ext in exts{
+                if modelfile.lastPathComponent.hasSuffix(ext){
+                // if modelfile.hasSuffix(".bin") || modelfile.hasSuffix(".gguf"){
+                    let tmp_chat_info = ["icon":"square.stack.3d.up.fill","file_name":modelfile.lastPathComponent,"description":""]
+                    res.append(tmp_chat_info)
+                // }
+                }
             }
         }
         return res
@@ -359,50 +399,82 @@ public func get_models_list(dir:String = "models") -> [Dictionary<String, String
     return res
 }
 
-
-public func get_datasets_list() -> [Dictionary<String, String>]?{
-    var res: [Dictionary<String, String>] = []
-    do {
-        let fileManager = FileManager.default
-        let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
-        let destinationURL = documentsPath!.appendingPathComponent("datasets")
-        try fileManager.createDirectory (at: destinationURL, withIntermediateDirectories: true, attributes: nil)
-        let files = try fileManager.contentsOfDirectory(atPath: destinationURL.path)
-        for modelfile in files {
-            if modelfile.hasSuffix(".txt"){
-                //                let info = get_chat_info(modelfile)!
-                let tmp_chat_info = ["icon":"square.stack.3d.up.fill","file_name":modelfile,"description":""]
-                res.append(tmp_chat_info)
-            }
-        }
-        return res
-    } catch {
-        // failed to read directory – bad permissions, perhaps?
-    }
-    return res
+public func get_models_list(dir:String = "models") -> [Dictionary<String, String>]? {
+    return get_file_list_with_options(dir:dir,exts:[".bin",".gguf"])
 }
 
-public func get_loras_list() -> [Dictionary<String, String>]?{
-    var res: [Dictionary<String, String>] = []
-    do {
-        let fileManager = FileManager.default
-        let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
-        let destinationURL = documentsPath!.appendingPathComponent("lora_adapters")
-        try fileManager.createDirectory (at: destinationURL, withIntermediateDirectories: true, attributes: nil)
-        let files = try fileManager.contentsOfDirectory(atPath: destinationURL.path)
-        for modelfile in files {
-            if modelfile.hasSuffix(".bin"){
-                //                let info = get_chat_info(modelfile)!
-                let tmp_chat_info = ["icon":"square.stack.3d.up.fill","file_name":modelfile,"description":""]
-                res.append(tmp_chat_info)
-            }
-        }
-        return res
-    } catch {
-        // failed to read directory – bad permissions, perhaps?
-    }
-    return res
+public func get_datasets_list() -> [Dictionary<String, String>]? {
+    return get_file_list_with_options(dir:"datasets",exts:[".txt"])
 }
+
+public func get_loras_list() -> [Dictionary<String, String>]? {
+    return get_file_list_with_options(dir:"lora_adapters",exts:[".bin"])
+}
+// public func get_models_list(dir:String = "models") -> [Dictionary<String, String>]?{
+//     var res: [Dictionary<String, String>] = []
+//     do {
+//         let fileManager = FileManager.default
+//         let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+//         let destinationURL = documentsPath!.appendingPathComponent(dir)
+//         try fileManager.createDirectory (at: destinationURL, withIntermediateDirectories: true, attributes: nil)
+//         let files = try fileManager.contentsOfDirectory(atPath: destinationURL.path)
+//         for modelfile in files {
+//             if modelfile.hasSuffix(".bin") || modelfile.hasSuffix(".gguf"){                
+//                 let tmp_chat_info = ["icon":"square.stack.3d.up.fill","file_name":modelfile,"description":""]
+//                 res.append(tmp_chat_info)
+//             }
+//         }
+//         return res
+//     } catch {
+//         // failed to read directory – bad permissions, perhaps?
+//     }
+//     return res
+// }
+
+
+// public func get_datasets_list() -> [Dictionary<String, String>]?{
+//     var res: [Dictionary<String, String>] = []
+//     do {
+//         let fileManager = FileManager.default
+//         let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+//         let destinationURL = documentsPath!.appendingPathComponent("datasets")
+//         try fileManager.createDirectory (at: destinationURL, withIntermediateDirectories: true, attributes: nil)
+//         let files = try fileManager.contentsOfDirectory(atPath: destinationURL.path)
+//         for modelfile in files {
+//             if modelfile.hasSuffix(".txt"){
+//                 //                let info = get_chat_info(modelfile)!
+//                 let tmp_chat_info = ["icon":"square.stack.3d.up.fill","file_name":modelfile,"description":""]
+//                 res.append(tmp_chat_info)
+//             }
+//         }
+//         return res
+//     } catch {
+//         // failed to read directory – bad permissions, perhaps?
+//     }
+//     return res
+// }
+
+// public func get_loras_list() -> [Dictionary<String, String>]?{
+//     var res: [Dictionary<String, String>] = []
+//     do {
+//         let fileManager = FileManager.default
+//         let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+//         let destinationURL = documentsPath!.appendingPathComponent("lora_adapters")
+//         try fileManager.createDirectory (at: destinationURL, withIntermediateDirectories: true, attributes: nil)
+//         let files = try fileManager.contentsOfDirectory(atPath: destinationURL.path)
+//         for modelfile in files {
+//             if modelfile.hasSuffix(".bin"){
+//                 //                let info = get_chat_info(modelfile)!
+//                 let tmp_chat_info = ["icon":"square.stack.3d.up.fill","file_name":modelfile,"description":""]
+//                 res.append(tmp_chat_info)
+//             }
+//         }
+//         return res
+//     } catch {
+//         // failed to read directory – bad permissions, perhaps?
+//     }
+//     return res
+// }
 
 public func get_grammar_path_by_name(_ grammar_name:String) -> String?{
     do {

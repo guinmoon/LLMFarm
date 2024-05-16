@@ -96,7 +96,7 @@ struct ChatView: View {
     }
     
     
-    private var starOverlay: some View {
+    private var scrollDownOverlay: some View {
         
         Button {
             Task{
@@ -105,17 +105,24 @@ struct ChatView: View {
             }
         }
         
-    label: {
-        Image(systemName: "arrow.down.circle")
-            .resizable()
-            .foregroundColor(.white)
-            .frame(width: 25, height: 25)
-            .padding([.bottom, .trailing], 15)
-            .opacity(0.4)
-    }
-    .buttonStyle(BorderlessButtonStyle())
+        label: {
+            Image(systemName: "arrow.down.circle")
+                .resizable()
+                .foregroundColor(.white)
+                .frame(width: 25, height: 25)
+                .padding([.bottom, .trailing], 15)
+                .opacity(0.4)
+        }
+        .buttonStyle(BorderlessButtonStyle())
     }
     
+    private var debugOverlay: some View {
+        Text(aiChatModel.cur_t_name)
+            .foregroundColor(.white)
+            .frame(width: 185, height: 25)
+//            .padding([.top, .leading], 5)
+            .opacity(0.4)
+    }
     
     
     var body: some View {
@@ -141,7 +148,8 @@ struct ChatView: View {
                         Text("").id("latest")
                     }
                     .listStyle(PlainListStyle())
-                    .overlay(starOverlay, alignment: .bottomTrailing)
+                    .overlay(scrollDownOverlay, alignment: .bottomTrailing)
+                    .overlay(debugOverlay, alignment: .topLeading)
                 }
                 .onChange(of: aiChatModel.AI_typing){ ai_typing in
                     scrollToBottom(with_animation: false)

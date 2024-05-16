@@ -20,7 +20,7 @@ struct ChatListView: View {
     @Binding var add_chat_dialog: Bool
     var close_chat: () -> Void
     @Binding var edit_chat_dialog: Bool
-//    @Binding var chat_selection: String?
+    //    @Binding var chat_selection: String?
     @Binding var chat_selection: Dictionary<String, String>?
     @Binding var renew_chat_list: () -> Void
     @State var chats_previews:[Dictionary<String, String>] = []
@@ -35,7 +35,7 @@ struct ChatListView: View {
     func delete(at offsets: IndexSet) {
         let chatsToDelete = offsets.map { self.chats_previews[$0] }
         _ = delete_chats(chatsToDelete)
-        refresh_chat_list()        
+        refresh_chat_list()
     }
     
     func delete(at elem:Dictionary<String, String>){
@@ -43,41 +43,14 @@ struct ChatListView: View {
         self.chats_previews.removeAll(where: { $0 == elem })
         refresh_chat_list()
     }
-
+    
     func duplicate(at elem:Dictionary<String, String>){
-        _ = duplicate_chat(elem)        
+        _ = duplicate_chat(elem)
         refresh_chat_list()
     }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 5){
-//                HStack{
-//                    Text("Chats")
-//                        .fontWeight(.semibold)
-//                        .font(.title2)
-//                    Spacer()
-//
-//                    Button {
-//                        Task {
-//                            add_chat_dialog = true
-//                            edit_chat_dialog = false
-//                        }
-//                    } label: {
-//                        Image(systemName: "plus.app")
-////                            .foregroundColor(Color("color_primary"))
-//                            .font(.title2)
-//                    }
-//                    .buttonStyle(.borderless)
-//                    .controlSize(.large)
-//                }
-//                .padding(.top)
-//                .padding(.horizontal)
-            
-            
-//                    Divider()
-//                        .padding(.bottom, 20)
-            
-            
             VStack(){
                 List(selection: $chat_selection){
                     ForEach(chats_previews, id: \.self) { chat_preview in
@@ -89,7 +62,8 @@ struct ChatListView: View {
                                 time: String(describing: chat_preview["time"]!),
                                 model:String(describing: chat_preview["model"]!),
                                 chat:String(describing: chat_preview["chat"]!),
-//                                chat_selection: $chat_selection,
+                                //                                chat_selection: $chat_selection,
+                                model_size:String(describing: chat_preview["model_size"]!),
                                 model_name: $model_name,
                                 title: $title,
                                 close_chat:close_chat
@@ -115,14 +89,15 @@ struct ChatListView: View {
                 }
                 
                 .frame(maxHeight: .infinity)
-//                    .border(Color.red, width: 1)
-//                    .listStyle(PlainListStyle())
-                #if os(macOS)
+                //                    .border(Color.red, width: 1)
+                //                    .listStyle(PlainListStyle())
+#if os(macOS)
                 .listStyle(.sidebar)
-                #else
+#else
                 .listStyle(InsetListStyle())
-                #endif
+#endif
             }
+//            .border(/*@START_MENU_TOKEN@*/Color.black/*@END_MENU_TOKEN@*/)
             .background(.opacity(0))
             
             if chats_previews.count<=0{
@@ -164,9 +139,9 @@ struct ChatListView: View {
                             Image(systemName: "gear")
                         }
                     }
-                    #if os(iOS)
+#if os(iOS)
                     EditButton()
-                    #endif
+#endif
                 } label: {
                     Image(systemName: "ellipsis.circle")
                 }
@@ -174,8 +149,8 @@ struct ChatListView: View {
             ToolbarItem(placement: .primaryAction) {
                 Button {
                     Task {
-                       add_chat_dialog = true
-                       edit_chat_dialog = false
+                        add_chat_dialog = true
+                        edit_chat_dialog = false
                         toggleAddChat = true
                     }
                 } label: {
@@ -183,7 +158,7 @@ struct ChatListView: View {
                 }
                 
             }
-    }
+        }
         .sheet(isPresented: $toggleSettings) {
             SettingsView(current_detail_view_name:$current_detail_view_name).environmentObject(fineTuneModel)
 #if os(macOS)
@@ -209,7 +184,7 @@ struct ChatListView: View {
                     .frame(minWidth: 400,minHeight: 600)
 #endif
             }
-
+            
         }
     }
 }

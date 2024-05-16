@@ -12,8 +12,8 @@ struct FineTuneView: View {
     @EnvironmentObject var fineTuneModel: FineTuneModel
     @State private var isModelImporting: Bool = false
     @State private var isDataSetImporting: Bool = false
-    @State var models_previews = get_models_list()!
-    @State var datasets_preview = get_datasets_list()!
+    @State var models_previews = get_models_list(exts:[".gguf",".bin"]) ?? []
+    @State var datasets_preview = get_models_list(dir:"datasets",exts:[".txt"]) ?? []
     
     
     var body: some View {

@@ -100,9 +100,9 @@ struct AddChatView: View {
     @State private var model_icon: String = "ava0"
     let model_icons = ["ava0","ava1","ava2","ava3","ava4","ava5","ava6","ava7"]
     
-    @State var models_previews = get_models_list()!
+    @State var models_previews = get_models_list(exts:[".gguf",".bin"])!
     
-    @State var loras_previews = get_loras_list()!
+    @State var loras_previews = get_models_list(dir: "lora_adapters",exts:[".bin"])!
     
     @State var grammars_previews = get_grammars_list()!
     

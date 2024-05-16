@@ -226,11 +226,6 @@ func fileSize(fromPath path: String) -> UInt64? {
     guard let fileSize = size as? UInt64 else {
         return nil
     }
-
-    // let formatter = NumberFormatter()
-    // formatter.numberStyle = .decimal
-    // formatter.formatterBehavior = .behavior10_4
-    // return formatter.string(from: NSNumber(value: fileSize))
     return fileSize
 }
 
@@ -269,6 +264,7 @@ public func get_chats_list() -> [Dictionary<String, String>]?{
                 var model = ""
                 var message = ""
                 var model_info:Dictionary<String,AnyObject>
+                var m_size:UInt64 = 0
                 if (info!["title"] != nil){
                     title = info!["title"] as! String
                 }
@@ -284,7 +280,8 @@ public func get_chats_list() -> [Dictionary<String, String>]?{
                 if (info!["model"] != nil){
                     model = info!["model"] as! String
                     model_info = get_model_info(model)
-                    message += " msize:" + (model_info["model_size"] as! UInt64).description
+                    m_size = model_info["model_size"] as! UInt64
+//                    message += " msize:" + (model_info["model_size"] as! UInt64).description
                 }
                 var mmodal = "0"
                 if (info!["clip_model"] != nil){
@@ -299,7 +296,8 @@ public func get_chats_list() -> [Dictionary<String, String>]?{
                                      "time": "10:30 AM",
                                      "model":model,
                                      "chat":chatfile,
-                                     "mmodal":mmodal]
+                                     "mmodal":mmodal,
+                                     "model_size":String(format: "%.2f", Double(Double(m_size) / (1024*1024*1024)))]
                 res.append(tmp_chat_info)
             }
         }
@@ -328,48 +326,8 @@ public func rename_file(_ old_fname:String, _ new_fname: String, _ dir: String) 
 }
 
 
-//
-//public func save_template_old(_ f_name:String,
-//                             template_name: String ,
-//                             inference: String ,
-//                             context: Int32 ,
-//                             n_batch: Int32 ,
-//                             temp: Float ,
-//                             top_k: Int32 ,
-//                             top_p: Float ,
-//                             repeat_last_n: Int32,
-//                             repeat_penalty: Float ,
-//                             prompt_format: String ,
-//                             reverse_prompt:String ,
-//                             use_metal:Bool,
-//                             dir: String = "model_setting_templates") -> Bool{
-//    var result = false
-//    do{
-//        let tmp_template = ModelSettingsTemplate( template_name: template_name,
-//                                                  inference: inference,
-//                                                  context: context,
-//                                                  n_batch: n_batch,
-//                                                  temp: temp,
-//                                                  top_k: top_k,
-//                                                  top_p: top_p,
-//                                                  repeat_last_n: repeat_last_n,
-//                                                  repeat_penalty: repeat_penalty,
-//                                                  prompt_format: prompt_format,
-//                                                  reverse_prompt:reverse_prompt)
-//        let fileManager = FileManager.default
-//        let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
-//        let destinationURL = documentsPath!.appendingPathComponent(dir)
-//        try fileManager.createDirectory (at: destinationURL, withIntermediateDirectories: true, attributes: nil)
-//        let new_template_path = destinationURL.appendingPathComponent(f_name)
-//        return tmp_template.save_template(new_template_path)
-//    }
-//    catch{
-//        print(error)
-//    }
-//    return result
-//}
-
-public func get_file_list_with_options(dir:String = "models", exts:[String]) -> [Dictionary<String, String>]?{
+//get_file_list_with_options
+public func get_models_list(dir:String = "models", exts:[String]) -> [Dictionary<String, String>]?{
     var res: [Dictionary<String, String>] = []
     do {
         let fileManager = FileManager.default
@@ -399,82 +357,7 @@ public func get_file_list_with_options(dir:String = "models", exts:[String]) -> 
     return res
 }
 
-public func get_models_list(dir:String = "models") -> [Dictionary<String, String>]? {
-    return get_file_list_with_options(dir:dir,exts:[".bin",".gguf"])
-}
 
-public func get_datasets_list() -> [Dictionary<String, String>]? {
-    return get_file_list_with_options(dir:"datasets",exts:[".txt"])
-}
-
-public func get_loras_list() -> [Dictionary<String, String>]? {
-    return get_file_list_with_options(dir:"lora_adapters",exts:[".bin"])
-}
-// public func get_models_list(dir:String = "models") -> [Dictionary<String, String>]?{
-//     var res: [Dictionary<String, String>] = []
-//     do {
-//         let fileManager = FileManager.default
-//         let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
-//         let destinationURL = documentsPath!.appendingPathComponent(dir)
-//         try fileManager.createDirectory (at: destinationURL, withIntermediateDirectories: true, attributes: nil)
-//         let files = try fileManager.contentsOfDirectory(atPath: destinationURL.path)
-//         for modelfile in files {
-//             if modelfile.hasSuffix(".bin") || modelfile.hasSuffix(".gguf"){                
-//                 let tmp_chat_info = ["icon":"square.stack.3d.up.fill","file_name":modelfile,"description":""]
-//                 res.append(tmp_chat_info)
-//             }
-//         }
-//         return res
-//     } catch {
-//         // failed to read directory – bad permissions, perhaps?
-//     }
-//     return res
-// }
-
-
-// public func get_datasets_list() -> [Dictionary<String, String>]?{
-//     var res: [Dictionary<String, String>] = []
-//     do {
-//         let fileManager = FileManager.default
-//         let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
-//         let destinationURL = documentsPath!.appendingPathComponent("datasets")
-//         try fileManager.createDirectory (at: destinationURL, withIntermediateDirectories: true, attributes: nil)
-//         let files = try fileManager.contentsOfDirectory(atPath: destinationURL.path)
-//         for modelfile in files {
-//             if modelfile.hasSuffix(".txt"){
-//                 //                let info = get_chat_info(modelfile)!
-//                 let tmp_chat_info = ["icon":"square.stack.3d.up.fill","file_name":modelfile,"description":""]
-//                 res.append(tmp_chat_info)
-//             }
-//         }
-//         return res
-//     } catch {
-//         // failed to read directory – bad permissions, perhaps?
-//     }
-//     return res
-// }
-
-// public func get_loras_list() -> [Dictionary<String, String>]?{
-//     var res: [Dictionary<String, String>] = []
-//     do {
-//         let fileManager = FileManager.default
-//         let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
-//         let destinationURL = documentsPath!.appendingPathComponent("lora_adapters")
-//         try fileManager.createDirectory (at: destinationURL, withIntermediateDirectories: true, attributes: nil)
-//         let files = try fileManager.contentsOfDirectory(atPath: destinationURL.path)
-//         for modelfile in files {
-//             if modelfile.hasSuffix(".bin"){
-//                 //                let info = get_chat_info(modelfile)!
-//                 let tmp_chat_info = ["icon":"square.stack.3d.up.fill","file_name":modelfile,"description":""]
-//                 res.append(tmp_chat_info)
-//             }
-//         }
-//         return res
-//     } catch {
-//         // failed to read directory – bad permissions, perhaps?
-//     }
-//     return res
-// }
 
 public func get_grammar_path_by_name(_ grammar_name:String) -> String?{
     do {

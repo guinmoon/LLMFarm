@@ -6,8 +6,8 @@
   <a href="https://testflight.apple.com/join/6SpPLIVM"><img width="178px" alt="Icon" src="dist/testflight.png"></a>
 </p>
 <p align="center">
-  <a href="https://apps.apple.com/ru/app/llm-farm/id6461209867?l=en-GB&platform=iphone"><strong>Install Stable&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</strong></a>
-  <a href="https://testflight.apple.com/join/6SpPLIVM"><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Install Latest</strong></a>
+  <a href="https://apps.apple.com/ru/app/llm-farm/id6461209867?l=en-GB&platform=iphone"><strong>Install Stable</strong></a>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="https://testflight.apple.com/join/6SpPLIVM"><strong>Install Latest</strong></a>
 </p>
 
 <br>

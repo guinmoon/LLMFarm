@@ -10,10 +10,23 @@
   <a href="https://testflight.apple.com/join/6SpPLIVM"><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Install Latest</strong></a>
 </p>
 
+<br>
+
+<p align="center">
+  <a href="https://t.me/llmfarm_chat"><img alt="Icon" height="32"  src="dist/telegram_logo_128.png"></a>&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://www.youtube.com/@LLMFarm-lib"><img alt="Icon" height="32"  src="dist/youtube_logo_128.png"></a>&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://boosty.to/llmfarm"><img alt="Icon" height="32"  src="dist/boosty_icon.png"></a>&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://llmfarm.site"><img alt="Icon" height="32"  src="dist/www_logo_128.png"></a>&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://github.com/guinmoon/LLMFarm/wiki"><img alt="Wiki" height="32"  src="dist/wiki_logo_128.png"></a>
+</p>
+
 <p align="center">
   <img alt="Icon" height="450px"  src="dist/screen1.png">
   <img alt="Icon" width="540px"  src="dist/screen2.png">
 </p>
+
+---
+
 
 LLMFarm is an iOS and MacOS app to work with large language models (LLM). It allows you to load different LLMs with certain parameters.With LLMFarm, you can test the performance of different LLMs on iOS and macOS and find the most suitable model for your project.<br>
 Based on [ggml](https://github.com/ggerganov/ggml) and [llama.cpp](https://github.com/ggerganov/llama.cpp) by [Georgi Gerganov](https://github.com/ggerganov).

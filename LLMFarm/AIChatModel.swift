@@ -56,6 +56,8 @@ final class AIChatModel: ObservableObject {
     @Published var Title: String = ""
     @Published var is_mmodal: Bool = false
     @Published var cur_t_name: String = ""
+    @Published var cur_eval_token_num: Int = 0
+    @Published var query_tokens_count: Int = 0
     
     public init(){
         chat = nil
@@ -74,7 +76,10 @@ final class AIChatModel: ObservableObject {
     
     private func eval_callback(_ t_name:Int) -> Bool{
         DispatchQueue.main.async {
-            self.cur_t_name = t_name.description
+            // self.cur_t_name = t_name.description
+            if t_name == -1{
+                self.cur_eval_token_num += 1
+            }
 //            print(self.cur_t_name)
         }
         return false
@@ -203,6 +208,7 @@ final class AIChatModel: ObservableObject {
         self.chat?.flagExit = true
         self.total_sec = Double((DispatchTime.now().uptimeNanoseconds - self.start_predicting_time.uptimeNanoseconds)) / 1_000_000_000        
         if var last_message =  messages.last{            
+            messages_lock.lock()
             if last_message.state == .predicting || last_message.state == .none{
                 messages[messages.endIndex-1].state = .predicted(totalSecond: self.total_sec)
                 messages[messages.endIndex-1].tok_sec = Double(self.numberOfTokens)/self.total_sec
@@ -210,17 +216,8 @@ final class AIChatModel: ObservableObject {
             if is_error{
                 messages[messages.endIndex-1].state = .error
             }
+            messages_lock.unlock()
         }
-        // if messages.count>0{            
-        //     if self.messages[messages.endIndex-1].state == .predicting ||
-        //         self.messages[messages.endIndex-1].state == .none{
-        //         self.messages[messages.endIndex-1].state = .predicted(totalSecond: self.total_sec)
-        //         self.messages[messages.endIndex-1].tok_sec = Double(self.numberOfTokens)/self.total_sec
-        //     }
-        //     if is_error{
-        //         self.messages[messages.endIndex-1].state = .error
-        //     }
-        // }
         self.predicting = false
         self.tok_sec = Double(self.numberOfTokens)/self.total_sec
         self.numberOfTokens = 0

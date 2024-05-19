@@ -14,12 +14,11 @@ func one_short_query(_ query: String, _ chat: String, _ token_limit:Int,img_path
         return "Chat load eror."
     }
     do{
-        aiChatModel.chat?.initModel(aiChatModel.model_context_param.model_inference,contextParams: aiChatModel.model_context_param)
-        if aiChatModel.chat?.model == nil{
-            return "Model load eror."
-        }
-        aiChatModel.chat?.model?.sampleParams = aiChatModel.model_sample_param
-        aiChatModel.chat?.model?.contextParams = aiChatModel.model_context_param
+//        aiChatModel.chat?.initModel(aiChatModel.model_context_param.model_inference,contextParams: aiChatModel.model_context_param)
+//        if aiChatModel.chat?.model == nil{
+//            return "Model load eror."
+//        }
+        
         try aiChatModel.chat?.loadModel_sync()        
         var system_prompt:String? = nil
         if aiChatModel.model_context_param.system_prompt != ""{

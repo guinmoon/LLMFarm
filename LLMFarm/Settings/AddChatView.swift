@@ -73,11 +73,13 @@ struct AddChatView: View {
     @State private var has_lora: Bool = false
     @State private var has_clip: Bool = false
     
+    @State private var save_load_state: Bool = true
+    
     
     @State private var lora_adapters: [Dictionary<String, Any>] = []
     
     var hardware_arch = Get_Machine_Hardware_Name()
-    @Binding var renew_chat_list: () -> Void
+    @Binding var after_chat_edit: () -> Void
     
     private var chat_name: String = ""
     let bin_type = UTType(tag: "bin", tagClass: .filenameExtension, conformingTo: nil)
@@ -116,18 +118,18 @@ struct AddChatView: View {
     }
     
     init(add_chat_dialog: Binding<Bool>,edit_chat_dialog:Binding<Bool>,
-         renew_chat_list: Binding<() -> Void>,toggleSettings: Binding<Bool>) {
+         after_chat_edit: Binding<() -> Void>,toggleSettings: Binding<Bool>) {
         self._add_chat_dialog = add_chat_dialog
         self._edit_chat_dialog = edit_chat_dialog
-        self._renew_chat_list = renew_chat_list
+        self._after_chat_edit = after_chat_edit
         self._toggleSettings = toggleSettings
     }
     
     init(add_chat_dialog: Binding<Bool>,edit_chat_dialog:Binding<Bool>,
-         chat_name:String,renew_chat_list: Binding<() -> Void>,toggleSettings: Binding<Bool>) {
+         chat_name:String,after_chat_edit: Binding<() -> Void>,toggleSettings: Binding<Bool>) {
         self._add_chat_dialog = add_chat_dialog
         self._edit_chat_dialog = edit_chat_dialog
-        self._renew_chat_list = renew_chat_list
+        self._after_chat_edit = after_chat_edit
         self._toggleSettings = toggleSettings
         self.chat_name = chat_name
         let chat_config = get_chat_info(chat_name)
@@ -255,6 +257,9 @@ struct AddChatView: View {
         if (chat_config!["parse_special_tokens"] != nil){
             self._parse_special_tokens = State(initialValue: chat_config!["parse_special_tokens"] as! Bool)
         }
+        if (chat_config!["save_load_state"] != nil){
+            self._save_load_state = State(initialValue: chat_config!["save_load_state"] as! Bool)
+        }
     }
     
     @State var applying_template:Bool = false
@@ -332,7 +337,8 @@ struct AddChatView: View {
                                                   "add_bos_token":add_bos_token,
                                                   "add_eos_token":add_eos_token,
                                                   "parse_special_tokens":parse_special_tokens,
-                                                  "flash_attn":flash_attn
+                                                  "flash_attn":flash_attn,
+                                                  "save_load_state":save_load_state
         ]
         if is_template{
             options["template_name"] = save_as_template_name
@@ -404,7 +410,7 @@ struct AddChatView: View {
                             if edit_chat_dialog {
                                 edit_chat_dialog = false
                             }
-                            renew_chat_list()
+                            after_chat_edit()
                         }
                     } label: {
                         Text(edit_chat_dialog ? "Save" :"Add" )
@@ -954,8 +960,16 @@ struct AddChatView: View {
                             .frame(maxWidth: .infinity)
                             .padding(.horizontal, 5)
                         }
-                        
                         .padding(.top)
+                        
+                        HStack {
+                            Toggle("Save/Load State", isOn: $save_load_state)
+                                .frame(maxWidth: 120, alignment: .leading)
+                            Spacer()
+                        }
+                        .padding(.horizontal, 5)
+                        .padding(.bottom, 4)
+                        
                     }.padding([.top ])
 
                 }

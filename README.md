@@ -47,7 +47,8 @@ Also used sources from:
 - [x] LoRA adapters support ([read more](./lora.md))
 - [x] LoRA finetune support
 - [x] LoRA export as model support
-- [ ] Restore context state (now only chat history) 
+- [x] Restore context state 
+- [x] Apple Shortcuts
 
 # Inferences
 

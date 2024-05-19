@@ -308,6 +308,16 @@ public func get_chats_list() -> [Dictionary<String, String>]?{
     return res
 }
 
+public func get_state_path_by_chat_name(_ chat_name:String) -> String?{
+    var state_path = get_path_by_short_name(chat_name, dest: "cache/chat_states",check_exist: false)
+    if state_path == nil
+    {
+        return nil
+    }
+    state_path! += ".bin"
+    return state_path
+}
+
 public func rename_file(_ old_fname:String, _ new_fname: String, _ dir: String) -> Bool{
     var result = false
     do{
@@ -586,7 +596,7 @@ func save_image_from_library_to_cache(_ image: UIImage?) -> String?{
 //    }
 //}
 
-func get_path_by_short_name(_ short_name:String, dest:String = "models") -> String? {
+func get_path_by_short_name(_ short_name:String, dest:String = "models", check_exist: Bool = true) -> String? {
     //#if os(iOS) || os(watchOS) || os(tvOS)
     do {
         let fileManager = FileManager.default
@@ -594,7 +604,7 @@ func get_path_by_short_name(_ short_name:String, dest:String = "models") -> Stri
         let destinationURL = documentsPath!.appendingPathComponent(dest)
         try fileManager.createDirectory (at: destinationURL, withIntermediateDirectories: true, attributes: nil)
         let path = destinationURL.appendingPathComponent(short_name).path
-        if fileManager.fileExists(atPath: path){
+        if !check_exist || fileManager.fileExists(atPath: path){
             return path
         }else{
             return nil

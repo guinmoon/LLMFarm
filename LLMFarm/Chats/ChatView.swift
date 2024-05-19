@@ -24,6 +24,7 @@ struct ChatView: View {
     @Binding var chat_selection: Dictionary<String, String>?
     @Binding var title: String
     var close_chat: () -> Void
+    @State var after_chat_edit: () -> Void = {}
     @Binding var add_chat_dialog:Bool
     @Binding var edit_chat_dialog:Bool
     @State private var reload_button_icon: String = "arrow.counterclockwise.circle"
@@ -41,7 +42,9 @@ struct ChatView: View {
     
     @Namespace var bottomID
     
-    
+    func after_chat_edit_func(){
+        aiChatModel.update_chat_params()
+    }
     
     @FocusState
     private var isInputFieldFocused: Bool
@@ -95,6 +98,9 @@ struct ChatView: View {
 //         aiChatModel.AI_typing = -Int.random(in: 0..<100000)
     }
     
+    func hard_reload_chat(){
+        self.aiChatModel.hard_reload_chat()
+    }
     
     private var scrollDownOverlay: some View {
         
@@ -159,7 +165,8 @@ struct ChatView: View {
                 .disabled(chat_selection == nil)
                 .onAppear(){
                     scrollProxy = scrollView
-                    scrollToBottom(with_animation: false)                    
+                    after_chat_edit = after_chat_edit_func
+                    scrollToBottom(with_animation: false)
                 }
             }
             .frame(maxHeight: .infinity)
@@ -202,7 +209,7 @@ struct ChatView: View {
                 })
                 Button {
                     Task {
-                        self.aiChatModel.chat = nil
+                        hard_reload_chat()
                         reload_button_icon = "checkmark"
                         run_after_delay(delay:1200, function:{reload_button_icon = "arrow.counterclockwise.circle"})
 //                        delayIconChange()
@@ -238,7 +245,7 @@ struct ChatView: View {
             AddChatView(add_chat_dialog: $toggleEditChat,
                         edit_chat_dialog: $edit_chat_dialog,
                         chat_name: aiChatModel.chat_name,
-                        renew_chat_list: .constant({}),
+                        after_chat_edit: $after_chat_edit,
                         toggleSettings: .constant(false)).environmentObject(aiChatModel)
 #if os(macOS)
                 .frame(minWidth: 400,minHeight: 600)

@@ -22,7 +22,7 @@ struct ChatListView: View {
     @Binding var edit_chat_dialog: Bool
     //    @Binding var chat_selection: String?
     @Binding var chat_selection: Dictionary<String, String>?
-    @Binding var renew_chat_list: () -> Void
+    @Binding var after_chat_edit: () -> Void 
     @State var chats_previews:[Dictionary<String, String>] = []
     @State var current_detail_view_name:String? = "Chat"
     @State private var toggleSettings = false
@@ -124,7 +124,7 @@ struct ChatListView: View {
                     .frame(maxWidth: .infinity,alignment: .center)
             }
         }.task {
-            renew_chat_list = refresh_chat_list
+            after_chat_edit = refresh_chat_list
             refresh_chat_list()
         }
         .navigationTitle("Chats")
@@ -170,7 +170,7 @@ struct ChatListView: View {
                 AddChatView(add_chat_dialog: $toggleAddChat,
                             edit_chat_dialog: $edit_chat_dialog,
                             chat_name: aiChatModel.chat_name,
-                            renew_chat_list: $renew_chat_list,
+                            after_chat_edit: $after_chat_edit,
                             toggleSettings: $toggleSettings).environmentObject(aiChatModel)
 #if os(macOS)
                     .frame(minWidth: 400,minHeight: 600)
@@ -178,7 +178,7 @@ struct ChatListView: View {
             }else{
                 AddChatView(add_chat_dialog: $toggleAddChat,
                             edit_chat_dialog: $edit_chat_dialog,
-                            renew_chat_list: $renew_chat_list,
+                            after_chat_edit: $after_chat_edit,
                             toggleSettings: $toggleSettings).environmentObject(aiChatModel)
 #if os(macOS)
                     .frame(minWidth: 400,minHeight: 600)

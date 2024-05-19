@@ -40,6 +40,7 @@ final class AIChatModel: ObservableObject {
     public var start_predicting_time = DispatchTime.now()
     public var first_predicted_token_time = DispatchTime.now()
     public var tok_sec:Double = 0.0
+    private var state_dump_path:String = ""
 
 //    public var conv_finished_group = DispatchGroup()
 
@@ -94,8 +95,6 @@ final class AIChatModel: ObservableObject {
         }            
 
         self.finish_load()
-        self.chat?.model!.sampleParams = self.model_sample_param
-        self.chat?.model!.contextParams = self.model_context_param
         //Set prompt model if in config or try to set promt format by filename
         
         print(self.model_sample_param)
@@ -108,6 +107,20 @@ final class AIChatModel: ObservableObject {
         }
         self.send(message: in_text, append_user_message:false,system_prompt:system_prompt,img_path:img_path)
     }
+    
+    public func hard_reload_chat(){
+        self.remove_dump_state()
+        if self.chat != nil && self.chat?.model != nil{
+            self.chat!.model!.contextParams.save_load_state = false
+        }
+        self.chat = nil
+    }
+    
+    public func remove_dump_state(){        
+        if FileManager.default.fileExists(atPath: self.state_dump_path){
+            try? FileManager.default.removeItem(atPath: self.state_dump_path)
+        }
+    }
 
     public func reload_chat(_ chat_selection: Dictionary<String, String>){
         self.stop_predict()
@@ -119,9 +132,21 @@ final class AIChatModel: ObservableObject {
         self.messages = []        
         self.messages = load_chat_history(chat_selection["chat"]!+".json")!
         messages_lock.unlock()
+        self.state_dump_path = get_state_path_by_chat_name(chat_name) ?? ""
         self.AI_typing = -Int.random(in: 0..<100000)
     }
 
+    public  func update_chat_params(){
+        let chat_config = get_chat_info(self.chat?.chatName ?? "")
+        if (chat_config == nil){
+            return
+        }
+        self.model_sample_param = get_model_sample_param_by_config(chat_config!)
+        self.model_context_param = get_model_context_param_by_config(chat_config!)
+        self.chat?.model?.sampleParams = self.model_sample_param
+        self.chat?.model?.contextParams = self.model_context_param
+    }
+    
     public func load_model_by_chat_name_prepare(_ chat_name: String,in_text:String, img_path: String? = nil) -> Bool?{
         let chat_config = get_chat_info(chat_name)
         if (chat_config == nil){
@@ -155,6 +180,16 @@ final class AIChatModel: ObservableObject {
         AIChatModel_obj_ptr = nil
         self.chat = nil
         self.chat = AI(_modelPath: modelURL,_chatName: chat_name);
+        if self.chat == nil{
+            return nil
+        }
+        self.chat?.initModel(model_context_param.model_inference,contextParams: model_context_param)
+        if self.chat?.model == nil{
+            return nil
+        }
+        self.chat?.model?.sampleParams = self.model_sample_param
+        self.chat?.model?.contextParams = self.model_context_param
+        
         return true
     }
 
@@ -164,15 +199,10 @@ final class AIChatModel: ObservableObject {
             return nil;
         }
         
-        //////
-//        conv_finished_group.enter()
-        if self.chat == nil{
-            return nil
+        if self.chat?.model?.contextParams.save_load_state == true {
+            self.chat?.model?.contextParams.state_dump_path = get_state_path_by_chat_name(chat_name) ?? ""
         }
-        self.chat?.initModel(model_context_param.model_inference,contextParams: model_context_param)
-        if self.chat?.model == nil{
-            return nil
-        }
+        
         self.chat?.model?.modelLoadProgressCallback = { progress in
             return self.model_load_progress_callback(progress)
         }
@@ -204,6 +234,13 @@ final class AIChatModel: ObservableObject {
         messages_lock.unlock()
     }
 
+    public func save_chat_history_and_state(){
+        save_chat_history(self.messages,self.chat_name+".json")
+        if self.chat != nil && self.chat?.model != nil {
+            self.chat?.model?.save_state()
+        }
+    }
+    
     public func stop_predict(is_error:Bool=false){
         self.chat?.flagExit = true
         self.total_sec = Double((DispatchTime.now().uptimeNanoseconds - self.start_predicting_time.uptimeNanoseconds)) / 1_000_000_000        
@@ -223,7 +260,8 @@ final class AIChatModel: ObservableObject {
         self.numberOfTokens = 0
         self.action_button_icon = "paperplane"
         self.AI_typing = 0
-        save_chat_history(self.messages,self.chat_name+".json")
+        self.save_chat_history_and_state()
+        
     }
     
     public func check_stop_words(_ token:String,_ message_text: inout String) -> Bool{
@@ -328,7 +366,8 @@ final class AIChatModel: ObservableObject {
             self.messages.append(Message(sender: .system, state: .error, text: "Eval \(final_str)", tok_sec: 0))
         }
 //        self.conv_finished_group.leave()
-        save_chat_history(self.messages,self.chat_name+".json")
+//        save_chat_history(self.messages,self.chat_name+".json")
+        self.save_chat_history_and_state()
     }
 
 

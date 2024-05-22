@@ -44,11 +44,11 @@ Also used sources from:
 - [x] Various sampling methods
 - [x] Metal ([dont work](https://github.com/ggerganov/llama.cpp/issues/2407#issuecomment-1699544808) on intel Mac)
 - [x] Model setting templates
-- [x] LoRA adapters support ([read more](./lora.md))
-- [x] LoRA finetune support
-- [x] LoRA export as model support
-- [x] Restore context state 
-- [x] Apple Shortcuts
+- [x] [LoRA adapters support](./docs/lora.md)
+- [x] [LoRA finetune support](./docs/lora.md)
+- [x] [LoRA export as model support](./docs/lora.md)
+- [x] [Restore context state](./docs/save_load_state.md)
+- [x] [Apple Shortcuts](./docs/shortcuts.md)
 
 # Inferences
 
@@ -96,10 +96,10 @@ Note: For *Falcon, Alpaca, GPT4All, Chinese LLaMA / Alpaca and Chinese LLaMA-2 /
 You can find answers to some questions in the [FAQ section](https://github.com/guinmoon/LLMFarm/wiki/FAQ).
 
 ## Inference options
-When creating a chat, a JSON file is generated in which you can specify additional inference options. The chat files are located in the "chats" directory. You can see all inference options [here](/inference_options.md).
+When creating a chat, a JSON file is generated in which you can specify additional inference options. The chat files are located in the "chats" directory. You can see all inference options [here](./docs/inference_options.md).
 
 ## Models
-You can download some of the supported [models here](/models.md).
+You can download some of the supported [models here](https://llmfarm.site/).
 
 
 # Development

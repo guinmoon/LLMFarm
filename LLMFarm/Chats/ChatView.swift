@@ -201,7 +201,7 @@ struct ChatView: View {
                         aiChatModel.messages = []
                         save_chat_history(aiChatModel.messages,aiChatModel.chat_name+".json")
                         clear_chat_button_icon = "checkmark"
-                        self.aiChatModel.chat = nil
+                        hard_reload_chat()
                         run_after_delay(delay:1200, function:{clear_chat_button_icon = "eraser.line.dashed.fill"})
                     })
                 }, message: {

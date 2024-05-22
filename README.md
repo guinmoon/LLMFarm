@@ -21,7 +21,7 @@
 </p>
 
 <p align="center">
-  <img alt="Icon" height="450px"  src="dist/screen1.png">
+  <img alt="Icon" height="440px"  src="dist/screen1.png">&nbsp;&nbsp;
   <img alt="Icon" width="540px"  src="dist/screen2.png">
 </p>
 

@@ -123,7 +123,7 @@ struct ChatView: View {
     }
     
     private var debugOverlay: some View {
-        Text(aiChatModel.cur_t_name)
+        Text(aiChatModel.cur_eval_token_num.description)
             .foregroundColor(.white)
             .frame(width: 185, height: 25)
 //            .padding([.top, .leading], 5)
@@ -155,7 +155,7 @@ struct ChatView: View {
                     }
                     .listStyle(PlainListStyle())
                     .overlay(scrollDownOverlay, alignment: .bottomTrailing)
-                    .overlay(debugOverlay, alignment: .topLeading)
+//                    .overlay(debugOverlay, alignment: .topLeading)
                 }
                 .onChange(of: aiChatModel.AI_typing){ ai_typing in
                     scrollToBottom(with_animation: false)

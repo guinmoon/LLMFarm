@@ -24,6 +24,9 @@ func parse_model_setting_template(template_path:String) -> ChatSettingsTemplate{
         if (jsonResult_dict!["model_inference"] != nil){
             tmp_template.inference = jsonResult_dict!["model_inference"] as! String
         }
+        if (jsonResult_dict!["skip_tokens"] != nil){
+            tmp_template.skip_tokens = jsonResult_dict!["skip_tokens"] as! String
+        }
         if (jsonResult_dict!["prompt_format"] != nil){
             tmp_template.prompt_format = jsonResult_dict!["prompt_format"] as! String
         }

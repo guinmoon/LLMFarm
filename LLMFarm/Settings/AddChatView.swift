@@ -52,6 +52,7 @@ struct AddChatView: View {
     @State private var model_repeat_penalty: Float = 1.1
     @State private var prompt_format: String = "{{prompt}}"
     @State private var warm_prompt: String = "\n\n\n"
+    @State private var skip_tokens: String = ""
     @State private var reverse_prompt:String = ""
     @State private var numberOfThreads: Int32 = 0
     @State private var mirostat: Int32 = 0
@@ -197,6 +198,9 @@ struct AddChatView: View {
         if (chat_config!["reverse_prompt"] != nil){
             self._reverse_prompt = State(initialValue: chat_config!["reverse_prompt"]! as! String)
         }
+        if (chat_config!["skip_tokens"] != nil){
+            self._skip_tokens = State(initialValue: chat_config!["skip_tokens"]! as! String)
+        }        
         if (chat_config!["numberOfThreads"] != nil){
             self._numberOfThreads = State(initialValue: chat_config!["numberOfThreads"]! as! Int32)
         }
@@ -299,6 +303,7 @@ struct AddChatView: View {
         tfs_z = template.tfs_z
         typical_p = template.typical_p
         flash_attn = template.flash_attn
+        skip_tokens = template.skip_tokens
         if hardware_arch=="x86_64"{
             use_metal = false
         }
@@ -338,7 +343,8 @@ struct AddChatView: View {
                                                   "add_eos_token":add_eos_token,
                                                   "parse_special_tokens":parse_special_tokens,
                                                   "flash_attn":flash_attn,
-                                                  "save_load_state":save_load_state
+                                                  "save_load_state":save_load_state,
+                                                  "skip_tokens":skip_tokens
         ]
         if is_template{
             options["template_name"] = save_as_template_name
@@ -632,13 +638,31 @@ struct AddChatView: View {
                             .padding(.horizontal, 5)
                             
                             VStack {
-                                Text("Reverse prompt:")
+                                Text("Reverse prompts:")
                                     .frame(maxWidth: .infinity, alignment: .leading)
 #if os(macOS)
                                 DidEndEditingTextField(text: $reverse_prompt, didEndEditing: { newName in})
                                     .frame( alignment: .leading)
 #else
                                 TextField("prompt..", text: $reverse_prompt, axis: .vertical)
+                                    .lineLimit(2)
+                                    .textFieldStyle(.roundedBorder)
+                                    .frame( alignment: .leading)
+#endif
+                                //                                .multilineTextAlignment(.trailing)
+                                //                                .textFieldStyle(.plain)
+                            }
+                            .padding(.top, 8)
+                            .padding(.horizontal, 5)
+
+                            VStack {
+                                Text("Skip tokens:")
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+#if os(macOS)
+                                DidEndEditingTextField(text: $skip_tokens, didEndEditing: { newName in})
+                                    .frame( alignment: .leading)
+#else
+                                TextField("prompt..", text: $skip_tokens, axis: .vertical)
                                     .lineLimit(2)
                                     .textFieldStyle(.roundedBorder)
                                     .frame( alignment: .leading)
@@ -1008,7 +1032,8 @@ struct AddChatView: View {
         add_bos_token.description,
         add_eos_token.description,
         parse_special_tokens.description,
-        flash_attn.description
+        flash_attn.description,
+        skip_tokens
     ]}
 }
 //

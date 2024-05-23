@@ -75,10 +75,10 @@ final class AIChatModel: ObservableObject {
         return true
     }
     
-    private func eval_callback(_ t_name:Int) -> Bool{
+    private func eval_callback(_ t:Int) -> Bool{
         DispatchQueue.main.async {
             // self.cur_t_name = t_name.description
-            if t_name == -1{
+            if t == 0{
                 self.cur_eval_token_num += 1
             }
 //            print(self.cur_t_name)
@@ -86,7 +86,7 @@ final class AIChatModel: ObservableObject {
         return false
     }
 
-    private func on_model_loaded_callback(_ load_result: String,in_text:String, img_path: String? = nil){
+    private func after_model_load(_ load_result: String,in_text:String, img_path: String? = nil){
         if load_result != "[Done]" ||
             self.chat?.model == nil || 
             self.chat?.model!.context == nil {
@@ -105,6 +105,7 @@ final class AIChatModel: ObservableObject {
             system_prompt = self.model_context_param.system_prompt+"\n"
             self.messages[self.messages.endIndex - 1].header = self.model_context_param.system_prompt
         }
+        self.chat?.model?.parse_skip_tokens()
         self.send(message: in_text, append_user_message:false,system_prompt:system_prompt,img_path:img_path)
     }
     
@@ -195,7 +196,7 @@ final class AIChatModel: ObservableObject {
 
     public func load_model_by_chat_name(_ chat_name: String,in_text:String, img_path: String? = nil) -> Bool?{
         self.model_loading = true
-        guard let res = load_model_by_chat_name_prepare(chat_name,in_text:in_text,img_path:img_path) else {
+        guard let _ = load_model_by_chat_name_prepare(chat_name,in_text:in_text,img_path:img_path) else {
             return nil;
         }
         
@@ -208,7 +209,7 @@ final class AIChatModel: ObservableObject {
         }
         self.chat?.model?.modelLoadCompleteCallback = {  load_result in
             self.chat?.model?.evalCallback = self.eval_callback
-            self.on_model_loaded_callback(load_result,in_text:in_text,img_path:img_path)            
+            self.after_model_load(load_result,in_text:in_text,img_path:img_path)
         }
         self.chat?.loadModel()
             

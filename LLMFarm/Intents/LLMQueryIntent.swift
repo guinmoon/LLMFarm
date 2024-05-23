@@ -19,12 +19,13 @@ func one_short_query(_ query: String, _ chat: String, _ token_limit:Int,img_path
 //            return "Model load eror."
 //        }
         
-        try aiChatModel.chat?.loadModel_sync()        
+        try aiChatModel.chat?.loadModel_sync()
         var system_prompt:String? = nil
         if aiChatModel.model_context_param.system_prompt != ""{
             system_prompt = aiChatModel.model_context_param.system_prompt+"\n"
 //            aiChatModel.messages[aiChatModel.messages.endIndex - 1].header = aiChatModel.model_context_param.system_prompt
         }
+        aiChatModel.chat?.model?.parse_skip_tokens()
 //        var full_output: String?=""
         var current_output: String = ""
         var current_token_count = 0

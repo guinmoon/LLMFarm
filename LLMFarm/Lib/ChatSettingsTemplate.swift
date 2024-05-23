@@ -33,6 +33,7 @@ struct ChatSettingsTemplate: Hashable {
     var flash_attn: Bool = false
     var tfs_z:Float =  1
     var typical_p:Float = 1
+    var skip_tokens: String = ""
     
     
     func hash(into hasher: inout Hasher) {

@@ -28,8 +28,8 @@ final class AIChatModel: ObservableObject {
     
     public var chat: AI?
     public var modelURL: String
-    public var model_sample_param: ModelSampleParams = ModelSampleParams.default
-    public var model_context_param:ModelAndContextParams = ModelAndContextParams.default
+    // public var model_sample_param: ModelSampleParams = ModelSampleParams.default
+    // public var model_context_param: ModelAndContextParams = ModelAndContextParams.default
     public var numberOfTokens = 0
     public var total_sec = 0.0
     public var action_button_icon = "paperplane"
@@ -97,13 +97,13 @@ final class AIChatModel: ObservableObject {
         self.finish_load()
         //Set prompt model if in config or try to set promt format by filename
         
-        print(self.model_sample_param)
-        print(self.model_context_param)
+        print(self.chat?.model?.contextParams)
+        print(self.chat?.model?.sampleParams)
         self.model_loading = false
         var system_prompt:String? = nil
-        if self.model_context_param.system_prompt != ""{
-            system_prompt = self.model_context_param.system_prompt+"\n"
-            self.messages[self.messages.endIndex - 1].header = self.model_context_param.system_prompt
+        if self.chat?.model?.contextParams.system_prompt != ""{
+            system_prompt = self.chat?.model?.contextParams.system_prompt ?? " " + "\n"
+            self.messages[self.messages.endIndex - 1].header = self.chat?.model?.contextParams.system_prompt ?? ""
         }
         self.chat?.model?.parse_skip_tokens()
         self.send(message: in_text, append_user_message:false,system_prompt:system_prompt,img_path:img_path)
@@ -131,7 +131,7 @@ final class AIChatModel: ObservableObject {
         self.is_mmodal =  chat_selection["mmodal"] ?? "" == "1"
         messages_lock.lock()
         self.messages = []        
-        self.messages = load_chat_history(chat_selection["chat"]!+".json")!
+        self.messages = load_chat_history(chat_selection["chat"]!+".json") ?? []
         messages_lock.unlock()
         self.state_dump_path = get_state_path_by_chat_name(chat_name) ?? ""
         self.AI_typing = -Int.random(in: 0..<100000)
@@ -142,10 +142,12 @@ final class AIChatModel: ObservableObject {
         if (chat_config == nil){
             return
         }
-        self.model_sample_param = get_model_sample_param_by_config(chat_config!)
-        self.model_context_param = get_model_context_param_by_config(chat_config!)
-        self.chat?.model?.sampleParams = self.model_sample_param
-        self.chat?.model?.contextParams = self.model_context_param
+        // self.model_sample_param = get_model_sample_param_by_config(chat_config!)
+        // self.model_context_param = get_model_context_param_by_config(chat_config!)
+        // self.chat?.model?.sampleParams = self.model_sample_param
+        // self.chat?.model?.contextParams = self.model_context_param
+        self.chat?.model?.contextParams = get_model_context_param_by_config(chat_config!)
+        self.chat?.model?.sampleParams = get_model_sample_param_by_config(chat_config!)        
     }
     
     public func load_model_by_chat_name_prepare(_ chat_name: String,in_text:String, img_path: String? = nil) -> Bool?{
@@ -168,8 +170,8 @@ final class AIChatModel: ObservableObject {
             return nil
         }
         
-        model_sample_param = ModelSampleParams.default
-        model_context_param = ModelAndContextParams.default
+        var model_sample_param = ModelSampleParams.default
+        var model_context_param = ModelAndContextParams.default
         model_sample_param = get_model_sample_param_by_config(chat_config!)
         model_context_param = get_model_context_param_by_config(chat_config!)
         
@@ -188,8 +190,8 @@ final class AIChatModel: ObservableObject {
         if self.chat?.model == nil{
             return nil
         }
-        self.chat?.model?.sampleParams = self.model_sample_param
-        self.chat?.model?.contextParams = self.model_context_param
+        self.chat?.model?.sampleParams = model_sample_param
+        self.chat?.model?.contextParams = model_context_param
         
         return true
     }
@@ -267,10 +269,10 @@ final class AIChatModel: ObservableObject {
     
     public func check_stop_words(_ token:String,_ message_text: inout String) -> Bool{
         var check = true
-        for stop_word in self.model_context_param.reverse_prompt{
+        for stop_word in self.chat?.model?.contextParams.reverse_prompt ?? []{
             if token == stop_word {
                 return false
-            }
+            }	
             if message_text.hasSuffix(stop_word) {
                 if stop_word.count>0 && message_text.count>stop_word.count{
                     message_text.removeLast(stop_word.count)

@@ -789,16 +789,19 @@ func save_chat_history(_ messages_raw: [Message],_ fname:String){
             }
             messages.append(tmp_msg)
         }
+        print(messages)
         let jsonData = try JSONSerialization.data(withJSONObject: messages, options: .prettyPrinted)
         let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
         let destinationURL = documentsPath!.appendingPathComponent("history")
         try fileManager.createDirectory (at: destinationURL, withIntermediateDirectories: true, attributes: nil)
         let path = destinationURL.appendingPathComponent(fname)
         try jsonData.write(to: path)
-        
+//        /Users/guinmoon/Library/Developer/CoreSimulator/Devices/07819A64-CFE5-4C6D-8FEF-DCCF6BC4FF5C/data/Containers/Data/Application/7413BD69-B79A-497D-9B6D-3DE4A442924E/Documents/history/phi-2.Q5_K_M_1711271015.json.json
+//        /Users/guinmoon/Library/Developer/CoreSimulator/Devices/07819A64-CFE5-4C6D-8FEF-DCCF6BC4FF5C/data/Containers/Data/Application/7413BD69-B79A-497D-9B6D-3DE4A442924E/Documents/history/phi-2.Q5_K_M_1711271015.json.json
+          
     }
     catch {
-        // handle error
+        print("Save history error \(error)")
     }
 }
 

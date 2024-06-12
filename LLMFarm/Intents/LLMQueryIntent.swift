@@ -6,7 +6,7 @@ import llmfarm_core_cpp
 
 
 @MainActor
-func one_short_query(_ query: String, _ chat: String, _ token_limit:Int,img_path: String? = nil) -> String{
+func one_short_query(_ query: String, _ chat: String, _ token_limit:Int,img_path: String? = nil, use_history: Bool = false) -> String{
     var result:String = ""
     var aiChatModel = AIChatModel()
     aiChatModel.chat_name = chat
@@ -18,11 +18,24 @@ func one_short_query(_ query: String, _ chat: String, _ token_limit:Int,img_path
 //        if aiChatModel.chat?.model == nil{
 //            return "Model load eror."
 //        }
-        
+        if !use_history{
+            // aiChatModel.model_context_param.save_load_state = false
+            aiChatModel.chat?.model?.contextParams.save_load_state = false
+        }else{            
+            aiChatModel.messages = load_chat_history(chat + ".json") ?? []
+            let requestMessage = Message(sender: .user, state: .typed, text: query, tok_sec: 0,
+                                        attachment:img_path,attachment_type:"image")
+            aiChatModel.messages.append(requestMessage)
+
+            aiChatModel.chat?.model?.contextParams.state_dump_path = get_state_path_by_chat_name(chat) ?? ""
+        }
         try aiChatModel.chat?.loadModel_sync()
         var system_prompt:String? = nil
-        if aiChatModel.model_context_param.system_prompt != ""{
-            system_prompt = aiChatModel.model_context_param.system_prompt+"\n"
+        if aiChatModel.chat?.model?.contextParams.system_prompt != ""{
+            system_prompt = aiChatModel.chat?.model?.contextParams.system_prompt ?? ""
+            if (system_prompt != ""){
+                system_prompt! += "\n"
+            }
 //            aiChatModel.messages[aiChatModel.messages.endIndex - 1].header = aiChatModel.model_context_param.system_prompt
         }
         aiChatModel.chat?.model?.parse_skip_tokens()
@@ -30,7 +43,8 @@ func one_short_query(_ query: String, _ chat: String, _ token_limit:Int,img_path
         var current_output: String = ""
         var current_token_count = 0
         try ExceptionCather.catchException {
-            _ = try! aiChatModel.chat?.model?.predict(query, {
+            _ = try! aiChatModel.chat?.model?.predict(query, 
+            {
                 str,time in
                 print("\(str)",terminator: "")
                 if !aiChatModel.check_stop_words(str, &current_output){
@@ -45,14 +59,16 @@ func one_short_query(_ query: String, _ chat: String, _ token_limit:Int,img_path
                 return false
             },system_prompt:system_prompt,img_path:img_path)
         }
+        if use_history{
+            let message = Message(sender: .system, text: current_output,tok_sec: 0)
+            aiChatModel.messages.append(message)
+            aiChatModel.save_chat_history_and_state()
+        }
         result = current_output
     }
     catch{
-        return "Chat load eror."
+        return "Chat load error."
     }
-    //    aiChatModel.send(message: query)
-    //    aiChatModel.conv_finished_group.wait()
-    //    result = aiChatModel.messages.last?.text ?? ""
     return result
 }
 
@@ -66,6 +82,9 @@ struct LLMQueryIntent: AppIntent {
     
     @Parameter(title: "Token Limit", default: 50)
     var token_limit: Int
+
+    @Parameter(title: "Use history", default: false)
+    var use_history: Bool
     
     @Parameter(title: "Chat")
     var chat: ShortcutsChatEntity?
@@ -108,7 +127,7 @@ struct LLMQueryIntent: AppIntent {
             return .result(value: "Please select chat.")
         }
         
-        let res = one_short_query(query!,chat!.chat,token_limit,img_path:img_path)
+        let res = one_short_query(query!,chat!.chat,token_limit,img_path:img_path,use_history: use_history)
         return .result(value: res)
         
     }

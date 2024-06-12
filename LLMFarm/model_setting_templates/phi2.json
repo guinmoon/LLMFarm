@@ -10,5 +10,5 @@
   "use_metal" : true,
   "repeat_penalty" : 1.1,
   "add_bos_token":false,
-  "mlock": true
+  "mlock": false
 }

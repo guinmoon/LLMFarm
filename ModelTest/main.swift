@@ -9,7 +9,7 @@ import Foundation
 import llmfarm_core
 import llmfarm_core_cpp
 
-let maxOutputLength = 50000
+let maxOutputLength = 250
 var total_output = 0
 var session_tokens: [Int32] = []
 
@@ -26,7 +26,7 @@ func mainCallback(_ str: String, _ time: Double) -> Bool {
 
 func set_promt_format(ai: inout AI) throws -> Bool{
     do{
-        ai.model.contextParams.promptFormat = .None
+        ai.model?.contextParams.promptFormat = .None
     }
     catch{
         print(error)
@@ -48,9 +48,11 @@ func main(){
     //        modelInference = ModelInference.GPTNeox
     //
     //    ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/magicprompt-stable-diffusion-q5_1.bin"
-        ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/cerebras-2.7b-ggjtv3-q4_0.bin"
-        modelInference = ModelInference.GPT2
+        // ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/cerebras-2.7b-ggjtv3-q4_0.bin"
+        // modelInference = ModelInference.GPT2
     //
+        
+
     //    ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/replit-code-v1-3b-ggml-q5_1.bin"
     //    modelInference = ModelInference.Replit
     //
@@ -64,7 +66,7 @@ func main(){
     //        modelInference = ModelInference.RWKV
     //        input_text = "song about love"
     
-    //    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-3b.ggmlv3.q4_1.bin"
+       ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/tinydolphin-2.8-1.1b.Q8_0.imx.gguf"
     //    ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/llama-2-7b-chat-q4_K_M.gguf"
 //    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/openllama-3b-v2-q8_0.gguf"
 //    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/bloom-560m-finetuned-sd-prompts-f16.gguf"
@@ -73,7 +75,7 @@ func main(){
 //    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/stablelm-3b-4e1t-Q4_K_M.gguf"
 //    ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/mpt-7b-storywriter-Q4_K.gguf"
 //       ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/orca-mini-3b-q4_1.gguf"
-//    modelInference = ModelInference.LLama_gguf
+        modelInference = ModelInference.LLama_gguf
     //
     var params:ModelAndContextParams = .default
     params.context = 4095
@@ -87,7 +89,13 @@ func main(){
     
     input_text = "write long story about Artem and Dasha"
     do{
-        try ai.loadModel_sync(modelInference,contextParams: params)
+
+        ai.initModel(modelInference,contextParams: params)
+        if ai.model == nil{
+            print( "Model load eror.")
+            exit(2)
+        }
+        try ai.loadModel_sync()
         
         //    input_text = "[INST] <<SYS>>\nYou are a helpful, respectful and honest assistant. Always answer as helpfully as possible.\n<</SYS>>\nTell about Stavropol in one sentence.[/INST]"
         //    input_text = "[INST] <<SYS>>\nYou are a helpful, respectful and honest assistant. Always answer as helpfully as possible.\n<</SYS>>\nTell more.[/INST]"
@@ -110,7 +118,7 @@ func main(){
         //    llama_load_session_file(ai.model.context,"/Users/guinmoon/dev/alpaca_llama_etc/dump_state.bin",tokens.mutPtr, 256,&tokens_count)
         var output=""
         try ExceptionCather.catchException {
-            output = try! ai.model.predict(input_text, mainCallback)
+            output = try! ai.model?.predict(input_text, mainCallback) ?? ""
         }
         //    llama_save_session_file(ai.model.context,"/Users/guinmoon/dev/alpaca_llama_etc/dump_state.bin",ai.model.session_tokens, ai.model.session_tokens.count)
         //    llama_save_state(ai.model.context,"/Users/guinmoon/dev/alpaca_llama_etc/dump_state_.bin")

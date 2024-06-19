@@ -7,7 +7,7 @@
   "use_metal" : true,
   "parse_special_tokens" : true,
   "mirostat" : 0,
-  "temp" : 0.89999997615814209,
+  "temp" : 0,
   "repeat_penalty" : 1,
   "reverse_prompt" : "USER:",
   "mmap" : true,

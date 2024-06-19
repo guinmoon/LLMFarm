@@ -66,7 +66,9 @@ func main(){
     //        modelInference = ModelInference.RWKV
     //        input_text = "song about love"
     
-       ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/tinydolphin-2.8-1.1b.Q8_0.imx.gguf"
+    //    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/tinydolphin-2.8-1.1b.Q8_0.imx.gguf"
+       ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/gemma-2b-it.Q8_0.gguf"
+              
     //    ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/llama-2-7b-chat-q4_K_M.gguf"
 //    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/openllama-3b-v2-q8_0.gguf"
 //    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/bloom-560m-finetuned-sd-prompts-f16.gguf"
@@ -82,8 +84,8 @@ func main(){
     params.n_threads = 14
     //
     params.use_metal = true
-    
-//    params.grammar_path = "/Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/LLMFarm/grammars/list.gbnf"
+    // params.grammar_path = "/Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/LLMFarm/grammars/json.gbnf"
+   params.grammar_path = "/Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/LLMFarm/grammars/list.gbnf"
 //    params.lora_adapters.append(("/Users/guinmoon/dev/alpaca_llama_etc/lora-open-llama-3b-v2-q8_0-my_finetune-LATEST.bin",1.0 ))
 //    input_text = "To be or not"
     

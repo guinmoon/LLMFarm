@@ -45,6 +45,7 @@ struct AddChatView: View {
     
     @State private var model_context: Int32 = 1024
     @State private var model_n_batch: Int32 = 512
+    @State private var n_predict: Int32 = 0
     @State private var model_temp: Float = 0.9
     @State private var model_top_k: Int32 = 40
     @State private var model_top_p: Float = 0.95
@@ -55,6 +56,7 @@ struct AddChatView: View {
     @State private var skip_tokens: String = ""
     @State private var reverse_prompt:String = ""
     @State private var numberOfThreads: Int32 = 0
+//    @State private var numberOfThreads: Int32 = 0
     @State private var mirostat: Int32 = 0
     @State private var mirostat_tau: Float = 5.0
     @State private var mirostat_eta: Float = 0.1
@@ -210,6 +212,9 @@ struct AddChatView: View {
         if (chat_config!["n_batch"] != nil){
             self._model_n_batch = State(initialValue: chat_config!["n_batch"]! as! Int32)
         }
+         if (chat_config!["n_predict"] != nil){
+            self._n_predict = State(initialValue: chat_config!["n_predict"]! as! Int32)
+        }
         if (chat_config!["top_k"] != nil){
             self._model_top_k = State(initialValue: chat_config!["top_k"]! as! Int32)
         }
@@ -328,6 +333,7 @@ struct AddChatView: View {
                                                   "numberOfThreads":Int32(numberOfThreads),
                                                   "context":Int32(model_context),
                                                   "n_batch":Int32(model_n_batch),
+                                                  "n_predict":Int32(n_predict),
                                                   "temp":Float(model_temp),
                                                   "repeat_last_n":Int32(model_repeat_last_n),
                                                   "repeat_penalty":Float(model_repeat_penalty),
@@ -751,9 +757,22 @@ struct AddChatView: View {
                             .padding(.horizontal, 5)
                             
                             HStack {
-                                Text("N_Batch:")
+                                Text("Batch size:")
                                     .frame(maxWidth: 75, alignment: .leading)
                                 TextField("size..", value: $model_n_batch, format:.number)
+                                    .frame( alignment: .leading)
+                                    .multilineTextAlignment(.trailing)
+                                    .textFieldStyle(.plain)
+#if os(iOS)
+                                    .keyboardType(.numberPad)
+#endif
+                            }
+                            .padding(.horizontal, 5)
+
+                            HStack {
+                                Text("Predict count:")
+                                    .frame(maxWidth: 75, alignment: .leading)
+                                TextField("count..", value: $n_predict, format:.number)
                                     .frame( alignment: .leading)
                                     .multilineTextAlignment(.trailing)
                                     .textFieldStyle(.plain)
@@ -988,8 +1007,8 @@ struct AddChatView: View {
                         
                         HStack {
                             Toggle("Save/Load State", isOn: $save_load_state)
-                                .frame(maxWidth: 120, alignment: .leading)
-                            Spacer()
+                                .frame(maxWidth: 220, alignment: .leading)
+                            // Spacer()
                         }
                         .padding(.horizontal, 5)
                         .padding(.bottom, 4)

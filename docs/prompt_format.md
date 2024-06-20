@@ -18,5 +18,3 @@ Example: `<|end|>,user:`.
 ## Option skip tokens:
 Allows you to specify tokens (in string format) that will not be displayed in the prediction results. Tokens are specified using commas.
 Example: `<|end|>,<|assistant|>`.
-
-Translated with DeepL.com (free version)

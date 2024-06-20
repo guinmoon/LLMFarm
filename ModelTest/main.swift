@@ -9,18 +9,13 @@ import Foundation
 import llmfarm_core
 import llmfarm_core_cpp
 
-let maxOutputLength = 250
+let maxOutputLength:Int32 = 100
 var total_output = 0
 var session_tokens: [Int32] = []
 
 func mainCallback(_ str: String, _ time: Double) -> Bool {
     print("\(str)",terminator: "")
     total_output += str.count
-    if(total_output>maxOutputLength){
-        print("Maximum output len achieved")
-        return true
-    }
-    
     return false
 }
 
@@ -84,8 +79,9 @@ func main(){
     params.n_threads = 14
     //
     params.use_metal = true
+    params.n_predict = maxOutputLength
     // params.grammar_path = "/Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/LLMFarm/grammars/json.gbnf"
-   params.grammar_path = "/Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/LLMFarm/grammars/list.gbnf"
+    params.grammar_path = "/Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/LLMFarm/grammars/list.gbnf"
 //    params.lora_adapters.append(("/Users/guinmoon/dev/alpaca_llama_etc/lora-open-llama-3b-v2-q8_0-my_finetune-LATEST.bin",1.0 ))
 //    input_text = "To be or not"
     

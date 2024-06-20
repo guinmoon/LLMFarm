@@ -56,7 +56,6 @@ struct AddChatView: View {
     @State private var skip_tokens: String = ""
     @State private var reverse_prompt:String = ""
     @State private var numberOfThreads: Int32 = 0
-//    @State private var numberOfThreads: Int32 = 0
     @State private var mirostat: Int32 = 0
     @State private var mirostat_tau: Float = 5.0
     @State private var mirostat_eta: Float = 0.1
@@ -758,7 +757,7 @@ struct AddChatView: View {
                             
                             HStack {
                                 Text("Batch size:")
-                                    .frame(maxWidth: 75, alignment: .leading)
+                                    .frame(maxWidth: 100, alignment: .leading)
                                 TextField("size..", value: $model_n_batch, format:.number)
                                     .frame( alignment: .leading)
                                     .multilineTextAlignment(.trailing)
@@ -771,7 +770,7 @@ struct AddChatView: View {
 
                             HStack {
                                 Text("Predict count:")
-                                    .frame(maxWidth: 75, alignment: .leading)
+                                    .frame(maxWidth: 120, alignment: .leading)
                                 TextField("count..", value: $n_predict, format:.number)
                                     .frame( alignment: .leading)
                                     .multilineTextAlignment(.trailing)

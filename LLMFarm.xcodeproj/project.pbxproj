@@ -27,6 +27,7 @@
 		15692A7B2BAA082700AB2F4C /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 15692A7A2BAA082700AB2F4C /* PrivacyInfo.xcprivacy */; };
 		156A48D02A52B55B007DF519 /* SplitViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156A48CF2A52B55B007DF519 /* SplitViews.swift */; };
 		156A48D22A52B65C007DF519 /* Orientation_helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156A48D12A52B65C007DF519 /* Orientation_helper.swift */; };
+		156FCFA92C248D4600BD15EF /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 156FCFA82C248D4600BD15EF /* MarkdownUI */; };
 		158172C12BC5B1480078DCDA /* tinyllama.json in Resources */ = {isa = PBXBuildFile; fileRef = 158172B42BC5B1460078DCDA /* tinyllama.json */; };
 		158172C22BC5B1480078DCDA /* phi2.json in Resources */ = {isa = PBXBuildFile; fileRef = 158172B52BC5B1460078DCDA /* phi2.json */; };
 		158172C52BC5B1480078DCDA /* StableLM-3B-4E1T.json in Resources */ = {isa = PBXBuildFile; fileRef = 158172B82BC5B1470078DCDA /* StableLM-3B-4E1T.json */; };
@@ -250,6 +251,7 @@
 				15A3EDD82A223CB00030AF5A /* Accelerate.framework in Frameworks */,
 				15B9D7422A4B55EA00276782 /* MetalPerformanceShaders.framework in Frameworks */,
 				15B9D7432A4B55EA00276782 /* Metal.framework in Frameworks */,
+				156FCFA92C248D4600BD15EF /* MarkdownUI in Frameworks */,
 				15B9D7442A4B55EA00276782 /* MetalKit.framework in Frameworks */,
 				15A3EDDA2A223CDB0030AF5A /* llmfarm_core in Frameworks */,
 			);
@@ -538,6 +540,7 @@
 			name = LLMFarm;
 			packageProductDependencies = (
 				15A3EDD92A223CDB0030AF5A /* llmfarm_core */,
+				156FCFA82C248D4600BD15EF /* MarkdownUI */,
 			);
 			productName = LLMFarm;
 			productReference = 15F2107E2A191B190021F414 /* LLMFarm.app */;
@@ -577,6 +580,7 @@
 			);
 			mainGroup = E624E1F52958ECC800996CD1;
 			packageReferences = (
+				156FCFA72C248D4600BD15EF /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
 			);
 			productRefGroup = E624E1FF2958ECC800996CD1 /* Products */;
 			projectDirPath = "";
@@ -1058,10 +1062,26 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		156FCFA72C248D4600BD15EF /* XCRemoteSwiftPackageReference "swift-markdown-ui" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/gonzalezreal/swift-markdown-ui?tab=readme-ov-file#getting-started";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.3.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		1560D6142A237D4100918330 /* llmfarm_core */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = llmfarm_core;
+		};
+		156FCFA82C248D4600BD15EF /* MarkdownUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 156FCFA72C248D4600BD15EF /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
+			productName = MarkdownUI;
 		};
 		15A3EDD52A223C9E0030AF5A /* llmfarm_core */ = {
 			isa = XCSwiftPackageProductDependency;

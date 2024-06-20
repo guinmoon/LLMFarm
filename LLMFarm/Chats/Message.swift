@@ -29,4 +29,5 @@ struct Message: Identifiable {
     var header: String = ""
     var attachment: String? = nil
     var attachment_type: String? = nil
+    var is_markdown: Bool = false
 }

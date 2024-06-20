@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import MarkdownUI
+
 
 struct MessageView: View {
     var message: Message
@@ -35,10 +37,12 @@ struct MessageView: View {
             switch message.state {
             case .none:
                 ProgressView()
+
             case .error:
                 Text(message.text)
                     .foregroundColor(Color.red)
                     .textSelection(.enabled)
+
             case .typed:
                 VStack(alignment: .leading) {
                     if message.header != ""{
@@ -47,9 +51,10 @@ struct MessageView: View {
                             .foregroundColor(Color.gray)
                     }
                     MessageImage(message: message)
-                    Text(message.text)
+                    Text(LocalizedStringKey(message.text))
                         .textSelection(.enabled)
                 }
+
             case .predicting:
                 HStack {
                     Text(message.text).textSelection(.enabled)
@@ -57,9 +62,12 @@ struct MessageView: View {
                         .padding(.leading, 3.0)
                         .frame(maxHeight: .infinity,alignment: .bottom)
                 }.textSelection(.enabled)
+
             case .predicted(totalSecond: let totalSecond):
                 VStack(alignment: .leading) {
-                    Text(message.text).textSelection(.enabled)
+//                    Text(LocalizedStringKey(message.text)).textSelection(.enabled)
+                    Markdown(message.text)
+                        .markdownTheme(.docC)
                     Text(String(format: "%.2f ses, %.2f t/s", totalSecond,message.tok_sec))
                         .font(.footnote)
                         .foregroundColor(Color.gray)

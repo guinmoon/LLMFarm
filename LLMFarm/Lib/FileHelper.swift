@@ -90,6 +90,9 @@ func parse_model_setting_template(template_path:String) -> ChatSettingsTemplate{
         if (jsonResult_dict!["mmap"] != nil){
             tmp_template.mmap = jsonResult_dict!["mmap"] as! Bool
         }
+        if (jsonResult_dict!["flash_attn"] != nil){
+            tmp_template.flash_attn = jsonResult_dict!["flash_attn"] as! Bool
+        }
         //        var mirostat_tau:Float = 5
         //        var mirostat_eta :Float =  0.1
         //        var grammar:String = "<None>"
@@ -438,17 +441,23 @@ public func get_grammars_list() -> [String]?{
 //    return nil
 //}
 
+
+var exclude_from_settings_template_keys = ["lora_adapters",
+                                            "model",
+                                            "clip_model",
+                                            "title",
+                                            "icon",
+                                            "model_settings_template"]
+
 func create_chat(_ in_options:Dictionary<String, Any>,edit_chat_dialog:Bool = false,chat_name: String = "", save_as_template:Bool = false) -> Bool{
     do {
         var options:Dictionary<String, Any> = [:]
         for (key, value) in in_options {
             print("\(key) : \(value)")
             if !save_as_template {
-                options[key] = value
-                continue
+                options[key] = value                
             }
-            if key != "lora_adapters" && key != "model" && key != "clip_model"
-                && key != "title" && key != "icon" && key != "model_settings_template"{
+            else if !exclude_from_settings_template_keys.contains(key) {
                 options[key] = value
             }
         }

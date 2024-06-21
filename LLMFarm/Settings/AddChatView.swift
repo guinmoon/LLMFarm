@@ -722,9 +722,9 @@ struct AddChatView: View {
                                 Toggle("Metal", isOn: $use_metal)
                                     .frame(maxWidth: 120, alignment: .leading)
                                     .disabled((self.model_inference != "llama" && self.model_inference_inner != "gpt2" ) /*|| hardware_arch=="x86_64"*/)
-//                                Toggle("FAttn", isOn: $flash_attn)
-//                                    .frame(maxWidth: 120, alignment: .leading)
-//                                    .disabled((self.model_inference != "llama" && self.model_inference_inner != "gpt2" ) /*|| hardware_arch=="x86_64"*/)
+                                Toggle("FAttn", isOn: $flash_attn)
+                                   .frame(maxWidth: 120, alignment: .leading)
+                                   .disabled((self.model_inference != "llama" && self.model_inference_inner != "gpt2" ) /*|| hardware_arch=="x86_64"*/)
                                 Spacer()
                             }
                             .padding(.horizontal, 5)

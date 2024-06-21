@@ -80,6 +80,7 @@ func main(){
     //
     params.use_metal = true
     params.n_predict = maxOutputLength
+    params.flash_attn = true
     // params.grammar_path = "/Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/LLMFarm/grammars/json.gbnf"
     params.grammar_path = "/Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/LLMFarm/grammars/list.gbnf"
 //    params.lora_adapters.append(("/Users/guinmoon/dev/alpaca_llama_etc/lora-open-llama-3b-v2-q8_0-my_finetune-LATEST.bin",1.0 ))

@@ -43,21 +43,25 @@ func one_short_query(_ query: String, _ chat: String, _ token_limit:Int,img_path
         var current_output: String = ""
         var current_token_count = 0
         try ExceptionCather.catchException {
-            _ = try! aiChatModel.chat?.model?.predict(query, 
-            {
-                str,time in
-                print("\(str)",terminator: "")
-                if !aiChatModel.check_stop_words(str, &current_output){
-                    return true
-                }else{
-                    current_output += str
-                }
-                current_token_count+=1
-                if current_token_count>token_limit{
-                    return true
-                }
-                return false
-            },system_prompt:system_prompt,img_path:img_path)
+            do{
+                _ = try aiChatModel.chat?.model?.predict(query,
+                                                          {
+                    str,time in
+                    print("\(str)",terminator: "")
+                    if !aiChatModel.check_stop_words(str, &current_output){
+                        return true
+                    }else{
+                        current_output += str
+                    }
+                    current_token_count+=1
+                    if current_token_count>token_limit{
+                        return true
+                    }
+                    return false
+                },system_prompt:system_prompt,img_path:img_path)
+            }catch{
+                print(error)
+            }
         }
         if use_history{
             let message = Message(sender: .system, text: current_output,tok_sec: 0)

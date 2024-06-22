@@ -1,3 +1,9 @@
 [submodule "llmfarm_core.swift"]
 	path = llmfarm_core.swift
 	url = https://github.com/guinmoon/llmfarm_core.swift
+[submodule "NetworkImage"]
+	path = NetworkImage
+	url = https://github.com/guinmoon/NetworkImage
+[submodule "swift-markdown-ui"]
+	path = swift-markdown-ui
+	url = https://github.com/guinmoon/swift-markdown-ui

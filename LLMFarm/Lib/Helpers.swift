@@ -156,29 +156,21 @@ public func get_chat_info(_ chat_fname:String) -> Dictionary<String, AnyObject>?
 }
 
 public func duplicate_chat(_ chat:Dictionary<String, String>) -> Bool{
-    do{
-        
-        if chat["chat"] != nil{
-            var chat_info = get_chat_info(chat["chat"]!)
-            if chat_info == nil{
-                return false
-            }
-            if (chat_info!["title"] != nil){
-                var title = chat_info!["title"] as! String
-                title  = title + "_2"
-                chat_info!["title"] = title as AnyObject
-            }
-            if !create_chat(chat_info!){
-                return false
-            }
+    if chat["chat"] != nil{
+        var chat_info = get_chat_info(chat["chat"]!)
+        if chat_info == nil{
+            return false
         }
-        
-        return true
+        if (chat_info!["title"] != nil){
+            var title = chat_info?["title"] as? String ?? "Chat_Title"
+            title  = title + "_2"
+            chat_info?["title"] = title as AnyObject
+        }
+        if !create_chat(chat_info!){
+            return false
+        }
     }
-    catch{
-        print(error)
-    }
-    return false
+    return true
 }
 
 public func delete_chats(_ chats:[Dictionary<String, String>]) -> Bool{
@@ -324,8 +316,7 @@ public func get_state_path_by_chat_name(_ chat_name:String) -> String?{
     return state_path
 }
 
-public func rename_file(_ old_fname:String, _ new_fname: String, _ dir: String) -> Bool{
-    var result = false
+public func rename_file(_ old_fname:String, _ new_fname: String, _ dir: String) -> Bool{    
     do{
         let fileManager = FileManager.default
         let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
@@ -338,7 +329,7 @@ public func rename_file(_ old_fname:String, _ new_fname: String, _ dir: String) 
     catch{
         print(error)
     }
-    return result
+    return false
 }
 
 
@@ -645,7 +636,7 @@ func get_downloadble_models(_ fname:String) -> [DownloadModelInfo]?{
             return []
         }
         for row in jsonResult_dict! {
-            var tmp_info = DownloadModelInfo(name: row["name"] as? String, models: row["models"] as? [Dictionary<String, String>])
+            let tmp_info = DownloadModelInfo(name: row["name"] as? String, models: row["models"] as? [Dictionary<String, String>])
             res.append(tmp_info)
         }
         //        return jsonResult_dict
@@ -798,7 +789,7 @@ func save_chat_history(_ messages_raw: [Message],_ fname:String){
             }
             messages.append(tmp_msg)
         }
-        print(messages)
+//        print(messages)
         let jsonData = try JSONSerialization.data(withJSONObject: messages, options: .prettyPrinted)
         let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
         let destinationURL = documentsPath!.appendingPathComponent("history")

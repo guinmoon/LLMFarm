@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -583,8 +583,6 @@
 			);
 			mainGroup = E624E1F52958ECC800996CD1;
 			packageReferences = (
-				156151CA2C26D28200C009D5 /* XCLocalSwiftPackageReference "NetworkImage" */,
-				1554ABBB2C26D37000A0513F /* XCLocalSwiftPackageReference "swift-markdown-ui" */,
 			);
 			productRefGroup = E624E1FF2958ECC800996CD1 /* Products */;
 			projectDirPath = "";
@@ -1065,17 +1063,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCLocalSwiftPackageReference section */
-		1554ABBB2C26D37000A0513F /* XCLocalSwiftPackageReference "swift-markdown-ui" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = "swift-markdown-ui";
-		};
-		156151CA2C26D28200C009D5 /* XCLocalSwiftPackageReference "NetworkImage" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = NetworkImage;
-		};
-/* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		1554ABBC2C26D37000A0513F /* MarkdownUI */ = {

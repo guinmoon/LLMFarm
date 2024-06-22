@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -20,6 +20,8 @@
 		1532BF7C2AA113AD006DC514 /* RWKV-4 Raven Eng.json in Resources */ = {isa = PBXBuildFile; fileRef = 1532BF7B2AA113AD006DC514 /* RWKV-4 Raven Eng.json */; };
 		1532BF7E2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json in Resources */ = {isa = PBXBuildFile; fileRef = 1532BF7D2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json */; };
 		1554ABBD2C26D37000A0513F /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 1554ABBC2C26D37000A0513F /* MarkdownUI */; };
+		1554ABC02C26D75900A0513F /* NetworkImage in Frameworks */ = {isa = PBXBuildFile; productRef = 1554ABBF2C26D75900A0513F /* NetworkImage */; };
+		1554ABC32C26D76900A0513F /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 1554ABC22C26D76900A0513F /* MarkdownUI */; };
 		15584A5C2AAB994100EC9C9C /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15584A5B2AAB994100EC9C9C /* DownloadManager.swift */; };
 		15584A5E2AABA09300EC9C9C /* DidEndEditingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15584A5D2AABA09300EC9C9C /* DidEndEditingTextField.swift */; };
 		155D5B012BE2285300E43E18 /* Gemma.json in Resources */ = {isa = PBXBuildFile; fileRef = 155D5B002BE2285300E43E18 /* Gemma.json */; };
@@ -250,7 +252,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				15A3EDD82A223CB00030AF5A /* Accelerate.framework in Frameworks */,
+				1554ABC02C26D75900A0513F /* NetworkImage in Frameworks */,
 				1554ABBD2C26D37000A0513F /* MarkdownUI in Frameworks */,
+				1554ABC32C26D76900A0513F /* MarkdownUI in Frameworks */,
 				15B9D7422A4B55EA00276782 /* MetalPerformanceShaders.framework in Frameworks */,
 				15B9D7432A4B55EA00276782 /* Metal.framework in Frameworks */,
 				156151CC2C26D28200C009D5 /* NetworkImage in Frameworks */,
@@ -544,6 +548,8 @@
 				15A3EDD92A223CDB0030AF5A /* llmfarm_core */,
 				156151CB2C26D28200C009D5 /* NetworkImage */,
 				1554ABBC2C26D37000A0513F /* MarkdownUI */,
+				1554ABBF2C26D75900A0513F /* NetworkImage */,
+				1554ABC22C26D76900A0513F /* MarkdownUI */,
 			);
 			productName = LLMFarm;
 			productReference = 15F2107E2A191B190021F414 /* LLMFarm.app */;
@@ -583,6 +589,8 @@
 			);
 			mainGroup = E624E1F52958ECC800996CD1;
 			packageReferences = (
+				1554ABBE2C26D75900A0513F /* XCLocalSwiftPackageReference "NetworkImage" */,
+				1554ABC12C26D76900A0513F /* XCLocalSwiftPackageReference "swift-markdown-ui" */,
 			);
 			productRefGroup = E624E1FF2958ECC800996CD1 /* Products */;
 			projectDirPath = "";
@@ -1064,8 +1072,27 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		1554ABBE2C26D75900A0513F /* XCLocalSwiftPackageReference "NetworkImage" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = NetworkImage;
+		};
+		1554ABC12C26D76900A0513F /* XCLocalSwiftPackageReference "swift-markdown-ui" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "swift-markdown-ui";
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		1554ABBC2C26D37000A0513F /* MarkdownUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MarkdownUI;
+		};
+		1554ABBF2C26D75900A0513F /* NetworkImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = NetworkImage;
+		};
+		1554ABC22C26D76900A0513F /* MarkdownUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MarkdownUI;
 		};

@@ -23,9 +23,6 @@ struct AddChatView: View {
     
     @EnvironmentObject var aiChatModel: AIChatModel
     
-    //    @State private var chat_config: Dictionary<String, AnyObject> = [:]
-    
-    //    @State private var model_file: InputDoument = InputDoument(input: "")
     @State private var isBasicAccordionExpanded: Bool = true
     @State private var isModelAccordionExpanded: Bool = true
     @State private var isPredictionAccordionExpanded: Bool = false
@@ -103,10 +100,6 @@ struct AddChatView: View {
     let bin_type = UTType(tag: "bin", tagClass: .filenameExtension, conformingTo: nil)
     let gguf_type = UTType(tag: "gguf", tagClass: .filenameExtension, conformingTo: nil)
     
-    
-   
-    
-     
     func refresh_templates(){
         model_setting_templates = get_model_setting_templates()
     }

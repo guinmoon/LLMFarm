@@ -122,7 +122,11 @@ public struct LLMTextInput: View {
                 .padding(.leading, -22)
             }
             
-            TextField(messagePlaceholder, text: $input_text, axis: .vertical)
+            TextField(messagePlaceholder, text: $input_text, onEditingChanged: { _ in
+                   
+                }, onCommit: {
+                    sendMessageButtonPressed(img_path:img_cahce_path)
+                } )
                 .textFieldStyle(.plain)
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal, 12)

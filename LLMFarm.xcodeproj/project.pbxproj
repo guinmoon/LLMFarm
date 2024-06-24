@@ -71,6 +71,7 @@
 		15B716572C271F8F00CA600B /* SamplingSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B716562C271F8F00CA600B /* SamplingSettingsView.swift */; };
 		15B716592C2729BB00CA600B /* AdditionalSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B716582C2729BB00CA600B /* AdditionalSettingsView.swift */; };
 		15B7165B2C272D5100CA600B /* SettingsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B7165A2C272D5100CA600B /* SettingsHeaderView.swift */; };
+		15B7165D2C29B89500CA600B /* Qwen 1.5.json in Resources */ = {isa = PBXBuildFile; fileRef = 15B7165C2C29B89500CA600B /* Qwen 1.5.json */; };
 		15B7BE9D2A968399006624BD /* MacEditorTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B7BE9C2A968399006624BD /* MacEditorTextView.swift */; };
 		15B9D7422A4B55EA00276782 /* MetalPerformanceShaders.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B9D73F2A4B55E800276782 /* MetalPerformanceShaders.framework */; };
 		15B9D7432A4B55EA00276782 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B9D7402A4B55E900276782 /* Metal.framework */; };
@@ -196,6 +197,7 @@
 		15B716562C271F8F00CA600B /* SamplingSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SamplingSettingsView.swift; sourceTree = "<group>"; };
 		15B716582C2729BB00CA600B /* AdditionalSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalSettingsView.swift; sourceTree = "<group>"; };
 		15B7165A2C272D5100CA600B /* SettingsHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsHeaderView.swift; sourceTree = "<group>"; };
+		15B7165C2C29B89500CA600B /* Qwen 1.5.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Qwen 1.5.json"; sourceTree = "<group>"; };
 		15B7BE9C2A968399006624BD /* MacEditorTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MacEditorTextView.swift; sourceTree = "<group>"; };
 		15B9D73F2A4B55E800276782 /* MetalPerformanceShaders.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalPerformanceShaders.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.4.sdk/System/Library/Frameworks/MetalPerformanceShaders.framework; sourceTree = DEVELOPER_DIR; };
 		15B9D7402A4B55E900276782 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.4.sdk/System/Library/Frameworks/Metal.framework; sourceTree = DEVELOPER_DIR; };
@@ -283,6 +285,7 @@
 		15141E332A64875F0060E767 /* model_setting_templates */ = {
 			isa = PBXGroup;
 			children = (
+				15B7165C2C29B89500CA600B /* Qwen 1.5.json */,
 				155D5B002BE2285300E43E18 /* Gemma.json */,
 				158172BD2BC5B1470078DCDA /* llama chat 2 7B.json */,
 				1528382C2BF3E1EE000D8B82 /* Lama3 Instruct.json */,
@@ -653,6 +656,7 @@
 				1532BF7C2AA113AD006DC514 /* RWKV-4 Raven Eng.json in Resources */,
 				15C08A6A2BA5CB2C000A1BE0 /* MobileVLM.json in Resources */,
 				158172C62BC5B1480078DCDA /* RWKV-4 Raven Eng.json in Resources */,
+				15B7165D2C29B89500CA600B /* Qwen 1.5.json in Resources */,
 				158DAA522B83C0B700550274 /* downloadable_models.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -854,7 +858,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_ASSET_PATHS = "\"LLMFarm/Preview Content\"";
 				DEVELOPMENT_TEAM = C66ZA422A7;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -903,7 +907,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_ASSET_PATHS = "\"LLMFarm/Preview Content\"";
 				DEVELOPMENT_TEAM = C66ZA422A7;
 				ENABLE_HARDENED_RUNTIME = YES;

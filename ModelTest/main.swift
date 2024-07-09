@@ -62,7 +62,9 @@ func main(){
     //        input_text = "song about love"
     
     //    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/tinydolphin-2.8-1.1b.Q8_0.imx.gguf"
-       ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/gemma-2b-it.Q8_0.gguf"
+    //    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/gemma-2b-it.Q8_0.gguf"
+       ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/LaMini-Flan-T5-248M.Q8_0.gguf"
+    
               
     //    ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/llama-2-7b-chat-q4_K_M.gguf"
 //    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/openllama-3b-v2-q8_0.gguf"
@@ -75,18 +77,21 @@ func main(){
         modelInference = ModelInference.LLama_gguf
     //
     var params:ModelAndContextParams = .default
-    params.context = 4095
+    params.context = 512
     params.n_threads = 14
     //
     params.use_metal = true
     params.n_predict = maxOutputLength
-    params.flash_attn = true
+    params.flash_attn = false
+    params.add_bos_token = false
+    params.add_eos_token = false
+    params.parse_special_tokens = true
     // params.grammar_path = "/Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/LLMFarm/grammars/json.gbnf"
-    params.grammar_path = "/Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/LLMFarm/grammars/list.gbnf"
+    // params.grammar_path = "/Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/LLMFarm/grammars/list.gbnf"
 //    params.lora_adapters.append(("/Users/guinmoon/dev/alpaca_llama_etc/lora-open-llama-3b-v2-q8_0-my_finetune-LATEST.bin",1.0 ))
 //    input_text = "To be or not"
     
-    input_text = "write long story about Artem and Dasha"
+    input_text = "hi"
     do{
 
         ai.initModel(modelInference,contextParams: params)
@@ -96,32 +101,12 @@ func main(){
         }
         try ai.loadModel_sync()
         
-        //    input_text = "[INST] <<SYS>>\nYou are a helpful, respectful and honest assistant. Always answer as helpfully as possible.\n<</SYS>>\nTell about Stavropol in one sentence.[/INST]"
-        //    input_text = "[INST] <<SYS>>\nYou are a helpful, respectful and honest assistant. Always answer as helpfully as possible.\n<</SYS>>\nTell more.[/INST]"
-        //    input_text = """
-        //### User:
-        //Tell about Stavropol in one sentence
-        //
-        //### Response:
-        //"""
-        //
-        //    input_text = """
-        //### User:
-        //Tell more
-        //
-        //### Response:
-        //"""
-        //    var tokens: [llama_token] = [Int32](repeating: 0, count: 256)
-        //    var tokens_count:Int = 1
-        //    llama_load_state(ai.model.context,"/Users/guinmoon/dev/alpaca_llama_etc/dump_state_.bin")
-        //    llama_load_session_file(ai.model.context,"/Users/guinmoon/dev/alpaca_llama_etc/dump_state.bin",tokens.mutPtr, 256,&tokens_count)
-        var output=""
+        
+        var output: String?
         try ExceptionCather.catchException {
-            output = try! ai.model?.predict(input_text, mainCallback) ?? ""
+            output = try? ai.model?.predict(input_text, mainCallback) ?? ""
         }
-        //    llama_save_session_file(ai.model.context,"/Users/guinmoon/dev/alpaca_llama_etc/dump_state.bin",ai.model.session_tokens, ai.model.session_tokens.count)
-        //    llama_save_state(ai.model.context,"/Users/guinmoon/dev/alpaca_llama_etc/dump_state_.bin")
-        //
+
         print(output)
     }catch {
         print (error)

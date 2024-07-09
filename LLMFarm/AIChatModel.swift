@@ -346,13 +346,13 @@ final class AIChatModel: ObservableObject {
         self.AI_typing = 0
         self.total_sec = Double((DispatchTime.now().uptimeNanoseconds - self.start_predicting_time.uptimeNanoseconds)) / 1_000_000_000
         if (self.chat_name == self.chat?.chatName && self.chat?.flagExit != true){
-            message.state = .predicted(totalSecond: self.total_sec)
             if self.tok_sec != 0{
                 message.tok_sec = self.tok_sec
             }
             else{
                 message.tok_sec = Double(self.numberOfTokens)/self.total_sec
             }
+            message.state = .predicted(totalSecond: self.total_sec)
             update_last_message(&message)
             // messages_lock.lock()
             // if self.messages.count<messageIndex{
@@ -418,9 +418,9 @@ final class AIChatModel: ObservableObject {
         self.total_sec = 0.0
         self.predicting = true
         self.action_button_icon = "stop.circle"
-        self.start_predicting_time = DispatchTime.now()
         let img_real_path = get_path_by_short_name(img_path ?? "unknown",dest: "cache/images")
 //        conv_finished_group.enter()
+        self.start_predicting_time = DispatchTime.now()
         self.chat?.conversation(text,
             { str, time in //Predicting
                 _ = self.process_predicted_str(str, time, &message/*, messageIndex*/)

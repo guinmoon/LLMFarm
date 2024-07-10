@@ -29,7 +29,10 @@ struct ChatListView: View {
     @State private var toggleAddChat = false
     
     func refresh_chat_list(){
-        self.chats_previews = get_chats_list()!
+        if is_first_run(){
+            create_demo_chat()
+        }
+        self.chats_previews = get_chats_list() ?? []
     }
     
     func delete(at offsets: IndexSet) {

@@ -237,6 +237,29 @@ public func get_model_info(_ model_path:String, full:Bool = false) -> Dictionary
     return ["model_size":model_size as AnyObject]
 }
 
+public func is_first_run() -> Bool {
+    let fileManager = FileManager.default
+    let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+    let destinationURL = documentsPath?.appendingPathComponent("models")
+    if fileManager.fileExists(atPath: destinationURL?.path ?? ""){
+        return false
+    }
+    return true
+}
+
+public func create_demo_chat(){
+    do {
+        let demo_chat_res_path=Bundle.main.resourcePath!.appending("/demo_chat.json")
+        let fileManager = FileManager.default
+        let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+        let destinationURL = documentsPath!.appendingPathComponent("chats")
+        try fileManager.createDirectory (at: destinationURL, withIntermediateDirectories: true, attributes: nil)
+        fileManager.secureCopyItem(at: URL(fileURLWithPath: demo_chat_res_path),to: URL(fileURLWithPath: destinationURL.path+"/demo_chat.json"))
+    }catch{
+        print(error)
+    }
+}
+
 public func get_chats_list() -> [Dictionary<String, String>]?{
     var res: [Dictionary<String, String>] = []
     do {

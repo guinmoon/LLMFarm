@@ -83,15 +83,15 @@ func main(){
     params.use_metal = true
     params.n_predict = maxOutputLength
     params.flash_attn = false
-    params.add_bos_token = false
-    params.add_eos_token = false
+    // params.add_bos_token = false
+    // params.add_eos_token = true
     params.parse_special_tokens = true
     // params.grammar_path = "/Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/LLMFarm/grammars/json.gbnf"
     // params.grammar_path = "/Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/LLMFarm/grammars/list.gbnf"
 //    params.lora_adapters.append(("/Users/guinmoon/dev/alpaca_llama_etc/lora-open-llama-3b-v2-q8_0-my_finetune-LATEST.bin",1.0 ))
 //    input_text = "To be or not"
     
-    input_text = "hi"
+    input_text = "Write story about Artem."
     do{
 
         ai.initModel(modelInference,contextParams: params)

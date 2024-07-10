@@ -12,6 +12,23 @@ public enum Field: Int, CaseIterable {
         case msg
 }
 
+extension FileManager {
+
+    open func secureCopyItem(at srcURL: URL, to dstURL: URL) -> Bool {
+        do {
+            if FileManager.default.fileExists(atPath: dstURL.path) {
+                try FileManager.default.removeItem(at: dstURL)
+            }
+            try FileManager.default.copyItem(at: srcURL, to: dstURL)
+        } catch (let error) {
+            print("Cannot copy item at \(srcURL) to \(dstURL): \(error)")
+            return false
+        }
+        return true
+    }
+
+}
+
 public func run_after_delay(delay: Int, function: @escaping () -> Void) {
     DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(delay)) {
         function()

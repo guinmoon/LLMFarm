@@ -101,7 +101,7 @@ final class AIChatModel: ObservableObject {
         print(self.chat?.model?.sampleParams)
         self.model_loading = false
         var system_prompt:String? = nil
-        if self.chat?.model?.contextParams.system_prompt != ""{
+        if self.chat?.model?.contextParams.system_prompt != "" && self.chat?.model?.nPast == 0{
             system_prompt = self.chat?.model?.contextParams.system_prompt ?? " " + "\n"
             self.messages[self.messages.endIndex - 1].header = self.chat?.model?.contextParams.system_prompt ?? ""
         }
@@ -231,7 +231,7 @@ final class AIChatModel: ObservableObject {
     
     private func update_last_message(_ message: inout Message){
         messages_lock.lock()
-        if let last_msg = messages.last {
+        if let _ = messages.last {
             messages[messages.endIndex-1] = message
         }
         messages_lock.unlock()
@@ -247,7 +247,7 @@ final class AIChatModel: ObservableObject {
     public func stop_predict(is_error:Bool=false){
         self.chat?.flagExit = true
         self.total_sec = Double((DispatchTime.now().uptimeNanoseconds - self.start_predicting_time.uptimeNanoseconds)) / 1_000_000_000        
-        if var last_message =  messages.last{            
+        if let last_message =  messages.last{
             messages_lock.lock()
             if last_message.state == .predicting || last_message.state == .none{
                 messages[messages.endIndex-1].state = .predicted(totalSecond: self.total_sec)
@@ -375,7 +375,7 @@ final class AIChatModel: ObservableObject {
 
 
     public func send(message in_text: String, append_user_message:Bool = true,system_prompt:String? = nil, img_path: String? = nil)  {
-        var text = in_text
+        let text = in_text
         if append_user_message{
             var attachment_type:String? = nil
             if img_path != nil{

@@ -92,6 +92,8 @@ struct AddChatView: View {
         
     @State private var save_load_state: Bool = true
     @State private var save_as_template_name:String = "My Template"
+    @State private var chat_style:String = "docC"
+    @State private var chat_styles = ["none", "docC", "adsa", "3gdfs"]
 
     var hardware_arch = Get_Machine_Hardware_Name()
     @Binding var after_chat_edit: () -> Void
@@ -203,8 +205,8 @@ struct AddChatView: View {
             self._model_top_k = State(initialValue: chat_config!["top_k"]! as! Int32)
         }
         if (chat_config!["temp"] != nil){
-            self._model_temp = State(initialValue: chat_config!["temp"]! as! Float)
-            if (chat_config!["temp"]! as! Float) <= 0{
+            self._model_temp = State(initialValue: chat_config?["temp"] as? Float ?? 0)
+            if (chat_config!["temp"] as? Float ?? 0) <= 0{
                 self._model_sampling = State(initialValue: "greedy")
             }
         }
@@ -212,7 +214,7 @@ struct AddChatView: View {
             self._model_top_p = State(initialValue: chat_config!["top_p"]! as! Float)
         }
         if (chat_config!["repeat_penalty"] != nil){
-            self._model_repeat_penalty = State(initialValue: chat_config!["repeat_penalty"]! as! Float)
+            self._model_repeat_penalty = State(initialValue: chat_config!["repeat_penalty"] as? Float ?? 0)
         }
         if (chat_config!["repeat_last_n"] != nil){
             self._model_repeat_last_n = State(initialValue: chat_config!["repeat_last_n"]! as! Int32)
@@ -253,6 +255,10 @@ struct AddChatView: View {
         if (chat_config!["save_load_state"] != nil){
             self._save_load_state = State(initialValue: chat_config!["save_load_state"] as! Bool)
         }
+        if (chat_config!["chat_style"] != nil){
+            self._chat_style = State(initialValue: chat_config!["chat_style"] as! String)
+        }
+        
     }
     
     
@@ -332,7 +338,8 @@ struct AddChatView: View {
                                                   "parse_special_tokens":parse_special_tokens,
                                                   "flash_attn":flash_attn,
                                                   "save_load_state":save_load_state,
-                                                  "skip_tokens":skip_tokens
+                                                  "skip_tokens":skip_tokens,
+                                                  "chat_style":chat_style
         ]
         if is_template{
             options["template_name"] = save_as_template_name
@@ -481,6 +488,8 @@ struct AddChatView: View {
                         
                         AdditionalSettingsView(save_load_state: $save_load_state,
                                                save_as_template_name: $save_as_template_name,
+                                               chat_style:$chat_style,
+                                               chat_styles:$chat_styles,
                                                get_chat_options_dict: get_chat_options_dict,
                                                refresh_templates: refresh_templates)
                         

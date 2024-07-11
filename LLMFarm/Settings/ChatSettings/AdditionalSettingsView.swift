@@ -11,6 +11,8 @@ struct AdditionalSettingsView: View {
     
     @Binding var save_load_state: Bool
     @Binding var save_as_template_name:String
+    @Binding var chat_style: String
+    @Binding var chat_styles: [String]
     
     var get_chat_options_dict: (Bool) -> Dictionary<String, Any>
     var refresh_templates: () -> Void
@@ -53,6 +55,20 @@ struct AdditionalSettingsView: View {
         .padding(.top, 5)
         .padding(.horizontal, 5)
         .padding(.bottom, 4)
+
+        HStack{
+            Text("Chat Style:")
+                .frame(maxWidth: .infinity, alignment: .leading)
+            Picker("", selection: $chat_style) {
+                ForEach(chat_styles, id: \.self) {
+                    Text($0)
+                }
+            }
+            .pickerStyle(.menu)            
+            //
+        }
+        .padding(.horizontal, 5)
+        .padding(.top, 8)
     }
 }
 

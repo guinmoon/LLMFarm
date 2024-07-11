@@ -1,0 +1,42 @@
+{
+  "model_inference" : "llama",
+  "mirostat_eta" : 0.10000000149011612,
+  "typical_p" : 1,
+  "icon" : "ava1",
+  "repeat_last_n" : 64,
+  "chat_style" : "docC",
+  "mmap" : true,
+  "warm_prompt" : "\n\n\n",
+  "n_predict" : 0,
+  "mirostat" : 2,
+  "tfs_z" : 1,
+  "clip_model" : "Select Clip model",
+  "add_bos_token" : true,
+  "top_p" : 0.94999998807907104,
+  "grammar" : "<None>",
+  "save_load_state" : true,
+  "mirostat_tau" : 5,
+  "skip_tokens" : "<|im_start|>",
+  "context" : 4096,
+  "use_metal" : true,
+  "repeat_penalty" : 1.1000000238418579,
+  "numberOfThreads" : 0,
+  "model" : "[DEMO].gguf",
+  "top_k" : 40,
+  "parse_special_tokens" : true,
+  "flash_attn" : false,
+  "n_batch" : 512,
+  "title" : "Welcome Chat",
+  "reverse_prompt" : "<|im_end|>",
+  "mlock" : false,
+  "temp" : 0.34999999403953552,
+  "prompt_format" : "\n<|im_start|>user\n{{prompt}}<|im_end|>\n\n<|im_start|>assistant\n\n",
+  "add_eos_token" : false,
+  "model_settings_template" : "Custom",
+  "lora_adapters" : [
+    {
+      "adapter" : "Add LoRA adapter",
+      "scale" : 1
+    }
+  ]
+}

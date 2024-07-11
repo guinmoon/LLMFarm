@@ -159,7 +159,7 @@ struct SamplingSettingsView: View {
             Group {
                 HStack {
                     Text("Mirostat_eta:")
-                        .frame(maxWidth: 100, alignment: .leading)
+                        .frame(maxWidth: 110, alignment: .leading)
                     TextField("val..", value: $mirostat_eta, format:.number)
                         .frame( alignment: .leading)
                         .multilineTextAlignment(.trailing)
@@ -172,7 +172,7 @@ struct SamplingSettingsView: View {
                 
                 HStack {
                     Text("Mirostat_tau:")
-                        .frame(maxWidth: 100, alignment: .leading)
+                        .frame(maxWidth: 110, alignment: .leading)
                     TextField("val..", value: $mirostat_tau, format:.number)
                         .frame( alignment: .leading)
                         .multilineTextAlignment(.trailing)

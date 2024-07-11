@@ -19,6 +19,11 @@
 		1532BF7A2A9FA885006DC514 /* GetDeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1532BF792A9FA885006DC514 /* GetDeviceInfo.swift */; };
 		1532BF7C2AA113AD006DC514 /* RWKV-4 Raven Eng.json in Resources */ = {isa = PBXBuildFile; fileRef = 1532BF7B2AA113AD006DC514 /* RWKV-4 Raven Eng.json */; };
 		1532BF7E2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json in Resources */ = {isa = PBXBuildFile; fileRef = 1532BF7D2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json */; };
+		1533934D2C404F2D009E0705 /* demo_chat.json in Resources */ = {isa = PBXBuildFile; fileRef = 1533934C2C404F2D009E0705 /* demo_chat.json */; };
+		153393522C40531A009E0705 /* Pythia410m-V0-Instruct.Q6_K_split.gguf-00001-of-00004.gguf in Resources */ = {isa = PBXBuildFile; fileRef = 1533934E2C405308009E0705 /* Pythia410m-V0-Instruct.Q6_K_split.gguf-00001-of-00004.gguf */; };
+		153393532C40531A009E0705 /* Pythia410m-V0-Instruct.Q6_K_split.gguf-00004-of-00004.gguf in Resources */ = {isa = PBXBuildFile; fileRef = 1533934F2C40530C009E0705 /* Pythia410m-V0-Instruct.Q6_K_split.gguf-00004-of-00004.gguf */; };
+		153393542C40531A009E0705 /* Pythia410m-V0-Instruct.Q6_K_split.gguf-00002-of-00004.gguf in Resources */ = {isa = PBXBuildFile; fileRef = 153393502C405313009E0705 /* Pythia410m-V0-Instruct.Q6_K_split.gguf-00002-of-00004.gguf */; };
+		153393552C40531A009E0705 /* Pythia410m-V0-Instruct.Q6_K_split.gguf-00003-of-00004.gguf in Resources */ = {isa = PBXBuildFile; fileRef = 153393512C40531A009E0705 /* Pythia410m-V0-Instruct.Q6_K_split.gguf-00003-of-00004.gguf */; };
 		1554ABBD2C26D37000A0513F /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 1554ABBC2C26D37000A0513F /* MarkdownUI */; };
 		1554ABC02C26D75900A0513F /* NetworkImage in Frameworks */ = {isa = PBXBuildFile; productRef = 1554ABBF2C26D75900A0513F /* NetworkImage */; };
 		1554ABC32C26D76900A0513F /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 1554ABC22C26D76900A0513F /* MarkdownUI */; };
@@ -154,6 +159,11 @@
 		1532BF792A9FA885006DC514 /* GetDeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDeviceInfo.swift; sourceTree = "<group>"; };
 		1532BF7B2AA113AD006DC514 /* RWKV-4 Raven Eng.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "RWKV-4 Raven Eng.json"; sourceTree = "<group>"; };
 		1532BF7D2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "MagicPrompt-Stable-Diffusion.json"; sourceTree = "<group>"; };
+		1533934C2C404F2D009E0705 /* demo_chat.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = demo_chat.json; sourceTree = "<group>"; };
+		1533934E2C405308009E0705 /* Pythia410m-V0-Instruct.Q6_K_split.gguf-00001-of-00004.gguf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pythia410m-V0-Instruct.Q6_K_split.gguf-00001-of-00004.gguf"; sourceTree = "<group>"; };
+		1533934F2C40530C009E0705 /* Pythia410m-V0-Instruct.Q6_K_split.gguf-00004-of-00004.gguf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pythia410m-V0-Instruct.Q6_K_split.gguf-00004-of-00004.gguf"; sourceTree = "<group>"; };
+		153393502C405313009E0705 /* Pythia410m-V0-Instruct.Q6_K_split.gguf-00002-of-00004.gguf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pythia410m-V0-Instruct.Q6_K_split.gguf-00002-of-00004.gguf"; sourceTree = "<group>"; };
+		153393512C40531A009E0705 /* Pythia410m-V0-Instruct.Q6_K_split.gguf-00003-of-00004.gguf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pythia410m-V0-Instruct.Q6_K_split.gguf-00003-of-00004.gguf"; sourceTree = "<group>"; };
 		1554ABC52C27043500A0513F /* ModelSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelSettingsView.swift; sourceTree = "<group>"; };
 		15584A5B2AAB994100EC9C9C /* DownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
 		15584A5D2AABA09300EC9C9C /* DidEndEditingTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DidEndEditingTextField.swift; sourceTree = "<group>"; };
@@ -346,6 +356,11 @@
 		15A3EDBD2A2121D90030AF5A /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				1533934E2C405308009E0705 /* Pythia410m-V0-Instruct.Q6_K_split.gguf-00001-of-00004.gguf */,
+				153393502C405313009E0705 /* Pythia410m-V0-Instruct.Q6_K_split.gguf-00002-of-00004.gguf */,
+				153393512C40531A009E0705 /* Pythia410m-V0-Instruct.Q6_K_split.gguf-00003-of-00004.gguf */,
+				1533934F2C40530C009E0705 /* Pythia410m-V0-Instruct.Q6_K_split.gguf-00004-of-00004.gguf */,
+				1533934C2C404F2D009E0705 /* demo_chat.json */,
 				1554ABC42C27004500A0513F /* ChatSettings */,
 				158DAA512B83C0B700550274 /* downloadable_models.json */,
 				15584A5D2AABA09300EC9C9C /* DidEndEditingTextField.swift */,
@@ -641,20 +656,25 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				153393552C40531A009E0705 /* Pythia410m-V0-Instruct.Q6_K_split.gguf-00003-of-00004.gguf in Resources */,
 				15141E5C2A651F8C0060E767 /* model_setting_templates in Resources */,
 				15692A7B2BAA082700AB2F4C /* PrivacyInfo.xcprivacy in Resources */,
 				158172CA2BC5B1480078DCDA /* llama chat 2 7B.json in Resources */,
 				15F210892A191B1B0021F414 /* Preview Assets.xcassets in Resources */,
 				15F210852A191B1B0021F414 /* Assets.xcassets in Resources */,
 				1528382D2BF3E1EE000D8B82 /* Lama3 Instruct.json in Resources */,
+				1533934D2C404F2D009E0705 /* demo_chat.json in Resources */,
 				15D81B002BDAC0E900C3B5CE /* phi3.json in Resources */,
 				155D5B012BE2285300E43E18 /* Gemma.json in Resources */,
 				1532BF7E2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json in Resources */,
+				153393542C40531A009E0705 /* Pythia410m-V0-Instruct.Q6_K_split.gguf-00002-of-00004.gguf in Resources */,
 				158172C12BC5B1480078DCDA /* tinyllama.json in Resources */,
 				158172C52BC5B1480078DCDA /* StableLM-3B-4E1T.json in Resources */,
 				158172C22BC5B1480078DCDA /* phi2.json in Resources */,
 				1532BF7C2AA113AD006DC514 /* RWKV-4 Raven Eng.json in Resources */,
 				15C08A6A2BA5CB2C000A1BE0 /* MobileVLM.json in Resources */,
+				153393532C40531A009E0705 /* Pythia410m-V0-Instruct.Q6_K_split.gguf-00004-of-00004.gguf in Resources */,
+				153393522C40531A009E0705 /* Pythia410m-V0-Instruct.Q6_K_split.gguf-00001-of-00004.gguf in Resources */,
 				158172C62BC5B1480078DCDA /* RWKV-4 Raven Eng.json in Resources */,
 				15B7165D2C29B89500CA600B /* Qwen 1.5.json in Resources */,
 				158DAA522B83C0B700550274 /* downloadable_models.json in Resources */,
@@ -864,6 +884,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LLMFarm/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "LLM Farm";
@@ -883,8 +904,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.3.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.guinmoon.LLMFarm;
+				MARKETING_VERSION = 1.3.2;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.guinmoon.LLMFarm-dev";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = auto;
@@ -932,8 +953,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.3.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.guinmoon.LLMFarm;
+				MARKETING_VERSION = 1.3.2;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.guinmoon.LLMFarm-dev";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = auto;

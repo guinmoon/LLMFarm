@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import UniformTypeIdentifiers
 
+let demo_model_name = "Pythia410m-V0-Instruct.Q6_K_split.gguf-00001-of-00004.gguf"
 
 func parse_model_setting_template(template_path:String) -> ChatSettingsTemplate{
     var tmp_template:ChatSettingsTemplate = ChatSettingsTemplate()
@@ -254,7 +255,7 @@ public func create_demo_chat(){
         let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
         let destinationURL = documentsPath!.appendingPathComponent("chats")
         try fileManager.createDirectory (at: destinationURL, withIntermediateDirectories: true, attributes: nil)
-        fileManager.secureCopyItem(at: URL(fileURLWithPath: demo_chat_res_path),to: URL(fileURLWithPath: destinationURL.path+"/demo_chat.json"))
+        fileManager.secureCopyItem(at: URL(fileURLWithPath: demo_chat_res_path),to: URL(fileURLWithPath: destinationURL.path+"/demo_chat.json"))        
     }catch{
         print(error)
     }
@@ -625,11 +626,17 @@ func save_image_from_library_to_cache(_ image: UIImage?) -> String?{
 func get_path_by_short_name(_ short_name:String, dest:String = "models", check_exist: Bool = true) -> String? {
     //#if os(iOS) || os(watchOS) || os(tvOS)
     do {
+        var path = ""
+        var destinationURL: URL = URL(fileURLWithPath: "")
         let fileManager = FileManager.default
         let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
-        let destinationURL = documentsPath!.appendingPathComponent(dest)
-        try fileManager.createDirectory (at: destinationURL, withIntermediateDirectories: true, attributes: nil)
-        let path = destinationURL.appendingPathComponent(short_name).path
+        if dest == "models" && short_name == "[DEMO].gguf"{
+            path=Bundle.main.resourcePath?.appending("/"+demo_model_name) ?? ""
+        }else{            
+            destinationURL = documentsPath!.appendingPathComponent(dest)
+            try fileManager.createDirectory (at: destinationURL, withIntermediateDirectories: true, attributes: nil)
+            path = destinationURL.appendingPathComponent(short_name).path
+        }        
         if !check_exist || fileManager.fileExists(atPath: path){
             return path
         }else{

@@ -14,11 +14,13 @@ struct PredictionSettingsView: View {
     @Binding var n_predict: Int32
     @Binding var numberOfThreads: Int32
     @Binding var use_metal: Bool
+    @Binding var use_clip_metal: Bool
     @Binding var mlock: Bool
     @Binding var mmap: Bool
     @Binding var flash_attn: Bool
     @Binding var model_inference:String
     @Binding var model_inference_inner:String
+    @Binding var has_clip: Bool
     
     var body: some View {
         HStack {
@@ -39,6 +41,10 @@ struct PredictionSettingsView: View {
             Toggle("Metal", isOn: $use_metal)
                 .frame(maxWidth: 120, alignment: .leading)
                 .disabled((model_inference != "llama" && model_inference_inner != "gpt2" ) /*|| hardware_arch=="x86_64"*/)
+            if (has_clip == true){
+                Toggle("ClipM", isOn: $use_clip_metal)
+                    .frame(maxWidth: 120, alignment: .leading)
+            }
             Toggle("FAttn", isOn: $flash_attn)
                .frame(maxWidth: 120, alignment: .leading)
                .disabled((self.model_inference != "llama" && self.model_inference_inner != "gpt2" ) /*|| hardware_arch=="x86_64"*/)

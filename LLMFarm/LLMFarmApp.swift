@@ -62,6 +62,6 @@ struct LLMFarmApp: App {
         }
         .navigationSplitViewStyle(.balanced)
         .background(.ultraThinMaterial)
-        }
+        }        
     }
 }

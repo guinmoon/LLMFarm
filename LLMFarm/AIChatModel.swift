@@ -215,16 +215,6 @@ final class AIChatModel: ObservableObject {
         }
         self.chat?.loadModel()
             
-        
-//         self.chat?.loadModel(model_context_param.model_inference,
-//         { progress in
-//             return self.model_load_progress_callback(progress)
-//         }, 
-//         { load_result in
-// //            self.conv_finished_group.leave()
-//             self.chat?.model.evalCallback = self.eval_callback
-//             self.on_model_loaded_callback(load_result,in_text:in_text,img_path:img_path)
-//         },contextParams: model_context_param)
         return true
     }
     
@@ -285,21 +275,6 @@ final class AIChatModel: ObservableObject {
     
     public func process_predicted_str(_ str: String, _ time: Double,_ message: inout Message/*, _ messageIndex: Int*/) -> Bool
     {
-//        var check = true
-//        for stop_word in self.model_context_param.reverse_prompt{
-//            if str == stop_word {
-//                self.stop_predict()
-//                check = false
-//                break
-//            }
-//            if message.text.hasSuffix(stop_word) {
-//                self.stop_predict()
-//                check = false
-//                if stop_word.count>0 && message.text.count>stop_word.count{
-//                    message.text.removeLast(stop_word.count)
-//                }
-//            }
-//        }
         let check = check_stop_words(str,&message.text)
         if !check {
             self.stop_predict()
@@ -307,22 +282,12 @@ final class AIChatModel: ObservableObject {
         if (check &&
             self.chat?.flagExit != true &&
             self.chat_name == self.chat?.chatName){
-            
             message.state = .predicting
             message.text += str
-            //                    self.AI_typing += str.count
             self.AI_typing += 1            
-            // messages_lock.lock()
-            // if self.messages.count>messageIndex{
-            //     self.messages[messageIndex] = message
-            // }            
-            // messages_lock.unlock()
             update_last_message(&message)
             self.numberOfTokens += 1
-            // self.total_sec += time
-            //            if (self.numberOfTokens>self.maxToken){
-            //                self.stop_predict()
-            //            }
+
         }else{
             print("chat ended.")
         }
@@ -354,11 +319,6 @@ final class AIChatModel: ObservableObject {
             }
             message.state = .predicted(totalSecond: self.total_sec)
             update_last_message(&message)
-            // messages_lock.lock()
-            // if self.messages.count<messageIndex{
-            //     self.messages[messageIndex] = message
-            // }
-            // messages_lock.unlock()
         }else{
             print("chat ended.")
         }
@@ -409,11 +369,6 @@ final class AIChatModel: ObservableObject {
         self.chat?.flagExit = false        
         var message = Message(sender: .system, text: "",tok_sec: 0)
         self.messages.append(message)
-        // self.messages.append(Message(sender: .system, text: "",tok_sec: 0))
-        // guard var message = self.messages.last else{
-        //     return
-        // }
-        // let messageIndex = self.messages.endIndex - 1
         self.numberOfTokens = 0
         self.total_sec = 0.0
         self.predicting = true

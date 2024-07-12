@@ -63,6 +63,7 @@ struct AddChatView: View {
     @State private var n_predict: Int32 = 0
     @State private var numberOfThreads: Int32 = 0
     @State private var use_metal: Bool = false
+    @State private var use_clip_metal: Bool = false
     @State private var mlock: Bool = false
     @State private var mmap: Bool = true
     @State private var flash_attn: Bool = false
@@ -92,8 +93,8 @@ struct AddChatView: View {
         
     @State private var save_load_state: Bool = true
     @State private var save_as_template_name:String = "My Template"
-    @State private var chat_style:String = "docC"
-    @State private var chat_styles = ["none", "docC", "adsa", "3gdfs"]
+    @State private var chat_style:String = "DocC"
+    @State private var chat_styles = ["None", "DocC", "Basic", "GitHub"]
 
     var hardware_arch = Get_Machine_Hardware_Name()
     @Binding var after_chat_edit: () -> Void
@@ -167,6 +168,9 @@ struct AddChatView: View {
         }
         if (chat_config!["use_metal"] != nil){
             self._use_metal = State(initialValue: chat_config!["use_metal"]! as! Bool)
+        }
+        if (chat_config!["use_clip_metal"] != nil){
+            self._use_clip_metal = State(initialValue: chat_config!["use_clip_metal"]! as! Bool)
         }
         if (chat_config!["mlock"] != nil){
             self._mlock = State(initialValue: chat_config!["mlock"]! as! Bool)
@@ -283,6 +287,7 @@ struct AddChatView: View {
         //        warm_prompt = template.warm_prompt
         reverse_prompt = template.reverse_prompt
         use_metal = template.use_metal
+        use_clip_metal = template.use_clip_metal
         mirostat = template.mirostat
         mirostat_tau = template.mirostat_tau
         mirostat_eta = template.mirostat_eta
@@ -313,6 +318,7 @@ struct AddChatView: View {
                                                   "icon":model_icon,
                                                   "model_inference":model_inference_inner,
                                                   "use_metal":use_metal,
+                                                  "use_clip_metal":use_clip_metal,
                                                   "mlock":mlock,
                                                   "mmap":mmap,
                                                   "prompt_format":prompt_format,
@@ -458,11 +464,13 @@ struct AddChatView: View {
                                                n_predict: $n_predict, 
                                                numberOfThreads: $numberOfThreads,
                                                use_metal: $use_metal,
+                                               use_clip_metal: $use_clip_metal,
                                                mlock: $mlock,
                                                mmap: $mmap,
                                                flash_attn: $flash_attn,
                                                model_inference: $model_inference,
-                                               model_inference_inner: $model_inference_inner)
+                                               model_inference_inner: $model_inference_inner,
+                                               has_clip: $has_clip)
                     }.padding([.top ])
                     
                     DisclosureGroup("Sampling options:", isExpanded: $isSamplingAccordionExpanded) {
@@ -508,6 +516,7 @@ struct AddChatView: View {
     
     var anyOfModelOptions: [String] {[
         use_metal.description,
+        use_clip_metal.description,
         model_inference,
         mlock.description,
         mmap.description,

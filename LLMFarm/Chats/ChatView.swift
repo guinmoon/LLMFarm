@@ -23,10 +23,10 @@ struct ChatView: View {
     @Binding var chat_selection: Dictionary<String, String>?
     @Binding var title: String
     var close_chat: () -> Void
-    @State var after_chat_edit: () -> Void = {}
+    @Binding var after_chat_edit: () -> Void 
     @Binding var add_chat_dialog:Bool
     @Binding var edit_chat_dialog:Bool
-    @State var chat_style: String = "none"
+    @State var chat_style: String = "None"
     @State private var reload_button_icon: String = "arrow.counterclockwise.circle"
     @State private var clear_chat_button_icon: String = "eraser.line.dashed.fill"
     
@@ -42,9 +42,9 @@ struct ChatView: View {
     
     @Namespace var bottomID
     
-    func after_chat_edit_func(){
-        aiChatModel.update_chat_params()
-    }
+//    func after_chat_edit_func(){
+//        aiChatModel.update_chat_params()
+//    }
     
     @FocusState
     private var isInputFieldFocused: Bool
@@ -155,7 +155,7 @@ struct ChatView: View {
                 .disabled(chat_selection == nil)
                 .onAppear(){
                     scrollProxy = scrollView
-                    after_chat_edit = after_chat_edit_func
+//                    after_chat_edit = after_chat_edit_func
                     scrollToBottom(with_animation: false)
                 }
             }
@@ -167,7 +167,8 @@ struct ChatView: View {
                         close_chat()
                     }
                     else{
-                        chat_style = selection!["chat_style"] as? String ?? "none"
+                        print(selection)
+                        chat_style = selection!["chat_style"] as String? ?? "none"
                         await self.reload()
                     }
                 }

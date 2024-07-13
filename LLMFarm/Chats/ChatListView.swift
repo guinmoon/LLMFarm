@@ -33,6 +33,7 @@ struct ChatListView: View {
             create_demo_chat()
         }
         self.chats_previews = get_chats_list() ?? []
+        aiChatModel.update_chat_params()
     }
     
     func delete(at offsets: IndexSet) {

@@ -54,8 +54,10 @@ struct LLMFarmApp: App {
                 chat_selection: $chat_selection,
                 title: $title,
                 close_chat:close_chat,
+                after_chat_edit: $after_chat_edit,
                 add_chat_dialog:$add_chat_dialog,
-                edit_chat_dialog:$edit_chat_dialog).environmentObject(aiChatModel).environmentObject(orientationInfo)
+                edit_chat_dialog:$edit_chat_dialog
+                ).environmentObject(aiChatModel).environmentObject(orientationInfo)
                 .frame(maxWidth: .infinity,maxHeight: .infinity)
             
             

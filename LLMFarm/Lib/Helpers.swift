@@ -287,6 +287,7 @@ public func get_chats_list() -> [Dictionary<String, String>]?{
                 var message = ""
                 var model_info:Dictionary<String,AnyObject>
                 var m_size:UInt64 = 0
+                var chat_style:String = info?["chat_style"] as? String ?? "DocC"
                 if (info!["title"] != nil){
                     title = info!["title"] as! String
                 }
@@ -319,7 +320,8 @@ public func get_chats_list() -> [Dictionary<String, String>]?{
                                      "model":model,
                                      "chat":chatfile,
                                      "mmodal":mmodal,
-                                     "model_size":String(format: "%.2f", Double(Double(m_size) / (1024*1024*1024)))]
+                                     "model_size":String(format: "%.2f", Double(Double(m_size) / (1024*1024*1024))),
+                                     "chat_style":chat_style]
                 res.append(tmp_chat_info)
             }
         }

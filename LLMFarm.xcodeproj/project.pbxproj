@@ -332,6 +332,7 @@
 		1554ABC42C27004500A0513F /* ChatSettings */ = {
 			isa = PBXGroup;
 			children = (
+				15C08A652BA3705D000A1BE0 /* ModelSelector.swift */,
 				1554ABC52C27043500A0513F /* ModelSettingsView.swift */,
 				15B716502C27090400CA600B /* PromptSettingsView.swift */,
 				15B716522C270BE300CA600B /* PredictionSettingsView.swift */,
@@ -372,7 +373,6 @@
 				158DAA532B8655AE00550274 /* ModelDownloadItem.swift */,
 				15A3EDC32A2121D90030AF5A /* ModelinfoItem.swift */,
 				15B7BE9C2A968399006624BD /* MacEditorTextView.swift */,
-				15C08A652BA3705D000A1BE0 /* ModelSelector.swift */,
 				15A3EDC22A2121D90030AF5A /* ModelsView.swift */,
 				15B1B9D92AF588FD0058F275 /* SettingsMenuItem.swift */,
 				15A3EDC02A2121D90030AF5A /* SettingsHeaderItem.swift */,
@@ -882,7 +882,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_ASSET_PATHS = "\"LLMFarm/Preview Content\"";
 				DEVELOPMENT_TEAM = C66ZA422A7;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -934,7 +934,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_ASSET_PATHS = "\"LLMFarm/Preview Content\"";
 				DEVELOPMENT_TEAM = C66ZA422A7;

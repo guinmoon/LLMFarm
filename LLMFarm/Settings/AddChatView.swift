@@ -57,7 +57,7 @@ struct AddChatView: View {
     @State private var isLoraImporting: Bool = false
     @State private var has_lora: Bool = false
     @State private var has_clip: Bool = false
-        
+    
     @State private var model_context: Int32 = 1024
     @State private var model_n_batch: Int32 = 512
     @State private var n_predict: Int32 = 0
@@ -67,7 +67,7 @@ struct AddChatView: View {
     @State private var mlock: Bool = false
     @State private var mmap: Bool = true
     @State private var flash_attn: Bool = false
-        
+    
     @State private var prompt_format: String = "{{prompt}}"
     @State private var warm_prompt: String = "\n\n\n"
     @State private var skip_tokens: String = ""
@@ -90,12 +90,12 @@ struct AddChatView: View {
     @State private var model_sampling = "temperature"
     @State private var model_samplings = ["temperature", "greedy", "mirostat", "mirostat_v2"]
     @State private var grammars_previews = get_grammars_list() ?? []
-        
+    
     @State private var save_load_state: Bool = true
     @State private var save_as_template_name:String = "My Template"
     @State private var chat_style:String = "DocC"
     @State private var chat_styles = ["None", "DocC", "Basic", "GitHub"]
-
+    
     var hardware_arch = Get_Machine_Hardware_Name()
     @Binding var after_chat_edit: () -> Void
     
@@ -156,7 +156,7 @@ struct AddChatView: View {
         }
         if chat_config!["model_settings_template"] != nil{
             let cur_template = chat_config?["model_settings_template"] as? String ?? ""
-//            let isPresent = model_setting_templates.contains(where: { $0.template_name == cur_template })
+            //            let isPresent = model_setting_templates.contains(where: { $0.template_name == cur_template })
             model_setting_templates.forEach { template in
                 if template.template_name == cur_template{
                     self._model_settings_template = State(initialValue:template)
@@ -202,7 +202,7 @@ struct AddChatView: View {
         if (chat_config!["n_batch"] != nil){
             self._model_n_batch = State(initialValue: chat_config!["n_batch"]! as! Int32)
         }
-         if (chat_config!["n_predict"] != nil){
+        if (chat_config!["n_predict"] != nil){
             self._n_predict = State(initialValue: chat_config!["n_predict"]! as! Int32)
         }
         if (chat_config!["top_k"] != nil){
@@ -270,6 +270,14 @@ struct AddChatView: View {
         model_settings_template = model_setting_templates[0]
     }
     
+    func select_template(_ name:String){
+        model_setting_templates.forEach { template in
+            if template.template_name == name{
+                model_settings_template = template
+                return
+            }
+        }
+    }
     
     func apply_setting_template(template:ChatSettingsTemplate){
         if template.template_name == "Custom"{
@@ -512,6 +520,7 @@ struct AddChatView: View {
                 set_template_to_custom()
             }
         }
+
     }
     
     var anyOfModelOptions: [String] {[

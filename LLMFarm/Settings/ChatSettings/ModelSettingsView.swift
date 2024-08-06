@@ -98,8 +98,8 @@ struct ModelSettingsView: View {
             HStack {
                 Toggle("Clip", isOn: $has_clip)
                     .frame(maxWidth: 120, alignment: .trailing)
-                Toggle("LoRa", isOn: $has_lora)
-                    .frame(maxWidth: 120, alignment: .trailing)
+//                Toggle("LoRa", isOn: $has_lora)
+//                    .frame(maxWidth: 120, alignment: .trailing)
                 Spacer()
             }
             .padding([/*.trailing, .leading,*/ .top])

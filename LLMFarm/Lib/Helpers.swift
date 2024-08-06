@@ -464,7 +464,8 @@ var exclude_from_settings_template_keys = ["lora_adapters",
                                             "clip_model",
                                             "title",
                                             "icon",
-                                            "model_settings_template"]
+                                            "model_settings_template",
+                                            "chat_style"]
 
 func create_chat(_ in_options:Dictionary<String, Any>,edit_chat_dialog:Bool = false,chat_name: String = "", save_as_template:Bool = false) -> Bool{
     do {

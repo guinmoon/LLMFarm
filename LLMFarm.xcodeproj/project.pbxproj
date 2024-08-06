@@ -24,6 +24,7 @@
 		153393532C40531A009E0705 /* Pythia410m-V0-Instruct.Q6_K_split.gguf-00004-of-00004.gguf in Resources */ = {isa = PBXBuildFile; fileRef = 1533934F2C40530C009E0705 /* Pythia410m-V0-Instruct.Q6_K_split.gguf-00004-of-00004.gguf */; };
 		153393542C40531A009E0705 /* Pythia410m-V0-Instruct.Q6_K_split.gguf-00002-of-00004.gguf in Resources */ = {isa = PBXBuildFile; fileRef = 153393502C405313009E0705 /* Pythia410m-V0-Instruct.Q6_K_split.gguf-00002-of-00004.gguf */; };
 		153393552C40531A009E0705 /* Pythia410m-V0-Instruct.Q6_K_split.gguf-00003-of-00004.gguf in Resources */ = {isa = PBXBuildFile; fileRef = 153393512C40531A009E0705 /* Pythia410m-V0-Instruct.Q6_K_split.gguf-00003-of-00004.gguf */; };
+		154237382C62895A00CFE9FF /* Gemma 2.json in Resources */ = {isa = PBXBuildFile; fileRef = 154237372C62895A00CFE9FF /* Gemma 2.json */; };
 		1554ABBD2C26D37000A0513F /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 1554ABBC2C26D37000A0513F /* MarkdownUI */; };
 		1554ABC02C26D75900A0513F /* NetworkImage in Frameworks */ = {isa = PBXBuildFile; productRef = 1554ABBF2C26D75900A0513F /* NetworkImage */; };
 		1554ABC32C26D76900A0513F /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 1554ABC22C26D76900A0513F /* MarkdownUI */; };
@@ -164,6 +165,7 @@
 		1533934F2C40530C009E0705 /* Pythia410m-V0-Instruct.Q6_K_split.gguf-00004-of-00004.gguf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pythia410m-V0-Instruct.Q6_K_split.gguf-00004-of-00004.gguf"; sourceTree = "<group>"; };
 		153393502C405313009E0705 /* Pythia410m-V0-Instruct.Q6_K_split.gguf-00002-of-00004.gguf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pythia410m-V0-Instruct.Q6_K_split.gguf-00002-of-00004.gguf"; sourceTree = "<group>"; };
 		153393512C40531A009E0705 /* Pythia410m-V0-Instruct.Q6_K_split.gguf-00003-of-00004.gguf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pythia410m-V0-Instruct.Q6_K_split.gguf-00003-of-00004.gguf"; sourceTree = "<group>"; };
+		154237372C62895A00CFE9FF /* Gemma 2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Gemma 2.json"; sourceTree = "<group>"; };
 		1554ABC52C27043500A0513F /* ModelSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelSettingsView.swift; sourceTree = "<group>"; };
 		15584A5B2AAB994100EC9C9C /* DownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
 		15584A5D2AABA09300EC9C9C /* DidEndEditingTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DidEndEditingTextField.swift; sourceTree = "<group>"; };
@@ -297,6 +299,7 @@
 			children = (
 				15B7165C2C29B89500CA600B /* Qwen 1.5.json */,
 				155D5B002BE2285300E43E18 /* Gemma.json */,
+				154237372C62895A00CFE9FF /* Gemma 2.json */,
 				158172BD2BC5B1470078DCDA /* llama chat 2 7B.json */,
 				1528382C2BF3E1EE000D8B82 /* Lama3 Instruct.json */,
 				158172B52BC5B1460078DCDA /* phi2.json */,
@@ -676,6 +679,7 @@
 				153393532C40531A009E0705 /* Pythia410m-V0-Instruct.Q6_K_split.gguf-00004-of-00004.gguf in Resources */,
 				153393522C40531A009E0705 /* Pythia410m-V0-Instruct.Q6_K_split.gguf-00001-of-00004.gguf in Resources */,
 				158172C62BC5B1480078DCDA /* RWKV-4 Raven Eng.json in Resources */,
+				154237382C62895A00CFE9FF /* Gemma 2.json in Resources */,
 				15B7165D2C29B89500CA600B /* Qwen 1.5.json in Resources */,
 				158DAA522B83C0B700550274 /* downloadable_models.json in Resources */,
 			);

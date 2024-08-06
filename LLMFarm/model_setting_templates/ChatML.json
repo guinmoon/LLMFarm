@@ -1,6 +1,6 @@
 {
     "save_load_state" : true,
-    "reverse_prompt" : "",
+    "reverse_prompt" : "<|im_end|>",
     "tfs_z" : 1,
     "mlock" : false,
     "parse_special_tokens" : true,
@@ -24,6 +24,6 @@
     "grammar" : "<None>",
     "repeat_last_n" : 64,
     "add_bos_token" : false,
-    "template_name" : "Qwen 1.5",
+    "template_name" : "ChatML",
     "top_p" : 0.94999998807907104
   }

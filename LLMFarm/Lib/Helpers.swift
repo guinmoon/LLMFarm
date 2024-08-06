@@ -373,6 +373,8 @@ public func get_models_list(dir:String = "models", exts:[String]) -> [Dictionary
             return date0.compare(date1) == .orderedDescending
         })
         // let files = try fileManager.contentsOfDirectory(atPath: destinationURL.path)
+        let tmp_chat_info = ["icon":"shippingbox.fill","file_name":"[DEMO].gguf","description":""]
+        res.append(tmp_chat_info)
         for modelfile in files {
             for ext in exts{
                 if modelfile.lastPathComponent.hasSuffix(ext){

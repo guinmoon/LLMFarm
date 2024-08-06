@@ -41,9 +41,9 @@ struct SettingsView: View {
                         NavigationLink("LoRA Adapters"){
                             ModelsView("lora_adapters")
                         }
-                        NavigationLink("Fine Tune"){
-                            FineTuneView().environmentObject(fineTuneModel)
-                        }
+                        // NavigationLink("Fine Tune"){
+                        //     FineTuneView().environmentObject(fineTuneModel)
+                        // }
                         NavigationLink("Merge Lora"){
                             ExportLoraView().environmentObject(fineTuneModel)
                         }

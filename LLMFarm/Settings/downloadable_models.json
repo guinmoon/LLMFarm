@@ -18,6 +18,35 @@
         ]
     },
     {
+        "name": "Gemma v2 2B it",
+        "models": [
+            {
+                "url": "https://huggingface.co/guinmoon/LLMFarm_Models/resolve/main/gemma%202b_it_v2_IQ4_NL.gguf",
+                "file_name": "gemma_2b_it_v2_IQ4_NL.gguf",
+                "size": "",
+                "Q": "IQ4_NL"
+            },
+            {
+                "url": "https://huggingface.co/guinmoon/LLMFarm_Models/resolve/main/gemma%202b_it_v2_Q5_K_S.gguf",
+                "file_name": "gemma_2b_it_v2_Q5_K_S.gguf",
+                "size": "",
+                "Q": "Q5_K_S"
+            },
+            {
+                "url": "https://huggingface.co/guinmoon/LLMFarm_Models/resolve/main/gemma%202b_it_v2_Q6_K.gguf",
+                "file_name": "gemma_2b_it_v2_Q6_K.gguf",
+                "size": "",
+                "Q": "Q6_K"
+            },
+            {
+                "url": "https://huggingface.co/guinmoon/LLMFarm_Models/resolve/main/gemma%202b_it_v2_IQ3_XS.gguf?download=true",
+                "file_name": "gemma_2b_it_v2_IQ3_XS.gguf",
+                "size": "",
+                "Q": "IQ3_XS"
+            }
+        ]
+    },
+    {
         "name": "Gemma 1.1 2B it",
         "models": [
             {

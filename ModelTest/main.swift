@@ -12,16 +12,22 @@ import llmfarm_core_cpp
 let maxOutputLength:Int32 = 100
 var total_output = 0
 var session_tokens: [Int32] = []
+var ai: AI? = nil
 
 func mainCallback(_ str: String, _ time: Double) -> Bool {
     print("\(str)",terminator: "")
     total_output += str.count
+    // print(total_output)
+    // if  total_output>maxOutputLength {        
+    //     ai!.flagExit = true        
+    //     return true
+    // }
     return false
 }
 
-func set_promt_format(ai: inout AI) throws -> Bool{
+func set_promt_format(ai: inout AI?) throws -> Bool{
     do{
-        ai.model?.contextParams.promptFormat = .None
+        ai!.model?.contextParams.promptFormat = .None
     }
     catch{
         print(error)
@@ -33,7 +39,7 @@ func main(){
     print("Hello.")
     var input_text = "State the meaning of life."
     var modelInference:ModelInference
-    var ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-3b-q4_1.ggu",_chatName: "chat")
+    ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-3b-q4_1.ggu",_chatName: "chat")
     
     //    ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/dolly-v2-3b-q5_1.bin"
     //    modelInference = ModelInference.GPTNeox
@@ -61,7 +67,7 @@ func main(){
     //        modelInference = ModelInference.RWKV
     //        input_text = "song about love"
     
-       ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/tinydolphin-2.8-1.1b.Q8_0.imx.gguf"
+       ai!.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/tinydolphin-2.8-1.1b.Q8_0.imx.gguf"
     //    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/gemma-2b-it.Q8_0.gguf"
     //    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/LaMini-Flan-T5-248M.Q8_0.gguf"
     
@@ -87,24 +93,24 @@ func main(){
     // params.add_eos_token = true
     params.parse_special_tokens = true
     // params.grammar_path = "/Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/LLMFarm/grammars/json.gbnf"
-    // params.grammar_path = "/Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/LLMFarm/grammars/list.gbnf"
+    params.grammar_path = "/Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/LLMFarm/grammars/list.gbnf"
 //    params.lora_adapters.append(("/Users/guinmoon/dev/alpaca_llama_etc/lora-open-llama-3b-v2-q8_0-my_finetune-LATEST.bin",1.0 ))
 //    input_text = "To be or not"
     
     input_text = "Write story about Artem."
     do{
 
-        ai.initModel(modelInference,contextParams: params)
-        if ai.model == nil{
+        ai!.initModel(modelInference,contextParams: params)
+        if ai!.model == nil{
             print( "Model load eror.")
             exit(2)
         }
-        try ai.loadModel_sync()
+        try ai!.loadModel_sync()
         
         
         var output: String?
         try ExceptionCather.catchException {
-            output = try? ai.model?.predict(input_text, mainCallback) ?? ""
+            output = try? ai!.model?.predict(input_text, mainCallback) ?? ""
         }
 
         print(output)

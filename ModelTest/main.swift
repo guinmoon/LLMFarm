@@ -39,7 +39,7 @@ func main(){
     print("Hello.")
     var input_text = "State the meaning of life."
     var modelInference:ModelInference
-    ai = AI(_modelPath: "/Users/guinmoon/dev/alpaca_llama_etc/orca-mini-3b-q4_1.ggu",_chatName: "chat")
+    ai = AI(_modelPath: "",_chatName: "chat")
     
     //    ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/dolly-v2-3b-q5_1.bin"
     //    modelInference = ModelInference.GPTNeox

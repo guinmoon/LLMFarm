@@ -15,7 +15,7 @@
 		152838272BEBCEFE000D8B82 /* LLMQueryIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152838252BEBCEFE000D8B82 /* LLMQueryIntent.swift */; };
 		152838282BEBCEFE000D8B82 /* LLMFarmShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152838262BEBCEFE000D8B82 /* LLMFarmShortcuts.swift */; };
 		1528382A2BF13E53000D8B82 /* ShortcutsChatEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152838292BF13E53000D8B82 /* ShortcutsChatEntity.swift */; };
-		1528382D2BF3E1EE000D8B82 /* Lama3 Instruct.json in Resources */ = {isa = PBXBuildFile; fileRef = 1528382C2BF3E1EE000D8B82 /* Lama3 Instruct.json */; };
+		1528382D2BF3E1EE000D8B82 /* LLaMa3 Instruct.json in Resources */ = {isa = PBXBuildFile; fileRef = 1528382C2BF3E1EE000D8B82 /* LLaMa3 Instruct.json */; };
 		1532BF7A2A9FA885006DC514 /* GetDeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1532BF792A9FA885006DC514 /* GetDeviceInfo.swift */; };
 		1532BF7C2AA113AD006DC514 /* RWKV-4 Raven Eng.json in Resources */ = {isa = PBXBuildFile; fileRef = 1532BF7B2AA113AD006DC514 /* RWKV-4 Raven Eng.json */; };
 		1532BF7E2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json in Resources */ = {isa = PBXBuildFile; fileRef = 1532BF7D2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json */; };
@@ -156,7 +156,7 @@
 		152838252BEBCEFE000D8B82 /* LLMQueryIntent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLMQueryIntent.swift; sourceTree = "<group>"; };
 		152838262BEBCEFE000D8B82 /* LLMFarmShortcuts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLMFarmShortcuts.swift; sourceTree = "<group>"; };
 		152838292BF13E53000D8B82 /* ShortcutsChatEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutsChatEntity.swift; sourceTree = "<group>"; };
-		1528382C2BF3E1EE000D8B82 /* Lama3 Instruct.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Lama3 Instruct.json"; sourceTree = "<group>"; };
+		1528382C2BF3E1EE000D8B82 /* LLaMa3 Instruct.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LLaMa3 Instruct.json"; sourceTree = "<group>"; };
 		1532BF792A9FA885006DC514 /* GetDeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDeviceInfo.swift; sourceTree = "<group>"; };
 		1532BF7B2AA113AD006DC514 /* RWKV-4 Raven Eng.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "RWKV-4 Raven Eng.json"; sourceTree = "<group>"; };
 		1532BF7D2AA113D5006DC514 /* MagicPrompt-Stable-Diffusion.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "MagicPrompt-Stable-Diffusion.json"; sourceTree = "<group>"; };
@@ -301,7 +301,7 @@
 				155D5B002BE2285300E43E18 /* Gemma.json */,
 				154237372C62895A00CFE9FF /* Gemma 2.json */,
 				158172BD2BC5B1470078DCDA /* llama chat 2 7B.json */,
-				1528382C2BF3E1EE000D8B82 /* Lama3 Instruct.json */,
+				1528382C2BF3E1EE000D8B82 /* LLaMa3 Instruct.json */,
 				158172B52BC5B1460078DCDA /* phi2.json */,
 				15D81AFF2BDAC0E900C3B5CE /* phi3.json */,
 				158172B92BC5B1470078DCDA /* RWKV-4 Raven Eng.json */,
@@ -665,7 +665,7 @@
 				158172CA2BC5B1480078DCDA /* llama chat 2 7B.json in Resources */,
 				15F210892A191B1B0021F414 /* Preview Assets.xcassets in Resources */,
 				15F210852A191B1B0021F414 /* Assets.xcassets in Resources */,
-				1528382D2BF3E1EE000D8B82 /* Lama3 Instruct.json in Resources */,
+				1528382D2BF3E1EE000D8B82 /* LLaMa3 Instruct.json in Resources */,
 				1533934D2C404F2D009E0705 /* demo_chat.json in Resources */,
 				15D81B002BDAC0E900C3B5CE /* phi3.json in Resources */,
 				155D5B012BE2285300E43E18 /* Gemma.json in Resources */,
@@ -909,7 +909,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.3.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.guinmoon.LLMFarm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -961,7 +961,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.3.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.guinmoon.LLMFarm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

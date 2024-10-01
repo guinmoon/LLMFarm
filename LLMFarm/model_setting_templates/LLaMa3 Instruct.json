@@ -24,5 +24,5 @@
   "numberOfThreads" : 10,
   "n_batch" : 512,
   "context" : 1024,
-  "template_name" : "Lama3 Instruct"
+  "template_name" : "LLaMa3 Instruct"
 }

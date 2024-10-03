@@ -79,46 +79,47 @@ struct BasicSettingsView: View {
         .padding(.horizontal, 5)
         .padding(.top, 8)
         
-        HStack{
-            Text("Inference:")
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Picker("", selection: $model_inference) {
-                ForEach(model_inferences, id: \.self) {
-                    Text($0)
-                }
-            }
-            .pickerStyle(.menu)
-            //
-        }
-        .padding(.horizontal, 5)
-        .padding(.top, 8)
-        .onChange(of: model_inference){ inf in
-            if model_inference != "ggjt_v3"{
-                model_inference_inner = model_inference
-            }else{
-                model_inference_inner = ggjt_v3_inference
-            }
-        }
+        // Потом надо вернуть, например для выбора между Minicpm, Bunny и т д
+        // HStack{
+        //     Text("Inference:")
+        //         .frame(maxWidth: .infinity, alignment: .leading)
+        //     Picker("", selection: $model_inference) {
+        //         ForEach(model_inferences, id: \.self) {
+        //             Text($0)
+        //         }
+        //     }
+        //     .pickerStyle(.menu)
+        //     //
+        // }
+        // .padding(.horizontal, 5)
+        // .padding(.top, 8)
+        // .onChange(of: model_inference){ inf in
+        //     if model_inference != "ggjt_v3"{
+        //         model_inference_inner = model_inference
+        //     }else{
+        //         model_inference_inner = ggjt_v3_inference
+        //     }
+        // }
         
         
-        if model_inference == "ggjt_v3"{
-            HStack{
-                Text("Inference ggjt_v3:")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                Picker("", selection: $ggjt_v3_inference) {
-                    ForEach(ggjt_v3_inferences, id: \.self) {
-                        Text($0)
-                    }
-                }
-                .pickerStyle(.menu)
-                //
-            }
-            .padding(.horizontal, 5)
-            .padding(.top, 8)
-            .onChange(of: ggjt_v3_inference){ inf in
-                model_inference_inner = ggjt_v3_inference
-            }
-        }
+        // if model_inference == "ggjt_v3"{
+        //     HStack{
+        //         Text("Inference ggjt_v3:")
+        //             .frame(maxWidth: .infinity, alignment: .leading)
+        //         Picker("", selection: $ggjt_v3_inference) {
+        //             ForEach(ggjt_v3_inferences, id: \.self) {
+        //                 Text($0)
+        //             }
+        //         }
+        //         .pickerStyle(.menu)
+        //         //
+        //     }
+        //     .padding(.horizontal, 5)
+        //     .padding(.top, 8)
+        //     .onChange(of: ggjt_v3_inference){ inf in
+        //         model_inference_inner = ggjt_v3_inference
+        //     }
+        // }
     }
 }
 

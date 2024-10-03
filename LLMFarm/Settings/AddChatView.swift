@@ -33,7 +33,8 @@ struct AddChatView: View {
     @State private var model_title: String = ""
     @State private var model_icon: String = "ava0"
     @State private var model_icons = ["ava0","ava1","ava2","ava3","ava4","ava5","ava6","ava7"]
-    @State private var model_inferences = ["llama","rwkv","ggjt_v3"]
+    // @State private var model_inferences = ["llama","rwkv","ggjt_v3"]
+    @State private var model_inferences = ["llama"]
     @State private var ggjt_v3_inferences = ["gptneox", "gpt2", "replit", "starcoder"]
     @State private var model_inference = "llama"
     @State private var ggjt_v3_inference = "gpt2"
@@ -44,11 +45,13 @@ struct AddChatView: View {
     
     @State private var model_file_url: URL = URL(filePath: "/")
     @State private var model_file_path: String = "Select model"
-    @State private var models_previews = get_models_list(exts:[".gguf",".bin"]) ?? []
+    // @State private var models_previews = get_models_list(exts:[".gguf",".bin"]) ?? []
+    @State private var models_previews = get_models_list(exts:[".gguf"]) ?? []
     @State private var clip_model_file_url: URL = URL(filePath: "/")
     @State private var clip_model_file_path: String = "Select Clip model"
     @State private var clip_model_title: String = ""
     @State private var loras_previews = get_models_list(dir: "lora_adapters",exts:[".bin"]) ?? []
+//    @State private var loras_previews = []
     @State private var lora_adapters: [Dictionary<String, Any>] = []
     @State private var lora_file_url: URL = URL(filePath: "/")
     @State private var lora_file_path: String = "Add LoRA adapter"

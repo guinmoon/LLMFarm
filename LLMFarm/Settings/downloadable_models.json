@@ -119,10 +119,10 @@
         "name": "Phi-3.5-mini-instruct",
         "models": [
             {
-                "file_name": "Phi-3.5-mini-instruct-Q4_0_4_8.gguf",
-                "url": "https://huggingface.co/bartowski/Phi-3.5-mini-instruct-GGUF/resolve/main/Phi-3.5-mini-instruct-Q4_0_4_8.gguf?download=true",
+                "file_name": "Phi-3.5-mini-instruct-Q4_K_S.gguf",
+                "url": "https://huggingface.co/bartowski/Phi-3.5-mini-instruct-GGUF/resolve/main/Phi-3.5-mini-instruct-Q4_K_S.gguf?download=true",
                 "size": "",
-                "Q": "Q4_048"
+                "Q": "Q4_K_S"
             },
             {
                 "url": "https://huggingface.co/bartowski/Phi-3.5-mini-instruct-GGUF/resolve/main/Phi-3.5-mini-instruct-IQ3_M.gguf?download=true",

@@ -39,9 +39,6 @@ Based on [ggml](https://github.com/ggerganov/ggml) and [llama.cpp](https://githu
 - [x] Various sampling methods
 - [x] Metal ([dont work](https://github.com/ggerganov/llama.cpp/issues/2407#issuecomment-1699544808) on intel Mac)
 - [x] Model setting templates
-- [x] [LoRA adapters support](./docs/lora.md)
-- [x] [LoRA finetune support](./docs/lora.md)
-- [x] [LoRA export as model support](./docs/lora.md)
 - [x] [Restore context state](./docs/save_load_state.md)
 - [x] [Apple Shortcuts](./docs/shortcuts.md)
 

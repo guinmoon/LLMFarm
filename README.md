@@ -31,11 +31,6 @@
 LLMFarm is an iOS and MacOS app to work with large language models (LLM). It allows you to load different LLMs with certain parameters.With LLMFarm, you can test the performance of different LLMs on iOS and macOS and find the most suitable model for your project.<br>
 Based on [ggml](https://github.com/ggerganov/ggml) and [llama.cpp](https://github.com/ggerganov/llama.cpp) by [Georgi Gerganov](https://github.com/ggerganov).
 
-Also used sources from:
-* [rwkv.cpp](https://github.com/saharNooby/rwkv.cpp) by [saharNooby](https://github.com/saharNooby)
-* [Mia](https://github.com/byroneverson/Mia) by [byroneverson](https://github.com/byroneverson)
-* [LlamaChat](https://github.com/alexrozanski/LlamaChat) by [alexrozanski](https://github.com/alexrozanski)
-
 # Features
 
 - [x] MacOS (13+)
@@ -52,9 +47,9 @@ Also used sources from:
 
 # Inferences
 
-- [x] <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px"> [LLaMA 1,2,3](https://arxiv.org/abs/2302.13971) 
+- [x] <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px"> [LLaMA](https://arxiv.org/abs/2302.13971) 
 - [x] <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px"> [Gemma](https://ai.google.dev/gemma) 
-- [x] <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px"> [Phi models](https://huggingface.co/models?search=microsoft/phi) 
+- [x] <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px"> [Phi](https://huggingface.co/models?search=microsoft/phi) 
 - [x] <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px"> [GPT2](https://huggingface.co/docs/transformers/model_doc/gpt2) + [Cerebras](https://arxiv.org/abs/2304.03208) 
 - [x] <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px"> [Starcoder(Santacoder)](https://huggingface.co/bigcode/santacoder) 
 - [x] <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px"> [Falcon](https://github.com/cmp-nct/ggllm.cpp) 
@@ -66,10 +61,11 @@ Also used sources from:
 - [x] <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px"> [Deepseek models](https://huggingface.co/models?search=deepseek-ai/deepseek) 
 - [x] <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px"> [Mixtral MoE](https://huggingface.co/models?search=mistral-ai/Mixtral) 
 - [x] <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px"> [PLaMo-13B](https://github.com/ggerganov/llama.cpp/pull/3557) 
-- [x] <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px">  [Mamba](https://github.com/state-spaces/mamba)
-- [x] [RWKV](https://huggingface.co/docs/transformers/model_doc/rwkv) (20B tokenizer)
-- [x] [GPTNeoX](https://huggingface.co/docs/transformers/model_doc/gpt_neox)
-- [x] [Replit](https://huggingface.co/replit/replit-code-v1-3b)
+- [x] <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px"> [Mamba](https://github.com/state-spaces/mamba)
+- [x] <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px"> [RWKV](https://huggingface.co/docs/transformers/model_doc/rwkv) 
+- [x] <img src="dist/metal-96x96_2x.png" width="16px" heigth="16px"> [GPTNeoX](https://huggingface.co/docs/transformers/model_doc/gpt_neox)
+
+See full list [here](https://github.com/ggerganov/llama.cpp).
 
 ## Multimodal
 - [x] [LLaVA 1.5 models](https://huggingface.co/collections/liuhaotian/llava-15-653aac15d994e992e2677a7e), [LLaVA 1.6 models](https://huggingface.co/collections/liuhaotian/llava-16-65b9e40155f60fd046a5ccf2)
@@ -88,7 +84,7 @@ Note: For *Falcon, Alpaca, GPT4All, Chinese LLaMA / Alpaca and Chinese LLaMA-2 /
 - [x] [Locally Typical Sampling](https://arxiv.org/abs/2202.00666)
 - [x] [Mirostat](https://arxiv.org/abs/2007.14966)
 - [x] Greedy
-- [x] Grammar (dont work for GPTNeoX, GPT-2, RWKV)
+- [x] Grammar
 - [ ] Classifier-Free Guidance
 
 # Getting Started
@@ -108,5 +104,10 @@ You can download some of the supported [models here](https://llmfarm.site/).
 git clone --recurse-submodules https://github.com/guinmoon/LLMFarm
 ```
 
+# Also used sources from:
+* [rwkv.cpp](https://github.com/saharNooby/rwkv.cpp) by [saharNooby](https://github.com/saharNooby)
+* [Mia](https://github.com/byroneverson/Mia) by [byroneverson](https://github.com/byroneverson)
+* [LlamaChat](https://github.com/alexrozanski/LlamaChat) by [alexrozanski](https://github.com/alexrozanski)
+* [swift-markdown-ui](https://github.com/gonzalezreal/swift-markdown-ui) by [gonzalezreal](https://github.com/gonzalezreal)
 
 # [❤️ Support project](./donate.md)

@@ -69,7 +69,7 @@ func main(){
     
     //    ai!.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/tinydolphin-2.8-1.1b.Q8_0.imx.gguf"
     //    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/gemma-2b-it.Q8_0.gguf"
-       ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/LaMini-Flan-T5-248M.Q8_0.gguf"
+       ai!.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/LaMini-Flan-T5-248M.Q8_0.gguf"
     
               
     //    ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/llama-2-7b-chat-q4_K_M.gguf"

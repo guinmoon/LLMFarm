@@ -16,7 +16,7 @@
   <a href="https://t.me/llmfarm_chat"><img alt="Icon" height="32"  src="dist/telegram_logo_128.png"></a>&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="https://www.youtube.com/@LLMFarm-lib"><img alt="Icon" height="32"  src="dist/youtube_logo_128.png"></a>&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="https://boosty.to/llmfarm"><img alt="Icon" height="32"  src="dist/boosty_icon.png"></a>&nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="https://llmfarm.site"><img alt="Icon" height="32"  src="dist/www_logo_128.png"></a>&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://llmfarm.tech"><img alt="Icon" height="32"  src="dist/www_logo_128.png"></a>&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="https://github.com/guinmoon/LLMFarm/wiki"><img alt="Wiki" height="32"  src="dist/wiki_logo_128.png"></a>
 </p>
 

@@ -103,6 +103,16 @@
 		15FB67422B1BDB0800174379 /* ExportLoraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FB67412B1BDB0800174379 /* ExportLoraView.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		15386FD12CB64BAA00652FA0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 15386FCD2CB64BA900652FA0 /* RAG_Test.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 15386FC32CB64BA900652FA0;
+			remoteInfo = RAG_Test;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		15141E6B2A6577160060E767 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -167,6 +177,7 @@
 		153393502C405313009E0705 /* Pythia410m-V0-Instruct.Q6_K_split.gguf-00002-of-00004.gguf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pythia410m-V0-Instruct.Q6_K_split.gguf-00002-of-00004.gguf"; sourceTree = "<group>"; };
 		153393512C40531A009E0705 /* Pythia410m-V0-Instruct.Q6_K_split.gguf-00003-of-00004.gguf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pythia410m-V0-Instruct.Q6_K_split.gguf-00003-of-00004.gguf"; sourceTree = "<group>"; };
 		15386FB12CAE836300652FA0 /* Bunny.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Bunny.json; sourceTree = "<group>"; };
+		15386FCD2CB64BA900652FA0 /* RAG_Test.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RAG_Test.xcodeproj; path = RAG_Test/RAG_Test.xcodeproj; sourceTree = "<group>"; };
 		154237372C62895A00CFE9FF /* Gemma 2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Gemma 2.json"; sourceTree = "<group>"; };
 		1554ABC52C27043500A0513F /* ModelSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelSettingsView.swift; sourceTree = "<group>"; };
 		15584A5B2AAB994100EC9C9C /* DownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
@@ -332,6 +343,14 @@
 			path = Intents;
 			sourceTree = "<group>";
 		};
+		15386FCE2CB64BA900652FA0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				15386FD22CB64BAA00652FA0 /* RAG_Test */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		1554ABC42C27004500A0513F /* ChatSettings */ = {
 			isa = PBXGroup;
 			children = (
@@ -478,6 +497,7 @@
 		E624E1F52958ECC800996CD1 = {
 			isa = PBXGroup;
 			children = (
+				15386FCD2CB64BA900652FA0 /* RAG_Test.xcodeproj */,
 				15692A7A2BAA082700AB2F4C /* PrivacyInfo.xcprivacy */,
 				15141E5B2A651F8C0060E767 /* model_setting_templates */,
 				E6024EC229EA7BEB001FE9B0 /* Packages */,
@@ -647,6 +667,12 @@
 			);
 			productRefGroup = E624E1FF2958ECC800996CD1 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 15386FCE2CB64BA900652FA0 /* Products */;
+					ProjectRef = 15386FCD2CB64BA900652FA0 /* RAG_Test.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				15E415D02A18A2970057A15E /* ModelTest */,
@@ -656,6 +682,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		15386FD22CB64BAA00652FA0 /* RAG_Test */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = RAG_Test;
+			remoteRef = 15386FD12CB64BAA00652FA0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		15F2107C2A191B190021F414 /* Resources */ = {

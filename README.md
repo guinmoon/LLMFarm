@@ -82,7 +82,6 @@ Note: For *Falcon, Alpaca, GPT4All, Chinese LLaMA / Alpaca and Chinese LLaMA-2 /
 - [x] [Mirostat](https://arxiv.org/abs/2007.14966)
 - [x] Greedy
 - [x] Grammar
-- [ ] Classifier-Free Guidance
 
 # Getting Started
 

@@ -11,6 +11,8 @@
 		15386FD72CB64C2F00652FA0 /* SimilaritySearchKit in Frameworks */ = {isa = PBXBuildFile; productRef = 15386FD62CB64C2F00652FA0 /* SimilaritySearchKit */; };
 		15386FD92CB64C2F00652FA0 /* SimilaritySearchKitMiniLMAll in Frameworks */ = {isa = PBXBuildFile; productRef = 15386FD82CB64C2F00652FA0 /* SimilaritySearchKitMiniLMAll */; };
 		15386FDB2CB64C2F00652FA0 /* SimilaritySearchKitMiniLMMultiQA in Frameworks */ = {isa = PBXBuildFile; productRef = 15386FDA2CB64C2F00652FA0 /* SimilaritySearchKitMiniLMMultiQA */; };
+		15386FDF2CC16CFA00652FA0 /* SimilaritySearchKitDistilbert in Frameworks */ = {isa = PBXBuildFile; productRef = 15386FDE2CC16CFA00652FA0 /* SimilaritySearchKitDistilbert */; };
+		15EC90212CC1823700BDFFCD /* DistilbertEmbeddingsCPUandGPU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EC90202CC1823700BDFFCD /* DistilbertEmbeddingsCPUandGPU.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +30,7 @@
 /* Begin PBXFileReference section */
 		15386FC32CB64BA900652FA0 /* RAG_Test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = RAG_Test; sourceTree = BUILT_PRODUCTS_DIR; };
 		15386FC62CB64BA900652FA0 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		15EC90202CC1823700BDFFCD /* DistilbertEmbeddingsCPUandGPU.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistilbertEmbeddingsCPUandGPU.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15386FDF2CC16CFA00652FA0 /* SimilaritySearchKitDistilbert in Frameworks */,
 				15386FDB2CB64C2F00652FA0 /* SimilaritySearchKitMiniLMMultiQA in Frameworks */,
 				15386FD92CB64C2F00652FA0 /* SimilaritySearchKitMiniLMAll in Frameworks */,
 				15386FD72CB64C2F00652FA0 /* SimilaritySearchKit in Frameworks */,
@@ -64,6 +68,7 @@
 			isa = PBXGroup;
 			children = (
 				15386FC62CB64BA900652FA0 /* main.swift */,
+				15EC90202CC1823700BDFFCD /* DistilbertEmbeddingsCPUandGPU.swift */,
 			);
 			path = RAG_Test;
 			sourceTree = "<group>";
@@ -88,6 +93,7 @@
 				15386FD62CB64C2F00652FA0 /* SimilaritySearchKit */,
 				15386FD82CB64C2F00652FA0 /* SimilaritySearchKitMiniLMAll */,
 				15386FDA2CB64C2F00652FA0 /* SimilaritySearchKitMiniLMMultiQA */,
+				15386FDE2CC16CFA00652FA0 /* SimilaritySearchKitDistilbert */,
 			);
 			productName = RAG_Test;
 			productReference = 15386FC32CB64BA900652FA0 /* RAG_Test */;
@@ -135,6 +141,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				15386FC72CB64BA900652FA0 /* main.swift in Sources */,
+				15EC90212CC1823700BDFFCD /* DistilbertEmbeddingsCPUandGPU.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,6 +337,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 15386FD52CB64C2F00652FA0 /* XCRemoteSwiftPackageReference "similarity-search-kit" */;
 			productName = SimilaritySearchKitMiniLMMultiQA;
+		};
+		15386FDE2CC16CFA00652FA0 /* SimilaritySearchKitDistilbert */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 15386FD52CB64C2F00652FA0 /* XCRemoteSwiftPackageReference "similarity-search-kit" */;
+			productName = SimilaritySearchKitDistilbert;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

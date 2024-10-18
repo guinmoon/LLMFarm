@@ -412,7 +412,7 @@ struct ChatSettingsView: View {
         
         HStack(spacing: 0){
             
-            Tabs(index:$tabIndex)
+            ChatSettingTabs(index:$tabIndex)
             // now were going to create main view....
             
             GeometryReader{_ in

@@ -49,13 +49,13 @@ struct ModelDownloadItem: View {
     
     var body: some View {
         HStack{
-            Image(systemName: modelIcon)
-                .resizable()
-            //                .background( Color("color_bg_inverted").opacity(0.05))
-                .padding(EdgeInsets(top: 7, leading: 5, bottom: 7, trailing: 5))
-                .frame(width: 40, height: 40)
-                .clipShape(Circle())
-            VStack(alignment: .leading, spacing: 6){
+//            Image(systemName: modelIcon)
+//                .resizable()
+//            //                .background( Color("color_bg_inverted").opacity(0.05))
+//                .padding(EdgeInsets(top: 3, leading: 1, bottom: 3, trailing: 1))
+//                .frame(width: 40, height: 40)
+//                .clipShape(Circle())
+            VStack(alignment: .leading, spacing: 1){
                 
                 HStack
                 {

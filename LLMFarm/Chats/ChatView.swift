@@ -233,7 +233,7 @@ struct ChatView: View {
             
         }
         .sheet(isPresented: $toggleEditChat) {
-            AddChatView(add_chat_dialog: $toggleEditChat,
+            ChatSettingsView(add_chat_dialog: $toggleEditChat,
                         edit_chat_dialog: $edit_chat_dialog,
                         chat_name: aiChatModel.chat_name,
                         after_chat_edit: $after_chat_edit,

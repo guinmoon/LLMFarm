@@ -17,32 +17,38 @@ struct SettingsHeaderView: View {
     var save_chat_settings: () -> Void
     
     var body: some View {
-        HStack{
-            Button {
-                Task {
-                    add_chat_dialog = false
-                    //                            edit_chat_dialog = false
+        VStack{
+            HStack{
+                Button {
+                    Task {
+                        add_chat_dialog = false
+                        //                            edit_chat_dialog = false
+                    }
+                } label: {
+                    Text("Cancel")
                 }
-            } label: {
-                Text("Cancel")
-            }
-            Text(edit_chat_dialog ? "Edit Chat" :"Add Chat" )
-                .fontWeight(.semibold)
-                .font(.title3)
-                .frame(maxWidth:.infinity, alignment: .center)
-                .padding(.trailing, 30)
-            Spacer()
-            Button {
-                Task {
-                    save_chat_settings()
+                Text(edit_chat_dialog ? "Edit Chat" :"Add Chat" )
+                    .fontWeight(.semibold)
+                    .font(.title3)
+                    .frame(maxWidth:.infinity, alignment: .center)
+                    .padding(.trailing, 30)
+                Spacer()
+                Button {
+                    Task {
+                        save_chat_settings()
+                    }
+                } label: {
+                    Text(edit_chat_dialog ? "Save" :"Add" )
                 }
-            } label: {
-                Text(edit_chat_dialog ? "Save" :"Add" )
+                .alert("To create a  chat, first select a model.", isPresented: $model_not_selected_alert) {
+                    Button("OK", role: .cancel) { }
+                }
+                .disabled(model_title=="")
+                
             }
-            .alert("To create a  chat, first select a model.", isPresented: $model_not_selected_alert) {
-                        Button("OK", role: .cancel) { }
-            }
-            .disabled(model_title=="")
+//            Text(edit_chat_dialog ? model_title : ""  )
+//                .padding(.top,4)
+//                .font(.title3)
         }
     }
 }

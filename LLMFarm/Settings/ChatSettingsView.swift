@@ -1,8 +1,8 @@
 //
-//  ChatListView.swift
-//  ChatUI
+//  ChatSettingsView.swift
+//  LLMFarm
 //
-//  Created by Shezad Ahamed on 05/08/21.
+//  Created by guinmoon on 18.10.2024.
 //
 
 import SwiftUI
@@ -10,10 +10,7 @@ import llmfarm_core_cpp
 import UniformTypeIdentifiers
 
 
-
-
-
-struct AddChatView: View {
+struct ChatSettingsView: View {
     
     @Binding var add_chat_dialog: Bool
     @Binding var edit_chat_dialog: Bool
@@ -66,7 +63,7 @@ struct AddChatView: View {
     @State private var model_n_batch: Int32 = 512
     @State private var n_predict: Int32 = 0
     @State private var numberOfThreads: Int32 = 0
-    @State private var use_metal: Bool = false
+    @State private var use_metal: Bool = true
     @State private var use_clip_metal: Bool = false
     @State private var mlock: Bool = false
     @State private var mmap: Bool = true
@@ -153,7 +150,7 @@ struct AddChatView: View {
                 if let _ = get_path_by_short_name(adapters![0]["adapter"]! as! String,dest:"lora_adapters"){
                     self._has_lora = State(initialValue: true)
                 }
-            }            
+            }
         }
         if chat_config!["icon"] != nil{
             self._model_icon = State(initialValue: chat_config!["icon"]! as! String)
@@ -166,7 +163,7 @@ struct AddChatView: View {
                     self._model_settings_template = State(initialValue:template)
                 }
             }
-        }        
+        }
         if (chat_config!["model_inference"] != nil){
             self._model_inference = State(initialValue: chat_config!["model_inference"]! as! String)
         }
@@ -196,7 +193,7 @@ struct AddChatView: View {
         }
         if (chat_config!["skip_tokens"] != nil){
             self._skip_tokens = State(initialValue: chat_config!["skip_tokens"]! as! String)
-        }        
+        }
         if (chat_config!["numberOfThreads"] != nil){
             self._numberOfThreads = State(initialValue: chat_config!["numberOfThreads"]! as! Int32)
         }
@@ -409,158 +406,160 @@ struct AddChatView: View {
         after_chat_edit()
     }
     
-    var body: some View {
-        ZStack{
-            //            Color("color_bg").edgesIgnoringSafeArea(.all)
-            VStack{
-                SettingsHeaderView(add_chat_dialog: $add_chat_dialog,
-                                   edit_chat_dialog: $edit_chat_dialog,
-                                   model_title: $model_title,
-                                   model_not_selected_alert: $model_not_selected_alert,
-                                   save_chat_settings: save_chat_settings)
-                .padding([.leading,.trailing],8)
-                
+    @State var tabIndex = 0
+    
+    var body: some View{
+        
+        HStack(spacing: 0){
+            
+            Tabs(index:$tabIndex)
+            // now were going to create main view....
+            
+            GeometryReader{_ in
                 ScrollView(showsIndicators: false){
-                    
-                    DisclosureGroup("Basic:", isExpanded: $isBasicAccordionExpanded) {
+                    VStack{
+                        VStack{
+                            SettingsHeaderView(add_chat_dialog: $add_chat_dialog,
+                                               edit_chat_dialog: $edit_chat_dialog,
+                                               model_title: $model_title,
+                                               model_not_selected_alert: $model_not_selected_alert,
+                                               save_chat_settings: save_chat_settings)
+                            .padding([.leading,.trailing],8)
+                        }
+                        // changing tabs based on tabs...
+                        switch tabIndex{
+                        case 0:
+                            GroupBox(label:
+                                        //                                Label("Basic Settings", systemImage: "building.columns")
+                                     Text("Basic Settings")
+                            ) {
+                                BasicSettingsView(model_title: $model_title,
+                                                  model_icon: $model_icon,
+                                                  model_icons: $model_icons,
+                                                  model_inferences: $model_inferences,
+                                                  ggjt_v3_inferences: $ggjt_v3_inferences,
+                                                  model_inference: $model_inference,
+                                                  ggjt_v3_inference: $ggjt_v3_inference,
+                                                  model_inference_inner: $model_inference_inner,
+                                                  model_settings_template: $model_settings_template,
+                                                  model_setting_templates: $model_setting_templates,
+                                                  applying_template: $applying_template,
+                                                  apply_setting_template: apply_setting_template)
+                            }
+                            GroupBox(label:
+                                        Text("Model")
+                            ) {
+                                ModelSettingsView(model_file_url: $model_file_url,
+                                                  model_file_path: $model_file_path,
+                                                  model_title: $model_title,
+                                                  clip_model_file_url: $clip_model_file_url,
+                                                  clip_model_file_path: $clip_model_file_path,
+                                                  clip_model_title: $clip_model_title,
+                                                  lora_file_url: $lora_file_url,
+                                                  lora_file_path: $lora_file_path,
+                                                  lora_title: $lora_title,
+                                                  lora_file_scale: $lora_file_scale,
+                                                  add_chat_dialog: $add_chat_dialog,
+                                                  edit_chat_dialog: $edit_chat_dialog,
+                                                  toggleSettings: $toggleSettings,
+                                                  models_previews: $models_previews,
+                                                  loras_previews: $loras_previews,
+                                                  has_lora: $has_lora,
+                                                  has_clip: $has_clip)
+                            }
+                            GroupBox(label:
+                                        Text("Prediction settings")
+                            ) {
+                                PredictionSettingsView(model_context: $model_context,
+                                                       model_n_batch: $model_n_batch,
+                                                       n_predict: $n_predict,
+                                                       numberOfThreads: $numberOfThreads,
+                                                       use_metal: $use_metal,
+                                                       use_clip_metal: $use_clip_metal,
+                                                       mlock: $mlock,
+                                                       mmap: $mmap,
+                                                       flash_attn: $flash_attn,
+                                                       model_inference: $model_inference,
+                                                       model_inference_inner: $model_inference_inner,
+                                                       has_clip: $has_clip)
+                            }
+                        case 1:
+                            PromptSettingsView(prompt_format: $prompt_format,
+                                               warm_prompt: $warm_prompt,
+                                               skip_tokens: $skip_tokens,
+                                               reverse_prompt: $reverse_prompt,
+                                               add_bos_token: $add_bos_token,
+                                               add_eos_token: $add_eos_token,
+                                               parse_special_tokens: $parse_special_tokens,
+                                               model_inference: $model_inference)
+                        case 2:
+                            GroupBox(label:
+                                        Text("Sampling settings")
+                            ) {
+                                SamplingSettingsView(model_sampling: $model_sampling,
+                                                     model_samplings: $model_samplings,
+                                                     model_temp: $model_temp,
+                                                     model_top_k: $model_top_k,
+                                                     model_top_p: $model_top_p,
+                                                     model_repeat_last_n: $model_repeat_last_n,
+                                                     model_repeat_penalty: $model_repeat_penalty,
+                                                     mirostat: $mirostat,
+                                                     mirostat_tau: $mirostat_tau,
+                                                     mirostat_eta: $mirostat_eta,
+                                                     tfs_z: $tfs_z,
+                                                     typical_p: $typical_p,
+                                                     grammar: $grammar,
+                                                     model_inference: $model_inference,
+                                                     grammars_previews: $grammars_previews)
+                            }
+                        default:
+                            GroupBox(label:
+                                        Text("Other settings")
+                            ) {
+                                AdditionalSettingsView(save_load_state: $save_load_state,
+                                                       save_as_template_name: $save_as_template_name,
+                                                       chat_style:$chat_style,
+                                                       chat_styles:$chat_styles,
+                                                       get_chat_options_dict: get_chat_options_dict,
+                                                       refresh_templates: refresh_templates)
+                            }
+                        }
                         
-                        BasicSettingsView(model_title: $model_title,
-                                          model_icon: $model_icon,
-                                          model_icons: $model_icons,
-                                          model_inferences: $model_inferences,
-                                          ggjt_v3_inferences: $ggjt_v3_inferences,
-                                          model_inference: $model_inference,
-                                          ggjt_v3_inference: $ggjt_v3_inference,
-                                          model_inference_inner: $model_inference_inner,
-                                          model_settings_template: $model_settings_template,
-                                          model_setting_templates: $model_setting_templates,
-                                          applying_template: $applying_template,
-                                          apply_setting_template: apply_setting_template)
-                    }.padding([.top ])
-                    
-                    DisclosureGroup("Model:", isExpanded: $isModelAccordionExpanded) {
-                        
-                        ModelSettingsView(model_file_url: $model_file_url,
-                                          model_file_path: $model_file_path,
-                                          model_title: $model_title,
-                                          clip_model_file_url: $clip_model_file_url,
-                                          clip_model_file_path: $clip_model_file_path,
-                                          clip_model_title: $clip_model_title,
-                                          lora_file_url: $lora_file_url,
-                                          lora_file_path: $lora_file_path,
-                                          lora_title: $lora_title,
-                                          lora_file_scale: $lora_file_scale,
-                                          add_chat_dialog: $add_chat_dialog,
-                                          edit_chat_dialog: $edit_chat_dialog,
-                                          toggleSettings: $toggleSettings,
-                                          models_previews: $models_previews,
-                                          loras_previews: $loras_previews,
-                                          has_lora: $has_lora,
-                                          has_clip: $has_clip)
-
-                    }.padding([.top ])
-
-                    DisclosureGroup("Prompt format:", isExpanded: $isPromptAccordionExpanded) {
-                        PromptSettingsView(prompt_format: $prompt_format,
-                                           warm_prompt: $warm_prompt,
-                                           skip_tokens: $skip_tokens,
-                                           reverse_prompt: $reverse_prompt,
-                                           add_bos_token: $add_bos_token,
-                                           add_eos_token: $add_eos_token,
-                                           parse_special_tokens: $parse_special_tokens,
-                                           model_inference: $model_inference)
-                    }.padding([.top ])
-                    
-                    DisclosureGroup("Prediction options:", isExpanded: $isPredictionAccordionExpanded) {
-                        PredictionSettingsView(model_context: $model_context,
-                                               model_n_batch: $model_n_batch,
-                                               n_predict: $n_predict, 
-                                               numberOfThreads: $numberOfThreads,
-                                               use_metal: $use_metal,
-                                               use_clip_metal: $use_clip_metal,
-                                               mlock: $mlock,
-                                               mmap: $mmap,
-                                               flash_attn: $flash_attn,
-                                               model_inference: $model_inference,
-                                               model_inference_inner: $model_inference_inner,
-                                               has_clip: $has_clip)
-                    }.padding([.top ])
-                    
-                    DisclosureGroup("Sampling options:", isExpanded: $isSamplingAccordionExpanded) {
-                        
-                        SamplingSettingsView(model_sampling: $model_sampling,
-                                             model_samplings: $model_samplings,
-                                             model_temp: $model_temp,
-                                             model_top_k: $model_top_k,
-                                             model_top_p: $model_top_p,
-                                             model_repeat_last_n: $model_repeat_last_n,
-                                             model_repeat_penalty: $model_repeat_penalty,
-                                             mirostat: $mirostat,
-                                             mirostat_tau: $mirostat_tau,
-                                             mirostat_eta: $mirostat_eta,
-                                             tfs_z: $tfs_z,
-                                             typical_p: $typical_p,
-                                             grammar: $grammar,
-                                             model_inference: $model_inference,
-                                             grammars_previews: $grammars_previews)
-                    }.padding([.top ])
-                    
-                    DisclosureGroup("Additional options:", isExpanded: $isAdditionalAccordionExpanded) {
-                        
-                        AdditionalSettingsView(save_load_state: $save_load_state,
-                                               save_as_template_name: $save_as_template_name,
-                                               chat_style:$chat_style,
-                                               chat_styles:$chat_styles,
-                                               get_chat_options_dict: get_chat_options_dict,
-                                               refresh_templates: refresh_templates)
-                        
-                    }.padding([.top ])
+                    }
+#if os(macOS)
+                    .padding(.top, topSafeAreaInset())
+                    .padding(.bottom, bottomSafeAreaInset())
+#else
+                    .padding(.top, UIApplication.shared.keyWindow?.safeAreaInsets.top)
+                    .padding(.bottom, UIApplication.shared.keyWindow?.safeAreaInsets.bottom)
+#endif
+                    .padding([.leading,.trailing],5)
+                    // due to all edges are ignored...
                 }
             }
-            .padding(.top)
-            .padding(.horizontal)
         }
-        .onChange(of: anyOfModelOptions){ new_val in
-            if !applying_template {
-                set_template_to_custom()
-            }
-        }
+        .edgesIgnoringSafeArea(.all)
+    }
+}
 
+#if !os(macOS)
+extension UIApplication {
+    
+    var keyWindow: UIWindow? {
+        // Get connected scenes
+        return self.connectedScenes
+            // Keep only active scenes, onscreen and visible to the user
+            .filter { $0.activationState == .foregroundActive }
+            // Keep only the first `UIWindowScene`
+            .first(where: { $0 is UIWindowScene })
+            // Get its associated windows
+            .flatMap({ $0 as? UIWindowScene })?.windows
+            // Finally, keep only the key window
+            .first(where: \.isKeyWindow)
     }
     
-    var anyOfModelOptions: [String] {[
-        use_metal.description,
-        use_clip_metal.description,
-        model_inference,
-        mlock.description,
-        mmap.description,
-        prompt_format,
-        reverse_prompt,
-        numberOfThreads.description,
-        model_context.description,
-        model_n_batch.description,
-        model_temp.description,
-        model_repeat_last_n.description,
-        model_repeat_penalty.description,
-        model_top_k.description,
-        model_top_p.description,
-        mirostat.description,
-        mirostat_eta.description,
-        mirostat_tau.description,
-        tfs_z.description,
-        typical_p.description,
-        grammar,
-        add_bos_token.description,
-        add_eos_token.description,
-        parse_special_tokens.description,
-        flash_attn.description,
-        skip_tokens
-    ]}
 }
-//
-//struct AddChatView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AddChatView(add_chat_dialog: .constant(true),edit_chat_dialog:.constant(false),renew_chat_list: .constant({}))
-//            .preferredColorScheme(.dark)
-//    }
+#endif
+//#Preview {
+//    ChatSettingsView()
 //}

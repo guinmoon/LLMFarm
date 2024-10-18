@@ -171,7 +171,7 @@ struct ChatListView: View {
         }
         .sheet(isPresented: $toggleAddChat) {
             if edit_chat_dialog{
-                AddChatView(add_chat_dialog: $toggleAddChat,
+                ChatSettingsView(add_chat_dialog: $toggleAddChat,
                             edit_chat_dialog: $edit_chat_dialog,
                             chat_name: aiChatModel.chat_name,
                             after_chat_edit: $after_chat_edit,
@@ -180,7 +180,7 @@ struct ChatListView: View {
                     .frame(minWidth: 400,minHeight: 600)
 #endif
             }else{
-                AddChatView(add_chat_dialog: $toggleAddChat,
+                ChatSettingsView(add_chat_dialog: $toggleAddChat,
                             edit_chat_dialog: $edit_chat_dialog,
                             after_chat_edit: $after_chat_edit,
                             toggleSettings: $toggleSettings).environmentObject(aiChatModel)

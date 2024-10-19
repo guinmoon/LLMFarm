@@ -7,3 +7,7 @@
 [submodule "swift-markdown-ui"]
 	path = swift-markdown-ui
 	url = https://github.com/guinmoon/swift-markdown-ui
+[submodule "similarity-search-kit"]
+	path = similarity-search-kit
+	url = https://github.com/guinmoon/similarity-search-kit
+	branch = dev

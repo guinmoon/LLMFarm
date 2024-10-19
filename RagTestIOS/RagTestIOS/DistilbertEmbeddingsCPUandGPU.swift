@@ -19,7 +19,15 @@ public class DistilbertEmbeddingsCPUandGPU: EmbeddingsProtocol {
 
     public init() {
         let modelConfig = MLModelConfiguration()
+        
+#if targetEnvironment(simulator)
+        modelConfig.computeUnits = .cpuOnly
+#elseif os(macOS)
         modelConfig.computeUnits = .cpuAndGPU
+#else
+        modelConfig.computeUnits = .all
+#endif
+        
         
 
         do {

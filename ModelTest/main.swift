@@ -26,12 +26,7 @@ func mainCallback(_ str: String, _ time: Double) -> Bool {
 }
 
 func set_promt_format(ai: inout AI?) throws -> Bool{
-    do{
-        ai!.model?.contextParams.promptFormat = .None
-    }
-    catch{
-        print(error)
-    }
+    ai!.model?.contextParams.promptFormat = .None
     return true
 }
 

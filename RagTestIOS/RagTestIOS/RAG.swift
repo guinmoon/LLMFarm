@@ -1,12 +1,11 @@
 //
-//  main.swift
-//  RAG_Test
+//  RAG.swift
+//  RagTestIOS
 //
-//  Created by guinmoon on 09.10.2024.
+//  Created by guinmoon on 19.10.2024.
 //
 
 import Foundation
-import CoreML
 import SimilaritySearchKit
 import SimilaritySearchKitDistilbert
 import SimilaritySearchKitMiniLMAll
@@ -20,8 +19,8 @@ private var storage: VectorStoreType = .json
 private var searchQuery: String = ""
 private var searchResultsCount: Int = 5
 private var searchResults: [SimilarityIndex.SearchResult]?
-private var chunkSize: Int = 100
-private var chunkOverlap: Int = 20
+private var chunkSize: Int = 256
+private var chunkOverlap: Int = 100
 private var filePickerURLs: [URL] = []
 private var folderItem: DiskItem?
 private var folderContents: [DiskItem]?
@@ -54,7 +53,9 @@ private var similarityIndex: SimilarityIndex?
 
 
 
-private func updateIndexComponents() {
+public func updateIndexComponents(currentModel: EmbeddingModelType,
+                                   comparisonAlgorithm: SimilarityMetricType,
+                                   chunkMethod: TextSplitterType) {
     switch currentModel {
     case .distilbert:
         embeddingModel = DistilbertEmbeddings()
@@ -66,7 +67,8 @@ private func updateIndexComponents() {
         embeddingModel = MultiQAMiniLMEmbeddings()
         currentTokenizer = BertTokenizer()
     case .native:
-        embeddingModel = NativeContextualEmbeddings()
+//        embeddingModel = NativeContextualEmbeddings()
+        embeddingModel = DistilbertEmbeddings()
         currentTokenizer = NativeTokenizer()
     }
 
@@ -89,7 +91,7 @@ private func updateIndexComponents() {
     }
 }
 
-private func fetchFolderContents(url: URL) async {    
+private func fetchFolderContents(url: URL) async {
     isLoading = true
     progressStage = "Scanning"
     progressTotal = Double(filePickerURLs.count)
@@ -123,7 +125,7 @@ func getTokenLength(_ text: String) -> Int {
     return BertTokenizer().tokenize(text: text).count
 }
 
-private func splitTextFromFiles() async {
+private func splitTextFromFiles(chunkSize: Int, chunkOverlap: Int) async {
     isLoading = true
     progressStage = "Splitting"
     progressCurrent = 0
@@ -216,9 +218,9 @@ private func generateIndexFromChunks() async {
     isLoading = false
 }
 
-private func searchIndexWithQuery(query: String, top: Int) async {
+public func searchIndexWithQuery(query: String, top: Int) async -> [SimilarityIndex.SearchResult]?{
     isSearching = true
-
+    var searchResults:[SimilarityIndex.SearchResult]?
     let elapsedTime = await clock.measure {
         let results = await similarityIndex?.search(query, top: top, metric: distanceMetric)
         searchResults = results
@@ -227,6 +229,7 @@ private func searchIndexWithQuery(query: String, top: Int) async {
     searchElapsedTime = elapsedTime
 
     isSearching = false
+    return searchResults
 }
 
 struct PineconeExport: Codable {
@@ -295,10 +298,14 @@ func saveIndex(url: URL, name: String){
     }
 }
 
-func BuildNewIndex() async{
-    var search_url: URL = URL(fileURLWithPath: "/Users/guinmoon/dev/alpaca_llama_etc/Media/pdf1")
-    await fetchFolderContents(url: search_url)
-    await splitTextFromFiles()
+func BuildNewIndex(search_url: URL?, chunkSize: Int, chunkOverlap: Int) async{
+    if search_url == nil
+    {
+        print("empty url")
+        return
+    }
+    await fetchFolderContents(url: search_url!)
+    await splitTextFromFiles(chunkSize: chunkSize, chunkOverlap: chunkOverlap)
     let elapsedTime = await clock.measure {
         await generateIndexFromChunks()
     }
@@ -329,17 +336,3 @@ func main() async{
     print(res)
 //    saveIndex(url: URL(fileURLWithPath: "/Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/RAG_Test/RAG_Test"), name: "RAG_test_index")
 }
-
-let semaphore = DispatchSemaphore(value: 0)
-
-Task {
-    do{
-        await main()
-    }catch {
-        print(error)
-    }
-    semaphore.signal()
-}
-
-semaphore.wait()
-

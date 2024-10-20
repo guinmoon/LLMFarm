@@ -31,9 +31,11 @@ struct TabButton: View {
                         .padding(.bottom,5)
                 }
             }
+            .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
             
-        }
+        }        
         .border(width: index == targetIndex ? 4 : 0, edges: [.bottom], color: .accentColor)
+        .padding(.horizontal,1)
     }
 }
 

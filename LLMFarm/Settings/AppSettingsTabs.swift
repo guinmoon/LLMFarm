@@ -29,7 +29,7 @@ struct AppSettingTabs : View {
             
             Spacer(minLength: 0)
 
-            TabButton(index: $index, targetIndex: 2, image: nil, text: nil)
+            TabButton(index: $index, targetIndex: 2, image: Image(systemName: "info.circle.fill"), text: "Info")
 //            .padding(.bottom)
 #if os(macOS)
             .padding(.top,bottomSafeAreaInset())
@@ -42,7 +42,7 @@ struct AppSettingTabs : View {
         }
         .padding(.vertical)
         // Fixed Width....
-        .frame(width: 60)
+        .frame(width: 62)
         //        .background(colorScheme == .dark ? Color.white.opacity(0.3) : Color.black.opacity(0.3))
         .background(.thinMaterial)
         .clipShape(CShape())

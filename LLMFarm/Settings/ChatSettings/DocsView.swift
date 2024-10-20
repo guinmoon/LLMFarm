@@ -1,4 +1,13 @@
 //
+//  DocsView.swift
+//  LLMFarm
+//
+//  Created by guinmoon on 19.10.2024.
+//
+
+import SwiftUI
+
+//
 //  ContactsView.swift
 //  ChatUI
 //
@@ -8,7 +17,7 @@
 import SwiftUI
 import UniformTypeIdentifiers
 
-struct ModelsView: View {
+struct DocsView: View {
     
     public var dir:String
     @State var searchText: String = ""
@@ -16,13 +25,13 @@ struct ModelsView: View {
     @State var model_selection: String?
     @State private var isImporting: Bool = false
     @State private var modelImported: Bool = false
-    let bin_type = UTType(tag: "bin", tagClass: .filenameExtension, conformingTo: nil)
-    let gguf_type = UTType(tag: "gguf", tagClass: .filenameExtension, conformingTo: nil)
+    let bin_type = UTType(tag: "txt", tagClass: .filenameExtension, conformingTo: nil)
+    let gguf_type = UTType(tag: "pdf", tagClass: .filenameExtension, conformingTo: nil)
     @State private var model_file_url: URL = URL(filePath: "")
     @State private var model_file_name: String = ""
     @State private var model_file_path: String = "select model"
     @State private var add_button_icon: String = "plus.app"
-    var targetExts = [".gguf",".bin"]
+    var targetExts = [".pdf",".txt"]
     
     init (_ dir:String){
         self.dir = dir
@@ -54,7 +63,7 @@ struct ModelsView: View {
         //        ZStack{
         //            Color("color_bg").edgesIgnoringSafeArea(.all)
         GroupBox(label:
-                 Text("Local models")
+                 Text("Documents for RAG")
         ) {
             HStack{
                 Spacer()
@@ -143,7 +152,7 @@ struct ModelsView: View {
                         }
                         .buttonStyle(.borderless)
                         .controlSize(.large)
-                        Text("Add model")
+                        Text("Add file")
                             .font(.title3)
                             .frame(maxWidth: .infinity)
                         
@@ -173,3 +182,8 @@ struct ModelsView: View {
 //    }
 //}
 
+
+
+//#Preview {
+//    DocsView()
+//}

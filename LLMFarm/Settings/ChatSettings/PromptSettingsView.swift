@@ -35,8 +35,9 @@ struct PromptSettingsView: View {
                 //                                .textFieldStyle(.plain)
             }
             .padding(.top, 8)
-            .padding(.horizontal, 5)
-        }
+            .padding(.horizontal, 1)
+        }.frame(minHeight: 200)
+        
         GroupBox(label:
                  Text("Options")
         ) {

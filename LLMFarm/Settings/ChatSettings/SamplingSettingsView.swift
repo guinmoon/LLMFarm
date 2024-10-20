@@ -29,12 +29,13 @@ struct SamplingSettingsView: View {
     var body: some View {
         HStack{
             Text("Sampling:")
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(maxWidth: 110, alignment: .leading)
             Picker("", selection: $model_sampling) {
                 ForEach(model_samplings, id: \.self) {
                     Text($0)
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .trailing)
             .pickerStyle(.menu)
             .onChange(of: model_sampling) { sampling in
                 if sampling == "temperature" {

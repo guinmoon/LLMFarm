@@ -48,17 +48,17 @@ extension Image {
 
 extension Image {
     @MainActor
-         func getUIImage() -> UIImage? {
-             let image = resizable()
-     //            .scaledToFill()
-     //        //            .frame(width: newSize.width, height: newSize.height)
-     //            .clipped()
-             return ImageRenderer(content: image).uiImage?.fixedOrientation
-         }
-//    func getUIImage() -> UIImage? {
-//        let image = resizable()
-//        return UIImage(data: image).fixedOrientation
-//    }
+    func getUIImage() -> UIImage? {
+        let image = resizable()
+        //            .scaledToFill()
+        //        //            .frame(width: newSize.width, height: newSize.height)
+        //            .clipped()
+        return ImageRenderer(content: image).uiImage?.fixedOrientation
+    }
+    //    func getUIImage() -> UIImage? {
+    //        let image = resizable()
+    //        return UIImage(data: image).fixedOrientation
+    //    }
     
 }
 #endif
@@ -68,7 +68,7 @@ public struct LLMTextInput: View {
     
     
     private let messagePlaceholder: String
-    private let show_attachment_btn:Bool
+    private let showAttachmentBtn:Bool
     var focusedField: FocusState<Field?>.Binding
     @EnvironmentObject var aiChatModel: AIChatModel
     @State public var input_text: String = ""
@@ -81,8 +81,9 @@ public struct LLMTextInput: View {
 #else
     @State private var platformImage: UIImage?
 #endif
-    @State public var img_cahce_path: String?
-    @Binding private var auto_scroll:Bool
+    @State public var imgCahcePath: String?
+    @Binding private var autoScroll:Bool
+    @State private var isAttachmentPopoverPresented: Bool = false
     
     //    @FocusState private var focusedField: Field?
     
@@ -92,8 +93,8 @@ public struct LLMTextInput: View {
     
     public var body: some View {
         HStack(alignment: .bottom) {
-            if self.show_attachment_btn{
-                if img_cahce_path != nil && platformImage != nil{
+//            if self.showAttachmentBtn{
+                if imgCahcePath != nil && platformImage != nil{
                     HStack{
 #if os(macOS)
                         Image(nsImage:platformImage!)
@@ -105,7 +106,7 @@ public struct LLMTextInput: View {
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(maxWidth: 30,maxHeight: 40)
-//                            .clipShape(Circle())
+                        //                            .clipShape(Circle())
 #endif
                         // image!
                     }
@@ -120,11 +121,11 @@ public struct LLMTextInput: View {
                 }
                 .frame(minWidth: 33)
                 .padding(.leading, -22)
-            }
+//            }
             
             TextField(messagePlaceholder, text: $input_text, axis: .vertical )
                 .onSubmit {
-                    sendMessageButtonPressed(img_path:img_cahce_path)
+                    sendMessageButtonPressed(img_path:imgCahcePath)
                 }
                 .textFieldStyle(.plain)
                 .frame(maxWidth: .infinity)
@@ -142,7 +143,7 @@ public struct LLMTextInput: View {
                                 .fill(.white.opacity(0.1))
                         }
                         .padding(.trailing, -42)
-                        .padding(.leading, self.show_attachment_btn ? 5: 0)
+                        .padding(.leading, self.showAttachmentBtn ? 5: 0)
                     
                 }
                 .focused(focusedField, equals: .msg)
@@ -179,7 +180,7 @@ public struct LLMTextInput: View {
     private func disable_send() -> Bool{
         if input_text.isEmpty &&
             !aiChatModel.predicting &&
-            img_cahce_path == nil
+            imgCahcePath == nil
         {
             return true
         }
@@ -192,7 +193,7 @@ public struct LLMTextInput: View {
         
         Button(
             action: {
-                sendMessageButtonPressed(img_path:img_cahce_path)
+                sendMessageButtonPressed(img_path:imgCahcePath)
             },
             label: {
                 Image(systemName: aiChatModel.action_button_icon)
@@ -210,35 +211,43 @@ public struct LLMTextInput: View {
     }
     
     private var attachButton: some View {
-        PhotosPicker(
-            selection: $selectedPhoto,
-            matching: .images
-        ) {
+        Button(action: {
+            self.isAttachmentPopoverPresented = true
+        }) {
             Image(systemName: "plus.circle")
         }
-        .font(.title2)
-        .buttonStyle(.borderless)
-        .offset(x: 10, y: -7)
-        .task(id: selectedPhoto)  {
-            //            if selectedPhoto?.supportedContentTypes.first == .image {
-            //            image = try? await selectedPhoto?.loadTransferable(type: Image.self)
-            if let data = try? await selectedPhoto?.loadTransferable(type: Data.self) {
-                selectedImageData = data
-                if selectedImageData != nil {
+        .popover(isPresented: $isAttachmentPopoverPresented) {
+            HStack{
+                PhotosPicker(
+                    selection: $selectedPhoto,
+                    matching: .images
+                ) {
+                    Image(systemName: "plus.circle")
+                }
+                .font(.title2)
+                .buttonStyle(.borderless)
+                .offset(x: 10, y: -7)
+                .task(id: selectedPhoto)  {
+                    //            if selectedPhoto?.supportedContentTypes.first == .image {
+                    //            image = try? await selectedPhoto?.loadTransferable(type: Image.self)
+                    if let data = try? await selectedPhoto?.loadTransferable(type: Data.self) {
+                        selectedImageData = data
+                        if selectedImageData != nil {
 #if os(macOS)
-                    //                platformImage = image?.getNSImage()
-                    platformImage = NSImage(data: selectedImageData!)
-                    img_cahce_path = save_image_from_library_to_cache(platformImage)
+                            //                platformImage = image?.getNSImage()
+                            platformImage = NSImage(data: selectedImageData!)
+                            imgCahcePath = save_image_from_library_to_cache(platformImage)
 #elseif os(iOS)
-                    platformImage = UIImage(data: selectedImageData!)?.fixedOrientation
-                    //                platformImage = image?.getUIImage()
-                    img_cahce_path = save_image_from_library_to_cache(platformImage)
+                            platformImage = UIImage(data: selectedImageData!)?.fixedOrientation
+                            //                platformImage = image?.getUIImage()
+                            imgCahcePath = save_image_from_library_to_cache(platformImage)
 #endif
+                        }
+                    }
                 }
             }
-            
-            
-            //            }
+            .frame(minWidth: 300, maxHeight: 400)
+            .presentationCompactAdaptation(.popover)
         }
         //        Button(
         //            action: {
@@ -267,9 +276,9 @@ public struct LLMTextInput: View {
     ) {
         //        self._chat = chat
         self.messagePlaceholder = messagePlaceholder ?? "Message"
-        self.show_attachment_btn = show_attachment_btn
+        self.showAttachmentBtn = show_attachment_btn
         self.focusedField = focusedField
-        self._auto_scroll = auto_scroll
+        self._autoScroll = auto_scroll
     }
     
     
@@ -280,10 +289,10 @@ public struct LLMTextInput: View {
                 aiChatModel.stop_predict()
             }else
             {
-                img_cahce_path = nil
+                imgCahcePath = nil
                 image = nil
                 selectedPhoto = nil
-                auto_scroll = true
+                autoScroll = true
                 Task {
                     aiChatModel.send(message: input_text,img_path: img_path)
                     input_text = ""

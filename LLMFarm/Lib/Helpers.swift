@@ -360,7 +360,7 @@ public func rename_file(_ old_fname:String, _ new_fname: String, _ dir: String) 
 
 
 //get_file_list_with_options
-public func get_models_list(dir:String = "models", exts:[String]) -> [Dictionary<String, String>]?{
+public func getFileListByExts(dir:String = "models", exts:[String]) -> [Dictionary<String, String>]?{
     var res: [Dictionary<String, String>] = []
     do {
         let fileManager = FileManager.default
@@ -374,7 +374,9 @@ public func get_models_list(dir:String = "models", exts:[String]) -> [Dictionary
         })
         // let files = try fileManager.contentsOfDirectory(atPath: destinationURL.path)
         let tmp_chat_info = ["icon":"shippingbox.fill","file_name":"[DEMO].gguf","description":""]
-        res.append(tmp_chat_info)
+        if dir == "models"{
+            res.append(tmp_chat_info)
+        }
         for modelfile in files {
             for ext in exts{
                 if modelfile.lastPathComponent.hasSuffix(ext){
@@ -755,7 +757,7 @@ func load_chat_history(_ fname:String) -> [Message]?{
 //}
 
 
-func copyModelToSandbox (url: URL, dest:String = "models") -> String?{
+func copyFileToSandbox (url: URL, dest:String = "models") -> String?{
     do{
         if (CFURLStartAccessingSecurityScopedResource(url as CFURL)) { // <- here
             

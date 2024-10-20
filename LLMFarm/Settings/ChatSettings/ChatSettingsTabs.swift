@@ -29,6 +29,12 @@ struct ChatSettingTabs : View {
 
             TabButton(index: $index, targetIndex: 2, image: Image(systemName: "square.stack.3d.forward.dottedline.fill"), text: "Sampling")
             .padding(.top,30)
+            
+            TabButton(index: $index, targetIndex: 4, image: Image(systemName: "doc.badge.gearshape"), text: "RAG")
+            .padding(.top,30)
+            
+            TabButton(index: $index, targetIndex: 5, image: Image(systemName: "doc.on.doc.fill"), text: "Docs")
+            .padding(.top,30)
 
             Spacer(minLength: 0)
 

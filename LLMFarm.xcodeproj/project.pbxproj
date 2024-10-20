@@ -43,7 +43,6 @@
 		15584A5C2AAB994100EC9C9C /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15584A5B2AAB994100EC9C9C /* DownloadManager.swift */; };
 		15584A5E2AABA09300EC9C9C /* DidEndEditingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15584A5D2AABA09300EC9C9C /* DidEndEditingTextField.swift */; };
 		155D5B012BE2285300E43E18 /* Gemma.json in Resources */ = {isa = PBXBuildFile; fileRef = 155D5B002BE2285300E43E18 /* Gemma.json */; };
-		1560D6172A2D1A3D00918330 /* AddChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1560D6162A2D1A3D00918330 /* AddChatView.swift */; };
 		156151CC2C26D28200C009D5 /* NetworkImage in Frameworks */ = {isa = PBXBuildFile; productRef = 156151CB2C26D28200C009D5 /* NetworkImage */; };
 		1568E3CE2A8BF86200930CC9 /* BottomPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1568E3CD2A8BF86200930CC9 /* BottomPanel.swift */; };
 		15692A7B2BAA082700AB2F4C /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 15692A7A2BAA082700AB2F4C /* PrivacyInfo.xcprivacy */; };
@@ -77,7 +76,6 @@
 		15B1B9D32AF025E80058F275 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 159650EE2A49F8400007BE5C /* MetalKit.framework */; };
 		15B1B9D42AF025E80058F275 /* MetalPerformanceShaders.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 159650EF2A49F8400007BE5C /* MetalPerformanceShaders.framework */; };
 		15B1B9D62AF025FC0058F275 /* MetalPerformanceShadersGraph.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B1B9D52AF025FC0058F275 /* MetalPerformanceShadersGraph.framework */; };
-		15B1B9D82AF2C9A70058F275 /* SettingsViewOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B1B9D72AF2C9A70058F275 /* SettingsViewOld.swift */; };
 		15B1B9DA2AF588FD0058F275 /* SettingsMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B1B9D92AF588FD0058F275 /* SettingsMenuItem.swift */; };
 		15B716512C27090400CA600B /* PromptSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B716502C27090400CA600B /* PromptSettingsView.swift */; };
 		15B716532C270BE300CA600B /* PredictionSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B716522C270BE300CA600B /* PredictionSettingsView.swift */; };
@@ -97,6 +95,14 @@
 		15C08A6A2BA5CB2C000A1BE0 /* MobileVLM.json in Resources */ = {isa = PBXBuildFile; fileRef = 15C08A692BA5CB2C000A1BE0 /* MobileVLM.json */; };
 		15D81B002BDAC0E900C3B5CE /* phi3.json in Resources */ = {isa = PBXBuildFile; fileRef = 15D81AFF2BDAC0E900C3B5CE /* phi3.json */; };
 		15D8FE902AF80D7600B5C90D /* FineTuneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D8FE8F2AF80D7600B5C90D /* FineTuneView.swift */; };
+		15DFE5FF2CC430CB00E359F9 /* DocsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DFE5FE2CC430CB00E359F9 /* DocsView.swift */; };
+		15DFE6012CC5192000E359F9 /* About.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DFE6002CC5192000E359F9 /* About.swift */; };
+		15DFE6042CC545D500E359F9 /* SimilaritySearchKit in Frameworks */ = {isa = PBXBuildFile; productRef = 15DFE6032CC545D500E359F9 /* SimilaritySearchKit */; };
+		15DFE6062CC545D500E359F9 /* SimilaritySearchKitDistilbert in Frameworks */ = {isa = PBXBuildFile; productRef = 15DFE6052CC545D500E359F9 /* SimilaritySearchKitDistilbert */; };
+		15DFE6082CC545D500E359F9 /* SimilaritySearchKitMiniLMAll in Frameworks */ = {isa = PBXBuildFile; productRef = 15DFE6072CC545D500E359F9 /* SimilaritySearchKitMiniLMAll */; };
+		15DFE60A2CC545D500E359F9 /* SimilaritySearchKitMiniLMMultiQA in Frameworks */ = {isa = PBXBuildFile; productRef = 15DFE6092CC545D500E359F9 /* SimilaritySearchKitMiniLMMultiQA */; };
+		15DFE60C2CC5486000E359F9 /* RagSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DFE60B2CC5486000E359F9 /* RagSettingsView.swift */; };
+		15DFE60F2CC549F500E359F9 /* RAG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DFE60E2CC549F500E359F9 /* RAG.swift */; };
 		15E086C42AEAC69B006459DE /* FineTuneModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E086C32AEAC69B006459DE /* FineTuneModel.swift */; };
 		15E415D42A18A2980057A15E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E415D32A18A2980057A15E /* main.swift */; };
 		15F210812A191B190021F414 /* LLMFarmApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F210802A191B190021F414 /* LLMFarmApp.swift */; };
@@ -196,7 +202,6 @@
 		15584A5B2AAB994100EC9C9C /* DownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
 		15584A5D2AABA09300EC9C9C /* DidEndEditingTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DidEndEditingTextField.swift; sourceTree = "<group>"; };
 		155D5B002BE2285300E43E18 /* Gemma.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Gemma.json; sourceTree = "<group>"; };
-		1560D6162A2D1A3D00918330 /* AddChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChatView.swift; sourceTree = "<group>"; };
 		1568E3CD2A8BF86200930CC9 /* BottomPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomPanel.swift; sourceTree = "<group>"; };
 		15692A7A2BAA082700AB2F4C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		156A48CF2A52B55B007DF519 /* SplitViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViews.swift; sourceTree = "<group>"; };
@@ -225,7 +230,6 @@
 		15B1B9C82AF023080058F275 /* FineTune_Test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FineTune_Test; sourceTree = BUILT_PRODUCTS_DIR; };
 		15B1B9CA2AF023080058F275 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		15B1B9D52AF025FC0058F275 /* MetalPerformanceShadersGraph.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalPerformanceShadersGraph.framework; path = System/Library/Frameworks/MetalPerformanceShadersGraph.framework; sourceTree = SDKROOT; };
-		15B1B9D72AF2C9A70058F275 /* SettingsViewOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewOld.swift; sourceTree = "<group>"; };
 		15B1B9D92AF588FD0058F275 /* SettingsMenuItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsMenuItem.swift; sourceTree = "<group>"; };
 		15B716502C27090400CA600B /* PromptSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptSettingsView.swift; sourceTree = "<group>"; };
 		15B716522C270BE300CA600B /* PredictionSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionSettingsView.swift; sourceTree = "<group>"; };
@@ -245,6 +249,10 @@
 		15C08A692BA5CB2C000A1BE0 /* MobileVLM.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = MobileVLM.json; sourceTree = "<group>"; };
 		15D81AFF2BDAC0E900C3B5CE /* phi3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = phi3.json; sourceTree = "<group>"; };
 		15D8FE8F2AF80D7600B5C90D /* FineTuneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FineTuneView.swift; sourceTree = "<group>"; };
+		15DFE5FE2CC430CB00E359F9 /* DocsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocsView.swift; sourceTree = "<group>"; };
+		15DFE6002CC5192000E359F9 /* About.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = About.swift; sourceTree = "<group>"; };
+		15DFE60B2CC5486000E359F9 /* RagSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RagSettingsView.swift; sourceTree = "<group>"; };
+		15DFE60E2CC549F500E359F9 /* RAG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RAG.swift; sourceTree = "<group>"; };
 		15E086C32AEAC69B006459DE /* FineTuneModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FineTuneModel.swift; sourceTree = "<group>"; };
 		15E415D12A18A2970057A15E /* ModelTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ModelTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		15E415D32A18A2980057A15E /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -303,14 +311,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15DFE60A2CC545D500E359F9 /* SimilaritySearchKitMiniLMMultiQA in Frameworks */,
+				15DFE6062CC545D500E359F9 /* SimilaritySearchKitDistilbert in Frameworks */,
 				15A3EDD82A223CB00030AF5A /* Accelerate.framework in Frameworks */,
 				1554ABC02C26D75900A0513F /* NetworkImage in Frameworks */,
 				150992D32CC3AD8700B84BDB /* llmfarm_core in Frameworks */,
 				1554ABBD2C26D37000A0513F /* MarkdownUI in Frameworks */,
+				15DFE6042CC545D500E359F9 /* SimilaritySearchKit in Frameworks */,
 				1554ABC32C26D76900A0513F /* MarkdownUI in Frameworks */,
 				15B9D7422A4B55EA00276782 /* MetalPerformanceShaders.framework in Frameworks */,
 				15B9D7432A4B55EA00276782 /* Metal.framework in Frameworks */,
 				156151CC2C26D28200C009D5 /* NetworkImage in Frameworks */,
+				15DFE6082CC545D500E359F9 /* SimilaritySearchKitMiniLMAll in Frameworks */,
 				15B9D7442A4B55EA00276782 /* MetalKit.framework in Frameworks */,
 				150992CB2CC3AC4100B84BDB /* MarkdownUI in Frameworks */,
 				150992C82CC3AC2F00B84BDB /* NetworkImage in Frameworks */,
@@ -378,6 +390,8 @@
 				15B716582C2729BB00CA600B /* AdditionalSettingsView.swift */,
 				15B7165A2C272D5100CA600B /* SettingsHeaderView.swift */,
 				1524FB6E2CC29A6800E99C3F /* ChatSettingsTabs.swift */,
+				15DFE5FE2CC430CB00E359F9 /* DocsView.swift */,
+				15DFE60B2CC5486000E359F9 /* RagSettingsView.swift */,
 			);
 			path = ChatSettings;
 			sourceTree = "<group>";
@@ -416,11 +430,10 @@
 				15B1B9D92AF588FD0058F275 /* SettingsMenuItem.swift */,
 				15A3EDC02A2121D90030AF5A /* SettingsHeaderItem.swift */,
 				1524FB742CC2D16300E99C3F /* AppSettingsTabs.swift */,
-				1560D6162A2D1A3D00918330 /* AddChatView.swift */,
 				1568E3CD2A8BF86200930CC9 /* BottomPanel.swift */,
 				1532BF792A9FA885006DC514 /* GetDeviceInfo.swift */,
-				15B1B9D72AF2C9A70058F275 /* SettingsViewOld.swift */,
 				1524FB722CC2D13200E99C3F /* AppSettingsView.swift */,
+				15DFE6002CC5192000E359F9 /* About.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -458,6 +471,14 @@
 			path = LLaVATest;
 			sourceTree = "<group>";
 		};
+		15DFE60D2CC549E400E359F9 /* RAG */ = {
+			isa = PBXGroup;
+			children = (
+				15DFE60E2CC549F500E359F9 /* RAG.swift */,
+			);
+			path = RAG;
+			sourceTree = "<group>";
+		};
 		15E086C22AEAC674006459DE /* Tune */ = {
 			isa = PBXGroup;
 			children = (
@@ -479,6 +500,7 @@
 		15F2107F2A191B190021F414 /* LLMFarm */ = {
 			isa = PBXGroup;
 			children = (
+				15DFE60D2CC549E400E359F9 /* RAG */,
 				152838242BEAB19E000D8B82 /* Intents */,
 				15E086C22AEAC674006459DE /* Tune */,
 				15584A5A2AAB98E100EC9C9C /* Lib */,
@@ -642,6 +664,10 @@
 				150992C72CC3AC2F00B84BDB /* NetworkImage */,
 				150992CA2CC3AC4100B84BDB /* MarkdownUI */,
 				150992D22CC3AD8700B84BDB /* llmfarm_core */,
+				15DFE6032CC545D500E359F9 /* SimilaritySearchKit */,
+				15DFE6052CC545D500E359F9 /* SimilaritySearchKitDistilbert */,
+				15DFE6072CC545D500E359F9 /* SimilaritySearchKitMiniLMAll */,
+				15DFE6092CC545D500E359F9 /* SimilaritySearchKitMiniLMMultiQA */,
 			);
 			productName = LLMFarm;
 			productReference = 15F2107E2A191B190021F414 /* LLMFarm.app */;
@@ -684,6 +710,7 @@
 				150992C62CC3AC2F00B84BDB /* XCLocalSwiftPackageReference "NetworkImage" */,
 				150992C92CC3AC4100B84BDB /* XCLocalSwiftPackageReference "swift-markdown-ui" */,
 				150992CF2CC3AD4F00B84BDB /* XCLocalSwiftPackageReference "llmfarm_core.swift" */,
+				15DFE6022CC545D500E359F9 /* XCLocalSwiftPackageReference "similarity-search-kit" */,
 			);
 			productRefGroup = E624E1FF2958ECC800996CD1 /* Products */;
 			projectDirPath = "";
@@ -791,8 +818,8 @@
 				15A3EDCB2A2121D90030AF5A /* ModelsView.swift in Sources */,
 				158DAA542B8655AE00550274 /* ModelDownloadItem.swift in Sources */,
 				15141E712A65799D0060E767 /* ChatSettingsTemplate.swift in Sources */,
-				1560D6172A2D1A3D00918330 /* AddChatView.swift in Sources */,
 				15B1B9DA2AF588FD0058F275 /* SettingsMenuItem.swift in Sources */,
+				15DFE5FF2CC430CB00E359F9 /* DocsView.swift in Sources */,
 				158DAA4E2B812A4A00550274 /* DownloadModels.swift in Sources */,
 				15F210962A1920AA0021F414 /* AIChatModel.swift in Sources */,
 				1528382A2BF13E53000D8B82 /* ShortcutsChatEntity.swift in Sources */,
@@ -806,6 +833,7 @@
 				158DAA502B83BF5700550274 /* DownloadButton.swift in Sources */,
 				1554ABC62C27043500A0513F /* ModelSettingsView.swift in Sources */,
 				1524FB6D2CC2993E00E99C3F /* ChatSettingsView.swift in Sources */,
+				15DFE60C2CC5486000E359F9 /* RagSettingsView.swift in Sources */,
 				15386FDD2CBFD90600652FA0 /* SummaryIntent.swift in Sources */,
 				15F2108E2A191EE60021F414 /* ChatView.swift in Sources */,
 				15D8FE902AF80D7600B5C90D /* FineTuneView.swift in Sources */,
@@ -813,6 +841,7 @@
 				152838272BEBCEFE000D8B82 /* LLMQueryIntent.swift in Sources */,
 				15E086C42AEAC69B006459DE /* FineTuneModel.swift in Sources */,
 				15F210812A191B190021F414 /* LLMFarmApp.swift in Sources */,
+				15DFE60F2CC549F500E359F9 /* RAG.swift in Sources */,
 				1532BF7A2A9FA885006DC514 /* GetDeviceInfo.swift in Sources */,
 				15584A5C2AAB994100EC9C9C /* DownloadManager.swift in Sources */,
 				15584A5E2AABA09300EC9C9C /* DidEndEditingTextField.swift in Sources */,
@@ -823,8 +852,8 @@
 				15A3EDCE2A2121D90030AF5A /* OnlineUserView.swift in Sources */,
 				1524FB752CC2D16300E99C3F /* AppSettingsTabs.swift in Sources */,
 				15A3EDCA2A2121D90030AF5A /* SettingsHeaderItem.swift in Sources */,
+				15DFE6012CC5192000E359F9 /* About.swift in Sources */,
 				1568E3CE2A8BF86200930CC9 /* BottomPanel.swift in Sources */,
-				15B1B9D82AF2C9A70058F275 /* SettingsViewOld.swift in Sources */,
 				1524FB732CC2D13200E99C3F /* AppSettingsView.swift in Sources */,
 				151746A22B585B030074FF35 /* LLMTextInput.swift in Sources */,
 			);
@@ -970,7 +999,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
@@ -1022,7 +1051,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
@@ -1219,6 +1248,10 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = llmfarm_core.swift;
 		};
+		15DFE6022CC545D500E359F9 /* XCLocalSwiftPackageReference "similarity-search-kit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "similarity-search-kit";
+		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1265,6 +1298,22 @@
 		15C08A632B9DF6F7000A1BE0 /* llmfarm_core */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = llmfarm_core;
+		};
+		15DFE6032CC545D500E359F9 /* SimilaritySearchKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SimilaritySearchKit;
+		};
+		15DFE6052CC545D500E359F9 /* SimilaritySearchKitDistilbert */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SimilaritySearchKitDistilbert;
+		};
+		15DFE6072CC545D500E359F9 /* SimilaritySearchKitMiniLMAll */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SimilaritySearchKitMiniLMAll;
+		};
+		15DFE6092CC545D500E359F9 /* SimilaritySearchKitMiniLMMultiQA */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SimilaritySearchKitMiniLMMultiQA;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

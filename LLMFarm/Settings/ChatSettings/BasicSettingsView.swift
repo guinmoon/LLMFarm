@@ -9,7 +9,7 @@ import SwiftUI
 
 struct BasicSettingsView: View {
     
-    @Binding var model_title: String
+    @Binding var chat_title: String
     @Binding var model_icon: String
     @Binding var model_icons: [String]
     @Binding var model_inferences: [String]
@@ -44,11 +44,11 @@ struct BasicSettingsView: View {
             .frame(height: 48)
             
 #if os(macOS)
-            DidEndEditingTextField(text: $model_title,didEndEditing: { newName in})
+            DidEndEditingTextField(text: $chat_title,didEndEditing: { newName in})
                 .frame(maxWidth: .infinity, alignment: .leading)
             //                            .padding([.trailing, .leading, .top])
 #else
-            TextField("Title...", text: $model_title)
+            TextField("Title...", text: $chat_title)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .textFieldStyle(.plain)
             //                            .padding([.trailing, .leading, .top])

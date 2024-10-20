@@ -15,7 +15,7 @@ struct ChatSettingsView: View {
     @Binding var add_chat_dialog: Bool
     @Binding var edit_chat_dialog: Bool
     @Binding var toggleSettings: Bool
-
+    
     @EnvironmentObject var aiChatModel: AIChatModel
     
     @State private var clearChatAlert = false
@@ -28,28 +28,28 @@ struct ChatSettingsView: View {
     @State private var isPromptAccordionExpanded: Bool = false
     @State private var isAdditionalAccordionExpanded: Bool = false
     
-    @State private var model_title: String = ""
-    @State private var model_icon: String = "ava0"
-    @State private var model_icons = ["ava0","ava1","ava2","ava3","ava4","ava5","ava6","ava7"]
+    @State private var chat_title: String = ""
+    @State private var chat_icon: String = "ava0"
+    @State private var chat_icons = ["ava0","ava1","ava2","ava3","ava4","ava5","ava6","ava7"]
     // @State private var model_inferences = ["llama","rwkv","ggjt_v3"]
     @State private var model_inferences = ["llama"]
     @State private var ggjt_v3_inferences = ["gptneox", "gpt2", "replit", "starcoder"]
     @State private var model_inference = "llama"
     @State private var ggjt_v3_inference = "gpt2"
     @State private var model_inference_inner = "llama"
-    @State private var model_settings_template:ChatSettingsTemplate = ChatSettingsTemplate()
-    @State private var model_setting_templates = get_model_setting_templates()
+    @State private var chat_settings_template:ChatSettingsTemplate = ChatSettingsTemplate()
+    @State private var chat_setting_templates = get_model_setting_templates()
     @State private var applying_template:Bool = false
     
     @State private var model_file_url: URL = URL(filePath: "/")
     @State private var model_file_path: String = "Select model"
     // @State private var models_previews = get_models_list(exts:[".gguf",".bin"]) ?? []
-    @State private var models_previews = get_models_list(exts:[".gguf"]) ?? []
+    @State private var models_previews = getFileListByExts(exts:[".gguf"]) ?? []
     @State private var clip_model_file_url: URL = URL(filePath: "/")
     @State private var clip_model_file_path: String = "Select Clip model"
     @State private var clip_model_title: String = ""
-    @State private var loras_previews = get_models_list(dir: "lora_adapters",exts:[".bin"]) ?? []
-//    @State private var loras_previews = []
+    @State private var loras_previews = getFileListByExts(dir: "lora_adapters",exts:[".bin"]) ?? []
+    //    @State private var loras_previews = []
     @State private var lora_adapters: [Dictionary<String, Any>] = []
     @State private var lora_file_url: URL = URL(filePath: "/")
     @State private var lora_file_path: String = "Add LoRA adapter"
@@ -105,7 +105,7 @@ struct ChatSettingsView: View {
     let gguf_type = UTType(tag: "gguf", tagClass: .filenameExtension, conformingTo: nil)
     
     func refresh_templates(){
-        model_setting_templates = get_model_setting_templates()
+        chat_setting_templates = get_model_setting_templates()
     }
     
     init(add_chat_dialog: Binding<Bool>,edit_chat_dialog:Binding<Bool>,
@@ -131,7 +131,7 @@ struct ChatSettingsView: View {
         //        self._chat_config = State(initialValue: chat_config!)
         
         if (chat_config!["title"] != nil){
-            self._model_title = State(initialValue: chat_config!["title"]! as! String)
+            self._chat_title = State(initialValue: chat_config!["title"]! as! String)
         }
         if (chat_config!["model"] != nil){
             self._model_file_path = State(initialValue: chat_config!["model"]! as! String)
@@ -153,14 +153,14 @@ struct ChatSettingsView: View {
             }
         }
         if chat_config!["icon"] != nil{
-            self._model_icon = State(initialValue: chat_config!["icon"]! as! String)
+            self._chat_icon = State(initialValue: chat_config!["icon"]! as! String)
         }
         if chat_config!["model_settings_template"] != nil{
             let cur_template = chat_config?["model_settings_template"] as? String ?? ""
             //            let isPresent = model_setting_templates.contains(where: { $0.template_name == cur_template })
-            model_setting_templates.forEach { template in
+            chat_setting_templates.forEach { template in
                 if template.template_name == cur_template{
-                    self._model_settings_template = State(initialValue:template)
+                    self._chat_settings_template = State(initialValue:template)
                 }
             }
         }
@@ -268,13 +268,13 @@ struct ChatSettingsView: View {
     
     
     func set_template_to_custom(){
-        model_settings_template = model_setting_templates[0]
+        chat_settings_template = chat_setting_templates[0]
     }
     
     func select_template(_ name:String){
-        model_setting_templates.forEach { template in
+        chat_setting_templates.forEach { template in
             if template.template_name == name{
-                model_settings_template = template
+                chat_settings_template = template
                 return
             }
         }
@@ -320,11 +320,11 @@ struct ChatSettingsView: View {
     
     func get_chat_options_dict(is_template:Bool = false) -> Dictionary<String, Any> {
         var options:Dictionary<String, Any> =    ["model":model_file_path,
-                                                  "model_settings_template":model_settings_template.template_name,
+                                                  "model_settings_template":chat_settings_template.template_name,
                                                   "clip_model":clip_model_file_path,
                                                   "lora_adapters":lora_adapters,
-                                                  "title":model_title,
-                                                  "icon":model_icon,
+                                                  "title":chat_title,
+                                                  "icon":chat_icon,
                                                   "model_inference":model_inference_inner,
                                                   "use_metal":use_metal,
                                                   "use_clip_metal":use_clip_metal,
@@ -370,21 +370,21 @@ struct ChatSettingsView: View {
         //                            if !edit_chat_dialog {
         if model_file_url.path != "/"{
             print(model_file_url.path)
-            let sandbox_path = copyModelToSandbox(url: model_file_url,dest: "models")
+            let sandbox_path = copyFileToSandbox(url: model_file_url,dest: "models")
             if sandbox_path != nil{
                 model_file_path = sandbox_path!
             }
         }
         if lora_file_url.path != "/"{
             print(lora_file_url.path)
-            let sandbox_path = copyModelToSandbox(url: lora_file_url,dest: "lora_adapters")
+            let sandbox_path = copyFileToSandbox(url: lora_file_url,dest: "lora_adapters")
             if sandbox_path != nil{
                 lora_file_path = sandbox_path!
             }
         }
         if clip_model_file_url.path != "/"{
             print(clip_model_file_url.path)
-            let sandbox_path = copyModelToSandbox(url: clip_model_file_url,dest: "models")
+            let sandbox_path = copyFileToSandbox(url: clip_model_file_url,dest: "models")
             if sandbox_path != nil{
                 clip_model_file_path = sandbox_path!
             }
@@ -415,17 +415,18 @@ struct ChatSettingsView: View {
             ChatSettingTabs(index:$tabIndex)
             // now were going to create main view....
             
-            GeometryReader{_ in
-                ScrollView(showsIndicators: false){
+            GeometryReader{ g in
+                
+                VStack{
                     VStack{
-                        VStack{
-                            SettingsHeaderView(add_chat_dialog: $add_chat_dialog,
-                                               edit_chat_dialog: $edit_chat_dialog,
-                                               model_title: $model_title,
-                                               model_not_selected_alert: $model_not_selected_alert,
-                                               save_chat_settings: save_chat_settings)
-                            .padding([.leading,.trailing],8)
-                        }
+                        SettingsHeaderView(add_chat_dialog: $add_chat_dialog,
+                                           edit_chat_dialog: $edit_chat_dialog,
+                                           model_title: $chat_title,
+                                           model_not_selected_alert: $model_not_selected_alert,
+                                           save_chat_settings: save_chat_settings)
+                        .padding([.leading,.trailing],8)
+                    }
+//                    ScrollView(showsIndicators: false){
                         // changing tabs based on tabs...
                         switch tabIndex{
                         case 0:
@@ -433,16 +434,16 @@ struct ChatSettingsView: View {
                                         //                                Label("Basic Settings", systemImage: "building.columns")
                                      Text("Basic Settings")
                             ) {
-                                BasicSettingsView(model_title: $model_title,
-                                                  model_icon: $model_icon,
-                                                  model_icons: $model_icons,
+                                BasicSettingsView(chat_title: $chat_title,
+                                                  model_icon: $chat_icon,
+                                                  model_icons: $chat_icons,
                                                   model_inferences: $model_inferences,
                                                   ggjt_v3_inferences: $ggjt_v3_inferences,
                                                   model_inference: $model_inference,
                                                   ggjt_v3_inference: $ggjt_v3_inference,
                                                   model_inference_inner: $model_inference_inner,
-                                                  model_settings_template: $model_settings_template,
-                                                  model_setting_templates: $model_setting_templates,
+                                                  model_settings_template: $chat_settings_template,
+                                                  model_setting_templates: $chat_setting_templates,
                                                   applying_template: $applying_template,
                                                   apply_setting_template: apply_setting_template)
                             }
@@ -451,7 +452,7 @@ struct ChatSettingsView: View {
                             ) {
                                 ModelSettingsView(model_file_url: $model_file_url,
                                                   model_file_path: $model_file_path,
-                                                  model_title: $model_title,
+                                                  model_title: $chat_title,
                                                   clip_model_file_url: $clip_model_file_url,
                                                   clip_model_file_path: $clip_model_file_path,
                                                   clip_model_title: $clip_model_title,
@@ -512,6 +513,10 @@ struct ChatSettingsView: View {
                                                      model_inference: $model_inference,
                                                      grammars_previews: $grammars_previews)
                             }
+                        case 4:
+                            RagSettingsView("documents/"+(self.chat_name == "" ? "tmp_chat": self.chat_name ))
+                        case 5:
+                            DocsView("documents/"+(self.chat_name == "" ? "tmp_chat": self.chat_name )+"/docs")
                         default:
                             GroupBox(label:
                                         Text("Other settings")
@@ -525,17 +530,17 @@ struct ChatSettingsView: View {
                             }
                         }
                         
-                    }
-#if os(macOS)
-                    .padding(.top, topSafeAreaInset())
-                    .padding(.bottom, bottomSafeAreaInset())
-#else
-                    .padding(.top, UIApplication.shared.keyWindow?.safeAreaInsets.top)
-                    .padding(.bottom, UIApplication.shared.keyWindow?.safeAreaInsets.bottom)
-#endif
-                    .padding([.leading,.trailing],5)
-                    // due to all edges are ignored...
+//                    }
+                    
                 }
+                .padding([.leading,.trailing],5)
+#if os(macOS)
+                .padding(.top, topSafeAreaInset())
+                .padding(.bottom, bottomSafeAreaInset())
+#else
+                .padding(.top, UIApplication.shared.keyWindow?.safeAreaInsets.top)
+                .padding(.bottom, UIApplication.shared.keyWindow?.safeAreaInsets.bottom)
+#endif
             }
         }
         .edgesIgnoringSafeArea(.all)
@@ -548,13 +553,13 @@ extension UIApplication {
     var keyWindow: UIWindow? {
         // Get connected scenes
         return self.connectedScenes
-            // Keep only active scenes, onscreen and visible to the user
+        // Keep only active scenes, onscreen and visible to the user
             .filter { $0.activationState == .foregroundActive }
-            // Keep only the first `UIWindowScene`
+        // Keep only the first `UIWindowScene`
             .first(where: { $0 is UIWindowScene })
-            // Get its associated windows
+        // Get its associated windows
             .flatMap({ $0 as? UIWindowScene })?.windows
-            // Finally, keep only the key window
+        // Finally, keep only the key window
             .first(where: \.isKeyWindow)
     }
     

@@ -6,6 +6,10 @@
 
 import Foundation
 import SwiftUI
+import SimilaritySearchKit
+import SimilaritySearchKitDistilbert
+import SimilaritySearchKitMiniLMAll
+import SimilaritySearchKitMiniLMMultiQA
 import os
 import llmfarm_core
 
@@ -23,6 +27,8 @@ final class AIChatModel: ObservableObject {
     enum State {
         case none
         case loading
+        case ragIndexLoading
+        case ragSearch
         case completed
     }
     
@@ -40,6 +46,7 @@ final class AIChatModel: ObservableObject {
     public var start_predicting_time = DispatchTime.now()
     public var first_predicted_token_time = DispatchTime.now()
     public var tok_sec:Double = 0.0
+    private var ragIndexLoaded: Bool = false
     private var state_dump_path:String = ""
 
 //    public var conv_finished_group = DispatchGroup()
@@ -48,7 +55,14 @@ final class AIChatModel: ObservableObject {
 
     private var messages_lock = NSLock()
 
+    var ragUrl:URL
+    private var chunkSize: Int = 256
+    private var chunkOverlap: Int = 100
+    private var currentModel: EmbeddingModelType = .minilmMultiQA
+    private var comparisonAlgorithm: SimilarityMetricType = .dotproduct
+    private var chunkMethod: TextSplitterType = .recursive
     
+//    @Published var llmStatus = ""
     @Published var predicting = false
     @Published var AI_typing = 0
     @Published var state: State = .none
@@ -63,6 +77,8 @@ final class AIChatModel: ObservableObject {
     public init(){
         chat = nil
         modelURL = ""
+        let ragDir = "documents/"+(self.chat_name == "" ? "tmp_chat": self.chat_name )
+        ragUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(ragDir) ?? URL(fileURLWithPath: "")
     }
     
 //    @MainActor
@@ -106,7 +122,9 @@ final class AIChatModel: ObservableObject {
             self.messages[self.messages.endIndex - 1].header = self.chat?.model?.contextParams.system_prompt ?? ""
         }
         self.chat?.model?.parse_skip_tokens()
-        self.send(message: in_text, append_user_message:false,system_prompt:system_prompt,img_path:img_path)
+        Task{
+            await self.send(message: in_text, append_user_message:false,system_prompt:system_prompt,img_path:img_path)
+        }
     }
     
     public func hard_reload_chat(){
@@ -134,6 +152,8 @@ final class AIChatModel: ObservableObject {
         self.messages = load_chat_history(chat_selection["chat"]!+".json") ?? []
         messages_lock.unlock()
         self.state_dump_path = get_state_path_by_chat_name(chat_name) ?? ""
+        let ragDir = "documents/"+(self.chat_name == "" ? "tmp_chat": self.chat_name )
+        ragUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(ragDir) ?? URL(fileURLWithPath: "")
         self.AI_typing = -Int.random(in: 0..<100000)
     }
 
@@ -333,9 +353,40 @@ final class AIChatModel: ObservableObject {
         self.save_chat_history_and_state()
     }
 
+    
+    public func loadRAGIndex(ragURL: URL) async {
+        updateIndexComponents(currentModel:currentModel,comparisonAlgorithm:comparisonAlgorithm,chunkMethod:chunkMethod)
+        await loadExistingIndex(url: ragURL, name: "RAG_index")
+        ragIndexLoaded = true
+    }
+    
+    public func  generateRagLLMQuery(_ inputText:String,_ searchResultsCount:Int, _ ragURL:URL)async ->String {
+        if !ragIndexLoaded {
+//            llmStatus = "RAG index loading"
+            await loadRAGIndex(ragURL: ragURL)
+        }
+        var resultQuery = inputText
+        let results = await searchIndexWithQuery(query: inputText, top: searchResultsCount)
+        if results == nil{
+            return resultQuery
+        }        
+        let llmPrompt = SimilarityIndex.exportLLMPrompt(query: inputText, results: results!)
+        return llmPrompt
+    }
 
-    public func send(message in_text: String, append_user_message:Bool = true,system_prompt:String? = nil, img_path: String? = nil)  {
-        let text = in_text
+    public func send(message in_text: String, 
+                     append_user_message:Bool = true,
+                     system_prompt:String? = nil, 
+                     img_path: String? = nil,
+                     useRag: Bool = false)  async {
+//        self.llmStatus = ""
+        var text = in_text
+        self.AI_typing += 1
+        if useRag {
+            self.state = .ragSearch
+            text = await self.generateRagLLMQuery(in_text,3,self.ragUrl)
+        }
+        
         if append_user_message{
             var attachment_type:String? = nil
             if img_path != nil{
@@ -376,12 +427,14 @@ final class AIChatModel: ObservableObject {
         let img_real_path = get_path_by_short_name(img_path ?? "unknown",dest: "cache/images")
 //        conv_finished_group.enter()
         self.start_predicting_time = DispatchTime.now()
+//        llmStatus = "Eval"
         self.chat?.conversation(text,
             { str, time in //Predicting
                 _ = self.process_predicted_str(str, time, &message/*, messageIndex*/)
             },
             { final_str in // Finish predicting 
-                self.finish_completion(final_str, &message/*, messageIndex*/)                  
+                self.finish_completion(final_str, &message/*, messageIndex*/)   
+//                self.llmStatus = "Done"
             },
             system_prompt:system_prompt,img_path:img_real_path)
         // self.conv_finished_group.leave()

@@ -21,39 +21,39 @@ struct DocsView: View {
     
     public var dir:String
     @State var searchText: String = ""
-    @State var models_previews: [Dictionary<String, String>]
-    @State var model_selection: String?
+    @State var docsPreviews: [Dictionary<String, String>]
+    @State var docSelection: String?
     @State private var isImporting: Bool = false
     @State private var modelImported: Bool = false
-    let bin_type = UTType(tag: "txt", tagClass: .filenameExtension, conformingTo: nil)
-    let gguf_type = UTType(tag: "pdf", tagClass: .filenameExtension, conformingTo: nil)
-    @State private var model_file_url: URL = URL(filePath: "")
-    @State private var model_file_name: String = ""
-    @State private var model_file_path: String = "select model"
-    @State private var add_button_icon: String = "plus.app"
+    let binType = UTType(tag: "txt", tagClass: .filenameExtension, conformingTo: nil)
+    let ggufType = UTType(tag: "pdf", tagClass: .filenameExtension, conformingTo: nil)
+    @State private var docFileUrl: URL = URL(filePath: "")
+    @State private var docFileName: String = ""
+    @State private var docFilePath: String = "select model"
+    @State private var addButtonIcon: String = "plus.app"
     var targetExts = [".pdf",".txt"]
     
     init (_ dir:String){
         self.dir = dir
-        self._models_previews = State(initialValue: getFileListByExts(dir:dir,exts:targetExts)!)
+        self._docsPreviews = State(initialValue: getFileListByExts(dir:dir,exts:targetExts)!)
     }
     
     func delete(at offsets: IndexSet) {
-        let chatsToDelete = offsets.map { self.models_previews[$0] }
+        let chatsToDelete = offsets.map { self.docsPreviews[$0] }
         _ = delete_models(chatsToDelete,dest:dir)
-        models_previews = getFileListByExts(dir:dir,exts:targetExts) ?? []
+        docsPreviews = getFileListByExts(dir:dir,exts:targetExts) ?? []
     }
     
     func delete(at elem:Dictionary<String, String>){
         _  = delete_models([elem],dest:dir)
-        self.models_previews.removeAll(where: { $0 == elem })
-        models_previews = getFileListByExts(dir:dir,exts:targetExts) ?? []
+        self.docsPreviews.removeAll(where: { $0 == elem })
+        docsPreviews = getFileListByExts(dir:dir,exts:targetExts) ?? []
     }
     
     private func delayIconChange() {
         // Delay of 7.5 seconds
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            add_button_icon = "plus.app"
+            addButtonIcon = "plus.app"
         }
     }
     
@@ -73,7 +73,7 @@ struct DocsView: View {
                     }
                     
                 } label: {
-                    Image(systemName: add_button_icon)
+                    Image(systemName: addButtonIcon)
                     //                            .foregroundColor(Color("color_primary"))
                         .font(.title2)
                 }
@@ -89,14 +89,14 @@ struct DocsView: View {
                 ) { result in
                     do {
                         guard let selectedFile: URL = try result.get().first else { return }
-                        model_file_name = selectedFile.lastPathComponent
-                        model_file_url = selectedFile
-                        model_file_path = selectedFile.lastPathComponent
-                        _ = copyFileToSandbox(url: model_file_url,dest:dir)
+                        docFileName = selectedFile.lastPathComponent
+                        docFileUrl = selectedFile
+                        docFilePath = selectedFile.lastPathComponent
+                        _ = copyFileToSandbox(url: docFileUrl,dest:dir)
                         modelImported = true
-                        add_button_icon = "checkmark"
+                        addButtonIcon = "checkmark"
                         delayIconChange()
-                        models_previews = getFileListByExts(dir:dir,exts:targetExts) ?? []
+                        docsPreviews = getFileListByExts(dir:dir,exts:targetExts) ?? []
                         
                     } catch {
                         // Handle failure.
@@ -107,8 +107,8 @@ struct DocsView: View {
             }
             VStack{
 //                VStack(spacing: 5){
-                    List(selection: $model_selection){
-                        ForEach(models_previews, id: \.self) { model in
+                    List(selection: $docSelection){
+                        ForEach(docsPreviews, id: \.self) { model in
                             
                             ModelInfoItem(
                                 modelIcon: String(describing: model["icon"]!),
@@ -130,7 +130,7 @@ struct DocsView: View {
                     .scrollContentBackground(.hidden)
                     
                     .onAppear {
-                        models_previews = getFileListByExts(dir:dir,exts:targetExts)  ?? []
+                        docsPreviews = getFileListByExts(dir:dir,exts:targetExts)  ?? []
                     }
 #if os(macOS)
                     .listStyle(.sidebar)
@@ -138,7 +138,7 @@ struct DocsView: View {
                     .listStyle(InsetListStyle())
 #endif
 //                }
-                if  models_previews.count <= 0 {
+                if  docsPreviews.count <= 0 {
                     VStack{
                         
                         Button {
@@ -170,7 +170,7 @@ struct DocsView: View {
 //        }
         //        .navigationTitle(dir)
         .onChange(of:dir){ dir in
-            models_previews = getFileListByExts(dir:dir,exts:targetExts)  ?? []
+            docsPreviews = getFileListByExts(dir:dir,exts:targetExts)  ?? []
         }
     }
 //    }

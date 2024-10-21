@@ -19,16 +19,16 @@ struct ChatView: View {
 //     @State private var inputText: String = ""
 // #endif
     
-    @Binding var model_name: String
-    @Binding var chat_selection: Dictionary<String, String>?
+    @Binding var modelName: String
+    @Binding var chatSelection: Dictionary<String, String>?
     @Binding var title: String
-    var close_chat: () -> Void
-    @Binding var after_chat_edit: () -> Void 
-    @Binding var add_chat_dialog:Bool
-    @Binding var edit_chat_dialog:Bool
-    @State var chat_style: String = "None"
-    @State private var reload_button_icon: String = "arrow.counterclockwise.circle"
-    @State private var clear_chat_button_icon: String = "eraser.line.dashed.fill"
+    var CloseChat: () -> Void
+    @Binding var AfterChatEdit: () -> Void 
+    @Binding var addChatDialog:Bool
+    @Binding var editChatDialog:Bool
+    @State var chatStyle: String = "None"
+    @State private var reloadButtonIcon: String = "arrow.counterclockwise.circle"
+    @State private var clearChatButtonIcon: String = "eraser.line.dashed.fill"
     
     @State private var scrollProxy: ScrollViewProxy? = nil
     
@@ -36,8 +36,8 @@ struct ChatView: View {
     @State private var toggleEditChat = false
     @State private var clearChatAlert = false    
     
-    @State private var auto_scroll = true
-    @State private var enableRAG = true
+    @State private var autoScroll = true
+    @State private var enableRAG = false
 
     @FocusState var focusedField: Field?
     
@@ -62,7 +62,7 @@ struct ChatView: View {
         if scroll_bug {
             return
         }
-        if !auto_scroll {
+        if !autoScroll {
             return
         }
         let last_msg = aiChatModel.messages.last // try to fixscrolling and  specialized Array._checkSubscript(_:wasNativeTypeChecked:)
@@ -81,12 +81,12 @@ struct ChatView: View {
     }
     
     func reload() async{
-        if chat_selection == nil {
+        if chatSelection == nil {
             return
         }                
-        print(chat_selection)
+        print(chatSelection)
         print("\nreload\n")
-        aiChatModel.reload_chat(chat_selection!)
+        aiChatModel.reload_chat(chatSelection!)
     }
     
     func hard_reload_chat(){
@@ -97,7 +97,7 @@ struct ChatView: View {
         
         Button {
             Task{
-                auto_scroll = true
+                autoScroll = true
                 scrollToBottom()                
             }
         }
@@ -114,7 +114,7 @@ struct ChatView: View {
     }
     
     private var debugOverlay: some View {
-        Text(aiChatModel.cur_eval_token_num.description)
+        Text(String(describing: aiChatModel.state))
             .foregroundColor(.white)
             .frame(width: 185, height: 25)
 //            .padding([.top, .leading], 5)
@@ -139,21 +139,21 @@ struct ChatView: View {
                 VStack {
                     List {
                         ForEach(aiChatModel.messages, id: \.id) { message in
-                            MessageView(message: message, chat_style: $chat_style).id(message.id)
+                            MessageView(message: message, chat_style: $chatStyle).id(message.id)
                         }
                         .listRowSeparator(.hidden)
                         Text("").id("latest")
                     }
                     .listStyle(PlainListStyle())
                     .overlay(scrollDownOverlay, alignment: .bottomTrailing)
-//                    .overlay(debugOverlay, alignment: .topLeading)
+                    .overlay(debugOverlay, alignment: .bottomLeading)
                 }
                 .onChange(of: aiChatModel.AI_typing){ ai_typing in
                     scrollToBottom(with_animation: false)
                 }
                 
                 
-                .disabled(chat_selection == nil)
+                .disabled(chatSelection == nil)
                 .onAppear(){
                     scrollProxy = scrollView
 //                    after_chat_edit = after_chat_edit_func
@@ -162,14 +162,14 @@ struct ChatView: View {
             }
             .frame(maxHeight: .infinity)
             .disabled(aiChatModel.state == .loading)
-            .onChange(of: chat_selection) { selection in
+            .onChange(of: chatSelection) { selection in
                 Task {
                     if selection == nil{
-                        close_chat()
+                        CloseChat()
                     }
                     else{
                         print(selection)
-                        chat_style = selection!["chat_style"] as String? ?? "none"
+                        chatStyle = selection!["chat_style"] as String? ?? "none"
                         await self.reload()
                     }
                 }
@@ -177,7 +177,7 @@ struct ChatView: View {
             .onTapGesture { location in
                 print("Tapped at \(location)")
                 focusedField = nil
-                auto_scroll = false
+                autoScroll = false
             }
             .toolbar {
                 Button {
@@ -185,16 +185,16 @@ struct ChatView: View {
                         clearChatAlert = true
                     }
                 } label: {
-                    Image(systemName: clear_chat_button_icon)
+                    Image(systemName: clearChatButtonIcon)
                 }
                 .alert("Are you sure?", isPresented: $clearChatAlert, actions: {
                     Button("Cancel", role: .cancel, action: {})
                     Button("Clear", role: .destructive, action: {
                         aiChatModel.messages = []
                         save_chat_history(aiChatModel.messages,aiChatModel.chat_name+".json")
-                        clear_chat_button_icon = "checkmark"
+                        clearChatButtonIcon = "checkmark"
                         hard_reload_chat()
-                        run_after_delay(delay:1200, function:{clear_chat_button_icon = "eraser.line.dashed.fill"})
+                        run_after_delay(delay:1200, function:{clearChatButtonIcon = "eraser.line.dashed.fill"})
                     })
                 }, message: {
                     Text("The message history will be cleared")
@@ -202,12 +202,12 @@ struct ChatView: View {
                 Button {
                     Task {
                         hard_reload_chat()
-                        reload_button_icon = "checkmark"
-                        run_after_delay(delay:1200, function:{reload_button_icon = "arrow.counterclockwise.circle"})
+                        reloadButtonIcon = "checkmark"
+                        run_after_delay(delay:1200, function:{reloadButtonIcon = "arrow.counterclockwise.circle"})
 //                        delayIconChange()
                     }
                 } label: {
-                    Image(systemName: reload_button_icon)
+                    Image(systemName: reloadButtonIcon)
                 }
                 .disabled(aiChatModel.predicting)
                 //                .font(.title2)
@@ -215,7 +215,7 @@ struct ChatView: View {
                     Task {
                                             //    add_chat_dialog = true
                         toggleEditChat = true
-                        edit_chat_dialog = true
+                        editChatDialog = true
                         //                        chat_selection = nil
                     }
                 } label: {
@@ -228,7 +228,7 @@ struct ChatView: View {
             LLMTextInput(messagePlaceholder: placeholderString,
                          show_attachment_btn:self.aiChatModel.is_mmodal,
                          focusedField:$focusedField,
-                         auto_scroll:$auto_scroll,
+                         auto_scroll:$autoScroll,
                          enableRAG:$enableRAG).environmentObject(aiChatModel)
                 .disabled(self.aiChatModel.chat_name == "")
 //            .focused($focusedField, equals: .firstName)
@@ -236,9 +236,9 @@ struct ChatView: View {
         }
         .sheet(isPresented: $toggleEditChat) {
             ChatSettingsView(add_chat_dialog: $toggleEditChat,
-                        edit_chat_dialog: $edit_chat_dialog,
+                        edit_chat_dialog: $editChatDialog,
                         chat_name: aiChatModel.chat_name,
-                        after_chat_edit: $after_chat_edit,
+                        after_chat_edit: $AfterChatEdit,
                         toggleSettings: .constant(false)).environmentObject(aiChatModel)
 #if os(macOS)
                 .frame(minWidth: 400,minHeight: 600)

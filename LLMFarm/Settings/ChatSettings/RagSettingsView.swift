@@ -16,6 +16,7 @@ struct RagSettingsView: View {
     
     @State var inputText:String  = "The Birth of the Swatch"
     var searchUrl:URL
+    var ragUrl:URL
     var searchResultsCount:Int = 3
     @State var loadIndexResult: String = ""
     @State var searchResults: String = ""
@@ -28,6 +29,7 @@ struct RagSettingsView: View {
     
     init (_ ragDir:String){
         self.ragDir = ragDir
+        self.ragUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(ragDir) ?? URL(fileURLWithPath: "")
         self.searchUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(ragDir+"/docs") ?? URL(fileURLWithPath: "")
     }
 
@@ -84,7 +86,7 @@ struct RagSettingsView: View {
                 Button(
                     action: {
                         Task{
-                            await BuildIndex()
+                            await BuildIndex(ragURL: ragUrl)
                         }
                     },
                     label: {
@@ -96,7 +98,9 @@ struct RagSettingsView: View {
                 
                 Button(
                     action: {
-                        print("b")
+                        Task{
+                            await LoadIndex(ragURL: ragUrl)
+                        }
                     },
                     label: {
                         Text("Load index")
@@ -111,7 +115,7 @@ struct RagSettingsView: View {
                 TextField("Search text", text: $inputText, axis: .vertical )
                     .onSubmit {
                         Task{
-                            await search()
+                            await Search()
                         }
                     }
                     .textFieldStyle(.plain)
@@ -138,7 +142,7 @@ struct RagSettingsView: View {
                 Button(
                     action: {
                         Task{
-                            await search()
+                            await Search()
                         }
                     },
                     label: {
@@ -148,15 +152,29 @@ struct RagSettingsView: View {
                 )
                 .padding()
                 
+                Button(
+                    action: {
+                        Task{
+                            await GeneratePrompt()
+                        }
+                    },
+                    label: {
+                        Text("Generate Prompt")
+                            .font(.title2)
+                    }
+                )
+                .padding()
+                
                 Text(searchResults)
                     .padding()
+                    .textSelection(.enabled)
                 
             }
             .padding()
         }
     }
     
-    func BuildIndex() async{
+    func BuildIndex(ragURL: URL) async{
         let start = DispatchTime.now()
         updateIndexComponents(currentModel:currentModel,comparisonAlgorithm:comparisonAlgorithm,chunkMethod:chunkMethod)
         await BuildNewIndex(searchUrl: searchUrl,
@@ -166,17 +184,45 @@ struct RagSettingsView: View {
         let nanoTime = end.uptimeNanoseconds - start.uptimeNanoseconds // наносекунды
         let timeInterval = Double(nanoTime) / 1_000_000_000 // преобразуем в секунды
         loadIndexResult = String(timeInterval) + " sec"
+        saveIndex(url: ragURL, name: "RAG_index")
     }
     
-    func search() async{
+    func LoadIndex(ragURL: URL) async{
+        updateIndexComponents(currentModel:currentModel,comparisonAlgorithm:comparisonAlgorithm,chunkMethod:chunkMethod)
+        await loadExistingIndex(url: ragURL, name: "RAG_index")
+        loadIndexResult =  "Loaded"
+    }
+    
+    func Search() async{
         let start = DispatchTime.now()
         let results = await searchIndexWithQuery(query: inputText, top: searchResultsCount)
         let end = DispatchTime.now()   // конец замера времени
         let nanoTime = end.uptimeNanoseconds - start.uptimeNanoseconds // наносекунды
         let timeInterval = Double(nanoTime) / 1_000_000_000 // преобразуем в секунды
-
+                
+        
         searchResults = String(describing:results)
         print(results)
+        
+        print("Search time: \(timeInterval) sec")
+    }
+    
+    
+    func GeneratePrompt() async{
+        let start = DispatchTime.now()
+        let results = await searchIndexWithQuery(query: inputText, top: searchResultsCount)
+        let end = DispatchTime.now()   // конец замера времени
+        let nanoTime = end.uptimeNanoseconds - start.uptimeNanoseconds // наносекунды
+        let timeInterval = Double(nanoTime) / 1_000_000_000 // преобразуем в секунды
+        
+        if results == nil{
+            return
+        }
+        
+        let llmPrompt = SimilarityIndex.exportLLMPrompt(query: inputText, results: results!)
+        
+        searchResults = llmPrompt
+        print(llmPrompt)
         
         print("Search time: \(timeInterval) sec")
     }

@@ -37,6 +37,7 @@ struct ChatView: View {
     @State private var clearChatAlert = false    
     
     @State private var auto_scroll = true
+    @State private var enableRAG = true
 
     @FocusState var focusedField: Field?
     
@@ -227,7 +228,8 @@ struct ChatView: View {
             LLMTextInput(messagePlaceholder: placeholderString,
                          show_attachment_btn:self.aiChatModel.is_mmodal,
                          focusedField:$focusedField,
-                         auto_scroll:$auto_scroll).environmentObject(aiChatModel)
+                         auto_scroll:$auto_scroll,
+                         enableRAG:$enableRAG).environmentObject(aiChatModel)
                 .disabled(self.aiChatModel.chat_name == "")
 //            .focused($focusedField, equals: .firstName)
             

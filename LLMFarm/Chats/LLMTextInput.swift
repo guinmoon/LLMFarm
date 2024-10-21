@@ -63,6 +63,8 @@ extension Image {
 }
 #endif
 
+
+
 public struct LLMTextInput: View {
     
     
@@ -83,6 +85,7 @@ public struct LLMTextInput: View {
 #endif
     @State public var imgCahcePath: String?
     @Binding private var autoScroll:Bool
+    @Binding private var enableRAG:Bool
     @State private var isAttachmentPopoverPresented: Bool = false
     
     //    @FocusState private var focusedField: Field?
@@ -121,6 +124,7 @@ public struct LLMTextInput: View {
                 }
                 .frame(minWidth: 33)
                 .padding(.leading, -22)
+                .zIndex(1)
 //            }
             
             TextField(messagePlaceholder, text: $input_text, axis: .vertical )
@@ -143,7 +147,8 @@ public struct LLMTextInput: View {
                                 .fill(.white.opacity(0.1))
                         }
                         .padding(.trailing, -42)
-                        .padding(.leading, self.showAttachmentBtn ? 5: 0)
+                        .padding(.leading,-22)
+//                        .padding(.leading, self.showAttachmentBtn ? 5: 0)
                     
                 }
                 .focused(focusedField, equals: .msg)
@@ -187,10 +192,70 @@ public struct LLMTextInput: View {
         return false
     }
     
+    private var popoverContent: some View {
+        HStack{
+            if (showAttachmentBtn){
+                PhotosPicker(
+                    selection: $selectedPhoto,
+                    matching: .images
+                ) {
+                    Image(systemName: "photo.badge.plus")
+                    //                        .resizable()
+                    //                        .frame(width: 19,height: 16)
+                }
+                .padding(.leading)
+                .font(.title2)
+                .buttonStyle(.borderless)
+                //                .offset(x: 10, y: -7)
+                .task(id: selectedPhoto)  {
+                    //            if selectedPhoto?.supportedContentTypes.first == .image {
+                    //            image = try? await selectedPhoto?.loadTransferable(type: Image.self)
+                    if let data = try? await selectedPhoto?.loadTransferable(type: Data.self) {
+                        isAttachmentPopoverPresented = false
+                        selectedImageData = data
+                        if selectedImageData != nil {
+#if os(macOS)
+                            //                platformImage = image?.getNSImage()
+                            platformImage = NSImage(data: selectedImageData!)
+                            imgCahcePath = save_image_from_library_to_cache(platformImage)
+#elseif os(iOS)
+                            platformImage = UIImage(data: selectedImageData!)?.fixedOrientation
+                            //                platformImage = image?.getUIImage()
+                            imgCahcePath = save_image_from_library_to_cache(platformImage)
+#endif
+                        }
+                    }
+                }
+                .frame( alignment: .leading)
+            }
+            
+            Toggle("RAG", isOn: $enableRAG)
+                .frame( alignment: .leading)
+                .fixedSize()
+                .scaleEffect(0.8)
+                .offset(x: 5)
+//                    .toggleStyle(SymbolToggleStyle(systemImage: "o.circle.fill", activeColor: .purple))
+            
+        }
+#if os(macOS)
+        .frame(minWidth: calcPopoverWidth(), minHeight: 60)
+        
+#else
+        .frame(minWidth: calcPopoverWidth(), maxHeight: 60)
+#endif
+        .presentationCompactAdaptation(.popover)
+    }
+    
+    private func calcPopoverWidth() -> CGFloat{
+        if showAttachmentBtn {
+            return 160
+        }else{
+            return 100
+        }
+    }
+    
     private var sendButton: some View {
-        
-        
-        
+
         Button(
             action: {
                 sendMessageButtonPressed(img_path:imgCahcePath)
@@ -215,53 +280,23 @@ public struct LLMTextInput: View {
             self.isAttachmentPopoverPresented = true
         }) {
             Image(systemName: "plus.circle")
+                .resizable()
+                .frame(width: 20,height: 20)
         }
+        .buttonStyle(.borderless)
+        #if os(macOS)
+        .offset(x: 20, y: -6)
+        .sheet(isPresented: $isAttachmentPopoverPresented) {
+            popoverContent
+        }
+        #else
+        .offset(x: 20, y: -10)
         .popover(isPresented: $isAttachmentPopoverPresented) {
-            HStack{
-                PhotosPicker(
-                    selection: $selectedPhoto,
-                    matching: .images
-                ) {
-                    Image(systemName: "plus.circle")
-                }
-                .font(.title2)
-                .buttonStyle(.borderless)
-                .offset(x: 10, y: -7)
-                .task(id: selectedPhoto)  {
-                    //            if selectedPhoto?.supportedContentTypes.first == .image {
-                    //            image = try? await selectedPhoto?.loadTransferable(type: Image.self)
-                    if let data = try? await selectedPhoto?.loadTransferable(type: Data.self) {
-                        selectedImageData = data
-                        if selectedImageData != nil {
-#if os(macOS)
-                            //                platformImage = image?.getNSImage()
-                            platformImage = NSImage(data: selectedImageData!)
-                            imgCahcePath = save_image_from_library_to_cache(platformImage)
-#elseif os(iOS)
-                            platformImage = UIImage(data: selectedImageData!)?.fixedOrientation
-                            //                platformImage = image?.getUIImage()
-                            imgCahcePath = save_image_from_library_to_cache(platformImage)
-#endif
-                        }
-                    }
-                }
-            }
-            .frame(minWidth: 300, maxHeight: 400)
-            .presentationCompactAdaptation(.popover)
+            popoverContent
         }
-        //        Button(
-        //            action: {
-        //                print("clicked")
-        //            },
-        //            label: {
-        //
-        //                 Image(systemName: "plus.app")
-        //                     .font(.title2)
-        //                     .foregroundColor(.accentColor)
-        //            }
-        //        )
-        //        .buttonStyle(.borderless)
-        //            .offset(x: 5, y: -7)
+        #endif
+        
+
     }
     
     /// - Parameters:
@@ -272,13 +307,15 @@ public struct LLMTextInput: View {
         messagePlaceholder: String? = nil,
         show_attachment_btn: Bool,
         focusedField: FocusState<Field?>.Binding,
-        auto_scroll: Binding<Bool>
+        auto_scroll: Binding<Bool>,
+        enableRAG: Binding<Bool>
     ) {
         //        self._chat = chat
         self.messagePlaceholder = messagePlaceholder ?? "Message"
         self.showAttachmentBtn = show_attachment_btn
         self.focusedField = focusedField
         self._autoScroll = auto_scroll
+        self._enableRAG = enableRAG
     }
     
     
@@ -303,6 +340,43 @@ public struct LLMTextInput: View {
     }
     
 }
+
+#if !os(macOS)
+struct SymbolToggleStyle: ToggleStyle {
+
+    var systemImage: String = "checkmark"
+    var activeColor: Color = .green
+
+    func makeBody(configuration: Configuration) -> some View {
+        HStack {
+            configuration.label
+
+            Spacer()
+
+            RoundedRectangle(cornerRadius: 30)
+                .fill(configuration.isOn ? activeColor : Color(.systemGray5))
+                .overlay {
+                    Circle()
+                        .fill(.white)
+                        .padding(3)
+                        .overlay {
+                            Image(systemName: systemImage)
+                                .foregroundColor(configuration.isOn ? activeColor : Color(.systemGray5))
+                        }
+                        .offset(x: configuration.isOn ? 10 : -10)
+
+                }
+                .frame(width: 50, height: 32)
+                .onTapGesture {
+                    withAnimation(.linear(duration: 10)) {
+                        configuration.isOn.toggle()
+                    }
+                }
+        }
+    }
+}
+
+#endif
 //
 //#Preview {
 //    LLMTextInput()

@@ -232,7 +232,9 @@ public struct LLMTextInput: View {
             Toggle("RAG", isOn: $enableRAG)
                 .frame( alignment: .leading)
                 .fixedSize()
+#if !os(macOS)
                 .scaleEffect(0.8)
+#endif
                 .offset(x: 5)
 //                    .toggleStyle(SymbolToggleStyle(systemImage: "o.circle.fill", activeColor: .purple))
             
@@ -330,10 +332,12 @@ public struct LLMTextInput: View {
                 image = nil
                 selectedPhoto = nil
                 autoScroll = true
-                Task {
-                    await aiChatModel.send(message: input_text,img_path: img_path, useRag: enableRAG)
-                    input_text = ""
-                }
+                await aiChatModel.send(message: input_text,img_path: img_path, useRag: enableRAG)
+                input_text = ""
+//                Task {
+//                    await aiChatModel.send(message: input_text,img_path: img_path, useRag: enableRAG)
+//                    input_text = ""
+//                }
             }
         }
         

@@ -46,7 +46,7 @@ final class AIChatModel: ObservableObject {
     public var start_predicting_time = DispatchTime.now()
     public var first_predicted_token_time = DispatchTime.now()
     public var tok_sec:Double = 0.0
-    private var ragIndexLoaded: Bool = false
+    public var ragIndexLoaded: Bool = false
     private var state_dump_path:String = ""
 
 //    public var conv_finished_group = DispatchGroup()
@@ -360,18 +360,33 @@ final class AIChatModel: ObservableObject {
         ragIndexLoaded = true
     }
     
-    public func  generateRagLLMQuery(_ inputText:String,_ searchResultsCount:Int, _ ragURL:URL)async ->String {
-        if !ragIndexLoaded {
-//            llmStatus = "RAG index loading"
-            await loadRAGIndex(ragURL: ragURL)
+    public func  generateRagLLMQuery(_ inputText:String,
+                                     _ searchResultsCount:Int,
+                                     _ ragURL:URL,
+                                     message in_text: String,
+                                     append_user_message:Bool = true,
+                                     system_prompt:String? = nil,
+                                     img_path: String? = nil)  {
+        
+        let aiQueue = DispatchQueue(label: "LLMFarm-Main", qos: .userInitiated, attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
+        
+        
+        aiQueue.async {
+            Task {
+                if await !self.ragIndexLoaded {
+                    await self.loadRAGIndex(ragURL: ragURL)
+                }
+                DispatchQueue.main.async {
+                    self.state = .ragSearch
+                }
+                let results = await searchIndexWithQuery(query: inputText, top: searchResultsCount)
+                let llmPrompt = SimilarityIndex.exportLLMPrompt(query: inputText, results: results!)
+                await self.send(message: llmPrompt,
+                                 append_user_message: append_user_message,
+                                 system_prompt: system_prompt,
+                                 img_path: img_path)
+            }
         }
-        var resultQuery = inputText
-        let results = await searchIndexWithQuery(query: inputText, top: searchResultsCount)
-        if results == nil{
-            return resultQuery
-        }        
-        let llmPrompt = SimilarityIndex.exportLLMPrompt(query: inputText, results: results!)
-        return llmPrompt
     }
 
     public func send(message in_text: String, 
@@ -380,11 +395,17 @@ final class AIChatModel: ObservableObject {
                      img_path: String? = nil,
                      useRag: Bool = false)  async {
 //        self.llmStatus = ""
-        var text = in_text
+        let text = in_text
         self.AI_typing += 1
         if useRag {
-            self.state = .ragSearch
-            text = await self.generateRagLLMQuery(in_text,3,self.ragUrl)
+            self.state = .ragIndexLoading
+            self.generateRagLLMQuery(in_text,
+                                    3, self.ragUrl,
+                                    message: in_text,
+                                    append_user_message:append_user_message,
+                                    system_prompt:system_prompt,
+                                    img_path: img_path)
+            return
         }
         
         if append_user_message{

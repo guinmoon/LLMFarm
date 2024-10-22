@@ -11,7 +11,8 @@ import MarkdownUI
 
 struct MessageView: View {
     var message: Message
-    @Binding var chat_style: String
+    @Binding var chatStyle: String
+    @State var status: String?
 
     private struct SenderView: View {
         var sender: Message.Sender
@@ -33,8 +34,8 @@ struct MessageView: View {
 
     private struct MessageContentView: View {
         var message: Message
-        @Binding var chat_style: String
-
+        @Binding var chatStyle: String
+        
         var body: some View {
             switch message.state {
             case .none:
@@ -67,7 +68,7 @@ struct MessageView: View {
 
             case .predicted(totalSecond: let totalSecond):
                 VStack(alignment: .leading) {
-                    switch chat_style {
+                    switch chatStyle {
                     case "DocC":
                         Markdown(message.text).markdownTheme(.docC)
                     case "Basic":
@@ -93,7 +94,7 @@ struct MessageView: View {
 
             VStack(alignment: .leading, spacing: 6.0) {
                 SenderView(sender: message.sender)
-                MessageContentView(message: message, chat_style: $chat_style)
+                MessageContentView(message: message, chatStyle: $chatStyle)
                     .padding(12.0)
                     .background(Color.secondary.opacity(0.2))
                     .cornerRadius(12.0)

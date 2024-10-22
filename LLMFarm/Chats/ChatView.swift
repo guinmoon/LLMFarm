@@ -37,7 +37,7 @@ struct ChatView: View {
     @State private var clearChatAlert = false    
     
     @State private var autoScroll = true
-    @State private var enableRAG = false
+    @State private var enableRAG = true
 
     @FocusState var focusedField: Field?
     
@@ -125,13 +125,23 @@ struct ChatView: View {
     var body: some View {
         VStack{
             VStack{
-                if aiChatModel.state == .loading{
+                if aiChatModel.state == .loading || 
+                    aiChatModel.state == .ragIndexLoading ||
+                    aiChatModel.state == .ragSearch{
                     VStack {
-//                        Text("Model loading...")
-//                            .padding(.top, 5)
-//                            .frame(width: .infinity)
-//                            .background(.regularMaterial)
-                        ProgressView(value: aiChatModel.load_progress)
+                        HStack{
+                            Text(String(describing: aiChatModel.state))
+                                .foregroundColor(.white)
+                                .frame(width: 100 /*,height: 25*/)
+                    //            .padding([.top, .leading], 5)
+                                .opacity(0.4)
+                                .offset(x: 0,y: 8)
+                                .frame(alignment: .leading)
+                                .font(.footnote)
+                            ProgressView(value: aiChatModel.load_progress)
+                                .padding(.leading,-125)
+                                .offset(x: 0,y: -4)
+                        }
                     }
                 }
             }
@@ -139,14 +149,17 @@ struct ChatView: View {
                 VStack {
                     List {
                         ForEach(aiChatModel.messages, id: \.id) { message in
-                            MessageView(message: message, chat_style: $chatStyle).id(message.id)
+                            MessageView(message: message, chatStyle: $chatStyle,status: nil).id(message.id)
+//                            if (message.id == aiChatModel.messages.last.id){
+//                                
+//                            }
                         }
                         .listRowSeparator(.hidden)
                         Text("").id("latest")
                     }
                     .listStyle(PlainListStyle())
                     .overlay(scrollDownOverlay, alignment: .bottomTrailing)
-                    .overlay(debugOverlay, alignment: .bottomLeading)
+//                    .overlay(debugOverlay, alignment: .bottomLeading)
                 }
                 .onChange(of: aiChatModel.AI_typing){ ai_typing in
                     scrollToBottom(with_animation: false)

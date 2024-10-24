@@ -8,6 +8,10 @@
 import Foundation
 import SwiftUI
 import UniformTypeIdentifiers
+import SimilaritySearchKit
+import SimilaritySearchKitDistilbert
+import SimilaritySearchKitMiniLMAll
+import SimilaritySearchKitMiniLMMultiQA
 
 let demo_model_name = "Pythia410m-V0-Instruct.Q6_K_split.gguf-00001-of-00004.gguf"
 
@@ -111,6 +115,47 @@ func parse_model_setting_template(template_path:String) -> ChatSettingsTemplate{
     }
     return tmp_template
 }
+
+func getCurrentModelFromStr(_ modelStr: String) -> EmbeddingModelType{
+    switch modelStr {
+    case "minilmMultiQA":
+        return EmbeddingModelType.minilmMultiQA
+    case "distilbert":
+        return EmbeddingModelType.distilbert
+    case "minilmAll":
+        return EmbeddingModelType.minilmAll
+    default:
+        return EmbeddingModelType.minilmMultiQA
+    }
+}
+
+func getComparisonAlgorithmFromStr(_ modelStr: String) -> SimilarityMetricType{
+    switch modelStr {
+    case "dotproduct":
+        return SimilarityMetricType.dotproduct
+    case "cosine":
+        return SimilarityMetricType.cosine
+    case "euclidian":
+        return SimilarityMetricType.euclidian
+    default:
+        return SimilarityMetricType.dotproduct
+    }
+}
+
+func getChunkMethodFromStr(_ modelStr: String) -> TextSplitterType{
+    switch modelStr {
+    case "token":
+        return TextSplitterType.token
+    case "character":
+        return TextSplitterType.character
+    case "recursive":
+        return TextSplitterType.recursive
+    default:
+        return TextSplitterType.recursive
+    }
+}
+
+
 
 func getFileURLFormPathStr(dir:String,filename: String) -> URL {
     FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(dir).appendingPathComponent(filename)
@@ -724,7 +769,10 @@ func load_chat_history(_ fname:String) -> [Message]?{
                 tmp_msg.sender = .user
                 tmp_msg.state = .typed
             }
-            
+            if (row["sender"] == "user_rag"){
+                tmp_msg.sender = .user_rag
+                tmp_msg.state = .typed
+            }
             tmp_msg.tok_sec = Double(row["tok_sec"] ?? "") ?? 0
             tmp_msg.attachment_type = row["attachment_type"]
             tmp_msg.attachment = row["attachment"]

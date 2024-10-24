@@ -149,10 +149,7 @@ struct ChatView: View {
                 VStack {
                     List {
                         ForEach(aiChatModel.messages, id: \.id) { message in
-                            MessageView(message: message, chatStyle: $chatStyle,status: nil).id(message.id)
-//                            if (message.id == aiChatModel.messages.last.id){
-//                                
-//                            }
+                            MessageView(message: message, chatStyle: $chatStyle,status: nil ).id(message.id)
                         }
                         .listRowSeparator(.hidden)
                         Text("").id("latest")

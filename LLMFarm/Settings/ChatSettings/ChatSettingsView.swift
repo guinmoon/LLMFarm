@@ -8,6 +8,10 @@
 import SwiftUI
 import llmfarm_core_cpp
 import UniformTypeIdentifiers
+import SimilaritySearchKit
+import SimilaritySearchKitDistilbert
+import SimilaritySearchKitMiniLMAll
+import SimilaritySearchKitMiniLMMultiQA
 
 
 struct ChatSettingsView: View {
@@ -97,6 +101,13 @@ struct ChatSettingsView: View {
     @State private var chat_style:String = "DocC"
     @State private var chat_styles = ["None", "DocC", "Basic", "GitHub"]
     
+    // RAG
+    @State private var chunkSize: Int = 256
+    @State private var chunkOverlap: Int = 100
+    @State private var currentModel: EmbeddingModelType = .minilmMultiQA
+    @State private var comparisonAlgorithm: SimilarityMetricType = .dotproduct
+    @State private var chunkMethod: TextSplitterType = .recursive
+
     var hardware_arch = Get_Machine_Hardware_Name()
     @Binding var after_chat_edit: () -> Void
     
@@ -263,6 +274,19 @@ struct ChatSettingsView: View {
         if (chat_config!["chat_style"] != nil){
             self._chat_style = State(initialValue: chat_config!["chat_style"] as! String)
         }
+
+        // RAG
+        self._chunkSize = State(initialValue: chat_config?["chunk_size"] as? Int ?? self.chunkSize)
+        self._chunkOverlap = State(initialValue: chat_config?["chunk_overlap"] as? Int ?? self.chunkOverlap)
+        if (chat_config!["current_model"] != nil){ 
+            self._currentModel = State(initialValue: getCurrentModelFromStr(chat_config?["current_model"] as? String ?? ""))
+        }
+        if (chat_config!["comparison_algorithm"] != nil){ 
+            self._comparisonAlgorithm = State(initialValue: getComparisonAlgorithmFromStr(chat_config?["comparison_algorithm"] as? String ?? ""))
+        }
+        if (chat_config!["chunk_method"] != nil){ 
+            self._chunkMethod = State(initialValue: getChunkMethodFromStr(chat_config?["chunk_method"] as? String ?? ""))
+        }
         
     }
     
@@ -319,42 +343,48 @@ struct ChatSettingsView: View {
     
     
     func get_chat_options_dict(is_template:Bool = false) -> Dictionary<String, Any> {
-        var options:Dictionary<String, Any> =    ["model":model_file_path,
-                                                  "model_settings_template":chat_settings_template.template_name,
-                                                  "clip_model":clip_model_file_path,
-                                                  "lora_adapters":lora_adapters,
-                                                  "title":chat_title,
-                                                  "icon":chat_icon,
-                                                  "model_inference":model_inference_inner,
-                                                  "use_metal":use_metal,
-                                                  "use_clip_metal":use_clip_metal,
-                                                  "mlock":mlock,
-                                                  "mmap":mmap,
-                                                  "prompt_format":prompt_format,
-                                                  "warm_prompt":warm_prompt,
-                                                  "reverse_prompt":reverse_prompt,
-                                                  "numberOfThreads":Int32(numberOfThreads),
-                                                  "context":Int32(model_context),
-                                                  "n_batch":Int32(model_n_batch),
-                                                  "n_predict":Int32(n_predict),
-                                                  "temp":Float(model_temp),
-                                                  "repeat_last_n":Int32(model_repeat_last_n),
-                                                  "repeat_penalty":Float(model_repeat_penalty),
-                                                  "top_k":Int32(model_top_k),
-                                                  "top_p":Float(model_top_p),
-                                                  "mirostat":mirostat,
-                                                  "mirostat_eta":mirostat_eta,
-                                                  "mirostat_tau":mirostat_tau,
-                                                  "tfs_z":tfs_z,
-                                                  "typical_p":typical_p,
-                                                  "grammar":grammar,
-                                                  "add_bos_token":add_bos_token,
-                                                  "add_eos_token":add_eos_token,
-                                                  "parse_special_tokens":parse_special_tokens,
-                                                  "flash_attn":flash_attn,
-                                                  "save_load_state":save_load_state,
-                                                  "skip_tokens":skip_tokens,
-                                                  "chat_style":chat_style
+        var options:Dictionary<String, Any> = [  
+            "model":model_file_path,
+            "model_settings_template":chat_settings_template.template_name,
+            "clip_model":clip_model_file_path,
+            "lora_adapters":lora_adapters,
+            "title":chat_title,
+            "icon":chat_icon,
+            "model_inference":model_inference_inner,
+            "use_metal":use_metal,
+            "use_clip_metal":use_clip_metal,
+            "mlock":mlock,
+            "mmap":mmap,
+            "prompt_format":prompt_format,
+            "warm_prompt":warm_prompt,
+            "reverse_prompt":reverse_prompt,
+            "numberOfThreads":Int32(numberOfThreads),
+            "context":Int32(model_context),
+            "n_batch":Int32(model_n_batch),
+            "n_predict":Int32(n_predict),
+            "temp":Float(model_temp),
+            "repeat_last_n":Int32(model_repeat_last_n),
+            "repeat_penalty":Float(model_repeat_penalty),
+            "top_k":Int32(model_top_k),
+            "top_p":Float(model_top_p),
+            "mirostat":mirostat,
+            "mirostat_eta":mirostat_eta,
+            "mirostat_tau":mirostat_tau,
+            "tfs_z":tfs_z,
+            "typical_p":typical_p,
+            "grammar":grammar,
+            "add_bos_token":add_bos_token,
+            "add_eos_token":add_eos_token,
+            "parse_special_tokens":parse_special_tokens,
+            "flash_attn":flash_attn,
+            "save_load_state":save_load_state,
+            "skip_tokens":skip_tokens,
+            "chat_style":chat_style,
+            "chunk_size": chunkSize,
+            "chunk_overlap": chunkOverlap,
+            "current_model": String(describing:currentModel),
+            "comparison_algorithm": String(describing:comparisonAlgorithm),
+            "chunk_method": String(describing:chunkMethod)
         ]
         if is_template{
             options["template_name"] = save_as_template_name
@@ -514,7 +544,12 @@ struct ChatSettingsView: View {
                                                      grammars_previews: $grammars_previews)
                             }
                         case 4:
-                            RagSettingsView("documents/"+(self.chat_name == "" ? "tmp_chat": self.chat_name ))
+                            RagSettingsView(ragDir:"documents/"+(self.chat_name == "" ? "tmp_chat": self.chat_name ),
+                                            chunkSize: $chunkSize,
+                                            chunkOverlap: $chunkOverlap,
+                                            currentModel: $currentModel,
+                                            comparisonAlgorithm: $comparisonAlgorithm,
+                                            chunkMethod: $chunkMethod)
                         case 5:
                             DocsView("documents/"+(self.chat_name == "" ? "tmp_chat": self.chat_name )+"/docs")
                         default:

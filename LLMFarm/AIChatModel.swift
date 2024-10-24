@@ -102,7 +102,10 @@ final class AIChatModel: ObservableObject {
         return false
     }
 
-    private func after_model_load(_ load_result: String,in_text:String, img_path: String? = nil){
+    private func after_model_load(_ load_result: String,
+                                  in_text:String,
+                                  attachment: String? = nil,
+                                  attachment_type: String? = nil){
         if load_result != "[Done]" ||
             self.chat?.model == nil || 
             self.chat?.model!.context == nil {
@@ -123,7 +126,11 @@ final class AIChatModel: ObservableObject {
         }
         self.chat?.model?.parse_skip_tokens()
         Task{
-            await self.send(message: in_text, append_user_message:false,system_prompt:system_prompt,img_path:img_path)
+            await self.send(message: in_text, 
+                            append_user_message:false,
+                            system_prompt:system_prompt,
+                            attachment:attachment,
+                            attachment_type:attachment_type)
         }
     }
     
@@ -154,6 +161,7 @@ final class AIChatModel: ObservableObject {
         self.state_dump_path = get_state_path_by_chat_name(chat_name) ?? ""
         let ragDir = "documents/"+(self.chat_name == "" ? "tmp_chat": self.chat_name )
         ragUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(ragDir) ?? URL(fileURLWithPath: "")
+        self.ragIndexLoaded = false
         self.AI_typing = -Int.random(in: 0..<100000)
     }
 
@@ -170,7 +178,9 @@ final class AIChatModel: ObservableObject {
         self.chat?.model?.sampleParams = get_model_sample_param_by_config(chat_config!)        
     }
     
-    public func load_model_by_chat_name_prepare(_ chat_name: String,in_text:String, img_path: String? = nil) -> Bool?{
+    public func load_model_by_chat_name_prepare(_ chat_name: String,in_text:String, 
+                                                attachment: String? = nil,
+                                                attachment_type: String? = nil) -> Bool?{
         let chat_config = get_chat_info(chat_name)
         if (chat_config == nil){
             return nil
@@ -199,6 +209,19 @@ final class AIChatModel: ObservableObject {
             let grammar_path = get_grammar_path_by_name(chat_config!["grammar"] as! String)
             model_context_param.grammar_path = grammar_path
         }
+
+        // RAG
+        self.chunkSize = chat_config?["chunk_size"] as? Int ?? self.chunkSize
+        self.chunkOverlap = chat_config?["chunk_overlap"] as? Int ?? self.chunkOverlap
+        if (chat_config!["current_model"] != nil){ 
+            self.currentModel = getCurrentModelFromStr(chat_config?["current_model"] as? String ?? "")
+        }
+        if (chat_config!["comparison_algorithm"] != nil){ 
+            self.comparisonAlgorithm =  getComparisonAlgorithmFromStr(chat_config?["comparison_algorithm"] as? String ?? "")
+        }
+        if (chat_config!["chunk_method"] != nil){ 
+            self.chunkMethod =  getChunkMethodFromStr(chat_config?["chunk_method"] as? String ?? "")
+        }
         
         AIChatModel_obj_ptr = nil
         self.chat = nil
@@ -216,9 +239,16 @@ final class AIChatModel: ObservableObject {
         return true
     }
 
-    public func load_model_by_chat_name(_ chat_name: String,in_text:String, img_path: String? = nil) -> Bool?{
+    public func load_model_by_chat_name(_ chat_name: String,
+                                        in_text:String,
+                                        attachment: String? = nil,
+                                        attachment_type: String? = nil) -> Bool?{
         self.model_loading = true
-        guard let _ = load_model_by_chat_name_prepare(chat_name,in_text:in_text,img_path:img_path) else {
+        guard let _ = load_model_by_chat_name_prepare(chat_name,
+                                                      in_text:in_text,
+                                                      attachment:attachment,
+                                                      attachment_type: attachment_type)
+        else {
             return nil;
         }
         
@@ -231,7 +261,7 @@ final class AIChatModel: ObservableObject {
         }
         self.chat?.model?.modelLoadCompleteCallback = {  load_result in
             self.chat?.model?.evalCallback = self.eval_callback
-            self.after_model_load(load_result,in_text:in_text,img_path:img_path)
+            self.after_model_load(load_result,in_text:in_text,attachment:attachment,attachment_type:attachment_type)
         }
         self.chat?.loadModel()
             
@@ -366,7 +396,8 @@ final class AIChatModel: ObservableObject {
                                      message in_text: String,
                                      append_user_message:Bool = true,
                                      system_prompt:String? = nil,
-                                     img_path: String? = nil)  {
+                                     attachment: String? = nil,
+                                     attachment_type: String? = nil)  {
         
         let aiQueue = DispatchQueue(label: "LLMFarm-Main", qos: .userInitiated, attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
         
@@ -382,9 +413,10 @@ final class AIChatModel: ObservableObject {
                 let results = await searchIndexWithQuery(query: inputText, top: searchResultsCount)
                 let llmPrompt = SimilarityIndex.exportLLMPrompt(query: inputText, results: results!)
                 await self.send(message: llmPrompt,
-                                 append_user_message: append_user_message,
+                                 append_user_message: false,
                                  system_prompt: system_prompt,
-                                 img_path: img_path)
+                                 attachment: llmPrompt,
+                                 attachment_type:"rag")
             }
         }
     }
@@ -392,11 +424,24 @@ final class AIChatModel: ObservableObject {
     public func send(message in_text: String, 
                      append_user_message:Bool = true,
                      system_prompt:String? = nil, 
-                     img_path: String? = nil,
+                     attachment: String? = nil,
+                     attachment_type: String? = nil,
                      useRag: Bool = false)  async {
 //        self.llmStatus = ""
         let text = in_text
         self.AI_typing += 1
+        
+        if append_user_message{
+//            var attachment_type:String? = nil
+//            if attachment != nil{
+//                attachment_type = "img"
+//            }
+            let requestMessage = Message(sender: .user, state: .typed, text: text, tok_sec: 0,
+                                        attachment:attachment,attachment_type:attachment_type)
+            self.messages.append(requestMessage)
+        }
+        
+        
         if useRag {
             self.state = .ragIndexLoading
             self.generateRagLLMQuery(in_text,
@@ -404,19 +449,12 @@ final class AIChatModel: ObservableObject {
                                     message: in_text,
                                     append_user_message:append_user_message,
                                     system_prompt:system_prompt,
-                                    img_path: img_path)
+                                    attachment: attachment,
+                                    attachment_type:attachment_type)
             return
         }
         
-        if append_user_message{
-            var attachment_type:String? = nil
-            if img_path != nil{
-                attachment_type = "img"
-            }
-            let requestMessage = Message(sender: .user, state: .typed, text: text, tok_sec: 0,
-                                        attachment:img_path,attachment_type:attachment_type)
-            self.messages.append(requestMessage)
-        }
+        
         self.AI_typing += 1    
         
         
@@ -430,12 +468,22 @@ final class AIChatModel: ObservableObject {
             self.state = .loading
             title_backup = Title
             Title = "loading..."
-            let res = self.load_model_by_chat_name(self.chat_name,in_text:in_text, img_path: img_path)
+            let res = self.load_model_by_chat_name(self.chat_name,
+                                                   in_text:in_text,
+                                                   attachment: attachment,
+                                                   attachment_type:attachment_type)
             if res == nil{
                 finish_load(append_err_msg:true,msg_text: "Model load error")
             }
             return
         }
+        
+        if attachment != nil && attachment_type == "rag"{
+            let requestMessage = Message(sender: .user_rag, state: .typed, text: text, tok_sec: 0,
+                                        attachment:attachment,attachment_type:attachment_type)
+            self.messages.append(requestMessage)
+        }
+        
         self.state = .completed
         self.chat?.chatName = self.chat_name
         self.chat?.flagExit = false        
@@ -445,7 +493,7 @@ final class AIChatModel: ObservableObject {
         self.total_sec = 0.0
         self.predicting = true
         self.action_button_icon = "stop.circle"
-        let img_real_path = get_path_by_short_name(img_path ?? "unknown",dest: "cache/images")
+        let img_real_path = get_path_by_short_name(attachment ?? "unknown",dest: "cache/images")
 //        conv_finished_group.enter()
         self.start_predicting_time = DispatchTime.now()
 //        llmStatus = "Eval"

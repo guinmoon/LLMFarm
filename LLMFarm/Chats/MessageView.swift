@@ -24,6 +24,10 @@ struct MessageView: View {
                 Text("You")
                     .font(.caption)
                     .foregroundColor(.accentColor)
+            case .user_rag:
+                Text("RAG")
+                    .font(.caption)
+                    .foregroundColor(.accentColor)
             case .system:
                 Text(current_model)
                     .font(.caption)
@@ -35,11 +39,20 @@ struct MessageView: View {
     private struct MessageContentView: View {
         var message: Message
         @Binding var chatStyle: String
+        @Binding var status: String?
+        var sender: Message.Sender
+        @State var showRag = true
         
         var body: some View {
             switch message.state {
             case .none:
-                ProgressView()
+                VStack(alignment: .leading) {
+                    ProgressView()
+                    if status != nil{
+                        Text(status!)
+                            .font(.footnote)
+                    }
+                }
 
             case .error:
                 Text(message.text)
@@ -54,8 +67,30 @@ struct MessageView: View {
                             .foregroundColor(Color.gray)
                     }
                     MessageImage(message: message)
-                    Text(LocalizedStringKey(message.text))
-                        .textSelection(.enabled)
+                    if sender == .user_rag{
+                        Button(
+                            action: {
+                                showRag = !showRag
+                            },
+                            label: {
+                                if showRag{
+                                    Text("Hide")
+                                        .font(.footnote)
+                                }else{
+                                    Text("Show text")
+                                        .font(.footnote)
+                                }
+                            }
+                        )
+//                        .buttonStyle()
+//                        .frame(maxWidth:50,maxHeight: 50)
+                        if showRag{
+                            Text(LocalizedStringKey(message.text)).font(.footnote)
+                        }
+                    }else{
+                        Text(LocalizedStringKey(message.text))
+                            .textSelection(.enabled)
+                    }
                 }
 
             case .predicting:
@@ -94,7 +129,10 @@ struct MessageView: View {
 
             VStack(alignment: .leading, spacing: 6.0) {
                 SenderView(sender: message.sender)
-                MessageContentView(message: message, chatStyle: $chatStyle)
+                MessageContentView(message: message, 
+                                   chatStyle: $chatStyle,
+                                   status:$status,
+                                   sender: message.sender)
                     .padding(12.0)
                     .background(Color.secondary.opacity(0.2))
                     .cornerRadius(12.0)

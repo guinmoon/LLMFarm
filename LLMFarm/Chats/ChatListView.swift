@@ -72,7 +72,7 @@ struct ChatListView: View {
                                 title: $title,
                                 close_chat:close_chat
                             )
-                            //                            .border(Color.green, width: 1)
+//                                                        .border(Color.green, width: 1)
                             .listRowInsets(.init())
                             .contextMenu {
                                 Button(action: {

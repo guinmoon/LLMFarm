@@ -10,7 +10,7 @@ func one_short_query(_ query: String, _ chat: String, _ token_limit:Int,img_path
     var result:String = ""
     var aiChatModel = AIChatModel()
     aiChatModel.chat_name = chat
-    guard let res = aiChatModel.load_model_by_chat_name_prepare(chat,in_text:query, img_path: nil) else {
+    guard let res = aiChatModel.load_model_by_chat_name_prepare(chat,in_text:query, attachment:  nil) else {
         return "Chat load eror."
     }
     do{

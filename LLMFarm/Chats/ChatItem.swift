@@ -31,7 +31,7 @@ struct ChatItem: View {
                 .padding(EdgeInsets(top: 7, leading: 5, bottom: 7, trailing: 5))
                 .frame(width: 85, height: 85)
                 .clipShape(Circle())
-            VStack(alignment: .leading, spacing: 8){
+            VStack(alignment: .leading, spacing: 5){
                 HStack{
                     Text(chatTitle)
                         .fontWeight(.semibold)

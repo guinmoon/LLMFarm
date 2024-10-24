@@ -332,7 +332,8 @@ public struct LLMTextInput: View {
                 image = nil
                 selectedPhoto = nil
                 autoScroll = true
-                await aiChatModel.send(message: input_text,img_path: img_path, useRag: enableRAG)
+                await aiChatModel.send(message: input_text,attachment: img_path,
+                                       attachment_type:img_path == nil ? nil: "img", useRag: enableRAG)
                 input_text = ""
 //                Task {
 //                    await aiChatModel.send(message: input_text,img_path: img_path, useRag: enableRAG)

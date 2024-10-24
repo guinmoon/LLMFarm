@@ -21,156 +21,195 @@ struct RagSettingsView: View {
     @State var loadIndexResult: String = ""
     @State var searchResults: String = ""
     
-    @State private var chunkSize: Int = 256
-    @State private var chunkOverlap: Int = 100
-    @State private var currentModel: EmbeddingModelType = .minilmMultiQA
-    @State private var comparisonAlgorithm: SimilarityMetricType = .dotproduct
-    @State private var chunkMethod: TextSplitterType = .recursive
+    @Binding private var chunkSize: Int 
+    @Binding private var chunkOverlap: Int 
+    @Binding private var currentModel: EmbeddingModelType 
+    @Binding private var comparisonAlgorithm: SimilarityMetricType 
+    @Binding private var chunkMethod: TextSplitterType 
     
-    init (_ ragDir:String){
+    init (  ragDir:String,
+            chunkSize: Binding<Int>,
+            chunkOverlap: Binding<Int>,
+            currentModel: Binding<EmbeddingModelType>,
+            comparisonAlgorithm: Binding<SimilarityMetricType>,
+            chunkMethod: Binding<TextSplitterType>){
         self.ragDir = ragDir
         self.ragUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(ragDir) ?? URL(fileURLWithPath: "")
         self.searchUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(ragDir+"/docs") ?? URL(fileURLWithPath: "")
+        self._chunkSize = chunkSize
+        self._chunkOverlap = chunkOverlap
+        self._currentModel = currentModel
+        self._comparisonAlgorithm = comparisonAlgorithm
+        self._chunkMethod  = chunkMethod
     }
 
     
     var body: some View {
         ScrollView(showsIndicators: false){
             VStack {
-                
-                HStack{
-                    Text("chunkSize:")
-                    TextField("chunkSize", value: $chunkSize, formatter: NumberFormatter())
-                }
-                
-                HStack{
-                    Text("chunkOverlap:")
-                    TextField("chunkOverlap", value: $chunkOverlap, formatter: NumberFormatter())
-                }
-                
-                HStack{
-                    Text("EmbeddingModelType:")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    Picker("", selection: $currentModel) {
-                        ForEach(SimilarityIndex.EmbeddingModelType.allCases, id: \.self) { option in
-                            Text(String(describing: option))
-                        }
-                    }
-                    .pickerStyle(.menu)
-                }
-                
-                HStack{
-                    Text("SimilarityMetricType:")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    Picker("", selection: $comparisonAlgorithm) {
-                        ForEach(SimilarityIndex.SimilarityMetricType.allCases, id: \.self) { option in
-                            Text(String(describing: option))
-                        }
-                    }
-                    .pickerStyle(.menu)
-                }
-                
-                HStack{
-                    Text("TextSplitterType:")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    Picker("", selection: $chunkMethod) {
-                        ForEach(TextSplitterType.allCases, id: \.self) { option in
-                            Text(String(describing: option))
-                        }
-                    }
-                    .pickerStyle(.menu)
-                }
-                
+                GroupBox(label:
+                            Text("RAG Settings")
+                ) {
+                    HStack {
+                        Text("Chunk Size:")
+                            .frame(maxWidth: 100, alignment: .leading)
+                        TextField("size..", value: $chunkSize, format:.number)
+                            .frame( alignment: .leading)
+                            .multilineTextAlignment(.trailing)
+                            .textFieldStyle(.plain)
+                             #if os(iOS)
+                            .keyboardType(.numbersAndPunctuation)
+                             #endif
+                    }   
+//                    .padding(.horizontal, 5)
+                    
+                    HStack {
+                        Text("Chunk Overlap:")
+                            .frame(maxWidth: 100, alignment: .leading)
+                        TextField("size..", value: $chunkOverlap, format:.number)
+                            .frame( alignment: .leading)
+                            .multilineTextAlignment(.trailing)
+                            .textFieldStyle(.plain)
+                             #if os(iOS)
+                            .keyboardType(.numbersAndPunctuation)
+                             #endif
+                    }   
+//                    .padding(.horizontal, 5)
 
-                
-                Button(
-                    action: {
-                        Task{
-                            await BuildIndex(ragURL: ragUrl)
-                        }
-                    },
-                    label: {
-                        Text("Build index")
-                            .font(.title2)
-                    }
-                )
-                .padding(.top)
-                
-                Button(
-                    action: {
-                        Task{
-                            await LoadIndex(ragURL: ragUrl)
-                        }
-                    },
-                    label: {
-                        Text("Load index")
-                            .font(.title2)
-                    }
-                )
-                .padding(.bottom)
-                
-                Text(loadIndexResult)
-                    .padding(.top)
-                
-                TextField("Search text", text: $inputText, axis: .vertical )
-                    .onSubmit {
-                        Task{
-                            await Search()
-                        }
-                    }
-                    .textFieldStyle(.plain)
-                    .frame(maxWidth: .infinity)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 8)
-                    .background {
-                        RoundedRectangle(cornerRadius: 20)
-#if os(macOS)
-                            .stroke(Color(NSColor.systemGray), lineWidth: 0.2)
-#else
-                            .stroke(Color(UIColor.systemGray2), lineWidth: 0.2)
-#endif
-                            .background {
-                                RoundedRectangle(cornerRadius: 20)
-                                    .fill(.white.opacity(0.1))
+                    
+                    HStack{
+                        Text("Embedding Model:")
+                            .frame(maxWidth: 100, alignment: .leading)
+                        Picker("", selection: $currentModel) {
+                            ForEach(SimilarityIndex.EmbeddingModelType.allCases, id: \.self) { option in
+                                Text(String(describing: option))
                             }
-                            .padding(.trailing, 2)
-                        
-                        
-                    }
-                    .lineLimit(1...5)
-                
-                Button(
-                    action: {
-                        Task{
-                            await Search()
                         }
-                    },
-                    label: {
-                        Text("Search")
-                            .font(.title2)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                        .pickerStyle(.menu)
                     }
-                )
-                .padding()
-                
-                Button(
-                    action: {
-                        Task{
-                            await GeneratePrompt()
+                    
+                    HStack{
+                        Text("Similarity Metric:")
+                            .frame(maxWidth: 120, alignment: .leading)
+                        Picker("", selection: $comparisonAlgorithm) {
+                            ForEach(SimilarityIndex.SimilarityMetricType.allCases, id: \.self) { option in
+                                Text(String(describing: option))
+                            }
                         }
-                    },
-                    label: {
-                        Text("Generate Prompt")
-                            .font(.title2)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                        .pickerStyle(.menu)
                     }
-                )
-                .padding()
-                
-                Text(searchResults)
+                    
+                    HStack{
+                        Text("Text Splitter:")
+                            .frame(maxWidth: 120, alignment: .leading)
+                        Picker("", selection: $chunkMethod) {
+                            ForEach(TextSplitterType.allCases, id: \.self) { option in
+                                Text(String(describing: option))
+                            }
+                        }
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                        .pickerStyle(.menu)
+                    }
+                }      
+//                .padding(.horizontal, 1)
+
+                GroupBox(label:
+                            Text("RAG Debug")
+                ) {
+                    HStack{
+                        Button(
+                            action: {
+                                Task{
+                                    await BuildIndex(ragURL: ragUrl)
+                                }
+                            },
+                            label: {
+                                Text("Rebuild index")
+                                    .font(.title2)
+                            }
+                        )
+                        .padding()
+                        
+                        Button(
+                            action: {
+                                Task{
+                                    await LoadIndex(ragURL: ragUrl)
+                                }
+                            },
+                            label: {
+                                Text("Load index")
+                                    .font(.title2)
+                            }
+                        )
+                        .padding()
+                    }
+                    
+                    Text(loadIndexResult)
+                        .padding(.top)
+                    
+                    TextField("Search text", text: $inputText, axis: .vertical )
+                        .onSubmit {
+                            Task{
+                                await Search()
+                            }
+                        }
+                        .textFieldStyle(.plain)
+                        .frame(maxWidth: .infinity)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 8)
+                        .background {
+                            RoundedRectangle(cornerRadius: 20)
+    #if os(macOS)
+                                .stroke(Color(NSColor.systemGray), lineWidth: 0.2)
+    #else
+                                .stroke(Color(UIColor.systemGray2), lineWidth: 0.2)
+    #endif
+                                .background {
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .fill(.white.opacity(0.1))
+                                }
+                                .padding(.trailing, 2)
+                            
+                            
+                        }
+                        .lineLimit(1...5)
+                    
+//                    Button(
+//                        action: {
+//                            Task{
+//                                await Search()
+//                            }
+//                        },
+//                        label: {
+//                            Text("Search")
+//                                .font(.title2)
+//                        }
+//                    )
+//                    .padding()
+                    
+                    Button(
+                        action: {
+                            Task{
+                                await GeneratePrompt()
+                            }
+                        },
+                        label: {
+                            Text("Search and Generate Prompt")
+                                .font(.title2)
+                        }
+                    )
                     .padding()
-                    .textSelection(.enabled)
+                    
+                    Text(searchResults)
+                        .padding()
+                        .textSelection(.enabled)
+                }
+//                .padding(.horizontal, 1)
                 
             }
-            .padding()
+//            .padding()
         }
     }
     

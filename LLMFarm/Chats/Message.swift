@@ -18,6 +18,7 @@ struct Message: Identifiable {
 
     enum Sender {
         case user
+        case user_rag
         case system
     }
 

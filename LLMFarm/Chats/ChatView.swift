@@ -37,7 +37,7 @@ struct ChatView: View {
     @State private var clearChatAlert = false    
     
     @State private var autoScroll = true
-    @State private var enableRAG = true
+    @State private var enableRAG = false
 
     @FocusState var focusedField: Field?
     

@@ -41,7 +41,7 @@ struct MessageView: View {
         @Binding var chatStyle: String
         @Binding var status: String?
         var sender: Message.Sender
-        @State var showRag = true
+        @State var showRag = false
         
         var body: some View {
             switch message.state {
@@ -68,24 +68,26 @@ struct MessageView: View {
                     }
                     MessageImage(message: message)
                     if sender == .user_rag{
-                        Button(
-                            action: {
-                                showRag = !showRag
-                            },
-                            label: {
-                                if showRag{
-                                    Text("Hide")
-                                        .font(.footnote)
-                                }else{
-                                    Text("Show text")
-                                        .font(.footnote)
+                        VStack{
+                            Button(
+                                action: {
+                                    showRag = !showRag
+                                },
+                                label: {
+                                    if showRag{
+                                        Text("Hide")
+                                            .font(.footnote)
+                                    }else{
+                                        Text("Show text")
+                                            .font(.footnote)
+                                    }
                                 }
+                            )
+                            .buttonStyle(.borderless)
+                            //                        .frame(maxWidth:50,maxHeight: 50)
+                            if showRag{
+                                Text(LocalizedStringKey(message.text)).font(.footnote).textSelection(.enabled)
                             }
-                        )
-//                        .buttonStyle()
-//                        .frame(maxWidth:50,maxHeight: 50)
-                        if showRag{
-                            Text(LocalizedStringKey(message.text)).font(.footnote)
                         }
                     }else{
                         Text(LocalizedStringKey(message.text))

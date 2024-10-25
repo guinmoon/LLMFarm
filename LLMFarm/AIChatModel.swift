@@ -399,7 +399,7 @@ final class AIChatModel: ObservableObject {
                                      attachment: String? = nil,
                                      attachment_type: String? = nil)  {
         
-        let aiQueue = DispatchQueue(label: "LLMFarm-Main", qos: .userInitiated, attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
+        let aiQueue = DispatchQueue(label: "LLMFarm-RAG", qos: .userInitiated, attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
         
         
         aiQueue.async {

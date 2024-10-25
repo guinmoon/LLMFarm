@@ -551,7 +551,13 @@ struct ChatSettingsView: View {
                                             comparisonAlgorithm: $comparisonAlgorithm,
                                             chunkMethod: $chunkMethod)
                         case 5:
-                            DocsView("documents/"+(self.chat_name == "" ? "tmp_chat": self.chat_name )+"/docs")
+                            DocsView(docsDir:"documents/"+(self.chat_name == "" ? "tmp_chat": self.chat_name )+"/docs",
+                                    ragDir:"documents/"+(self.chat_name == "" ? "tmp_chat": self.chat_name ),
+                                    chunkSize: $chunkSize,
+                                    chunkOverlap: $chunkOverlap,
+                                    currentModel: $currentModel,
+                                    comparisonAlgorithm: $comparisonAlgorithm,
+                                    chunkMethod: $chunkMethod)
                         default:
                             GroupBox(label:
                                         Text("Other settings")

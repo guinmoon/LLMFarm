@@ -16,6 +16,16 @@ import SwiftUI
 
 import SwiftUI
 import UniformTypeIdentifiers
+import SimilaritySearchKit
+import SimilaritySearchKitDistilbert
+import SimilaritySearchKitMiniLMAll
+import SimilaritySearchKitMiniLMMultiQA
+
+private var indexUpdatePopoverContent: some View {
+    VStack{
+        Text("Importing")
+    }
+}
 
 struct DocsView: View {
     
@@ -31,11 +41,34 @@ struct DocsView: View {
     @State private var docFileName: String = ""
     @State private var docFilePath: String = "select model"
     @State private var addButtonIcon: String = "plus.app"
+    @State private var isIndexUpdatePopoverPresented: Bool = false
+
+    var ragUrl:URL
+    @State var ragDir: String
+    @Binding private var chunkSize: Int 
+    @Binding private var chunkOverlap: Int 
+    @Binding private var currentModel: EmbeddingModelType 
+    @Binding private var comparisonAlgorithm: SimilarityMetricType 
+    @Binding private var chunkMethod: TextSplitterType 
+
     var targetExts = [".pdf",".txt"]
     
-    init (_ dir:String){
-        self.dir = dir
+    init (  docsDir:String,
+            ragDir:String,
+            chunkSize: Binding<Int>,
+            chunkOverlap: Binding<Int>,
+            currentModel: Binding<EmbeddingModelType>,
+            comparisonAlgorithm: Binding<SimilarityMetricType>,
+            chunkMethod: Binding<TextSplitterType>){
+        self.dir = docsDir
         self._docsPreviews = State(initialValue: getFileListByExts(dir:dir,exts:targetExts)!)
+        self.ragDir = ragDir
+        self.ragUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(ragDir) ?? URL(fileURLWithPath: "")        
+        self._chunkSize = chunkSize
+        self._chunkOverlap = chunkOverlap
+        self._currentModel = currentModel
+        self._comparisonAlgorithm = comparisonAlgorithm
+        self._chunkMethod  = chunkMethod
     }
     
     func delete(at offsets: IndexSet) {
@@ -87,21 +120,29 @@ struct DocsView: View {
                     allowedContentTypes: [.data],
                     allowsMultipleSelection: false
                 ) { result in
-                    do {
-                        guard let selectedFile: URL = try result.get().first else { return }
-                        docFileName = selectedFile.lastPathComponent
-                        docFileUrl = selectedFile
-                        docFilePath = selectedFile.lastPathComponent
-                        _ = copyFileToSandbox(url: docFileUrl,dest:dir)
-                        modelImported = true
-                        addButtonIcon = "checkmark"
-                        delayIconChange()
-                        docsPreviews = getFileListByExts(dir:dir,exts:targetExts) ?? []
-                        
-                    } catch {
-                        // Handle failure.
-                        print("Unable to read file contents")
-                        print(error.localizedDescription)
+                    Task{
+                        do {
+                            guard let selectedFile: URL = try result.get().first else { return }
+                            isIndexUpdatePopoverPresented = true
+                            docFileName = selectedFile.lastPathComponent
+                            docFileUrl = selectedFile
+                            docFilePath = selectedFile.lastPathComponent
+                            _ = copyFileToSandbox(url: docFileUrl,dest:dir)
+                            modelImported = true
+                            addButtonIcon = "checkmark"
+                            delayIconChange()
+                            docsPreviews = getFileListByExts(dir:dir,exts:targetExts) ?? []
+                            await addFileToIndex(fileURL: docFileUrl, ragURL: ragUrl,
+                                                currentModel: currentModel,
+                                                comparisonAlgorithm: comparisonAlgorithm,
+                                                chunkMethod: chunkMethod)
+                            isIndexUpdatePopoverPresented = false
+                            
+                        } catch {
+                            // Handle failure.
+                            print("Unable to read file contents")
+                            print(error.localizedDescription)
+                        }
                     }
                 }
             }
@@ -162,6 +203,11 @@ struct DocsView: View {
                 
             }
             .frame(maxHeight: .infinity)
+        }
+        .popover(isPresented: $isIndexUpdatePopoverPresented) {
+            indexUpdatePopoverContent/*(selection: $selectedEmoji)*/
+                // .frame(minWidth: 300, maxHeight: 400)
+                .presentationCompactAdaptation(.sheet)
         }
         
 //        .padding(.horizontal,10)

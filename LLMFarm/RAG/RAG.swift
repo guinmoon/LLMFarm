@@ -218,6 +218,61 @@ private func generateIndexFromChunks() async {
     isLoading = false
 }
 
+public func addFileToIndex(fileURL: URL?, ragURL: URL?,
+                            currentModel: EmbeddingModelType,
+                            comparisonAlgorithm: SimilarityMetricType,
+                            chunkMethod: TextSplitterType) async {
+
+    if fileURL == nil || ragURL == nil
+    {
+        print("empty url")
+        return
+    }
+    isLoading = true
+    await fetchFolderContents(url: fileURL!)
+    await splitTextFromFiles(chunkSize: chunkSize, chunkOverlap: chunkOverlap)
+    updateIndexComponents(currentModel:currentModel,comparisonAlgorithm:comparisonAlgorithm,chunkMethod:chunkMethod)
+    await loadExistingIndex(url: ragURL!, name: "RAG_index")
+
+    if similarityIndex == nil {
+        print("index load error, rebuild")
+        await BuildNewIndex(searchUrl: ragURL!.appendingPathComponent("docs"),
+                            chunkSize: chunkSize,
+                            chunkOverlap: chunkOverlap)        
+        if similarityIndex == nil {                    
+            print("index rebuild error")
+            return
+        }
+    }
+
+
+    guard let folderTextIds = folderTextIds,
+        let folderTextChunks = folderTextChunks,
+        let folderTextMetadata = folderTextMetadata else { return }
+    
+    progressStage = "Vectorizing"
+    progressCurrent = 0.0
+    progressTotal = Double(folderTextChunks.count)
+    // Loads the model, can be done ahead of time
+    let elapsedTime = await clock.measure {
+        // let index = await SimilarityIndex(model: embeddingModel, metric: distanceMetric)
+        let index = similarityIndex!
+
+        await index.addItems(ids: folderTextIds, texts: folderTextChunks, metadata: folderTextMetadata) { _ in
+            progressCurrent += 1
+        }
+
+        print("Built index with \(index.indexItems.count) items")
+
+        similarityIndex = index
+        saveIndex(url: ragURL!, name: "RAG_index")
+    }
+
+    embeddingElapsedTime = elapsedTime
+
+    isLoading = false
+}
+
 public func searchIndexWithQuery(query: String, top: Int) async -> [SimilarityIndex.SearchResult]?{
     isSearching = true
     var searchResults:[SimilarityIndex.SearchResult]?

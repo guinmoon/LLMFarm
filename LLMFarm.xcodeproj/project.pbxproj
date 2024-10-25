@@ -12,7 +12,6 @@
 		150992D32CC3AD8700B84BDB /* llmfarm_core in Frameworks */ = {isa = PBXBuildFile; productRef = 150992D22CC3AD8700B84BDB /* llmfarm_core */; };
 		150992D52CC3AE0C00B84BDB /* llmfarm_core in Frameworks */ = {isa = PBXBuildFile; productRef = 150992D42CC3AE0C00B84BDB /* llmfarm_core */; };
 		1509BA602B1E6FD400703BC0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1509BA5F2B1E6FD400703BC0 /* Extensions.swift */; };
-		1509BA622B1F1D7000703BC0 /* LLMTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1509BA612B1F1D7000703BC0 /* LLMTextView.swift */; };
 		15141E5C2A651F8C0060E767 /* model_setting_templates in Resources */ = {isa = PBXBuildFile; fileRef = 15141E5B2A651F8C0060E767 /* model_setting_templates */; };
 		15141E712A65799D0060E767 /* ChatSettingsTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15141E702A65799D0060E767 /* ChatSettingsTemplate.swift */; };
 		151746A22B585B030074FF35 /* LLMTextInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151746A12B585B030074FF35 /* LLMTextInput.swift */; };
@@ -66,7 +65,6 @@
 		15A3EDCB2A2121D90030AF5A /* ModelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A3EDC22A2121D90030AF5A /* ModelsView.swift */; };
 		15A3EDCC2A2121D90030AF5A /* ModelinfoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A3EDC32A2121D90030AF5A /* ModelinfoItem.swift */; };
 		15A3EDCD2A2121D90030AF5A /* ChatListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A3EDC52A2121D90030AF5A /* ChatListView.swift */; };
-		15A3EDCE2A2121D90030AF5A /* OnlineUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A3EDC62A2121D90030AF5A /* OnlineUserView.swift */; };
 		15A3EDCF2A2121D90030AF5A /* ChatItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A3EDC72A2121D90030AF5A /* ChatItem.swift */; };
 		15A3EDD82A223CB00030AF5A /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15A3EDD72A223CB00030AF5A /* Accelerate.framework */; };
 		15B1B9CB2AF023080058F275 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B1B9CA2AF023080058F275 /* main.swift */; };
@@ -168,7 +166,6 @@
 
 /* Begin PBXFileReference section */
 		1509BA5F2B1E6FD400703BC0 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		1509BA612B1F1D7000703BC0 /* LLMTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLMTextView.swift; sourceTree = "<group>"; };
 		15141E382A6488A60060E767 /* orca mini 3b.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "orca mini 3b.json"; sourceTree = "<group>"; };
 		15141E392A6488A60060E767 /* openllama 3b.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "openllama 3b.json"; sourceTree = "<group>"; };
 		15141E3B2A6488A60060E767 /* santacoder.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = santacoder.json; sourceTree = "<group>"; };
@@ -223,7 +220,6 @@
 		15A3EDC22A2121D90030AF5A /* ModelsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelsView.swift; sourceTree = "<group>"; };
 		15A3EDC32A2121D90030AF5A /* ModelinfoItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelinfoItem.swift; sourceTree = "<group>"; };
 		15A3EDC52A2121D90030AF5A /* ChatListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatListView.swift; sourceTree = "<group>"; };
-		15A3EDC62A2121D90030AF5A /* OnlineUserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnlineUserView.swift; sourceTree = "<group>"; };
 		15A3EDC72A2121D90030AF5A /* ChatItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatItem.swift; sourceTree = "<group>"; };
 		15A3EDD22A223BDF0030AF5A /* llmfarm_core.swift */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = llmfarm_core.swift; sourceTree = "<group>"; };
 		15A3EDD72A223CB00030AF5A /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.4.sdk/System/Library/Frameworks/Accelerate.framework; sourceTree = DEVELOPER_DIR; };
@@ -445,10 +441,8 @@
 				15F2108F2A1920AA0021F414 /* MessageView.swift */,
 				15F2108D2A191EE60021F414 /* ChatView.swift */,
 				15A3EDC52A2121D90030AF5A /* ChatListView.swift */,
-				15A3EDC62A2121D90030AF5A /* OnlineUserView.swift */,
 				15A3EDC72A2121D90030AF5A /* ChatItem.swift */,
 				156A48CF2A52B55B007DF519 /* SplitViews.swift */,
-				1509BA612B1F1D7000703BC0 /* LLMTextView.swift */,
 				151746A12B585B030074FF35 /* LLMTextInput.swift */,
 				15C08A672BA5976A000A1BE0 /* MessageImage.swift */,
 			);
@@ -827,7 +821,6 @@
 				1524FB712CC2CD9200E99C3F /* Tabs.swift in Sources */,
 				15F210AA2A1A659B0021F414 /* Helpers.swift in Sources */,
 				15F210932A1920AA0021F414 /* MessageView.swift in Sources */,
-				1509BA622B1F1D7000703BC0 /* LLMTextView.swift in Sources */,
 				15B7165B2C272D5100CA600B /* SettingsHeaderView.swift in Sources */,
 				15F210942A1920AA0021F414 /* Message.swift in Sources */,
 				158DAA502B83BF5700550274 /* DownloadButton.swift in Sources */,
@@ -849,7 +842,6 @@
 				1509BA602B1E6FD400703BC0 /* Extensions.swift in Sources */,
 				15B716532C270BE300CA600B /* PredictionSettingsView.swift in Sources */,
 				1524FB6F2CC29A6800E99C3F /* ChatSettingsTabs.swift in Sources */,
-				15A3EDCE2A2121D90030AF5A /* OnlineUserView.swift in Sources */,
 				1524FB752CC2D16300E99C3F /* AppSettingsTabs.swift in Sources */,
 				15A3EDCA2A2121D90030AF5A /* SettingsHeaderItem.swift in Sources */,
 				15DFE6012CC5192000E359F9 /* About.swift in Sources */,

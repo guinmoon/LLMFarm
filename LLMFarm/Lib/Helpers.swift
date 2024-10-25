@@ -404,6 +404,18 @@ public func rename_file(_ old_fname:String, _ new_fname: String, _ dir: String) 
 }
 
 
+public func getExtIcon(_ ext:String) -> String{
+    let default_icon = "square.stack.3d.up.fill"
+    var icon = default_icon
+    switch (ext.lowercased()){
+        case "pdf":
+            icon = "doc.text"
+        default :
+            icon = default_icon
+    }    
+    return icon
+}
+
 //get_file_list_with_options
 public func getFileListByExts(dir:String = "models", exts:[String]) -> [Dictionary<String, String>]?{
     var res: [Dictionary<String, String>] = []
@@ -422,11 +434,13 @@ public func getFileListByExts(dir:String = "models", exts:[String]) -> [Dictiona
         if dir == "models"{
             res.append(tmp_chat_info)
         }
+        
         for modelfile in files {
             for ext in exts{
                 if modelfile.lastPathComponent.hasSuffix(ext){
                 // if modelfile.hasSuffix(".bin") || modelfile.hasSuffix(".gguf"){
-                    let tmp_chat_info = ["icon":"square.stack.3d.up.fill","file_name":modelfile.lastPathComponent,"description":""]
+                    var icon = getExtIcon(ext)                    
+                    let tmp_chat_info = ["icon":icon,"file_name":modelfile.lastPathComponent,"description":""]
                     res.append(tmp_chat_info)
                 // }
                 }

@@ -132,7 +132,7 @@ struct ChatView: View {
                         HStack{
                             Text(String(describing: aiChatModel.state))
                                 .foregroundColor(.white)
-                                .frame(width: 100 /*,height: 25*/)
+                                .frame(width: 200 /*,height: 25*/)
                     //            .padding([.top, .leading], 5)
                                 .opacity(0.4)
                                 .offset(x: 0,y: 8)

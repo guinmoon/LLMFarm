@@ -43,11 +43,8 @@ struct SettingsView: View {
                     case 1:
                         DownloadModelsView()
                     case 2:
-                        GroupBox(label:
-                                    Text("About")
-                        ) {
-                            About()
-                        }
+                        About()
+                        
                     default:
                         
                         ModelsView("models")

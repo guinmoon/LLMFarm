@@ -31,12 +31,12 @@ struct ModelsView: View {
     
     func delete(at offsets: IndexSet) {
         let chatsToDelete = offsets.map { self.models_previews[$0] }
-        _ = delete_models(chatsToDelete,dest:dir)
+        _ = removeFile(chatsToDelete,dest:dir)
         models_previews = getFileListByExts(dir:dir,exts:targetExts) ?? []
     }
     
     func delete(at elem:Dictionary<String, String>){
-        _  = delete_models([elem],dest:dir)
+        _  = removeFile([elem],dest:dir)
         self.models_previews.removeAll(where: { $0 == elem })
         models_previews = getFileListByExts(dir:dir,exts:targetExts) ?? []
     }

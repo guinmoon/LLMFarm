@@ -45,7 +45,6 @@
 		156151CC2C26D28200C009D5 /* NetworkImage in Frameworks */ = {isa = PBXBuildFile; productRef = 156151CB2C26D28200C009D5 /* NetworkImage */; };
 		1568E3CE2A8BF86200930CC9 /* BottomPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1568E3CD2A8BF86200930CC9 /* BottomPanel.swift */; };
 		15692A7B2BAA082700AB2F4C /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 15692A7A2BAA082700AB2F4C /* PrivacyInfo.xcprivacy */; };
-		156A48D02A52B55B007DF519 /* SplitViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156A48CF2A52B55B007DF519 /* SplitViews.swift */; };
 		156A48D22A52B65C007DF519 /* Orientation_helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156A48D12A52B65C007DF519 /* Orientation_helper.swift */; };
 		158172C12BC5B1480078DCDA /* tinyllama.json in Resources */ = {isa = PBXBuildFile; fileRef = 158172B42BC5B1460078DCDA /* tinyllama.json */; };
 		158172C22BC5B1480078DCDA /* phi2.json in Resources */ = {isa = PBXBuildFile; fileRef = 158172B52BC5B1460078DCDA /* phi2.json */; };
@@ -101,6 +100,7 @@
 		15DFE60A2CC545D500E359F9 /* SimilaritySearchKitMiniLMMultiQA in Frameworks */ = {isa = PBXBuildFile; productRef = 15DFE6092CC545D500E359F9 /* SimilaritySearchKitMiniLMMultiQA */; };
 		15DFE60C2CC5486000E359F9 /* RagSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DFE60B2CC5486000E359F9 /* RagSettingsView.swift */; };
 		15DFE60F2CC549F500E359F9 /* RAG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DFE60E2CC549F500E359F9 /* RAG.swift */; };
+		15DFE6182CCD1FB200E359F9 /* ThreeDots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DFE6172CCD1FB200E359F9 /* ThreeDots.swift */; };
 		15E086C42AEAC69B006459DE /* FineTuneModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E086C32AEAC69B006459DE /* FineTuneModel.swift */; };
 		15E415D42A18A2980057A15E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E415D32A18A2980057A15E /* main.swift */; };
 		15F210812A191B190021F414 /* LLMFarmApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F210802A191B190021F414 /* LLMFarmApp.swift */; };
@@ -201,7 +201,6 @@
 		155D5B002BE2285300E43E18 /* Gemma.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Gemma.json; sourceTree = "<group>"; };
 		1568E3CD2A8BF86200930CC9 /* BottomPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomPanel.swift; sourceTree = "<group>"; };
 		15692A7A2BAA082700AB2F4C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		156A48CF2A52B55B007DF519 /* SplitViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViews.swift; sourceTree = "<group>"; };
 		156A48D12A52B65C007DF519 /* Orientation_helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Orientation_helper.swift; sourceTree = "<group>"; };
 		158172B42BC5B1460078DCDA /* tinyllama.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tinyllama.json; sourceTree = "<group>"; };
 		158172B52BC5B1460078DCDA /* phi2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = phi2.json; sourceTree = "<group>"; };
@@ -249,6 +248,7 @@
 		15DFE6002CC5192000E359F9 /* About.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = About.swift; sourceTree = "<group>"; };
 		15DFE60B2CC5486000E359F9 /* RagSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RagSettingsView.swift; sourceTree = "<group>"; };
 		15DFE60E2CC549F500E359F9 /* RAG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RAG.swift; sourceTree = "<group>"; };
+		15DFE6172CCD1FB200E359F9 /* ThreeDots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDots.swift; sourceTree = "<group>"; };
 		15E086C32AEAC69B006459DE /* FineTuneModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FineTuneModel.swift; sourceTree = "<group>"; };
 		15E415D12A18A2970057A15E /* ModelTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ModelTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		15E415D32A18A2980057A15E /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -442,8 +442,6 @@
 				15F2108D2A191EE60021F414 /* ChatView.swift */,
 				15A3EDC52A2121D90030AF5A /* ChatListView.swift */,
 				15A3EDC72A2121D90030AF5A /* ChatItem.swift */,
-				156A48CF2A52B55B007DF519 /* SplitViews.swift */,
-				151746A12B585B030074FF35 /* LLMTextInput.swift */,
 				15C08A672BA5976A000A1BE0 /* MessageImage.swift */,
 			);
 			path = Chats;
@@ -473,6 +471,15 @@
 			path = RAG;
 			sourceTree = "<group>";
 		};
+		15DFE6162CCD1F8900E359F9 /* UIComponents */ = {
+			isa = PBXGroup;
+			children = (
+				15DFE6172CCD1FB200E359F9 /* ThreeDots.swift */,
+				151746A12B585B030074FF35 /* LLMTextInput.swift */,
+			);
+			path = UIComponents;
+			sourceTree = "<group>";
+		};
 		15E086C22AEAC674006459DE /* Tune */ = {
 			isa = PBXGroup;
 			children = (
@@ -494,6 +501,7 @@
 		15F2107F2A191B190021F414 /* LLMFarm */ = {
 			isa = PBXGroup;
 			children = (
+				15DFE6162CCD1F8900E359F9 /* UIComponents */,
 				15DFE60D2CC549E400E359F9 /* RAG */,
 				152838242BEAB19E000D8B82 /* Intents */,
 				15E086C22AEAC674006459DE /* Tune */,
@@ -799,12 +807,12 @@
 			files = (
 				15A3EDCF2A2121D90030AF5A /* ChatItem.swift in Sources */,
 				15A3EDCC2A2121D90030AF5A /* ModelinfoItem.swift in Sources */,
-				156A48D02A52B55B007DF519 /* SplitViews.swift in Sources */,
 				15B716552C27193900CA600B /* BasicSettingsView.swift in Sources */,
 				15B716572C271F8F00CA600B /* SamplingSettingsView.swift in Sources */,
 				15B716592C2729BB00CA600B /* AdditionalSettingsView.swift in Sources */,
 				152838282BEBCEFE000D8B82 /* LLMFarmShortcuts.swift in Sources */,
 				158FC6DB2AA3457A00A181B4 /* log_helper.swift in Sources */,
+				15DFE6182CCD1FB200E359F9 /* ThreeDots.swift in Sources */,
 				15C08A662BA3705D000A1BE0 /* ModelSelector.swift in Sources */,
 				15FB67422B1BDB0800174379 /* ExportLoraView.swift in Sources */,
 				15A3EDCD2A2121D90030AF5A /* ChatListView.swift in Sources */,

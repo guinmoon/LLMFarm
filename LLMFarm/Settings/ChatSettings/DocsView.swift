@@ -21,10 +21,19 @@ import SimilaritySearchKitDistilbert
 import SimilaritySearchKitMiniLMAll
 import SimilaritySearchKitMiniLMMultiQA
 
-private var indexUpdatePopoverContent: some View {
-    VStack{
-        Text("Importing")
+
+
+
+struct indexUpdatePopoverContent: View {
+    @Binding var importStatus: String
+    @State private var animationsRunning = false
+    var body: some View {
+        VStack{
+            Text(importStatus).padding()
+            ThreeDots()
+        }
     }
+//    .frame(minWidth: 300,minHeight: 200, maxHeight: 200)
 }
 
 struct DocsView: View {
@@ -42,6 +51,7 @@ struct DocsView: View {
     @State private var docFilePath: String = "select model"
     @State private var addButtonIcon: String = "plus.app"
     @State private var isIndexUpdatePopoverPresented: Bool = false
+    @State private var importStatus = ""
 
     var ragUrl:URL
     @State var ragDir: String
@@ -72,15 +82,23 @@ struct DocsView: View {
     }
     
     func delete(at offsets: IndexSet) {
-        let chatsToDelete = offsets.map { self.docsPreviews[$0] }
-        _ = delete_models(chatsToDelete,dest:dir)
+        let fileToDelete = offsets.map { self.docsPreviews[$0] }
+        _ = removeFile(fileToDelete,dest:dir)
         docsPreviews = getFileListByExts(dir:dir,exts:targetExts) ?? []
+        let fname = fileToDelete.first?["file_name"]
+        Task {
+           await removeFileFromIndex(fileName: fname, ragURL: ragUrl)
+        }
     }
     
     func delete(at elem:Dictionary<String, String>){
-        _  = delete_models([elem],dest:dir)
+        _  = removeFile([elem],dest:dir)
         self.docsPreviews.removeAll(where: { $0 == elem })
+        let fname = elem["file_name"]
         docsPreviews = getFileListByExts(dir:dir,exts:targetExts) ?? []
+        Task {
+           await removeFileFromIndex(fileName: fname, ragURL: ragUrl)
+        }
     }
     
     private func delayIconChange() {
@@ -123,7 +141,9 @@ struct DocsView: View {
                     Task{
                         do {
                             guard let selectedFile: URL = try result.get().first else { return }
+                            importStatus = ""
                             isIndexUpdatePopoverPresented = true
+                            importStatus = "Copying \(selectedFile.lastPathComponent) to chat documents"
                             docFileName = selectedFile.lastPathComponent
                             docFileUrl = selectedFile
                             docFilePath = selectedFile.lastPathComponent
@@ -131,11 +151,13 @@ struct DocsView: View {
                             modelImported = true
                             addButtonIcon = "checkmark"
                             delayIconChange()
+                            importStatus = "Adding \(selectedFile.lastPathComponent) to chat Similarity Index"
                             docsPreviews = getFileListByExts(dir:dir,exts:targetExts) ?? []
                             await addFileToIndex(fileURL: docFileUrl, ragURL: ragUrl,
                                                 currentModel: currentModel,
                                                 comparisonAlgorithm: comparisonAlgorithm,
                                                 chunkMethod: chunkMethod)
+                            importStatus = "Import \(selectedFile.lastPathComponent) done."
                             isIndexUpdatePopoverPresented = false
                             
                         } catch {
@@ -204,10 +226,10 @@ struct DocsView: View {
             }
             .frame(maxHeight: .infinity)
         }
-        .popover(isPresented: $isIndexUpdatePopoverPresented) {
-            indexUpdatePopoverContent/*(selection: $selectedEmoji)*/
-                // .frame(minWidth: 300, maxHeight: 400)
-                .presentationCompactAdaptation(.sheet)
+        .sheet(isPresented: $isIndexUpdatePopoverPresented) {
+            indexUpdatePopoverContent(importStatus: $importStatus)/*(selection: $selectedEmoji)*/
+                .presentationDetents([.height(200)])
+//                .presentationCompactAdaptation(.sheet)
         }
         
 //        .padding(.horizontal,10)

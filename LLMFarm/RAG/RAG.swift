@@ -153,7 +153,7 @@ private func splitTextFromFiles(chunkSize: Int, chunkOverlap: Int) async {
                 chunkTextArray.append(chunk)
                 chunkTokensArray.append(tokens?[idx] ?? currentTokenizer.tokenize(text: chunk))
                 chunkTextIds.append(uuid)
-                chunkTextMetadata.append(["source": fileInfo.fileUrl.absoluteString])
+                chunkTextMetadata.append(["source": fileInfo.fileUrl.lastPathComponent])
             }
         }
 
@@ -218,6 +218,34 @@ private func generateIndexFromChunks() async {
     isLoading = false
 }
 
+public func removeFileFromIndex(fileName: String?, ragURL: URL?) async {
+    if fileName == nil || ragURL == nil
+    {
+        print("empty url")
+        return
+    }
+    let fName = fileName
+    await loadExistingIndex(url: ragURL!, name: "RAG_index")
+
+    if similarityIndex == nil {
+        print("index load error")
+        return
+    }
+    var iterator = similarityIndex!.indexItems.makeIterator()
+
+    // `next()` will return the next element, or `nil` if
+    //  it has reached the end sequence.
+    var removedCount = 0
+    while let element = iterator.next() {
+        if element.metadata["source"] == fName {
+            similarityIndex?.removeItem(id: element.id)
+            removedCount+=1
+        }
+    }
+    saveIndex(url: ragURL!, name: "RAG_index")
+    print("Removed \(removedCount) elements from index.")
+}
+
 public func addFileToIndex(fileURL: URL?, ragURL: URL?,
                             currentModel: EmbeddingModelType,
                             comparisonAlgorithm: SimilarityMetricType,
@@ -257,7 +285,8 @@ public func addFileToIndex(fileURL: URL?, ragURL: URL?,
     let elapsedTime = await clock.measure {
         // let index = await SimilarityIndex(model: embeddingModel, metric: distanceMetric)
         let index = similarityIndex!
-
+//        index.sample(<#T##count: Int##Int#>)
+        
         await index.addItems(ids: folderTextIds, texts: folderTextChunks, metadata: folderTextMetadata) { _ in
             progressCurrent += 1
         }

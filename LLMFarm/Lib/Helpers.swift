@@ -239,15 +239,15 @@ public func delete_chats(_ chats:[Dictionary<String, String>]) -> Bool{
     return false
 }
 
-public func delete_models(_ models:[Dictionary<String, String>], dest: String = "models") -> Bool{
+public func removeFile(_ files:[Dictionary<String, String>], dest: String = "models") -> Bool{
     do{
         let fileManager = FileManager.default
         let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
         let destinationURL = documentsPath!.appendingPathComponent(dest)
         
-        for model in models {
-            if model["file_name"] != nil{
-                let path = destinationURL.appendingPathComponent(model["file_name"]!)
+        for file in files {
+            if file["file_name"] != nil{
+                let path = destinationURL.appendingPathComponent(file["file_name"]!)
                 try fileManager.removeItem(at: path)
             }
         }

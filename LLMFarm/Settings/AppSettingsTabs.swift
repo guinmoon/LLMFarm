@@ -19,13 +19,13 @@ struct AppSettingTabs : View {
  
             TabButton(index: $index, targetIndex: 0, image: Image(systemName: "square.stack.3d.up.fill"), text: "Models")
 #if os(macOS)
-            .padding(.top,topSafeAreaInset())
+            .padding(.top,topSafeAreaInset()-20)
 #else
             .padding(.top,UIApplication.shared.keyWindow?.safeAreaInsets.top)
 #endif
             
             TabButton(index: $index, targetIndex: 1, image: Image(systemName: "square.and.arrow.down.on.square.fill"), text: "Download")
-            .padding(.top,30)
+            .padding(.top,15)
             
             Spacer(minLength: 0)
 

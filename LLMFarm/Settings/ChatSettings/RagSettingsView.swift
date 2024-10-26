@@ -14,7 +14,7 @@ import SimilaritySearchKitMiniLMMultiQA
 struct RagSettingsView: View {
     @State var ragDir: String
     
-    @State var inputText:String  = "The Birth of the Swatch"
+    @State var inputText:String  = ""
     var searchUrl:URL
     var ragUrl:URL
     var searchResultsCount:Int = 3

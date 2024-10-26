@@ -419,7 +419,6 @@
 				158DAA4F2B83BF5700550274 /* DownloadButton.swift */,
 				158DAA4D2B812A4A00550274 /* DownloadModels.swift */,
 				158DAA532B8655AE00550274 /* ModelDownloadItem.swift */,
-				1524FB702CC2CD9200E99C3F /* Tabs.swift */,
 				15A3EDC32A2121D90030AF5A /* ModelinfoItem.swift */,
 				15B7BE9C2A968399006624BD /* MacEditorTextView.swift */,
 				15A3EDC22A2121D90030AF5A /* ModelsView.swift */,
@@ -476,6 +475,7 @@
 			children = (
 				15DFE6172CCD1FB200E359F9 /* ThreeDots.swift */,
 				151746A12B585B030074FF35 /* LLMTextInput.swift */,
+				1524FB702CC2CD9200E99C3F /* Tabs.swift */,
 			);
 			path = UIComponents;
 			sourceTree = "<group>";

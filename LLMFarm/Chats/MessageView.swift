@@ -65,6 +65,7 @@ struct MessageView: View {
                         Text(message.header)
                             .font(.footnote)
                             .foregroundColor(Color.gray)
+                            .textSelection(.enabled)
                     }
                     MessageImage(message: message)
                     if sender == .user_rag{
@@ -88,12 +89,12 @@ struct MessageView: View {
                             if showRag{
                                 Text(LocalizedStringKey(message.text)).font(.footnote).textSelection(.enabled)
                             }
-                        }
+                        }.textSelection(.enabled)
                     }else{
                         Text(LocalizedStringKey(message.text))
                             .textSelection(.enabled)
                     }
-                }
+                }.textSelection(.enabled)
 
             case .predicting:
                 HStack {
@@ -107,14 +108,14 @@ struct MessageView: View {
                 VStack(alignment: .leading) {
                     switch chatStyle {
                     case "DocC":
-                        Markdown(message.text).markdownTheme(.docC)
+                        Markdown(message.text).markdownTheme(.docC).textSelection(.enabled)
                     case "Basic":
-                        Markdown(message.text).markdownTheme(.basic)
+                        Markdown(message.text).markdownTheme(.basic).textSelection(.enabled)
                     case "GitHub":
-                        Markdown(message.text).markdownTheme(.gitHub)
+                        Markdown(message.text).markdownTheme(.gitHub).textSelection(.enabled)
                     default:
-                        Text(message.text).textSelection(.enabled)
-                    }                    
+                        Text(message.text).textSelection(.enabled).textSelection(.enabled)
+                    }
                     Text(String(format: "%.2f ses, %.2f t/s", totalSecond,message.tok_sec))
                         .font(.footnote)
                         .foregroundColor(Color.gray)

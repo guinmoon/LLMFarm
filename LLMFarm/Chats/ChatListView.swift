@@ -36,20 +36,20 @@ struct ChatListView: View {
         aiChatModel.update_chat_params()
     }
     
-    func delete(at offsets: IndexSet) {
+    func Delete(at offsets: IndexSet) {
         let chatsToDelete = offsets.map { self.chats_previews[$0] }
-        _ = delete_chats(chatsToDelete)
+        _ = deleteChats(chatsToDelete)
         refresh_chat_list()
     }
     
-    func delete(at elem:Dictionary<String, String>){
-        _ = delete_chats([elem])
+    func Delete(at elem:Dictionary<String, String>){
+        _ = deleteChats([elem])
         self.chats_previews.removeAll(where: { $0 == elem })
         refresh_chat_list()
     }
     
-    func duplicate(at elem:Dictionary<String, String>){
-        _ = duplicate_chat(elem)
+    func Duplicate(at elem:Dictionary<String, String>){
+        _ = duplicateChat(elem)
         refresh_chat_list()
     }
     
@@ -76,12 +76,12 @@ struct ChatListView: View {
                             .listRowInsets(.init())
                             .contextMenu {
                                 Button(action: {
-                                    duplicate(at: chat_preview)
+                                    Duplicate(at: chat_preview)
                                 }){
                                     Text("Duplicate chat")
                                 }
                                 Button(action: {
-                                    delete(at: chat_preview)
+                                    Delete(at: chat_preview)
                                 }){
                                     Text("Remove chat")
                                 }
@@ -89,7 +89,7 @@ struct ChatListView: View {
                             }
                         }
                     }
-                    .onDelete(perform: delete)
+                    .onDelete(perform: Delete)
                 }
                 
                 .frame(maxHeight: .infinity)

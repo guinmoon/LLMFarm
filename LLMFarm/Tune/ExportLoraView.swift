@@ -36,7 +36,7 @@ struct ExportLoraView: View {
                             Button(model["file_name"]!){
                                 //                                            model_file_name = model["file_name"]!
                                 fineTuneModel.model_file_path = model["file_name"]!
-                                fineTuneModel.export_model_name = get_file_name_without_ext(fileName:fineTuneModel.model_file_path) + "_" + get_file_name_without_ext(fileName:fineTuneModel.lora_file_path) + ".gguf"
+                                fineTuneModel.export_model_name = GetFileNameWithoutExt(fileName:fineTuneModel.model_file_path) + "_" + GetFileNameWithoutExt(fileName:fineTuneModel.lora_file_path) + ".gguf"
                             }
                         }
                     }
@@ -60,7 +60,7 @@ struct ExportLoraView: View {
                     //#else
                     //                                    model_file_path = selectedFile.path
                     //#endif
-                    fineTuneModel.lora_name = get_file_name_without_ext(fileName:fineTuneModel.model_file_path) + "_" + get_file_name_without_ext(fileName:fineTuneModel.lora_file_path) + ".gguf"
+                    fineTuneModel.lora_name = GetFileNameWithoutExt(fileName:fineTuneModel.model_file_path) + "_" + GetFileNameWithoutExt(fileName:fineTuneModel.lora_file_path) + ".gguf"
                 } catch {
                     // Handle failure.
                     print("Unable to read file contents")
@@ -87,7 +87,7 @@ struct ExportLoraView: View {
                             Button(model["file_name"]!){
                                 //                                            model_file_name = model["file_name"]!
                                 fineTuneModel.lora_file_path = model["file_name"]!
-                                fineTuneModel.export_model_name = get_file_name_without_ext(fileName:fineTuneModel.model_file_path) + "_" + get_file_name_without_ext(fileName:fineTuneModel.lora_file_path) + ".gguf"
+                                fineTuneModel.export_model_name = GetFileNameWithoutExt(fileName:fineTuneModel.model_file_path) + "_" + GetFileNameWithoutExt(fileName:fineTuneModel.lora_file_path) + ".gguf"
                             }
                         }
                     }
@@ -104,7 +104,7 @@ struct ExportLoraView: View {
                     guard let selectedFile: URL = try result.get().first else { return }
                     fineTuneModel.lora_file_url = selectedFile
                     fineTuneModel.lora_file_path = selectedFile.lastPathComponent
-                    fineTuneModel.lora_name = get_file_name_without_ext(fileName:fineTuneModel.model_file_path) + "_" + get_file_name_without_ext(fileName:fineTuneModel.lora_file_path) + ".gguf"
+                    fineTuneModel.lora_name = GetFileNameWithoutExt(fileName:fineTuneModel.model_file_path) + "_" + GetFileNameWithoutExt(fileName:fineTuneModel.lora_file_path) + ".gguf"
                 } catch {
                     print("Unable to add file")
                     print(error.localizedDescription)

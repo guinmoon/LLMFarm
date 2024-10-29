@@ -45,7 +45,7 @@ struct ModelSelector: View {
                         Button(model["file_name"]!){
 //                                            model_file_name = model["file_name"]!
                             model_file_path = model["file_name"]!
-                            model_title = get_file_name_without_ext(fileName:model_file_path)
+                            model_title = GetFileNameWithoutExt(fileName:model_file_path)
                         }
                     }
                 }
@@ -69,7 +69,7 @@ struct ModelSelector: View {
                 //#else
                 //                                    model_file_path = selectedFile.path
                 //#endif
-                model_title = get_file_name_without_ext(fileName:selectedFile.lastPathComponent)
+                model_title = GetFileNameWithoutExt(fileName:selectedFile.lastPathComponent)
             } catch {
                 // Handle failure.
                 print("Unable to read file contents")

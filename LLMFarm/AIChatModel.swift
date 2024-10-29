@@ -166,7 +166,7 @@ final class AIChatModel: ObservableObject {
     }
 
     public  func update_chat_params(){
-        let chat_config = get_chat_info(self.chat?.chatName ?? "")
+        let chat_config = getChatInfo(self.chat?.chatName ?? "")
         if (chat_config == nil){
             return
         }
@@ -181,7 +181,7 @@ final class AIChatModel: ObservableObject {
     public func load_model_by_chat_name_prepare(_ chat_name: String,in_text:String, 
                                                 attachment: String? = nil,
                                                 attachment_type: String? = nil) -> Bool?{
-        let chat_config = get_chat_info(chat_name)
+        let chat_config = getChatInfo(chat_name)
         if (chat_config == nil){
             return nil
         }

@@ -12,7 +12,7 @@ import SwiftUI
 struct ChatSettingTabs : View {
     @Environment(\.colorScheme) var colorScheme
     @Binding var index:Int
-    
+    @Binding var edit_chat_dialog:Bool
     
     var body: some View{
         VStack{
@@ -30,12 +30,13 @@ struct ChatSettingTabs : View {
             TabButton(index: $index, targetIndex: 2, image: Image(systemName: "square.stack.3d.forward.dottedline.fill"), text: "Sampling")
             .padding(.top,12)
             
-            TabButton(index: $index, targetIndex: 4, image: Image(systemName: "doc.badge.gearshape"), text: "RAG")
-            .padding(.top,12)
-            
-            TabButton(index: $index, targetIndex: 5, image: Image(systemName: "doc.on.doc.fill"), text: "Docs")
-            .padding(.top,12)
-
+            if edit_chat_dialog {
+                TabButton(index: $index, targetIndex: 4, image: Image(systemName: "doc.badge.gearshape"), text: "RAG")
+                    .padding(.top,12)
+                
+                TabButton(index: $index, targetIndex: 5, image: Image(systemName: "doc.on.doc.fill"), text: "Docs")
+                    .padding(.top,12)
+            }
             Spacer(minLength: 0)
 
             TabButton(index: $index, targetIndex: 3, image: Image(systemName: "ellipsis"), text: "Other")

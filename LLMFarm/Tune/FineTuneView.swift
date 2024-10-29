@@ -35,7 +35,7 @@ struct FineTuneView: View {
                             Button(model["file_name"]!){
                                 //                                            model_file_name = model["file_name"]!
                                 fineTuneModel.model_file_path = model["file_name"]!
-                                fineTuneModel.lora_name = get_file_name_without_ext(fileName:fineTuneModel.model_file_path) + "_" + get_file_name_without_ext(fileName:fineTuneModel.dataset_file_path) + ".bin"
+                                fineTuneModel.lora_name = GetFileNameWithoutExt(fileName:fineTuneModel.model_file_path) + "_" + GetFileNameWithoutExt(fileName:fineTuneModel.dataset_file_path) + ".bin"
                             }
                         }
                     }
@@ -59,7 +59,7 @@ struct FineTuneView: View {
                     //#else
                     //                                    model_file_path = selectedFile.path
                     //#endif
-                    fineTuneModel.lora_name = get_file_name_without_ext(fileName:fineTuneModel.model_file_path) + "_" + get_file_name_without_ext(fileName:fineTuneModel.dataset_file_path) + ".bin"
+                    fineTuneModel.lora_name = GetFileNameWithoutExt(fileName:fineTuneModel.model_file_path) + "_" + GetFileNameWithoutExt(fileName:fineTuneModel.dataset_file_path) + ".bin"
                 } catch {
                     // Handle failure.
                     print("Unable to read file contents")
@@ -86,7 +86,7 @@ struct FineTuneView: View {
                             Button(model["file_name"]!){
                                 //                                            model_file_name = model["file_name"]!
                                 fineTuneModel.dataset_file_path = model["file_name"]!
-                                fineTuneModel.lora_name = get_file_name_without_ext(fileName:fineTuneModel.model_file_path) + "_" + get_file_name_without_ext(fileName:fineTuneModel.dataset_file_path) + ".bin"
+                                fineTuneModel.lora_name = GetFileNameWithoutExt(fileName:fineTuneModel.model_file_path) + "_" + GetFileNameWithoutExt(fileName:fineTuneModel.dataset_file_path) + ".bin"
                             }
                         }
                     }
@@ -103,7 +103,7 @@ struct FineTuneView: View {
                     guard let selectedFile: URL = try result.get().first else { return }
                     fineTuneModel.dataset_file_url = selectedFile
                     fineTuneModel.dataset_file_path = selectedFile.lastPathComponent
-                    fineTuneModel.lora_name = get_file_name_without_ext(fileName:fineTuneModel.model_file_path) + "_" + get_file_name_without_ext(fileName:fineTuneModel.dataset_file_path) + ".txt"
+                    fineTuneModel.lora_name = GetFileNameWithoutExt(fileName:fineTuneModel.model_file_path) + "_" + GetFileNameWithoutExt(fileName:fineTuneModel.dataset_file_path) + ".txt"
                 } catch {
                     print("Unable to add file")
                     print(error.localizedDescription)

@@ -39,8 +39,9 @@ Based on [ggml](https://github.com/ggerganov/ggml) and [llama.cpp](https://githu
 - [x] Various sampling methods
 - [x] Metal ([dont work](https://github.com/ggerganov/llama.cpp/issues/2407#issuecomment-1699544808) on intel Mac)
 - [x] Model setting templates
-- [x] [Restore context state](./docs/save_load_state.md)
-- [x] [Apple Shortcuts](./docs/shortcuts.md)
+- [x] [Restore context state](https://llmfarm.tech/docs/save_load_state)
+- [x] [Apple Shortcuts](https://llmfarm.tech/docs/shortcuts)
+- [x] [RAG](https://llmfarm.tech/docs/RAG/RAG%20Settings)
 
 # Inferences
 
@@ -85,13 +86,13 @@ Note: For *Falcon, Alpaca, GPT4All, Chinese LLaMA / Alpaca and Chinese LLaMA-2 /
 
 # Getting Started
 
-You can find answers to some questions in the [FAQ section](https://github.com/guinmoon/LLMFarm/wiki/FAQ).
+You can find answers to some questions in the [FAQ section](https://llmfarm.tech/docs).
 
 ## Inference options
-When creating a chat, a JSON file is generated in which you can specify additional inference options. The chat files are located in the "chats" directory. You can see all inference options [here](./docs/inference_options.md).
+When creating a chat, a JSON file is generated in which you can specify additional inference options. The chat files are located in the "chats" directory. You can see all inference options [here](https://llmfarm.tech/docs).
 
 ## Models
-You can download some of the supported [models here](https://llmfarm.site/).
+You can find some of the supported [models here](https://llmfarm.tech/).
 
 
 # Development
@@ -105,5 +106,6 @@ git clone --recurse-submodules https://github.com/guinmoon/LLMFarm
 * [Mia](https://github.com/byroneverson/Mia) by [byroneverson](https://github.com/byroneverson)
 * [LlamaChat](https://github.com/alexrozanski/LlamaChat) by [alexrozanski](https://github.com/alexrozanski)
 * [swift-markdown-ui](https://github.com/gonzalezreal/swift-markdown-ui) by [gonzalezreal](https://github.com/gonzalezreal)
+* [similarity-search-kit](https://github.com/ZachNagengast/similarity-search-kit) by [ZachNagengast](https://github.com/ZachNagengast)
 
 # [❤️ Support project](./donate.md)

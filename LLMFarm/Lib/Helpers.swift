@@ -185,7 +185,7 @@ func get_model_setting_templates() -> [ChatSettingsTemplate]{
     return model_setting_templates
 }
 
-public func get_chat_info(_ chat_fname:String) -> Dictionary<String, AnyObject>? {
+public func getChatInfo(_ chat_fname:String) -> Dictionary<String, AnyObject>? {
     do {
         let fileManager = FileManager.default
         let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
@@ -201,9 +201,9 @@ public func get_chat_info(_ chat_fname:String) -> Dictionary<String, AnyObject>?
     return nil
 }
 
-public func duplicate_chat(_ chat:Dictionary<String, String>) -> Bool{
+public func duplicateChat(_ chat:Dictionary<String, String>) -> Bool{
     if chat["chat"] != nil{
-        var chat_info = get_chat_info(chat["chat"]!)
+        var chat_info = getChatInfo(chat["chat"]!)
         if chat_info == nil{
             return false
         }
@@ -212,14 +212,14 @@ public func duplicate_chat(_ chat:Dictionary<String, String>) -> Bool{
             title  = title + "_2"
             chat_info?["title"] = title as AnyObject
         }
-        if !create_chat(chat_info!){
+        if !CreateChat(chat_info!){
             return false
         }
     }
     return true
 }
 
-public func delete_chats(_ chats:[Dictionary<String, String>]) -> Bool{
+public func deleteChats(_ chats:[Dictionary<String, String>]) -> Bool{
     do{
         let fileManager = FileManager.default
         let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
@@ -322,7 +322,7 @@ public func get_chats_list() -> [Dictionary<String, String>]?{
         for chatfile_url in files {
             let chatfile = chatfile_url.lastPathComponent
             if chatfile.contains(".json"){
-                let info = get_chat_info(chatfile)
+                let info = getChatInfo(chatfile)
                 if info == nil{
                     return res
                 }
@@ -530,7 +530,7 @@ var exclude_from_settings_template_keys = ["lora_adapters",
                                             "model_settings_template",
                                             "chat_style"]
 
-func create_chat(_ in_options:Dictionary<String, Any>,edit_chat_dialog:Bool = false,chat_name: String = "", save_as_template:Bool = false) -> Bool{
+func CreateChat(_ in_options:Dictionary<String, Any>,edit_chat_dialog:Bool = false,chat_name: String = "", save_as_template:Bool = false) -> Bool{
     do {
         var options:Dictionary<String, Any> = [:]
         for (key, value) in in_options {
@@ -576,7 +576,7 @@ func create_chat(_ in_options:Dictionary<String, Any>,edit_chat_dialog:Bool = fa
     return false
 }
 
-func get_file_name_without_ext(fileName:String) -> String{
+func GetFileNameWithoutExt(fileName:String) -> String{
     var components = fileName.components(separatedBy: ".")
     if components.count > 1 { // If there is a file extension
         components.removeLast()

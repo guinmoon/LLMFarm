@@ -134,7 +134,7 @@ struct ChatSettingsView: View {
         self._after_chat_edit = after_chat_edit
         self._toggleSettings = toggleSettings
         self.chat_name = chat_name
-        let chat_config = get_chat_info(chat_name)
+        let chat_config = getChatInfo(chat_name)
         if chat_config == nil{ //in Swift runtime failure: Unexpectedly found nil while unwrapping an Optional value ()
             return
         }
@@ -425,7 +425,7 @@ struct ChatSettingsView: View {
         //                            }
         lora_adapters.append(["adapter":lora_file_path,"scale":lora_file_scale])
         let options = get_chat_options_dict()
-        _ = create_chat(options,edit_chat_dialog:self.edit_chat_dialog,chat_name:self.chat_name)
+        _ = CreateChat(options,edit_chat_dialog:self.edit_chat_dialog,chat_name:self.chat_name)
         if add_chat_dialog {
             add_chat_dialog = false
             
@@ -442,7 +442,7 @@ struct ChatSettingsView: View {
         
         HStack(spacing: 0){
             
-            ChatSettingTabs(index:$tabIndex)
+            ChatSettingTabs(index:$tabIndex,edit_chat_dialog:$edit_chat_dialog)
             // now were going to create main view....
             
             GeometryReader{ g in

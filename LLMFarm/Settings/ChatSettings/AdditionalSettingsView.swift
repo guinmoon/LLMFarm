@@ -34,7 +34,7 @@ struct AdditionalSettingsView: View {
                 Button {
                     Task {
                         let options = get_chat_options_dict(true)
-                        _ = create_chat(options,edit_chat_dialog:true,chat_name:save_as_template_name + ".json",save_as_template:true)
+                        _ = CreateChat(options,edit_chat_dialog:true,chat_name:save_as_template_name + ".json",save_as_template:true)
                         refresh_templates()
                     }
                 } label: {

@@ -131,15 +131,15 @@ struct ChatView: View {
                     VStack {
                         HStack{
                             Text(String(describing: aiChatModel.state))
-                                .foregroundColor(.white)
+                                .foregroundColor(.accentColor)
                                 .frame(width: 200 /*,height: 25*/)
                     //            .padding([.top, .leading], 5)
                                 .opacity(0.4)
-                                .offset(x: 0,y: 8)
+                                .offset(x: -75,y: 8)
                                 .frame(alignment: .leading)
                                 .font(.footnote)
                             ProgressView(value: aiChatModel.load_progress)
-                                .padding(.leading,-125)
+                                .padding(.leading,-195)
                                 .offset(x: 0,y: -4)
                         }
                     }

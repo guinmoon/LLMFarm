@@ -304,6 +304,9 @@ final class AIChatModel: ObservableObject {
         self.action_button_icon = "paperplane"
         self.AI_typing = 0
         self.save_chat_history_and_state()
+        if is_error{
+            self.chat = nil
+        }
         
     }
     

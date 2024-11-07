@@ -63,8 +63,8 @@ func main(){
     //        input_text = "song about love"
     
     //    ai!.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/tinydolphin-2.8-1.1b.Q8_0.imx.gguf"
-    //    ai.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/gemma-2b-it.Q8_0.gguf"
-       ai!.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/LaMini-Flan-T5-248M.Q8_0.gguf"
+        ai!.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/gemma-2b-it.Q8_0.gguf"
+//       ai!.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/LaMini-Flan-T5-248M.Q8_0.gguf"
     
               
     //    ai.modelPath = "/Users/guinmoon/Library/Containers/com.guinmoon.LLMFarm/Data/Documents/models/llama-2-7b-chat-q4_K_M.gguf"
@@ -79,7 +79,7 @@ func main(){
     //
     var params:ModelAndContextParams = .default
     params.context = 2048
-    params.n_threads = 14
+    params.n_threads = 4
     //
     params.use_metal = true
     params.n_predict = maxOutputLength

@@ -150,14 +150,17 @@ struct ChatView: View {
                     List {
                         ForEach(aiChatModel.messages, id: \.id) { message in
                             MessageView(message: message, chatStyle: $chatStyle,status: nil ).id(message.id)
+                                .textSelection(.enabled)
                         }
                         .listRowSeparator(.hidden)
                         Text("").id("latest")
                     }
+                    .textSelection(.enabled)
                     .listStyle(PlainListStyle())
                     .overlay(scrollDownOverlay, alignment: .bottomTrailing)
 //                    .overlay(debugOverlay, alignment: .bottomLeading)
                 }
+                .textSelection(.enabled)
                 .onChange(of: aiChatModel.AI_typing){ ai_typing in
                     scrollToBottom(with_animation: false)
                 }
@@ -170,6 +173,7 @@ struct ChatView: View {
                     scrollToBottom(with_animation: false)
                 }
             }
+            .textSelection(.enabled)
             .frame(maxHeight: .infinity)
             .disabled(aiChatModel.state == .loading)
             .onChange(of: chatSelection) { selection in
@@ -254,6 +258,7 @@ struct ChatView: View {
                 .frame(minWidth: 400,minHeight: 600)
 #endif
         }
+        .textSelection(.enabled)
     }
 }
 

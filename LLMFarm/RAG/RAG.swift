@@ -218,33 +218,40 @@ private func generateIndexFromChunks() async {
     isLoading = false
 }
 
-public func removeFileFromIndex(fileName: String?, ragURL: URL?) async {
+public func removeFileFromIndex(fileName: String?, ragURL: URL?, onlyCheck: Bool = false) async -> Bool{
     if fileName == nil || ragURL == nil
     {
         print("empty url")
-        return
+        return false
     }
     let fName = fileName
     await loadExistingIndex(url: ragURL!, name: "RAG_index")
 
     if similarityIndex == nil {
         print("index load error")
-        return
+        return false
     }
     var iterator = similarityIndex!.indexItems.makeIterator()
-
+    
+    var exist = false
     // `next()` will return the next element, or `nil` if
     //  it has reached the end sequence.
     var removedCount = 0
     while let element = iterator.next() {
         if element.metadata["source"] == fName {
+            exist = true
+            if (onlyCheck){
+                return exist
+            }
             similarityIndex?.removeItem(id: element.id)
             removedCount+=1
         }
     }
     saveIndex(url: ragURL!, name: "RAG_index")
     print("Removed \(removedCount) elements from index.")
+    return exist
 }
+
 
 public func addFileToIndex(fileURL: URL?, ragURL: URL?,
                             currentModel: EmbeddingModelType,
@@ -255,6 +262,13 @@ public func addFileToIndex(fileURL: URL?, ragURL: URL?,
     {
         print("empty url")
         return
+    }
+    let fileName = fileURL?.lastPathComponent
+    let fileExist  = await removeFileFromIndex(fileName:   fileName, ragURL: ragURL, onlyCheck: true)
+    if (fileExist)
+    {
+        print("file exist")
+        return 
     }
     isLoading = true
     await fetchFolderContents(url: fileURL!)

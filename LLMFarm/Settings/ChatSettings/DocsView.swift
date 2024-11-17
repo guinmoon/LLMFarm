@@ -147,7 +147,7 @@ struct DocsView: View {
                             docFileName = selectedFile.lastPathComponent
                             docFileUrl = selectedFile
                             docFilePath = selectedFile.lastPathComponent
-                            _ = copyFileToSandbox(url: docFileUrl,dest:dir)
+                            _ = CopyFileToSandbox(url: docFileUrl,dest:dir)
                             modelImported = true
                             addButtonIcon = "checkmark"
                             delayIconChange()

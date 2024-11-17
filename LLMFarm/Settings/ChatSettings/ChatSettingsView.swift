@@ -400,21 +400,21 @@ struct ChatSettingsView: View {
         //                            if !edit_chat_dialog {
         if model_file_url.path != "/"{
             print(model_file_url.path)
-            let sandbox_path = copyFileToSandbox(url: model_file_url,dest: "models")
+            let sandbox_path = CopyFileToSandbox(url: model_file_url,dest: "models")
             if sandbox_path != nil{
                 model_file_path = sandbox_path!
             }
         }
         if lora_file_url.path != "/"{
             print(lora_file_url.path)
-            let sandbox_path = copyFileToSandbox(url: lora_file_url,dest: "lora_adapters")
+            let sandbox_path = CopyFileToSandbox(url: lora_file_url,dest: "lora_adapters")
             if sandbox_path != nil{
                 lora_file_path = sandbox_path!
             }
         }
         if clip_model_file_url.path != "/"{
             print(clip_model_file_url.path)
-            let sandbox_path = copyFileToSandbox(url: clip_model_file_url,dest: "models")
+            let sandbox_path = CopyFileToSandbox(url: clip_model_file_url,dest: "models")
             if sandbox_path != nil{
                 clip_model_file_path = sandbox_path!
             }

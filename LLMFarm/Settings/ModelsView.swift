@@ -83,7 +83,7 @@ struct ModelsView: View {
                         model_file_name = selectedFile.lastPathComponent
                         model_file_url = selectedFile
                         model_file_path = selectedFile.lastPathComponent
-                        _ = copyFileToSandbox(url: model_file_url,dest:dir)
+                        _ = CopyFileToSandbox(url: model_file_url,dest:dir)
                         modelImported = true
                         add_button_icon = "checkmark"
                         delayIconChange()

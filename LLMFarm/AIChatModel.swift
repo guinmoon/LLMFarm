@@ -77,7 +77,8 @@ final class AIChatModel: ObservableObject {
     public init(){
         chat = nil
         modelURL = ""
-        let ragDir = "documents/"+(self.chat_name == "" ? "tmp_chat": self.chat_name )
+//        let ragDir = "documents/"+(self.chat_name == "" ? "tmp_chat": self.chat_name )
+        let ragDir = GetRagDirRelPath(chat_name: self.chat_name)
         ragUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(ragDir) ?? URL(fileURLWithPath: "")
     }
     

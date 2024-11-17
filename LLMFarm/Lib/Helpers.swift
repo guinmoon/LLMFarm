@@ -332,7 +332,8 @@ public func get_chats_list() -> [Dictionary<String, String>]?{
                 var message = ""
                 var model_info:Dictionary<String,AnyObject>
                 var m_size:UInt64 = 0
-                var chat_style:String = info?["chat_style"] as? String ?? "DocC"
+                
+                
                 if (info!["title"] != nil){
                     title = info!["title"] as! String
                 }
@@ -358,6 +359,10 @@ public func get_chats_list() -> [Dictionary<String, String>]?{
                         mmodal = "1"
                     }
                 }
+                
+                //                "current_model": String(describing:currentModel),
+                //                "comparison_algorithm": String(describing:comparisonAlgorithm),
+                //                "chunk_method": String(describing:chunkMethod)
                 let tmp_chat_info = ["title":title,
                                      "icon":icon, 
                                      "message":message,
@@ -366,7 +371,10 @@ public func get_chats_list() -> [Dictionary<String, String>]?{
                                      "chat":chatfile,
                                      "mmodal":mmodal,
                                      "model_size":String(format: "%.2f", Double(Double(m_size) / (1024*1024*1024))),
-                                     "chat_style":chat_style]
+                                     "chat_style": info?["chat_style"] as? String ?? "DocC"/*,
+                                     "current_model":info?["current_model"] as? String ?? "minilmMultiQA",
+                                     "comparison_algorithm":info?["comparison_algorithm"] as? String ?? "dotproduct",
+                                     "chunk_method":info?["chunk_method"] as? String ?? "recursive"*/]
                 res.append(tmp_chat_info)
             }
         }
@@ -819,7 +827,11 @@ func load_chat_history(_ fname:String) -> [Message]?{
 //}
 
 
-func copyFileToSandbox (url: URL, dest:String = "models") -> String?{
+func GetRagDirRelPath(chat_name: String) -> String{
+    return "documents/"+(chat_name == "" ? "tmp_chat": chat_name )
+}
+
+func CopyFileToSandbox (url: URL, dest:String = "models") -> String?{
     do{
         if (CFURLStartAccessingSecurityScopedResource(url as CFURL)) { // <- here
             

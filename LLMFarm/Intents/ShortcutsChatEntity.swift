@@ -57,6 +57,17 @@ struct ShortcutsChatEntity: Identifiable,/* Hashable, Equatable,*/ AppEntity {
     @Property(title: "Model")
     var model: String
     
+//    @Property(title: "current_model")
+//    var current_model: String
+//    
+//    @Property(title: "comparison_algorithm")
+//    var comparison_algorithm: String
+//    
+//    @Property(title: "chunk_method")
+//    var chunk_method: String
+//    "current_model":info?["current_model"] as? String ?? "minilmMultiQA",
+//    "comparison_algorithm":info?["comparison_algorithm"] as? String ?? "dotproduct",
+//    "chunk_method":info?["chunk_method"] as? String ?? "recursive"
     
     init(id: String, title: String?, chat: String?, model: String) {
         

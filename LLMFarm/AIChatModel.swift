@@ -55,7 +55,7 @@ final class AIChatModel: ObservableObject {
 
     private var messages_lock = NSLock()
 
-    var ragUrl:URL
+    public var ragUrl:URL
     private var chunkSize: Int = 256
     private var chunkOverlap: Int = 100
     private var currentModel: EmbeddingModelType = .minilmMultiQA

@@ -47,6 +47,7 @@
 		1568E3CE2A8BF86200930CC9 /* BottomPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1568E3CD2A8BF86200930CC9 /* BottomPanel.swift */; };
 		15692A7B2BAA082700AB2F4C /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 15692A7A2BAA082700AB2F4C /* PrivacyInfo.xcprivacy */; };
 		156A48D22A52B65C007DF519 /* Orientation_helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156A48D12A52B65C007DF519 /* Orientation_helper.swift */; };
+		156D01492CEB3A3A00A81195 /* OneShortQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156D01472CEB3A3800A81195 /* OneShortQuery.swift */; };
 		158172C12BC5B1480078DCDA /* tinyllama.json in Resources */ = {isa = PBXBuildFile; fileRef = 158172B42BC5B1460078DCDA /* tinyllama.json */; };
 		158172C22BC5B1480078DCDA /* phi2.json in Resources */ = {isa = PBXBuildFile; fileRef = 158172B52BC5B1460078DCDA /* phi2.json */; };
 		158172C52BC5B1480078DCDA /* StableLM-3B-4E1T.json in Resources */ = {isa = PBXBuildFile; fileRef = 158172B82BC5B1470078DCDA /* StableLM-3B-4E1T.json */; };
@@ -204,6 +205,7 @@
 		1568E3CD2A8BF86200930CC9 /* BottomPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomPanel.swift; sourceTree = "<group>"; };
 		15692A7A2BAA082700AB2F4C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		156A48D12A52B65C007DF519 /* Orientation_helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Orientation_helper.swift; sourceTree = "<group>"; };
+		156D01472CEB3A3800A81195 /* OneShortQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneShortQuery.swift; sourceTree = "<group>"; };
 		158172B42BC5B1460078DCDA /* tinyllama.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tinyllama.json; sourceTree = "<group>"; };
 		158172B52BC5B1460078DCDA /* phi2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = phi2.json; sourceTree = "<group>"; };
 		158172B82BC5B1470078DCDA /* StableLM-3B-4E1T.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "StableLM-3B-4E1T.json"; sourceTree = "<group>"; };
@@ -367,6 +369,7 @@
 		152838242BEAB19E000D8B82 /* Intents */ = {
 			isa = PBXGroup;
 			children = (
+				156D01472CEB3A3800A81195 /* OneShortQuery.swift */,
 				152838262BEBCEFE000D8B82 /* LLMFarmShortcuts.swift */,
 				152838252BEBCEFE000D8B82 /* LLMQueryIntent.swift */,
 				152838292BF13E53000D8B82 /* ShortcutsChatEntity.swift */,
@@ -817,6 +820,7 @@
 				158FC6DB2AA3457A00A181B4 /* log_helper.swift in Sources */,
 				15DFE6182CCD1FB200E359F9 /* ThreeDots.swift in Sources */,
 				15C08A662BA3705D000A1BE0 /* ModelSelector.swift in Sources */,
+				156D01492CEB3A3A00A81195 /* OneShortQuery.swift in Sources */,
 				15FB67422B1BDB0800174379 /* ExportLoraView.swift in Sources */,
 				15A3EDCD2A2121D90030AF5A /* ChatListView.swift in Sources */,
 				156A48D22A52B65C007DF519 /* Orientation_helper.swift in Sources */,

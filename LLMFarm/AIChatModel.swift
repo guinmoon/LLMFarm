@@ -56,6 +56,7 @@ final class AIChatModel: ObservableObject {
     private var messages_lock = NSLock()
 
     public var ragUrl:URL
+    private var ragTop: Int = 3
     private var chunkSize: Int = 256
     private var chunkOverlap: Int = 100
     private var currentModel: EmbeddingModelType = .minilmMultiQA
@@ -85,7 +86,7 @@ final class AIChatModel: ObservableObject {
     
     public func ResetRAGUrl(){
         let ragDir = GetRagDirRelPath(chat_name: self.chat_name)
-        ragUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(ragDir) ?? URL(fileURLWithPath: "")            
+        ragUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(ragDir) ?? URL(fileURLWithPath: "")
     }
     
 //    @MainActor
@@ -220,7 +221,8 @@ final class AIChatModel: ObservableObject {
         // RAG
         self.chunkSize = chat_config?["chunk_size"] as? Int ?? self.chunkSize
         self.chunkOverlap = chat_config?["chunk_overlap"] as? Int ?? self.chunkOverlap
-        if (chat_config!["current_model"] != nil){ 
+        self.ragTop = chat_config?["rag_top"] as? Int ?? self.ragTop
+        if (chat_config!["current_model"] != nil){
             self.currentModel = getCurrentModelFromStr(chat_config?["current_model"] as? String ?? "")
         }
         if (chat_config!["comparison_algorithm"] != nil){ 
@@ -251,13 +253,13 @@ final class AIChatModel: ObservableObject {
                                         attachment: String? = nil,
                                         attachment_type: String? = nil) -> Bool?{
         self.model_loading = true
-        guard let _ = load_model_by_chat_name_prepare(chat_name,
-                                                      in_text:in_text,
-                                                      attachment:attachment,
-                                                      attachment_type: attachment_type)
-        else {
-            return nil;
-        }
+//        guard let _ = load_model_by_chat_name_prepare(chat_name,
+//                                                      in_text:in_text,
+//                                                      attachment:attachment,
+//                                                      attachment_type: attachment_type)
+//        else {
+//            return nil;
+//        }
         
         if self.chat?.model?.contextParams.save_load_state == true {
             self.chat?.model?.contextParams.state_dump_path = get_state_path_by_chat_name(chat_name) ?? ""
@@ -451,11 +453,26 @@ final class AIChatModel: ObservableObject {
             self.messages.append(requestMessage)
         }
         
+        if self.chat != nil{
+            if self.chat_name != self.chat?.chatName{
+                self.chat = nil
+            }
+        }
+        
+        if self.chat == nil {
+            guard let _ = load_model_by_chat_name_prepare(chat_name,
+                                                          in_text:in_text,
+                                                          attachment:attachment,
+                                                          attachment_type: attachment_type)
+            else {
+                return ;
+            }
+        }
         
         if useRag {
             self.state = .ragIndexLoading
             self.generateRagLLMQuery(in_text,
-                                    3, self.ragUrl,
+                                    self.ragTop, self.ragUrl,
                                     message: in_text,
                                     append_user_message:append_user_message,
                                     system_prompt:system_prompt,
@@ -468,13 +485,9 @@ final class AIChatModel: ObservableObject {
         self.AI_typing += 1    
         
         
-        if self.chat != nil{
-            if self.chat_name != self.chat?.chatName{
-                self.chat = nil
-            }
-        }
+       
         
-        if self.chat == nil{
+        if self.chat?.model?.context == nil{
             self.state = .loading
             title_backup = Title
             Title = "loading..."

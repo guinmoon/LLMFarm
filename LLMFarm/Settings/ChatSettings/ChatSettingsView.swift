@@ -102,6 +102,7 @@ struct ChatSettingsView: View {
     @State private var chat_styles = ["None", "DocC", "Basic", "GitHub"]
     
     // RAG
+    @State private var ragTop: Int = 3
     @State private var chunkSize: Int = 256
     @State private var chunkOverlap: Int = 100
     @State private var currentModel: EmbeddingModelType = .minilmMultiQA
@@ -278,7 +279,9 @@ struct ChatSettingsView: View {
         // RAG
         self._chunkSize = State(initialValue: chat_config?["chunk_size"] as? Int ?? self.chunkSize)
         self._chunkOverlap = State(initialValue: chat_config?["chunk_overlap"] as? Int ?? self.chunkOverlap)
-        if (chat_config!["current_model"] != nil){ 
+        self._ragTop = State(initialValue: chat_config?["rag_top"] as? Int ?? self.ragTop)
+        
+        if (chat_config!["current_model"] != nil){
             self._currentModel = State(initialValue: getCurrentModelFromStr(chat_config?["current_model"] as? String ?? ""))
         }
         if (chat_config!["comparison_algorithm"] != nil){ 
@@ -382,6 +385,7 @@ struct ChatSettingsView: View {
             "chat_style":chat_style,
             "chunk_size": chunkSize,
             "chunk_overlap": chunkOverlap,
+            "rag_top": ragTop,
             "current_model": String(describing:currentModel),
             "comparison_algorithm": String(describing:comparisonAlgorithm),
             "chunk_method": String(describing:chunkMethod)
@@ -549,7 +553,8 @@ struct ChatSettingsView: View {
                                             chunkOverlap: $chunkOverlap,
                                             currentModel: $currentModel,
                                             comparisonAlgorithm: $comparisonAlgorithm,
-                                            chunkMethod: $chunkMethod)
+                                            chunkMethod: $chunkMethod,
+                                            ragTop: $ragTop)
                         case 5:
                             DocsView(docsDir:"documents/"+(self.chat_name == "" ? "tmp_chat": self.chat_name )+"/docs",
                                     ragDir:"documents/"+(self.chat_name == "" ? "tmp_chat": self.chat_name ),

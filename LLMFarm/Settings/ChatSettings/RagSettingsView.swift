@@ -21,18 +21,21 @@ struct RagSettingsView: View {
     @State var loadIndexResult: String = ""
     @State var searchResults: String = ""
     
-    @Binding private var chunkSize: Int 
+    
+    @Binding private var chunkSize: Int
     @Binding private var chunkOverlap: Int 
     @Binding private var currentModel: EmbeddingModelType 
     @Binding private var comparisonAlgorithm: SimilarityMetricType 
-    @Binding private var chunkMethod: TextSplitterType 
+    @Binding private var chunkMethod: TextSplitterType
+    @Binding private var ragTop: Int
     
     init (  ragDir:String,
             chunkSize: Binding<Int>,
             chunkOverlap: Binding<Int>,
             currentModel: Binding<EmbeddingModelType>,
             comparisonAlgorithm: Binding<SimilarityMetricType>,
-            chunkMethod: Binding<TextSplitterType>){
+            chunkMethod: Binding<TextSplitterType>,
+            ragTop:Binding<Int>){
         self.ragDir = ragDir
         self.ragUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(ragDir) ?? URL(fileURLWithPath: "")
         self.searchUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(ragDir+"/docs") ?? URL(fileURLWithPath: "")
@@ -41,6 +44,7 @@ struct RagSettingsView: View {
         self._currentModel = currentModel
         self._comparisonAlgorithm = comparisonAlgorithm
         self._chunkMethod  = chunkMethod
+        self._ragTop = ragTop
     }
 
     
@@ -112,7 +116,20 @@ struct RagSettingsView: View {
                         .frame(maxWidth: .infinity, alignment: .trailing)
                         .pickerStyle(.menu)
                     }
-                }      
+                    
+                    HStack {
+                        Text("Max RAG answers count:")
+                            .frame(maxWidth: 100, alignment: .leading)
+                        TextField("count..", value: $ragTop, format:.number)
+                            .frame( alignment: .leading)
+                            .multilineTextAlignment(.trailing)
+                            .textFieldStyle(.plain)
+                             #if os(iOS)
+                            .keyboardType(.numbersAndPunctuation)
+                             #endif
+                    }
+
+                }
 //                .padding(.horizontal, 1)
 
                 GroupBox(label:

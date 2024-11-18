@@ -147,7 +147,7 @@ struct RagSettingsView: View {
                     }
                     
                     Text(loadIndexResult)
-                        .padding(.top)
+//                        .padding(.top)
                     
                     TextField("Search text", text: $inputText, axis: .vertical )
                         .onSubmit {
@@ -200,7 +200,7 @@ struct RagSettingsView: View {
                                 .font(.title2)
                         }
                     )
-                    .padding()
+//                    .padding()
                     
                     Text(searchResults)
                         .padding()

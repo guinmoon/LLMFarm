@@ -421,16 +421,16 @@ func loadExistingIndex(url: URL, name: String) async {
     }
 }
 
-func main() async{
-    print("Hello, Search Kit!")
-    searchQuery = "The Birth of the Swatch"
-//    await BuildNewIndex()
-    await loadExistingIndex(url: URL(fileURLWithPath: "/Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/RAG_Test/RAG_Test"), name: "RAG_test_index")
-    let elapsedTime2 = await clock.measure {
-        await searchIndexWithQuery(query: searchQuery, top: searchResultsCount)
-    }
-    print("Elapsed search: \(elapsedTime2)")
-    let res = searchResults
-    print(res)
-//    saveIndex(url: URL(fileURLWithPath: "/Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/RAG_Test/RAG_Test"), name: "RAG_test_index")
-}
+//func main() async{
+//    print("Hello, Search Kit!")
+//    searchQuery = "The Birth of the Swatch"
+////    await BuildNewIndex()
+//    await loadExistingIndex(url: URL(fileURLWithPath: "/Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/RAG_Test/RAG_Test"), name: "RAG_test_index")
+//    let elapsedTime2 = await clock.measure {
+//        await searchIndexWithQuery(query: searchQuery, top: searchResultsCount)
+//    }
+//    print("Elapsed search: \(elapsedTime2)")
+//    let res = searchResults
+//    print(res)
+////    saveIndex(url: URL(fileURLWithPath: "/Users/guinmoon/dev/alpaca_llama_etc/LLMFarm/RAG_Test/RAG_Test"), name: "RAG_test_index")
+//}

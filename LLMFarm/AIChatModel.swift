@@ -82,6 +82,12 @@ final class AIChatModel: ObservableObject {
         ragUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(ragDir) ?? URL(fileURLWithPath: "")
     }
     
+    
+    public func ResetRAGUrl(){
+        let ragDir = GetRagDirRelPath(chat_name: self.chat_name)
+        ragUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(ragDir) ?? URL(fileURLWithPath: "")            
+    }
+    
 //    @MainActor
 
     private func model_load_progress_callback(_ progress:Float) -> Bool{
@@ -160,8 +166,8 @@ final class AIChatModel: ObservableObject {
         self.messages = load_chat_history(chat_selection["chat"]!+".json") ?? []
         messages_lock.unlock()
         self.state_dump_path = get_state_path_by_chat_name(chat_name) ?? ""
-        let ragDir = "documents/"+(self.chat_name == "" ? "tmp_chat": self.chat_name )
-        ragUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(ragDir) ?? URL(fileURLWithPath: "")
+        ResetRAGUrl()
+        
         self.ragIndexLoaded = false
         self.AI_typing = -Int.random(in: 0..<100000)
     }

@@ -19,10 +19,12 @@ import llmfarm_core_cpp
 func OneShortQuery(_ queryIn: String, _ chat: String, _ token_limit:Int,
                    img_path: String? = nil,
                    use_history: Bool = false,
-                   useRag: Bool = false) async ->  String{
+                   useRag: Bool = false,
+                   topRag: Int = 1) async ->  String{
     var result:String = ""
     var aiChatModel = AIChatModel()
     aiChatModel.chat_name = chat
+    aiChatModel.ResetRAGUrl()
     var query = queryIn
     guard let res = aiChatModel.load_model_by_chat_name_prepare(chat,in_text:query, attachment:  nil) else {
         return "Chat load eror."
@@ -40,11 +42,7 @@ func OneShortQuery(_ queryIn: String, _ chat: String, _ token_limit:Int,
             aiChatModel.chat?.model?.contextParams.state_dump_path = get_state_path_by_chat_name(chat) ?? ""
         }
         
-        if useRag{
-            await aiChatModel.loadRAGIndex(ragURL: aiChatModel.ragUrl)
-            let results = await searchIndexWithQuery(query: query, top: 3)
-            query = SimilarityIndex.exportLLMPrompt(query: query, results: results!)
-        }
+        
         
         try aiChatModel.chat?.loadModel_sync()
         var system_prompt:String? = nil
@@ -58,6 +56,12 @@ func OneShortQuery(_ queryIn: String, _ chat: String, _ token_limit:Int,
         }
         
         aiChatModel.chat?.model?.parse_skip_tokens()
+        
+        if useRag{
+            await aiChatModel.loadRAGIndex(ragURL: aiChatModel.ragUrl)
+            let results = await searchIndexWithQuery(query: query, top: topRag)
+            query = SimilarityIndex.exportLLMPrompt(query: query, results: results!)
+        }
         
         var current_output: String = ""
         var current_token_count = 0

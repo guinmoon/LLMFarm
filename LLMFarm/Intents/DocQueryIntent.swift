@@ -20,6 +20,9 @@ struct LLMDocQueryIntent: AppIntent {
     @Parameter(title: "Token Limit", default: 150)
     var token_limit: Int
     
+    @Parameter(title: "Max RAG answers count", default: 1)
+    var topRag: Int
+    
     @Parameter(title: "Use history", default: false)
     var use_history: Bool
     
@@ -61,9 +64,10 @@ struct LLMDocQueryIntent: AppIntent {
         if docUrl != nil && docUrl!.fileURL != nil{
             print(chat.chat)
             
-            let ragDir = GetRagDirRelPath(chat_name: chat.chat) + "/docs"
+            let ragDir = GetRagDirRelPath(chat_name: chat.chat)
+            let docsDir = ragDir + "/docs"
             let ragUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(ragDir) ?? URL(fileURLWithPath: "")
-            let newPath = CopyFileToSandbox(url: docUrl!.fileURL! ,dest:ragDir)
+            let newPath = CopyFileToSandbox(url: docUrl!.fileURL! ,dest:docsDir)
             await addFileToIndex(fileURL: docUrl!.fileURL!, ragURL: ragUrl,
                                  currentModel: getCurrentModelFromStr(chat_config?["current_model"] as? String ?? ""),
                                  comparisonAlgorithm: getComparisonAlgorithmFromStr(chat_config?["comparison_algorithm"] as? String ?? ""),
@@ -75,7 +79,10 @@ struct LLMDocQueryIntent: AppIntent {
         print("added to index")
         
         var trimmedQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
-        let res = await OneShortQuery(trimmedQuery, chat.chat, token_limit, use_history: use_history, useRag: true)
+        let res = await OneShortQuery(trimmedQuery, chat.chat, token_limit,
+                                      use_history: use_history,
+                                      useRag: true,
+                                      topRag: topRag)
         return .result(value: res)
     }
     

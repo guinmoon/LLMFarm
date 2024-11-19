@@ -24,6 +24,7 @@ struct BasicSettingsView: View {
     
     
     var body: some View {
+        
         HStack{
             
             Picker("", selection: $model_icon) {

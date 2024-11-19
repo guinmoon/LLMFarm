@@ -447,6 +447,7 @@ struct ChatSettingsView: View {
         HStack(spacing: 0){
             
             ChatSettingTabs(index:$tabIndex,edit_chat_dialog:$edit_chat_dialog)
+                .edgesIgnoringSafeArea(.all)
             // now were going to create main view....
             
             GeometryReader{ g in
@@ -464,59 +465,61 @@ struct ChatSettingsView: View {
                         // changing tabs based on tabs...
                         switch tabIndex{
                         case 0:
-                            GroupBox(label:
-                                        //                                Label("Basic Settings", systemImage: "building.columns")
-                                     Text("Basic Settings")
-                            ) {
-                                BasicSettingsView(chat_title: $chat_title,
-                                                  model_icon: $chat_icon,
-                                                  model_icons: $chat_icons,
-                                                  model_inferences: $model_inferences,
-                                                  ggjt_v3_inferences: $ggjt_v3_inferences,
-                                                  model_inference: $model_inference,
-                                                  ggjt_v3_inference: $ggjt_v3_inference,
-                                                  model_inference_inner: $model_inference_inner,
-                                                  model_settings_template: $chat_settings_template,
-                                                  model_setting_templates: $chat_setting_templates,
-                                                  applying_template: $applying_template,
-                                                  apply_setting_template: apply_setting_template)
-                            }
-                            GroupBox(label:
-                                        Text("Model")
-                            ) {
-                                ModelSettingsView(model_file_url: $model_file_url,
-                                                  model_file_path: $model_file_path,
-                                                  model_title: $chat_title,
-                                                  clip_model_file_url: $clip_model_file_url,
-                                                  clip_model_file_path: $clip_model_file_path,
-                                                  clip_model_title: $clip_model_title,
-                                                  lora_file_url: $lora_file_url,
-                                                  lora_file_path: $lora_file_path,
-                                                  lora_title: $lora_title,
-                                                  lora_file_scale: $lora_file_scale,
-                                                  add_chat_dialog: $add_chat_dialog,
-                                                  edit_chat_dialog: $edit_chat_dialog,
-                                                  toggleSettings: $toggleSettings,
-                                                  models_previews: $models_previews,
-                                                  loras_previews: $loras_previews,
-                                                  has_lora: $has_lora,
-                                                  has_clip: $has_clip)
-                            }
-                            GroupBox(label:
-                                        Text("Prediction settings")
-                            ) {
-                                PredictionSettingsView(model_context: $model_context,
-                                                       model_n_batch: $model_n_batch,
-                                                       n_predict: $n_predict,
-                                                       numberOfThreads: $numberOfThreads,
-                                                       use_metal: $use_metal,
-                                                       use_clip_metal: $use_clip_metal,
-                                                       mlock: $mlock,
-                                                       mmap: $mmap,
-                                                       flash_attn: $flash_attn,
-                                                       model_inference: $model_inference,
-                                                       model_inference_inner: $model_inference_inner,
-                                                       has_clip: $has_clip)
+                            ScrollView{
+                                GroupBox(label:
+                                            //                                Label("Basic Settings", systemImage: "building.columns")
+                                         Text("Basic Settings")
+                                ) {
+                                    BasicSettingsView(chat_title: $chat_title,
+                                                      model_icon: $chat_icon,
+                                                      model_icons: $chat_icons,
+                                                      model_inferences: $model_inferences,
+                                                      ggjt_v3_inferences: $ggjt_v3_inferences,
+                                                      model_inference: $model_inference,
+                                                      ggjt_v3_inference: $ggjt_v3_inference,
+                                                      model_inference_inner: $model_inference_inner,
+                                                      model_settings_template: $chat_settings_template,
+                                                      model_setting_templates: $chat_setting_templates,
+                                                      applying_template: $applying_template,
+                                                      apply_setting_template: apply_setting_template)
+                                }
+                                GroupBox(label:
+                                            Text("Model")
+                                ) {
+                                    ModelSettingsView(model_file_url: $model_file_url,
+                                                      model_file_path: $model_file_path,
+                                                      model_title: $chat_title,
+                                                      clip_model_file_url: $clip_model_file_url,
+                                                      clip_model_file_path: $clip_model_file_path,
+                                                      clip_model_title: $clip_model_title,
+                                                      lora_file_url: $lora_file_url,
+                                                      lora_file_path: $lora_file_path,
+                                                      lora_title: $lora_title,
+                                                      lora_file_scale: $lora_file_scale,
+                                                      add_chat_dialog: $add_chat_dialog,
+                                                      edit_chat_dialog: $edit_chat_dialog,
+                                                      toggleSettings: $toggleSettings,
+                                                      models_previews: $models_previews,
+                                                      loras_previews: $loras_previews,
+                                                      has_lora: $has_lora,
+                                                      has_clip: $has_clip)
+                                }
+                                GroupBox(label:
+                                            Text("Prediction settings")
+                                ) {
+                                    PredictionSettingsView(model_context: $model_context,
+                                                           model_n_batch: $model_n_batch,
+                                                           n_predict: $n_predict,
+                                                           numberOfThreads: $numberOfThreads,
+                                                           use_metal: $use_metal,
+                                                           use_clip_metal: $use_clip_metal,
+                                                           mlock: $mlock,
+                                                           mmap: $mmap,
+                                                           flash_attn: $flash_attn,
+                                                           model_inference: $model_inference,
+                                                           model_inference_inner: $model_inference_inner,
+                                                           has_clip: $has_clip)
+                                }
                             }
                         case 1:
                             PromptSettingsView(prompt_format: $prompt_format,
@@ -589,7 +592,7 @@ struct ChatSettingsView: View {
 #endif
             }
         }
-        .edgesIgnoringSafeArea(.all)
+//        .edgesIgnoringSafeArea(.all)
     }
 }
 

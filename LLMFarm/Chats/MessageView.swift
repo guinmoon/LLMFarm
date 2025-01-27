@@ -1,9 +1,8 @@
 //
 //  MessageView.swift
-//  AlpacaChatApp
+//  Created by guinmoon
 //
-//  Created by Yoshimasa Niwa on 3/20/23.
-//
+
 
 import SwiftUI
 import MarkdownUI
@@ -116,9 +115,15 @@ struct MessageView: View {
                     default:
                         Text(message.text).textSelection(.enabled).textSelection(.enabled)
                     }
-                    Text(String(format: "%.2f ses, %.2f t/s", totalSecond,message.tok_sec))
-                        .font(.footnote)
-                        .foregroundColor(Color.gray)
+                    if (message.tokens_count==0){
+                        Text(String(format: "%.2f s, %.2f t/s", totalSecond,message.tok_sec))
+                            .font(.footnote)
+                            .foregroundColor(Color.gray)
+                    }else{
+                        Text(String(format: "%i t, %.2f s, %.2f t/s",message.tokens_count, totalSecond,message.tok_sec))
+                            .font(.footnote)
+                            .foregroundColor(Color.gray)
+                    }
                 }.textSelection(.enabled)
             }
         }

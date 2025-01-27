@@ -153,12 +153,33 @@ struct ChatView: View {
                                 .textSelection(.enabled)
                         }
                         .listRowSeparator(.hidden)
-                        Text("").id("latest")
+//                        Text("").id("latest")
+//                        Divider()
+                        Button {
+                            Task{
+                                aiChatModel.RegenerateLstMessage()
+                            }
+                        }
+                        label: {
+                            Image(systemName: "arrow.uturn.backward.square")
+                                .resizable()
+                                .foregroundColor(.white)
+                                .frame(width: 25, height: 25)
+//                                .padding([.bottom, .trailing], 15)
+                                .opacity(0.4)
+                            Text("Regenerate last message")
+                        }
+                        .buttonStyle(BorderlessButtonStyle())
+                        .id("latest")
+                        
                     }
                     .textSelection(.enabled)
                     .listStyle(PlainListStyle())
                     .overlay(scrollDownOverlay, alignment: .bottomTrailing)
 //                    .overlay(debugOverlay, alignment: .bottomLeading)
+                    
+                    
+                    
                 }
                 .textSelection(.enabled)
                 .onChange(of: aiChatModel.AI_typing){ ai_typing in

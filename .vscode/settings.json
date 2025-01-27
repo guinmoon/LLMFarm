@@ -11,6 +11,7 @@
         "ggml-alloc.h": "c",
         "ggml_d925ed-alloc.h": "c",
         "ggml_d925ed.h": "c",
-        "assert.h": "c"
+        "assert.h": "c",
+        "vector": "cpp"
     }
 }

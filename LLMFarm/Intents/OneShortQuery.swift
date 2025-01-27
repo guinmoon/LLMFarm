@@ -58,7 +58,7 @@ func OneShortQuery(_ queryIn: String, _ chat: String, _ token_limit:Int,
         aiChatModel.chat?.model?.parse_skip_tokens()
         
         if useRag{
-            await aiChatModel.loadRAGIndex(ragURL: aiChatModel.ragUrl)
+            await aiChatModel.LoadRAGIndex(ragURL: aiChatModel.ragUrl)
             let results = await searchIndexWithQuery(query: query, top: topRag)
             query = SimilarityIndex.exportLLMPrompt(query: query, results: results!)
         }
@@ -67,7 +67,7 @@ func OneShortQuery(_ queryIn: String, _ chat: String, _ token_limit:Int,
         var current_token_count = 0
         try ExceptionCather.catchException {
             do{
-                _ = try aiChatModel.chat?.model?.predict(query,
+                _ = try aiChatModel.chat?.model?.Predict(query,
                                                          {
                     str,time in
                     print("\(str)",terminator: "")

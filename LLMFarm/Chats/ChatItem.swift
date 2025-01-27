@@ -1,9 +1,9 @@
 //
+//
 //  ChatItem.swift
-//  ChatUI
+//  Created by guinmoon
 //
-//  Created by Shezad Ahamed on 6/08/21.
-//
+
 
 import SwiftUI
 

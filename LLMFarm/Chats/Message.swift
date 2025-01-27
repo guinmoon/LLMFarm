@@ -1,8 +1,6 @@
 //
 //  Message.swift
-//  AlpacaChatApp
-//
-//  Created by Yoshimasa Niwa on 3/20/23.
+//  Created by guinmoon
 //
 
 import Foundation
@@ -31,4 +29,5 @@ struct Message: Identifiable {
     var attachment: String? = nil
     var attachment_type: String? = nil
     var is_markdown: Bool = false
+    var tokens_count: Int = 0
 }

@@ -1,8 +1,7 @@
 //
 //  ChatListView.swift
 //  ChatUI
-//
-//  Created by Shezad Ahamed on 05/08/21.
+//  Created by guinmoon
 //
 
 import SwiftUI

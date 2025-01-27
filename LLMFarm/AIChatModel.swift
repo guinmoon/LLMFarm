@@ -134,7 +134,7 @@ final class AIChatModel: ObservableObject {
         }
         self.chat?.model?.parse_skip_tokens()
         Task{
-            await self.send(message: in_text, 
+            await self.Send(message: in_text, 
                             append_user_message:false,
                             system_prompt:system_prompt,
                             attachment:attachment,
@@ -396,13 +396,17 @@ final class AIChatModel: ObservableObject {
     }
 
     
-    public func loadRAGIndex(ragURL: URL) async {
+    public func LoadRAGIndex(ragURL: URL) async {
         updateIndexComponents(currentModel:currentModel,comparisonAlgorithm:comparisonAlgorithm,chunkMethod:chunkMethod)
         await loadExistingIndex(url: ragURL, name: "RAG_index")
         ragIndexLoaded = true
     }
     
-    public func  generateRagLLMQuery(_ inputText:String,
+    public func RegenerateLstMessage(){
+//        self.messages.removeLast()
+    }
+    
+    public func GenerateRagLLMQuery(_ inputText:String,
                                      _ searchResultsCount:Int,
                                      _ ragURL:URL,
                                      message in_text: String,
@@ -417,14 +421,14 @@ final class AIChatModel: ObservableObject {
         aiQueue.async {
             Task {
                 if await !self.ragIndexLoaded {
-                    await self.loadRAGIndex(ragURL: ragURL)
+                    await self.LoadRAGIndex(ragURL: ragURL)
                 }
                 DispatchQueue.main.async {
                     self.state = .ragSearch
                 }
                 let results = await searchIndexWithQuery(query: inputText, top: searchResultsCount)
                 let llmPrompt = SimilarityIndex.exportLLMPrompt(query: inputText, results: results!)
-                await self.send(message: llmPrompt,
+                await self.Send(message: llmPrompt,
                                  append_user_message: false,
                                  system_prompt: system_prompt,
                                  attachment: llmPrompt,
@@ -433,7 +437,15 @@ final class AIChatModel: ObservableObject {
         }
     }
 
-    public func send(message in_text: String, 
+    public func SetSendMsgTokensCount(_ count:Int){
+        
+    }
+    
+    public func SetGeneratedMsgTokensCount(_ count:Int){
+        
+    }
+    
+    public func Send(message in_text: String,
                      append_user_message:Bool = true,
                      system_prompt:String? = nil, 
                      attachment: String? = nil,
@@ -471,7 +483,7 @@ final class AIChatModel: ObservableObject {
         
         if useRag {
             self.state = .ragIndexLoading
-            self.generateRagLLMQuery(in_text,
+            self.GenerateRagLLMQuery(in_text,
                                     self.ragTop, self.ragUrl,
                                     message: in_text,
                                     append_user_message:append_user_message,
@@ -524,7 +536,15 @@ final class AIChatModel: ObservableObject {
             { str, time in //Predicting
                 _ = self.process_predicted_str(str, time, &message/*, messageIndex*/)
             },
-            { final_str in // Finish predicting 
+            { key,value in
+//                if (key == "itc"){
+//                    SetSendMsgTokensCount(value as Int)
+//                }
+//                if (key == "itc"){
+//                    SetGeneratedMsgTokensCount(value as Int)
+//                }
+            },
+            { final_str in // Finish predicting
                 self.finish_completion(final_str, &message/*, messageIndex*/)   
 //                self.llmStatus = "Done"
             },

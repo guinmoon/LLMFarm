@@ -101,8 +101,8 @@ final class AIChatModel: ObservableObject {
         self.finish_load()
         var system_prompt: String? = nil
         if chatModel.contextParams.system_prompt != "", chatModel.nPast == 0 {
-            system_prompt = (chatModel.contextParams.system_prompt ?? " ") + "\n"
-            self.messages[self.messages.endIndex - 1].header = chatModel.contextParams.system_prompt ?? ""
+            system_prompt = chatModel.contextParams.system_prompt  + "\n"
+            self.messages[self.messages.endIndex - 1].header = chatModel.contextParams.system_prompt 
         }
         chatModel.parse_skip_tokens()
         Task {

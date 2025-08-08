@@ -13,3 +13,5 @@ LLMFarm.xcodeproj/xcshareddata/xcschemes/LLMFarm.xcscheme
 llmfarm_core_legacy.swift
 dist/iphone-png-screen.kra
 dist/screen1.png~
+build/*
+llama_cpu.xcframework/

@@ -15,6 +15,9 @@ var totalTokensOutput: Int32 = 0
 var sessionTokens: [Int32] = []
 var ai: AI? = nil
 
+
+
+
 func mainCallback(_ str: String, _ time: Double) -> Bool {
     print("\(str)", terminator: "")
     totalOutput += str.count
@@ -33,13 +36,16 @@ func main() {
     var modelInference: ModelInference
     ai = AI(_modelPath: "", _chatName: "chat")
 
-    ai?.modelPath = "/Users/guinmoon/dev/alpaca_llama_etc/gemma-2b-it.Q8_0.gguf"
+//    ai?.modelPath = "/Volumes/Share/gemma-3-4b-it-q4_0.gguf"
+//    ai?.modelPath = "/Volumes/VMware Shared Folders/Share/gemma-3-4b-it-q4_0.gguf"
+    ai?.modelPath = "/Users/guinmoon_dev/gemma-3-1b-it-Q4_K_M.gguf"
+//    ai?.modelPath = "/Volumes/Share/gemma-3-4b-it-q4_0.gguf"
     modelInference = ModelInference.LLama_gguf
 
     var params: ModelAndContextParams = .default
     params.context = 2048
-    params.n_threads = 4
-    params.use_metal = true
+    params.n_threads = 8
+    params.use_metal = false
     params.n_predict = maxOutputLength
     params.flash_attn = false
     params.parse_special_tokens = true
@@ -58,12 +64,12 @@ func main() {
             output = try? model.Predict(inputText, mainCallback)
         }
 
-        llama_kv_cache_seq_rm(model.context, -1, 0, -1)
-        print(output ?? "")
-
-        try ExceptionCather.catchException {
-            output = try? model.Predict("tell more", mainCallback) 
-        }
+//        llama_kv_cache_seq_rm(model.context, -1, 0, -1)
+//        print(output ?? "")
+//
+//        try ExceptionCather.catchException {
+//            output = try? model.Predict("tell more", mainCallback) 
+//        }
 
         print(output ?? "")
     } catch {

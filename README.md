@@ -86,10 +86,10 @@ Note: For *Falcon, Alpaca, GPT4All, Chinese LLaMA / Alpaca and Chinese LLaMA-2 /
 
 # Getting Started
 
-You can find answers to some questions in the [FAQ section](https://llmfarm.tech/docs).
+You can find answers to some questions in the [FAQ section](https://llmfarm.tech/docs/FAQ).
 
 ## Inference options
-When creating a chat, a JSON file is generated in which you can specify additional inference options. The chat files are located in the "chats" directory. You can see all inference options [here](https://llmfarm.tech/docs).
+When creating a chat, a JSON file is generated in which you can specify additional inference options. The chat files are located in the "chats" directory. You can see all inference options [here](https://llmfarm.tech/docs/inference_options).
 
 ## Models
 You can find some of the supported [models here](https://llmfarm.tech/).

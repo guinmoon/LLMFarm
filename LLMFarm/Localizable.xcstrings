@@ -1,0 +1,466 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "About": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Over"
+          }
+        }
+      }
+    },
+    "Add file": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voeg bestand toe"
+          }
+        }
+      }
+    },
+    "Add model": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voeg model toe"
+          }
+        }
+      }
+    },
+    "Are you sure?": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weet je het zeker?"
+          }
+        }
+      }
+    },
+    "Basic Settings": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Basisinstellingen"
+          }
+        }
+      }
+    },
+    "Cancel": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annuleer"
+          }
+        }
+      }
+    },
+    "Chats": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gesprekken"
+          }
+        }
+      }
+    },
+    "Clear": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wis"
+          }
+        }
+      }
+    },
+    "Delete": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verwijder"
+          }
+        }
+      }
+    },
+    "Documents for RAG": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Documenten voor RAG"
+          }
+        }
+      }
+    },
+    "Download models": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modellen downloaden"
+          }
+        }
+      }
+    },
+    "Duplicate chat": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dupliceer gesprek"
+          }
+        }
+      }
+    },
+    "Export": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exporteer"
+          }
+        }
+      }
+    },
+    "FineTune": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fijnafstemming"
+          }
+        }
+      }
+    },
+    "Help": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Help"
+          }
+        }
+      }
+    },
+    "Hide": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verberg"
+          }
+        }
+      }
+    },
+    "Import from file...": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Importeer uit bestand…"
+          }
+        }
+      }
+    },
+    "Load index": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Laad index"
+          }
+        }
+      }
+    },
+    "Local models": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lokale modellen"
+          }
+        }
+      }
+    },
+    "Merge LoRA": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voeg LoRA samen"
+          }
+        }
+      }
+    },
+    "Model": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Model"
+          }
+        }
+      }
+    },
+    "New template name...": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Naam nieuw sjabloon…"
+          }
+        }
+      }
+    },
+    "Options": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opties"
+          }
+        }
+      }
+    },
+    "Other settings": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Overige instellingen"
+          }
+        }
+      }
+    },
+    "Prediction settings": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voorspellingsinstellingen"
+          }
+        }
+      }
+    },
+    "Prompt Format": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Promptindeling"
+          }
+        }
+      }
+    },
+    "RAG Settings": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "RAG-instellingen"
+          }
+        }
+      }
+    },
+    "Rebuild index": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bouw index opnieuw op"
+          }
+        }
+      }
+    },
+    "Remove chat": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verwijder gesprek"
+          }
+        }
+      }
+    },
+    "Run finetune": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start fijnafstemming"
+          }
+        }
+      }
+    },
+    "Sampling settings": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Samplinginstellingen"
+          }
+        }
+      }
+    },
+    "Save/Load State": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Status opslaan en laden"
+          }
+        }
+      }
+    },
+    "Search": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zoek"
+          }
+        }
+      }
+    },
+    "Search and Generate Prompt": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zoek en genereer prompt"
+          }
+        }
+      }
+    },
+    "Search text": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zoektekst"
+          }
+        }
+      }
+    },
+    "Settings": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Instellingen"
+          }
+        }
+      }
+    },
+    "Settings template:": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Instellingensjabloon:"
+          }
+        }
+      }
+    },
+    "Show text": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toon tekst"
+          }
+        }
+      }
+    },
+    "Start new chat": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start nieuw gesprek"
+          }
+        }
+      }
+    },
+    "The message history will be cleared": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "De gespreksgeschiedenis wordt gewist"
+          }
+        }
+      }
+    },
+    "Title...": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Titel…"
+          }
+        }
+      }
+    },
+    "To create a  chat, first select a model.": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kies eerst een model om een gesprek te starten."
+          }
+        }
+      }
+    },
+    "Unknown status": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Onbekende status"
+          }
+        }
+      }
+    },
+    "Use Checkpointing": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gebruik checkpoints"
+          }
+        }
+      }
+    },
+    "Use Metal": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gebruik Metal"
+          }
+        }
+      }
+    },
+    "You": {
+      "localizations": {
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jij"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

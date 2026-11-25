@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A76F11C345C84D558007CF11 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = A76F11C345C84D558007CF12 /* Localizable.xcstrings */; };
 		150992C82CC3AC2F00B84BDB /* NetworkImage in Frameworks */ = {isa = PBXBuildFile; productRef = 150992C72CC3AC2F00B84BDB /* NetworkImage */; };
 		150992CB2CC3AC4100B84BDB /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 150992CA2CC3AC4100B84BDB /* MarkdownUI */; };
 		150992D32CC3AD8700B84BDB /* llmfarm_core in Frameworks */ = {isa = PBXBuildFile; productRef = 150992D22CC3AD8700B84BDB /* llmfarm_core */; };
@@ -167,6 +168,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A76F11C345C84D558007CF12 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		1509BA5F2B1E6FD400703BC0 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		15141E382A6488A60060E767 /* orca mini 3b.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "orca mini 3b.json"; sourceTree = "<group>"; };
 		15141E392A6488A60060E767 /* openllama 3b.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "openllama 3b.json"; sourceTree = "<group>"; };
@@ -256,7 +258,7 @@
 		15E086C32AEAC69B006459DE /* FineTuneModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FineTuneModel.swift; sourceTree = "<group>"; };
 		15E415D12A18A2970057A15E /* ModelTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ModelTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		15E415D32A18A2980057A15E /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		15F2107E2A191B190021F414 /* LLMFarm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LLMFarm.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		15F2107E2A191B190021F414 /* JJS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JJS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		15F210802A191B190021F414 /* LLMFarmApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLMFarmApp.swift; sourceTree = "<group>"; };
 		15F210842A191B1B0021F414 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		15F210862A191B1B0021F414 /* LLMFarm.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LLMFarm.entitlements; sourceTree = "<group>"; };
@@ -520,6 +522,7 @@
 				15F210922A1920AA0021F414 /* AIChatModel.swift */,
 				15F210802A191B190021F414 /* LLMFarmApp.swift */,
 				15F210842A191B1B0021F414 /* Assets.xcassets */,
+				A76F11C345C84D558007CF12 /* Localizable.xcstrings */,
 				15F210862A191B1B0021F414 /* LLMFarm.entitlements */,
 				15F210872A191B1B0021F414 /* Preview Content */,
 			);
@@ -563,7 +566,7 @@
 			isa = PBXGroup;
 			children = (
 				15E415D12A18A2970057A15E /* ModelTest */,
-				15F2107E2A191B190021F414 /* LLMFarm.app */,
+				15F2107E2A191B190021F414 /* JJS.app */,
 				15B1B9C82AF023080058F275 /* FineTune_Test */,
 				15C08A5C2B9DF6D1000A1BE0 /* LLaVATest */,
 			);
@@ -679,8 +682,8 @@
 				15DFE6072CC545D500E359F9 /* SimilaritySearchKitMiniLMAll */,
 				15DFE6092CC545D500E359F9 /* SimilaritySearchKitMiniLMMultiQA */,
 			);
-			productName = LLMFarm;
-			productReference = 15F2107E2A191B190021F414 /* LLMFarm.app */;
+			productName = JJS;
+			productReference = 15F2107E2A191B190021F414 /* JJS.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -714,6 +717,7 @@
 			knownRegions = (
 				en,
 				Base,
+				nl,
 			);
 			mainGroup = E624E1F52958ECC800996CD1;
 			packageReferences = (
@@ -761,6 +765,7 @@
 				158172CA2BC5B1480078DCDA /* llama chat 2 7B.json in Resources */,
 				15F210892A191B1B0021F414 /* Preview Assets.xcassets in Resources */,
 				15F210852A191B1B0021F414 /* Assets.xcassets in Resources */,
+				A76F11C345C84D558007CF11 /* Localizable.xcstrings in Resources */,
 				1528382D2BF3E1EE000D8B82 /* LLaMa3 Instruct.json in Resources */,
 				1533934D2C404F2D009E0705 /* demo_chat.json in Resources */,
 				15D81B002BDAC0E900C3B5CE /* phi3.json in Resources */,
@@ -984,7 +989,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CODE_SIGN_ENTITLEMENTS = LLMFarm/LLMFarm.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = LLMFarm/LLMFarm.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 10;
@@ -997,7 +1002,7 @@
 				GCC_OPTIMIZATION_LEVEL = 3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LLMFarm/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "LLM Farm";
+				INFOPLIST_KEY_CFBundleDisplayName = JJS;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -1016,7 +1021,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 13.3;
 				MARKETING_VERSION = 1.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.appledev.LLMFarmDev;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = JJS;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
@@ -1035,7 +1040,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CODE_SIGN_ENTITLEMENTS = LLMFarm/LLMFarm.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = LLMFarm/LLMFarm.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 10;
@@ -1048,7 +1053,7 @@
 				GCC_OPTIMIZATION_LEVEL = fast;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LLMFarm/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "LLM Farm";
+				INFOPLIST_KEY_CFBundleDisplayName = JJS;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -1067,7 +1072,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 13.3;
 				MARKETING_VERSION = 1.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.appledev.LLMFarmDev;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = JJS;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";

@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "15F2107D2A191B190021F414"
-               BuildableName = "LLMFarm.app"
+               BuildableName = "JJS.app"
                BlueprintName = "LLMFarm"
                ReferencedContainer = "container:LLMFarm.xcodeproj">
             </BuildableReference>
@@ -58,7 +58,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "15F2107D2A191B190021F414"
-            BuildableName = "LLMFarm.app"
+            BuildableName = "JJS.app"
             BlueprintName = "LLMFarm"
             ReferencedContainer = "container:LLMFarm.xcodeproj">
          </BuildableReference>
@@ -75,7 +75,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "15F2107D2A191B190021F414"
-            BuildableName = "LLMFarm.app"
+            BuildableName = "JJS.app"
             BlueprintName = "LLMFarm"
             ReferencedContainer = "container:LLMFarm.xcodeproj">
          </BuildableReference>

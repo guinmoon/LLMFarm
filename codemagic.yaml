@@ -1,0 +1,50 @@
+workflows:
+  jjs-ios-unsigned:
+    name: JJS iOS unsigned
+    instance_type: mac_mini_m2
+    max_build_duration: 90
+    environment:
+      xcode: latest
+    scripts:
+      - name: Prepare the pinned Swift packages and llama XCFramework
+        script: |
+          set -euo pipefail
+          cd "${CM_BUILD_DIR:?}"
+          if [[ ! -f llmfarm_core.swift/llama.cpp/build-xcframework.sh ]]; then
+            git submodule update --init --recursive
+          fi
+          if [[ ! -f llmfarm_core.swift/llama.cpp/build-apple/llama.xcframework/Info.plist ]]; then
+            (
+              cd llmfarm_core.swift/llama.cpp
+              bash ./build-xcframework.sh
+            )
+          fi
+      - name: Build JJS for iPhone without signing
+        script: |
+          set -euo pipefail
+          cd "${CM_BUILD_DIR:?}"
+          xcodebuild -project LLMFarm.xcodeproj \
+            -scheme LLMFarm_Release \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath "$CM_BUILD_DIR/build/JJS" \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO \
+            build
+      - name: Package JJS-unsigned.ipa
+        script: |
+          set -euo pipefail
+          cd "${CM_BUILD_DIR:?}"
+          app="$CM_BUILD_DIR/build/JJS/Build/Products/Release-iphoneos/JJS.app"
+          test -f "$app/Info.plist"
+          test -x "$app/JJS"
+          staging="$(mktemp -d)"
+          trap 'rm -rf "$staging"' EXIT
+          mkdir -p "$staging/Payload" "$CM_BUILD_DIR/artifacts"
+          ditto "$app" "$staging/Payload/JJS.app"
+          ipa="$CM_BUILD_DIR/artifacts/JJS-unsigned.ipa"
+          rm -f "$ipa"
+          (cd "$staging" && zip -qry -y "$ipa" Payload)
+          unzip -tq "$ipa"
+    artifacts:
+      - artifacts/JJS-unsigned.ipa
